@@ -1,2 +1,2 @@
-# rpginia-new
-The OOP version of &lt;a href="https://github.com/ShcherbaDev/RPGinia">RPGinia&lt;/a> repository.
+# RPGinia new
+The OOP version of [RPGina](https://github.com/ShcherbaDev/RPGinia">) repository.
