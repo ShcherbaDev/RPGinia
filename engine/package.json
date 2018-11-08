@@ -1,0 +1,26 @@
+{
+  "name": "rpginia",
+  "version": "1.0.0",
+  "description": "Engine directory",
+  "main": "index.js",
+  "directories": {
+    "test": "tests"
+  },
+  "scripts": {
+    "start": "serve .",
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/ShcherbaDev/rpginia-new.git"
+  },
+  "author": "Andrey Shcherbakov",
+  "license": "MIT",
+  "bugs": {
+    "url": "https://github.com/ShcherbaDev/rpginia-new/issues"
+  },
+  "homepage": "https://github.com/ShcherbaDev/rpginia-new#readme",
+  "dependencies": {
+    "serve": "^10.0.2"
+  }
+}
