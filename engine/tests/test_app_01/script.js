@@ -1,9 +1,16 @@
-import RPGiniaApp from "/src/RPGiniaApp.js";
-import testClass from "/src/testClass.js";
+import RPGinia from "/src/RPGinia.js";
 
-const cnv = document.querySelector("canvas");
-const ctx = cnv.getContext("2d");
+const engine = new RPGinia();
+const app = new engine.app("Test RPGinia app", undefined, [800, 600]);
+const load = new app.loaders;
 
-const app = new RPGiniaApp("RPGinia test app 01", cnv, ctx);
-let test = new testClass();
-// const testClass = new testClass();
+let lvl = load.jsonFile("level", "resources/levels/corridor.json")
+let languages = [
+    load.jsonFile("json", "resources/languages/en_US.json"),
+    load.jsonFile("json", "resources/languages/ru_RU.json"),
+    load.jsonFile("json", "resources/languages/uk_UK.json")
+];
+
+setTimeout(() => {
+    console.log(app, lvl, languages)
+}, 500);

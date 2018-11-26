@@ -1,0 +1,28 @@
+[
+  {
+    "file": "/assets/images/lastCorridorSpriteSheet.png",
+    "sprites": [
+      {
+        "name": "corridor",
+        "rect": [0, 0, 2100, 350]
+      },
+      {
+        "name": "frontColumn",
+        "rect": [2105, 0, 84, 246]
+      },
+      {
+        "name": "savePoint",
+        "frames": [
+          {
+            "name": "idle",
+            "rect": [2105, 251, 29, 28]
+          },
+          {
+            "name": "frame-2",
+            "rect": [2139, 251, 29, 28]
+          }
+        ]
+      }
+    ]
+  }
+]

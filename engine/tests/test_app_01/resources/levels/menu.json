@@ -1,0 +1,51 @@
+{
+	"settings": {
+		"name": "Menu"
+	},
+	"elements": [
+		{
+			"type": "text",
+			"text": "RPGinia tech demo 01",
+			"horizontalAlign": "center", 
+			"font": "8bitoperator",
+			"color": "#fff",
+			"size": 34,
+			"coords": [300, 60]
+		},
+		{
+			"type": "text",
+			"text": "Last corridor",
+			"horizontalAlign": "center", 
+			"font": "8bitoperator",
+			"color": "#fff",
+			"size": 26,
+			"coords": [300, 100]
+		},
+		{
+			"type": "text",
+			"text": "(Press Enter to continue)",
+			"horizontalAlign": "center", 
+			"font": "8bitoperator",
+			"color": "#fff",
+			"size": 18,
+			"coords": [300, 180]
+		},
+		{
+			"type": "text",
+			"text": "Sprites, music by Toby Fox",
+			"font": "8bitoperator",
+			"color": "#fff",
+			"size": 14,
+			"coords": [10, 375]
+		},
+		{
+			"type": "text",
+			"text": "RPGinia by Andrey Shcherbakov",
+			"horizontalAlign": "right",
+			"font": "8bitoperator",
+			"color": "#fff",
+			"size": 14,
+			"coords": [590, 375]
+		}
+	]
+}

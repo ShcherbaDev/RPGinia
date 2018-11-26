@@ -1,0 +1,83 @@
+{
+	"file": "/assets/images/player/player.png",
+  "inGameSizes": [40, 55],
+  "spriteSheets": [
+    {
+      "name": "up",
+      "frames": [
+        {
+          "name": "idle",
+          "rect": [0, 0, 19, 29]
+        },
+        {
+          "name": "up-1",
+          "rect": [21, 0, 19, 29]
+        },
+        {
+          "name": "up-2",
+          "rect": [42, 0, 19, 29]
+        },
+        {
+          "name": "up-3",
+          "rect": [63, 0, 19, 29]
+        }
+      ]
+    },
+
+    {
+      "name": "down",
+      "frames": [
+        {
+          "name": "idle",
+          "rect": [0, 29, 19, 29]
+        },
+        {
+          "name": "down-1",
+          "rect": [21, 29, 19, 29]
+        },
+        {
+          "name": "down-2",
+          "rect": [42, 29, 19, 29]
+        },
+        {
+          "name": "down-3",
+          "rect": [63, 29, 19, 29]
+        }
+      ]
+    },
+
+    {
+      "name": "left",
+      "frames": [
+        {
+          "name": "idle",
+          "rect": [0, 58, 20, 29]
+        },
+        {
+          "name": "left-1",
+          "rect": [21, 58, 20, 29]
+        }
+      ]
+    },
+
+    {
+      "name": "right",
+      "frames": [
+        {
+          "name": "idle",
+          "rect": [43, 58, 20, 29]
+        },
+        {
+          "name": "right-1",
+          "rect": [64, 58, 20, 29]
+        }
+      ]
+    }
+  ],
+	"trigger": {
+		"x": 5,
+		"y": 50,
+		"width": 25,
+		"height": 5
+	}
+}
