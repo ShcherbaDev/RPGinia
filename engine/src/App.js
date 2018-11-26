@@ -1,4 +1,5 @@
 import Loaders from "./Loaders.js";
+import World from "./World.js";
 
 export default class App {
     constructor(title = "RPGinia app", canvas = document.querySelector("canvas"), sizes = [800, 600], isImageSmoothingEnabled = true) {
@@ -11,6 +12,9 @@ export default class App {
         Loaders.prototype.appPath = this.__proto__.appPath;
         this._loaders = Loaders;
 
+        World.prototype.appPath = this.__proto__.appPath;
+        this._world = World;
+
 		this._init();
     }
 
@@ -19,7 +23,7 @@ export default class App {
 		this._canvas.height = this._sizes[1];
         this._context.imageSmoothingEnabled = this._isImageSmoothingEnabled;
     }
-    
-    get compositor() { return this._compositor }
+
     get loaders() { return this._loaders }
+    get world() { return this._world; }
 }
