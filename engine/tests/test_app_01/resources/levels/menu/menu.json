@@ -1,34 +1,45 @@
 {
 	"settings": {
-		"name": "Menu"
+		"name": "Menu",
+		"background": "grey",
+		"controllerPath": "resources/levels/menu/menu.js"
 	},
 	"elements": [
 		{
 			"type": "text",
 			"text": "RPGinia tech demo 01",
-			"horizontalAlign": "center", 
+			"horizontalAlign": "center",
 			"font": "8bitoperator",
 			"color": "#fff",
 			"size": 34,
-			"coords": [300, 60]
+			"coords": [
+				300,
+				60
+			]
 		},
 		{
 			"type": "text",
 			"text": "Last corridor",
-			"horizontalAlign": "center", 
+			"horizontalAlign": "center",
 			"font": "8bitoperator",
 			"color": "#fff",
 			"size": 26,
-			"coords": [300, 100]
+			"coords": [
+				300,
+				100
+			]
 		},
 		{
 			"type": "text",
 			"text": "(Press Enter to continue)",
-			"horizontalAlign": "center", 
+			"horizontalAlign": "center",
 			"font": "8bitoperator",
 			"color": "#fff",
 			"size": 18,
-			"coords": [300, 180]
+			"coords": [
+				300,
+				180
+			]
 		},
 		{
 			"type": "text",
@@ -36,7 +47,10 @@
 			"font": "8bitoperator",
 			"color": "#fff",
 			"size": 14,
-			"coords": [10, 375]
+			"coords": [
+				10,
+				375
+			]
 		},
 		{
 			"type": "text",
@@ -45,7 +59,10 @@
 			"font": "8bitoperator",
 			"color": "#fff",
 			"size": 14,
-			"coords": [590, 375]
+			"coords": [
+				590,
+				375
+			]
 		}
 	]
 }

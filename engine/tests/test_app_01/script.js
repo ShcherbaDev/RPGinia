@@ -1,17 +1,39 @@
 import RPGinia from "/src/RPGinia.js";
 
 const engine = new RPGinia();
-const app = new engine.app("Test RPGinia app", undefined, [800, 600]);
+const app = new engine.app("Test RPGinia app", undefined, [1200, 600]);
 const load = new app.loaders;
-const world = new app.world(load.levels);
+const world = new app.world;
 
-let lvl = load.jsonFile("level", "resources/levels/corridor.json")
-let languages = [
-    load.jsonFile("json", "resources/languages/en_US.json"),
-    load.jsonFile("json", "resources/languages/ru_RU.json"),
-    load.jsonFile("json", "resources/languages/uk_UK.json")
+// Loading languages
+const languages = [
+	"resources/languages/en_US.json", // English language
+	"resources/languages/ru_RU.json", // Russian language
+	"resources/languages/uk_UK.json"  // Ukrainian language
 ];
+load.jsonFiles("language", languages);
 
-console.log(load.files, world.levelList);
-let lvl2 = load.jsonFile("level", "resources/levels/menu.json");
-console.log(load.files, world.levelList);
+
+// Loading levels
+const levels = [
+	"resources/levels/menu/menu.json",
+	"resources/levels/corridor/corridor.json"
+];
+load.jsonFiles("level", levels);
+world.initialize(load.levels, 0);
+
+console.log(world.currentLevel)
+
+// Change level interval
+/* setInterval(() => {
+	world.currentLevelId = world.currentLevelId === 0 ? 1 : 0;
+}, 1000); */
+
+function loop() {
+	app.clearPlayground();
+
+	world.draw();
+
+	requestAnimationFrame(loop);
+}
+loop();
