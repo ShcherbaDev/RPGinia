@@ -27,10 +27,11 @@ export default class World {
 			this._levels = options.levels;
 		else
 			throw new Error("Levels are not defined!\nPlease connect at least one level to eliminate the error.");
-		this._currentLevelId = options.currentLevelId ? options.currentLevelId : 0;
+		
+			this._currentLevelId = options.currentLevelId || 0;
 
 		// Languages init
-		this._languages = options.levels ? options.levels : null;
+		this._languages = options.languages || null;
 
 		// Controller init
 		if(this._levels[this._currentLevelId].data.settings.controllerPath) {

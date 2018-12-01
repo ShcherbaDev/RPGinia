@@ -22,7 +22,7 @@ const levels = load.jsonFiles("level", levelPaths);
 
 world.initialize({
 	levels: levels,
-	currentLevelId: 0,
+	currentLevelId: 1,
 	languages: languages
 });
 
