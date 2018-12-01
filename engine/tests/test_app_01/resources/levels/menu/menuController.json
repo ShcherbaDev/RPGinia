@@ -1,5 +1,0 @@
-{
-    "controller": [
-        "() => { console.log('Hello, world') }"
-    ]
-}

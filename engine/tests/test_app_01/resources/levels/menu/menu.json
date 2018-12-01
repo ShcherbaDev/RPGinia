@@ -2,7 +2,7 @@
 	"settings": {
 		"name": "Menu",
 		"background": "grey",
-		"controllerPath": "resources/levels/menu/menu.js"
+		"controllerPath": "/resources/levels/menu/menu.js"
 	},
 	"elements": [
 		{

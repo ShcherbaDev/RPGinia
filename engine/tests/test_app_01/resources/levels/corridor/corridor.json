@@ -1,6 +1,7 @@
 {
 	"settings": {
 		"name": "Last corridor",
+		"controllerPath": "/resources/levels/corridor/corridor.js",
 		"playerSpawnData": {
 			"coords": [
 				235,

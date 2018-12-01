@@ -5,7 +5,7 @@ export default class Loaders {
 	}
 
 	_checkFileType(type) {
-		return type === "level" || type === "language"
+		return type === "level" || type === "language";
 	}
 
 	jsonFile(fileType, filePath) {
