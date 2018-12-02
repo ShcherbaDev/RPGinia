@@ -23,18 +23,23 @@ export default class World {
 
 	initialize(options) {
 		// Levels init
-		if(options.levels)
+		if(options.levels) {
 			this._levels = options.levels;
-		else
-			throw new Error("Levels are not defined!\nPlease connect at least one level to eliminate the error.");
 		
-			this._currentLevelId = options.currentLevelId || 0;
+			for(let i in this._levels) {
+				this._levels[i].id = parseInt(i);
+			}
+		}
+		else
+			throw new Error("Levels are not defined!\nPlease connect at least one level to eliminate this error.");
+		
+		this._currentLevelId = options.currentLevelId || 0;
 
 		// Languages init
 		this._languages = options.languages || null;
-
+		// console.log(this._currentLevelId, this._levels[this._currentLevelId].id)
 		// Controller init
-		if(this._levels[this._currentLevelId].data.settings.controllerPath) {
+		if(this._levels[this._currentLevelId].data.settings.controllerPath && this._currentLevelId === this._levels[this._currentLevelId].id) {
 			this._openController();
 			this._levels[this._currentLevelId].controller(this, this._languages);
 		}

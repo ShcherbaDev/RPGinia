@@ -37,13 +37,16 @@ export default class Loaders {
 
 			return this._files[this._files.length - 1];
 		}
+
+		else
+			throw new Error(`${fileType} type is undefined!`)
 	}
 
 	jsonFiles(filesType, filesPath) {
 		const xml = this._xml;
 		let returnArr = [];
 
-		if (this._checkFileType(filesType)) {
+		if(this._checkFileType(filesType)) {
 			for (let counter in filesPath) {
 				xml.onreadystatechange = () => {
 					if (xml.readyState === 1) {
