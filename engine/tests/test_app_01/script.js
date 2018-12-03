@@ -1,7 +1,7 @@
 import RPGinia from "/src/RPGinia.js";
 
 const engine = new RPGinia();
-const app = new engine.app("Test RPGinia app", undefined);
+const app = new engine.app("Test RPGinia app", undefined, [1200, 600]);
 const load = new app.loaders;
 const world = new app.world;
 

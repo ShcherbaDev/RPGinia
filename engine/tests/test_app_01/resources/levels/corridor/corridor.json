@@ -2,6 +2,7 @@
 	"settings": {
 		"name": "Last corridor",
 		"controllerPath": "/resources/levels/corridor/corridor.js",
+		"spriteSheetPath": "/resources/sprites/spriteSheets.json",
 		"playerSpawnData": {
 			"coords": [
 				235,
@@ -13,30 +14,15 @@
 	},
 	"elements": [
 		{
+			"name": "corridor",
 			"type": "sprite",
 			"spriteSheetIndex": 0,
 			"spriteIndex": 0,
 			"coords": [
 				150,
 				0
-			]
-		},
-		{
-			"type": "sprite",
-			"name": "savePoint",
-			"spriteSheetIndex": 0,
-			"spriteIndex": 2,
-			"frameIndex": 0,
-			"hasCollision": true,
-			"animationData": {
-				"isPlaying": true,
-				"interval": 20,
-				"isRepeating": true
-			},
-			"coords": [
-				188,
-				282
-			]
+			],
+			"layer": 0
 		},
 		{
 			"type": "sprite",
@@ -48,7 +34,7 @@
 				120,
 				350
 			],
-			"layer": 2
+			"layer": 1
 		},
 		{
 			"type": "sprite",
@@ -60,7 +46,7 @@
 				120,
 				350
 			],
-			"layer": 2
+			"layer": 1
 		},
 		{
 			"type": "sprite",
@@ -72,7 +58,7 @@
 				120,
 				350
 			],
-			"layer": 2
+			"layer": 1
 		},
 		{
 			"type": "sprite",
@@ -84,7 +70,7 @@
 				120,
 				350
 			],
-			"layer": 2
+			"layer": 1
 		},
 		{
 			"type": "sprite",
@@ -96,7 +82,7 @@
 				120,
 				350
 			],
-			"layer": 2
+			"layer": 1
 		},
 		{
 			"type": "sprite",
@@ -108,7 +94,7 @@
 				120,
 				350
 			],
-			"layer": 2
+			"layer": 1
 		},
 		{
 			"type": "sprite",
@@ -120,7 +106,7 @@
 				120,
 				350
 			],
-			"layer": 2
+			"layer": 1
 		},
 		{
 			"type": "sprite",
@@ -132,7 +118,7 @@
 				120,
 				350
 			],
-			"layer": 2
+			"layer": 1
 		}
 	],
 	"triggers": [
