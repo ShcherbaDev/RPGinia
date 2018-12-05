@@ -23,15 +23,11 @@ for(let i in audio.list) {
 }
 
 // Loading levels
-const levelPaths = [
-	"/resources/levels/audioTest/audioTest.json",
-	"/resources/levels/menu/menu.json",
-	"/resources/levels/corridor/corridor.json"
-];
-const levels = load.jsonFiles("level", levelPaths);
+const level = load.jsonFile("level", "/resources/levels/audioTest/audioTest.json");
+console.log(level)
 
 world.initialize({
-	levels: levels,
+	levels: level,
 	currentLevelId: 0,
 	keyboard: kb,
 	audio: audio

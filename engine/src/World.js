@@ -38,8 +38,8 @@ export default class World {
 	initialize(options) {
 		// Levels init
 		if(options.levels) {
-			this._levels = options.levels;
-		
+			this._levels = Array.isArray(options.levels) ? options.levels : [options.levels];
+
 			for(let i in this._levels) {
 				// Giving an ID for each level
 				this._levels[i].id = parseInt(i);
