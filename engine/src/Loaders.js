@@ -47,7 +47,7 @@ export default class Loaders {
 		let returnArr = [];
 
 		if(this._checkFileType(filesType)) {
-			for (let counter in filesPath) {
+			for(let counter in filesPath) {
 				xml.onreadystatechange = () => {
 					if (xml.readyState === 1) {
 						this._files.push({

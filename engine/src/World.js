@@ -3,7 +3,9 @@ export default class World {
 		this._levels = [];
 		this._currentLevelId = 0;
 
+		this._keyboard = null;
 		this._lanugages = null;
+		this._audio = null;
 
 		this._canvas = this.__proto__.canvas;
 		this._context = this.__proto__.context;
@@ -31,21 +33,6 @@ export default class World {
 
 		xml.open("get", this.__proto__.appPath + this._levels[currentItem].data.settings.spriteSheetPath, false);
 		xml.send();
-	}
-
-	_allSpritesLoaded() {
-		let resultArr = [];
-		let elements = [];
-
-		for(let i in this._levels[this._currentLevelId].data.elements) {
-			if(this._levels[this._currentLevelId].data.elements[i].type === "sprite")
-				elements.push(i);
-
-			if(this._levels[this._currentLevelId].data.elements[i].type === "sprite" && this._levels[this._currentLevelId].data.elements[i].isLoaded)
-				resultArr.push(i);
-		}
-
-		return resultArr.length === elements.length ? true : false;
 	}
 
 	initialize(options) {
@@ -82,7 +69,7 @@ export default class World {
 						}
 			
 						return 0;
-					})
+					});
 				}
 			}
 		}
@@ -91,8 +78,14 @@ export default class World {
 
 		this._currentLevelId = options.currentLevelId || 0;
 
+		// Keyboard init
+		this._keyboard = options.keyboard || null;
+
 		// Languages init
 		this._languages = options.languages || null;
+
+		// Audio init
+		this._audio = options.audio || null;
 		
 		// Controller init
 		if(this._levels[this._currentLevelId].data.settings.controllerPath && this._currentLevelId === this._levels[this._currentLevelId].id) {
@@ -100,7 +93,12 @@ export default class World {
 			this._openController();
 
 			// Do actions in controller
-			this._levels[this._currentLevelId].controller(this, this._languages);
+			this._levels[this._currentLevelId].controller({
+				world: this, 
+				languages: this._languages,
+				keyboard: this._keyboard,
+				audio: this._audio
+			});
 		}
 	}
 
@@ -112,8 +110,8 @@ export default class World {
 		this._context.fillRect(0, 0, this._canvas.width, this._canvas.height);
 
 		// Level draw
-		if(this._allSpritesLoaded()) {
-			for(let i in currentLevel.data.elements) {
+		for(let i in currentLevel.data.elements) {
+			if(currentLevel.data.elements[i].type === "sprite" && currentLevel.data.elements[i].isLoaded) {
 				const spriteSheetCoords = currentLevel.spriteSheets[currentLevel.data.elements[i].spriteSheetIndex].sprites[currentLevel.data.elements[i].spriteIndex].rect;
 				const spriteCoords = currentLevel.data.elements[i].coords;
 
@@ -130,6 +128,14 @@ export default class World {
 					spriteCoords[2] || spriteSheetCoords[2], 
 					spriteCoords[3] || spriteSheetCoords[3]
 				);
+			}
+
+			if(currentLevel.data.elements[i].type === "text") {
+				this._context.fillStyle = currentLevel.data.elements[i].settings.color || "red";
+				this._context.font = `${currentLevel.data.elements[i].settings.size}px "${currentLevel.data.elements[i].settings.font}"`;
+				this._context.textAlign = currentLevel.data.elements[i].settings.horizontalAlign || "center";
+				this._context.textBaseline = currentLevel.data.elements[i].settings.verticalAlign || "middle";
+				this._context.fillText(currentLevel.data.elements[i].settings.text, currentLevel.data.elements[i].coords[0], currentLevel.data.elements[i].coords[1])
 			}
 		}
 	}
@@ -150,6 +156,8 @@ export default class World {
 	}
 
 	set level(newLevelValue) {
+		// this._currentLevelId = 0;
+
 		if(typeof newLevelValue === "number")
 			this._currentLevelId = newLevelValue;
 		else if(typeof newLevelValue === "string")

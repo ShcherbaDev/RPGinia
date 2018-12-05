@@ -1,5 +1,7 @@
 import Loaders from "./Loaders.js";
 import World from "./World.js";
+import Keyboard from "./Keyboard.js";
+import AudioManager from "./AudioManager.js";
 
 export default class App {
 	constructor(title = "RPGinia app", canvas = document.querySelector("canvas"), sizes = [800, 600], isImageSmoothingEnabled = true) {
@@ -17,6 +19,12 @@ export default class App {
 		World.prototype.context = this._context;
 		this._world = World;
 
+		Keyboard.prototype.appPath = this.__proto__.appPath;
+		this._keyboard = Keyboard;
+
+		AudioManager.prototype.appPath = this.__proto__.appPath;
+		this._audioManager = AudioManager;
+
 		this._init();
 	}
 
@@ -30,8 +38,10 @@ export default class App {
 		this._context.clearRect(0, 0, this._canvas.width, this._canvas.height);
 	}
 
-	get loaders() { return this._loaders }
-	get world() { return this._world }
+	get Loaders() { return this._loaders }
+	get World() { return this._world }
+	get Keyboard() { return this._keyboard }
+	get AudioManager() { return this._audioManager }
 
 	get canvas() { return this._canvas }
 	get context() { return this._context }
