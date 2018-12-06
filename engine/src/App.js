@@ -11,6 +11,8 @@ export default class App {
 		this._sizes = sizes;
 		this._isImageSmoothingEnabled = isImageSmoothingEnabled;
 
+		this._globalVariables = [];
+
 		Loaders.prototype.appPath = this.__proto__.appPath;
 		this._loaders = Loaders;
 
@@ -38,6 +40,18 @@ export default class App {
 		this._context.clearRect(0, 0, this._canvas.width, this._canvas.height);
 	}
 
+	setGlobalVariable(name, value) {
+		this._globalVariables[name] = value;
+		return {
+			name: name,
+			value: value
+		}
+	}
+
+	getGlobalVariable(name) {
+		return this._globalVariables[name];
+	}
+
 	get Loaders() { return this._loaders }
 	get World() { return this._world }
 	get Keyboard() { return this._keyboard }
@@ -45,4 +59,6 @@ export default class App {
 
 	get canvas() { return this._canvas }
 	get context() { return this._context }
+
+	get globalVariables() { return this._globalVariables }
 }

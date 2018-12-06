@@ -18,13 +18,8 @@ audio.add("bonetrousle", "/resources/audio/bonetrousle.mp3");
 audio.add("waterfall", "/resources/audio/waterfall.mp3");
 audio.add("hotland", "/resources/audio/anotherMedium.mp3");
 
-for(let i in audio.list) {
-	audio.list[i].volume = 1;
-}
-
 // Loading levels
 const level = load.jsonFile("level", "/resources/levels/audioTest/audioTest.json");
-console.log(level)
 
 world.initialize({
 	levels: level,

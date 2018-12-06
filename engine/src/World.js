@@ -3,6 +3,7 @@ export default class World {
 		this._levels = [];
 		this._currentLevelId = 0;
 
+		this._app = null;
 		this._keyboard = null;
 		this._lanugages = null;
 		this._audio = null;
@@ -56,9 +57,16 @@ export default class World {
 								this._levels[i].data.elements[j].isLoaded = true;
 							}
 							this._levels[i].data.elements[j].image.src = this.__proto__.appPath + this._levels[i].spriteSheets[this._levels[i].data.elements[j].spriteSheetIndex].file
-						}
+						}					
 					}
+				}
 
+				for(let j in this._levels[i].data.elements) {
+					if(this._levels[i].data.elements[j].isVisible === undefined)
+						this._levels[i].data.elements[j].isVisible = true;
+				}
+
+				if(this._levels[i].data.elements) {
 					this._levels[i].data.elements.sort((a, b) => {
 						if(a.layer > b.layer) {
 							return 1;
@@ -78,6 +86,9 @@ export default class World {
 
 		this._currentLevelId = options.currentLevelId || 0;
 
+		// App init
+		this._app = options.app || null;
+
 		// Keyboard init
 		this._keyboard = options.keyboard || null;
 
@@ -87,6 +98,14 @@ export default class World {
 		// Audio init
 		this._audio = options.audio || null;
 		
+		// Global variables init
+		if(options.globalVariables) {
+			if(Array.isArray(options.globalVariables))
+				this._globalVariables = options.globalVariables;
+			else
+				this._globalVariables = [options.globalVariables];
+		}
+
 		// Controller init
 		if(this._levels[this._currentLevelId].data.settings.controllerPath && this._currentLevelId === this._levels[this._currentLevelId].id) {
 			// Read controller's file
@@ -94,10 +113,12 @@ export default class World {
 
 			// Do actions in controller
 			this._levels[this._currentLevelId].controller({
+				app: this._app,
 				world: this, 
 				languages: this._languages,
 				keyboard: this._keyboard,
-				audio: this._audio
+				audio: this._audio,
+				globalVariables: this._globalVariables
 			});
 		}
 	}
@@ -111,31 +132,33 @@ export default class World {
 
 		// Level draw
 		for(let i in currentLevel.data.elements) {
-			if(currentLevel.data.elements[i].type === "sprite" && currentLevel.data.elements[i].isLoaded) {
-				const spriteSheetCoords = currentLevel.spriteSheets[currentLevel.data.elements[i].spriteSheetIndex].sprites[currentLevel.data.elements[i].spriteIndex].rect;
-				const spriteCoords = currentLevel.data.elements[i].coords;
+			if(currentLevel.data.elements[i].isVisible) {
+				if(currentLevel.data.elements[i].type === "sprite" && currentLevel.data.elements[i].isLoaded) {
+					const spriteSheetCoords = currentLevel.spriteSheets[currentLevel.data.elements[i].spriteSheetIndex].sprites[currentLevel.data.elements[i].spriteIndex].rect;
+					const spriteCoords = currentLevel.data.elements[i].coords;
 
-				this._context.drawImage(
-					currentLevel.data.elements[i].image,
+					this._context.drawImage(
+						currentLevel.data.elements[i].image,
 
-					spriteSheetCoords[0], 
-					spriteSheetCoords[1], 
-					spriteSheetCoords[2], 
-					spriteSheetCoords[3],
-					
-					spriteCoords[0], 
-					spriteCoords[1], 
-					spriteCoords[2] || spriteSheetCoords[2], 
-					spriteCoords[3] || spriteSheetCoords[3]
-				);
-			}
+						spriteSheetCoords[0], 
+						spriteSheetCoords[1], 
+						spriteSheetCoords[2], 
+						spriteSheetCoords[3],
+						
+						spriteCoords[0], 
+						spriteCoords[1], 
+						spriteCoords[2] || spriteSheetCoords[2], 
+						spriteCoords[3] || spriteSheetCoords[3]
+					);
+				}
 
-			if(currentLevel.data.elements[i].type === "text") {
-				this._context.fillStyle = currentLevel.data.elements[i].settings.color || "red";
-				this._context.font = `${currentLevel.data.elements[i].settings.size}px "${currentLevel.data.elements[i].settings.font}"`;
-				this._context.textAlign = currentLevel.data.elements[i].settings.horizontalAlign || "center";
-				this._context.textBaseline = currentLevel.data.elements[i].settings.verticalAlign || "middle";
-				this._context.fillText(currentLevel.data.elements[i].settings.text, currentLevel.data.elements[i].coords[0], currentLevel.data.elements[i].coords[1])
+				if(currentLevel.data.elements[i].type === "text") {
+					this._context.fillStyle = currentLevel.data.elements[i].settings.color || "red";
+					this._context.font = `${currentLevel.data.elements[i].settings.size}px "${currentLevel.data.elements[i].settings.font}"`;
+					this._context.textAlign = currentLevel.data.elements[i].settings.horizontalAlign || "center";
+					this._context.textBaseline = currentLevel.data.elements[i].settings.verticalAlign || "middle";
+					this._context.fillText(currentLevel.data.elements[i].settings.text, currentLevel.data.elements[i].coords[0], currentLevel.data.elements[i].coords[1])
+				}
 			}
 		}
 	}
@@ -156,8 +179,6 @@ export default class World {
 	}
 
 	set level(newLevelValue) {
-		// this._currentLevelId = 0;
-
 		if(typeof newLevelValue === "number")
 			this._currentLevelId = newLevelValue;
 		else if(typeof newLevelValue === "string")
