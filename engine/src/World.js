@@ -52,10 +52,7 @@ export default class World {
 					for(let j in this._levels[i].data.elements) {
 						if(this._levels[i].data.elements[j].type === "sprite") {
 							this._levels[i].data.elements[j].image = new Image();
-							this._levels[i].data.elements[j].isLoaded = false;
-							this._levels[i].data.elements[j].image.onload = () => {
-								this._levels[i].data.elements[j].isLoaded = true;
-							}
+							this._levels[i].data.elements[j].isLoaded = true;
 							this._levels[i].data.elements[j].image.src = this.__proto__.appPath + this._levels[i].spriteSheets[this._levels[i].data.elements[j].spriteSheetIndex].file
 						}					
 					}
@@ -67,7 +64,7 @@ export default class World {
 				}
 
 				if(this._levels[i].data.elements) {
-					this._levels[i].data.elements.sort((a, b) => {
+					this._levels[i].data.elements = this._levels[i].data.elements.sort((a, b) => {
 						if(a.layer > b.layer) {
 							return 1;
 						}

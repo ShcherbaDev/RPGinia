@@ -26,7 +26,7 @@ const languagePaths = [
 ];
 const languages = load.jsonFiles("language", languagePaths);
 
-app.setGlobalVariable("globalVar", "Hello, world");
+app.setGlobalVariable("currentLanguage", 0);
 
 world.initialize({
     app: app,
