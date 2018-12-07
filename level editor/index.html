@@ -2,16 +2,77 @@
 <html>
   <head>
     <meta charset="UTF-8">
-    <title>Hello World!</title>
+    <title>RPGinia level editor</title>
     <link rel="stylesheet" href="./assets/css/fonts.css">
     <link rel="stylesheet" href="./assets/css/frame.css">
     <link rel="stylesheet" href="./assets/css/main.css">
   </head>
   <body>
     <div class="app">
-      <div class="custom_frame">
+      <div class="custom_frame" style="-webkit-app-region: drag">
+        <div class="navigation">
+          <button class="burger_icon">
+            <div class="icon">
+              <div class="bar-1"></div>
+              <div class="bar-2"></div>
+              <div class="bar-3"></div>
+            </div>
+          </button>
+          <ul class="nav_dropdown">
+            <li>
+              <a href="#">File</a>
+              <ul class="nav_actions">
+                <li><a href="#"></a></li>
+                <li><a href="#"></a></li>
+                <li><a href="#"></a></li>
+                <li><a href="#"></a></li>
+                <li><a href="#"></a></li>
+              </ul>
+            </li>
+            <li>
+              <a href="#">Edit</a>
+              <ul class="nav_actions">
+                <li><a href="#"></a></li>
+                <li><a href="#"></a></li>
+                <li><a href="#"></a></li>
+                <li><a href="#"></a></li>
+                <li><a href="#"></a></li>
+              </ul>
+            </li>
+            <li>
+              <a href="#">Window</a>
+              <ul class="nav_actions">
+                <li><a href="#"></a></li>
+                <li><a href="#"></a></li>
+                <li><a href="#"></a></li>
+                <li><a href="#"></a></li>
+                <li><a href="#"></a></li>
+              </ul>
+            </li>
+            <li>
+              <a href="#">View</a>
+              <ul class="nav_actions">
+                <li><a href="#"></a></li>
+                <li><a href="#"></a></li>
+                <li><a href="#"></a></li>
+                <li><a href="#"></a></li>
+                <li><a href="#"></a></li>
+              </ul>
+            </li>
+            <li>
+              <a href="#">Help</a>
+              <ul class="nav_actions">
+                <li><a href="#"></a></li>
+                <li><a href="#"></a></li>
+                <li><a href="#"></a></li>
+                <li><a href="#"></a></li>
+                <li><a href="#"></a></li>
+              </ul>
+            </li>
+          </ul>
+        </div>
         <div class="title">Unnamed level - RPGinia level editor</div>
-        <div class="controls">
+        <div class="controls macos_style">
           <button class="btn minimize" id="minimize"></button>
           <button class="btn resize" id="resize"></button>
           <button class="btn close" id="close"></button>
@@ -41,7 +102,6 @@
     </div>
 
     <script>
-      // You can also require other files to run in this process
       require('./renderer.js')
     </script>
   </body>

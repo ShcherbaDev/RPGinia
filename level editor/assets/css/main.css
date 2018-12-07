@@ -25,6 +25,7 @@ html, body, .app {
 	grid-template-columns: 0.4fr 0.8fr 1.7fr;
 	grid-template-areas: "Layers Properties Playground";
 	grid-area: Editor;
+	z-index: 1;
 }
 
 
@@ -61,7 +62,7 @@ html, body, .app {
 .playground { grid-area: Playground; }
 
 p.title {
-	font-size: 18px;
+	font-size: 20px;
 	padding: 10px;
 	color: #fff;
 	background-color: #2d2d2d;

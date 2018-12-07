@@ -1,52 +1,96 @@
 .custom_frame {
     background-color: #2d2d2d;
     border-bottom: 1px solid #555;
+    cursor: default;
 }
 
 .custom_frame > .title {
     color: #fff;
     line-height: 30px;
+    font-size: 18px;
     text-align: center;
 }
 
+.custom_frame > .navigation > button.burger_icon {
+    background: transparent;
+    border: 0;
+    outline: none;
+    width: 40px;
+    height: 29px;
+    cursor: pointer;
+    -webkit-app-region: no-drag;
+}
+
+.custom_frame > .navigation > button.burger_icon:hover {
+    background-color: rgba(255, 255, 255, .2);
+}
+
+.custom_frame > .navigation > button.burger_icon:hover + ul.nav_dropdown {
+    display: block;
+}
+
+ul.nav_dropdown {
+    position: absolute;
+    background-color: #fff;
+    z-index: 2;
+}
+
+/* Burger icon */
+.icon {
+    display: inline-block;
+    position: relative;
+    top: 2px; 
+}
+
+.bar-1, .bar-2, .bar-3 {
+    width: 18px;
+    height: 2px;
+    background-color: #fff;
+    margin: 4px 0;
+}
+/* End Burger icon */
+
+/* Controls */
 .custom_frame > .controls {
     position: absolute;
-    top: 7px;
+    top: 6.5px;
     right: 10px;
 }
 
-.custom_frame button.btn {
+.custom_frame .controls.macos_style button.btn {
     width: 15px;
     height: 15px;
     border-radius: 50%;
     border: 1px solid;
     outline: none;
+    cursor: pointer;
+    -webkit-app-region: no-drag;
 }
 
-.custom_frame button.btn.minimize {
+.custom_frame .controls.macos_style button.btn.minimize {
     border: 1px solid rgb(0, 112, 24);
     background-color: rgb(40, 205, 65);
 }
 
-.custom_frame button.btn.minimize:hover {
+.custom_frame .controls.macos_style button.btn.minimize:hover {
     background-color: rgb(50, 215, 75);
 }
 
-
-.custom_frame button.btn.resize {
+.custom_frame .controls.macos_style button.btn.resize {
     border: 1px solid rgb(146, 81, 0);
     background-color: rgb(255, 204, 0);
 }
 
-.custom_frame button.btn.resize:hover {
+.custom_frame .controls.macos_style button.btn.resize:hover {
     background-color: rgb(255, 224, 20);
 }
 
-.custom_frame button.btn.close {
+.custom_frame .controls.macos_style button.btn.close {
     border: 1px solid rgb(194, 6, 24);
     background-color: rgb(255, 65, 54);
 }
 
-.custom_frame button.btn.close:hover {
-    background-color: rgb(255, 79, 68);
+.custom_frame .controls.macos_style button.btn.close:hover {
+    background-color: rgb(251, 49, 34);
 }
+/* End Controls */
