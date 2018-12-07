@@ -1,0 +1,52 @@
+.custom_frame {
+    background-color: #2d2d2d;
+    border-bottom: 1px solid #555;
+}
+
+.custom_frame > .title {
+    color: #fff;
+    line-height: 30px;
+    text-align: center;
+}
+
+.custom_frame > .controls {
+    position: absolute;
+    top: 7px;
+    right: 10px;
+}
+
+.custom_frame button.btn {
+    width: 15px;
+    height: 15px;
+    border-radius: 50%;
+    border: 1px solid;
+    outline: none;
+}
+
+.custom_frame button.btn.minimize {
+    border: 1px solid rgb(0, 112, 24);
+    background-color: rgb(40, 205, 65);
+}
+
+.custom_frame button.btn.minimize:hover {
+    background-color: rgb(50, 215, 75);
+}
+
+
+.custom_frame button.btn.resize {
+    border: 1px solid rgb(146, 81, 0);
+    background-color: rgb(255, 204, 0);
+}
+
+.custom_frame button.btn.resize:hover {
+    background-color: rgb(255, 224, 20);
+}
+
+.custom_frame button.btn.close {
+    border: 1px solid rgb(194, 6, 24);
+    background-color: rgb(255, 65, 54);
+}
+
+.custom_frame button.btn.close:hover {
+    background-color: rgb(255, 79, 68);
+}

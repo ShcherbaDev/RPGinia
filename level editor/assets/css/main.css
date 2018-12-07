@@ -1,51 +1,75 @@
 * {
 	margin: 0;
 	padding: 0;
+	box-sizing: border-box;
 	font-family: "8bitoperator";
 }
 
 html, body, .app {
 	width: 100%;
-	height: 100%;
+	height: 100vh;
 }
 
 .app {
 	display: grid;
-	grid-template-areas: "Header Header Header"
-						 "Editor Editor Editor";
-	grid-template-rows: 0.07fr 1fr;
+	grid-template-areas: "Frame Frame Frame" "Editor Editor Editor";
+	grid-template-rows: 30px 1fr;
 }
 
-.block_header {
-	grid-area: Header;
+.app > .custom_frame {
+	grid-area: Frame;
 }
 
-.block_editor {
+.app > .editor {
 	display: grid;
-	grid-area: Editor;
+	grid-template-columns: 0.4fr 0.8fr 1.7fr;
 	grid-template-areas: "Layers Properties Playground";
-	grid-template-columns: 0.3fr 0.4fr 1fr
+	grid-area: Editor;
 }
 
-.block_editor > .editor_block.layers {
-	grid-area: Layers
+
+.block {
+	display: flex;
+	flex-direction: column;
 }
 
-.block_editor > .editor_block.properties {
-	grid-area: Properties
+.layers { grid-area: Layers; }
+
+.properties {
+	display: grid;
+	grid-template-rows: 1fr 1fr;
+	grid-template-areas: "Sprites" "Object";
+	grid-area: Properties;
+	position: relative;
+
+	border-left: 1px solid #555;
+	border-right: 1px solid #555;
 }
 
-.block_editor > .editor_block.playground {
-	grid-area: Playground
+.properties > .properties_block {
+	display: flex;
+	flex-direction: column;
+	position: absolute;
+	width: 100%;
+	height: 100%;
 }
 
-.editor_block:nth-child(2) {
-	border-left: 1px solid red;
-	border-right: 1px solid red;
-}
+.sprites { grid-area: Sprites; }
 
-.editor_block > p.title {
+.object { grid-area: Object; }
+
+.playground { grid-area: Playground; }
+
+p.title {
+	font-size: 18px;
 	padding: 10px;
 	color: #fff;
-	background-color: #222;
+	background-color: #2d2d2d;
+}
+
+.content {
+	background-color: #444;
+	padding: 10px;
+	height: 100%;
+	overflow: auto;
 }

@@ -4,31 +4,38 @@
     <meta charset="UTF-8">
     <title>Hello World!</title>
     <link rel="stylesheet" href="./assets/css/fonts.css">
+    <link rel="stylesheet" href="./assets/css/frame.css">
     <link rel="stylesheet" href="./assets/css/main.css">
   </head>
   <body>
     <div class="app">
-      <div class="block_header">
-        Header
+      <div class="custom_frame">
+        <div class="title">Unnamed level - RPGinia level editor</div>
+        <div class="controls">
+          <button class="btn minimize" id="minimize"></button>
+          <button class="btn resize" id="resize"></button>
+          <button class="btn close" id="close"></button>
+        </div>
       </div>
-      <div class="block_editor">
-        <div class="editor_block layers">
+
+      <div class="editor">
+        <div class="block layers">
           <p class="title">Layers</p>
-          <div class="content">
-            ...
+          <div class="content">...</div>
+        </div>
+        <div class="block properties">
+          <div class="properties_block sprites">
+              <p class="title">Sprites properties</p>
+              <div class="content">...</div>
+          </div>
+          <div class="properties_block object">
+              <p class="title">Object properties</p>
+              <div class="content">...</div>
           </div>
         </div>
-        <div class="editor_block properties">
-          <p class="title">Properties</p>
-          <div class="content">
-            ...
-          </div>
-        </div>
-        <div class="editor_block playground">
-          <p class="title">Playground</p>
-          <div class="content">
-            ...
-          </div>
+        <div class="block playground">
+            <p class="title">Playground</p>
+            <div class="content">...</div>
         </div>
       </div>
     </div>
