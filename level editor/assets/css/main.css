@@ -1,0 +1,51 @@
+* {
+	margin: 0;
+	padding: 0;
+	font-family: "8bitoperator";
+}
+
+html, body, .app {
+	width: 100%;
+	height: 100%;
+}
+
+.app {
+	display: grid;
+	grid-template-areas: "Header Header Header"
+						 "Editor Editor Editor";
+	grid-template-rows: 0.07fr 1fr;
+}
+
+.block_header {
+	grid-area: Header;
+}
+
+.block_editor {
+	display: grid;
+	grid-area: Editor;
+	grid-template-areas: "Layers Properties Playground";
+	grid-template-columns: 0.3fr 0.4fr 1fr
+}
+
+.block_editor > .editor_block.layers {
+	grid-area: Layers
+}
+
+.block_editor > .editor_block.properties {
+	grid-area: Properties
+}
+
+.block_editor > .editor_block.playground {
+	grid-area: Playground
+}
+
+.editor_block:nth-child(2) {
+	border-left: 1px solid red;
+	border-right: 1px solid red;
+}
+
+.editor_block > p.title {
+	padding: 10px;
+	color: #fff;
+	background-color: #222;
+}
