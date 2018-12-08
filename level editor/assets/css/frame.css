@@ -21,18 +21,54 @@
     -webkit-app-region: no-drag;
 }
 
-.custom_frame > .navigation > button.burger_icon:hover {
-    background-color: rgba(255, 255, 255, .2);
-}
-
-.custom_frame > .navigation > button.burger_icon:hover + ul.nav_dropdown {
-    display: block;
+.navigation {
+    position: absolute;
 }
 
 ul.nav_dropdown {
+    display: none;
+    width: 200px;
     position: absolute;
-    background-color: #fff;
+    background-color: #555;
     z-index: 2;
+    list-style: none;
+    box-shadow: 2px 2px 2px 1px rgba(31, 31, 31, 0.1);
+}
+
+ul.nav_dropdown > li {
+    position: relative;
+}
+
+ul.nav_dropdown a {
+    display: block;
+    padding: 5px 10px;
+    width: 100%;
+    color: #fff;
+    text-decoration: none;
+}
+
+ul.nav_dropdown a:hover {
+    background-color: rgba(255, 255, 255, 0.2)
+}
+
+ul.nav_dropdown a:hover + ul,
+ul.nav_dropdown > li > ul:hover {
+    display: block;
+}
+
+ul.nav_dropdown > li > ul {
+    display: none;
+    position: absolute;
+    width: 100%;
+    top: 0;
+    left: 100%;
+    z-index: 3;
+    background-color: #777;
+    list-style: none;
+}
+
+.navigation > ul > li > ul a:hover ~ .navigation > ul > li > a {
+    background-color: #888;
 }
 
 /* Burger icon */
