@@ -1,8 +1,7 @@
 {
     "settings": {
         "name": "Choose the language",
-        "controllerPath": "/resources/levels/set_language/languagesController.js",
-        "spriteSheetPath": "/resources/sprites/languageSpriteSheet.json"
+        "controllerPath": "/resources/levels/set_language/languagesController.js"
     },
     "elements": [
         {
@@ -18,7 +17,6 @@
             },
             "coords": [400, 160]
         },
-
         {
             "name": "English",
             "type": "sprite",
@@ -43,9 +41,8 @@
             "coords": [530, 230, 180, 100],
             "layer": 1
         },
-
         {
-            "name": "English label",
+            "name": "English_label",
             "type": "text",
             "settings": {
                 "text": "English",
@@ -59,7 +56,7 @@
             "layer": 1
         },
         {
-            "name": "Russian label",
+            "name": "Russian_label",
             "type": "text",
             "settings": {
                 "text": "Russian",
@@ -73,7 +70,7 @@
             "layer": 1
         },
         {
-            "name": "Ukrainian label",
+            "name": "Ukrainian_label",
             "type": "text",
             "settings": {
                 "text": "Ukrainian",

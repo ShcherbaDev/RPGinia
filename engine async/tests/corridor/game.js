@@ -5,7 +5,7 @@ const app = new engine.app("Test RPGinia app", undefined);
 
 const load = new app.Loaders;
 const kb = new app.Keyboard;
-// const world = new app.World;
+const world = new app.World;
 
 kb.addKey("enter", 13);
 kb.addKey("arrUp", 38);
@@ -14,12 +14,10 @@ kb.addKey("arrLeft", 37);
 kb.addKey("arrRight", 39);
 
 // Load Levels
-const levels = [
-    "/resources/levels/set_language/languages.json",
-    "/resources/levels/menu/menu.json",
-    "/resources/levels/corridor/corridor.json"
+const levelPaths = [
+    "/resources/levels/set_language/languages.json"
 ];
-load.loadJSON("level", levels);
+load.loadJSON("level", levelPaths);
 
 // Load Sprite Sheet
 load.loadJSON("spriteSheet", "/resources/sprites/languageSpriteSheet.json");
@@ -29,10 +27,26 @@ const languagePaths = [
     "/resources/languages/russian.json",
     "/resources/languages/ukrainian.json"
 ];
-const languages = load.loadJSON("language", languagePaths);
+load.loadJSON("language", languagePaths);
 
 load.onAllFilesLoaded(() => {
     console.info("All files loaded!", load.fileList);
+
+    console.log(load.levels, load.spriteSheet, load.languages);
+
+    world.initialize({
+    	app: app,
+    	currentLevelId: 0,
+    	levels: load.levels,
+    	keyboard: kb
+    });
+
+    function draw() {
+    	app.context.clearRect(0, 0, app.width, app.height);
+    	world.draw();
+    	requestAnimationFrame(draw);
+    }
+    draw();
 });
 
 // app.setGlobalVariable("currentLanguage", 0);

@@ -1,5 +1,6 @@
 import Loaders from "./Loaders.js";
 import Keyboard from "./Keyboard.js";
+import World from "./World.js";
 
 export default class App {
 	constructor(title = "RPGinia app", canvas = document.querySelector("canvas"), sizes = [800, 600], isImageSmoothingEnabled = true) {
@@ -16,6 +17,11 @@ export default class App {
 
 		Keyboard.prototype.appPath = this.__proto__.appPath;
 		this._keyboard = Keyboard;
+
+		World.prototype.appPath = this.__proto__.appPath;
+		World.prototype.canvas = this._canvas;
+		World.prototype.context = this._context;
+		this._world = World;
 
 		this._init();
 	}
@@ -44,6 +50,7 @@ export default class App {
 
 	get Loaders() { return this._loaders }
 	get Keyboard() { return this._keyboard }
+	get World() { return this._world }
 
 	get canvas() { return this._canvas }
 	get context() { return this._context }
