@@ -15,7 +15,8 @@ kb.addKey("arrRight", 39);
 
 // Load Levels
 const levelPaths = [
-    "/resources/levels/set_language/languages.json"
+    "/resources/levels/set_language/languages.json",
+    "/resources/levels/menu/menu.json"
 ];
 load.loadJSON("level", levelPaths);
 
@@ -36,7 +37,8 @@ load.onAllFilesLoaded(() => {
 
     world.initialize({
     	app: app,
-    	currentLevelId: 0,
+        currentLevelId: 0,
+        spriteSheet: load.spriteSheet,
     	levels: load.levels,
     	keyboard: kb
     });

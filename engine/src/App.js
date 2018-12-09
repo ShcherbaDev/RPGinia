@@ -56,6 +56,7 @@ export default class App {
 	get World() { return this._world }
 	get Keyboard() { return this._keyboard }
 	get AudioManager() { return this._audioManager }
+	get Rectangle() { return this._rectangle }
 
 	get canvas() { return this._canvas }
 	get context() { return this._context }
