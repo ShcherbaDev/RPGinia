@@ -1,12 +1,13 @@
 export default class AudioManager {
 	constructor() {
 		this._list = [];
+		this._appPath = window.location.href;
 	}
 
 	add(name, path, volume = 100, isRepeating = false) {
 		this._list.push({
 			name: name,
-			path: this.__proto__.appPath + path,
+			path: this._appPath.appPath + path,
 			volume: volume / 100,
 			isRepeating: isRepeating,
 			audio: new Audio()

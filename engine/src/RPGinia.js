@@ -1,22 +1,25 @@
 import App from "./App.js";
 
-export default class RPGinia {
+/**
+ * Main engine class.
+ * @class
+ */
+class RPGinia {
+	/** @constructor */
 	constructor() {
+		/** 
+		 * Defines an app path.
+		 * @private 
+		 */
 		this._appPath = window.location.href;
 
-		App.prototype.appPath = this._appPath;
-		this._app = App;
-	}
-
-	get app() {
-		return this._app;
-	}
-
-	get compositor() {
-		return this._comp;
-	}
-
-	get load() {
-		return this._load;
+		/**
+		 * Class with main engine functional.
+		 * @name App
+		 * @memberof RPGinia
+		 */
+		this.__proto__.App = App;
 	}
 }
+
+export default RPGinia;

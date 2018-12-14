@@ -2,7 +2,7 @@
     "settings": {
         "name": "Choose the language",
         "controllerPath": "/resources/levels/set_language/languagesController.js",
-        "spriteSheetPath": "/resources/sprites/languageSpriteSheet.json"
+        "spriteSheetPath": "/resources/sprites/spriteSheets.json"
     },
     "elements": [
         {

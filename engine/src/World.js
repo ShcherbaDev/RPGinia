@@ -2,6 +2,7 @@ export default class World {
 	constructor() {
 		this._levels = [];
 		this._currentLevelId = 0;
+		this._previousLevelId = null;
 
 		this._app = null;
 		this._keyboard = null;
@@ -10,18 +11,21 @@ export default class World {
 
 		this._canvas = this.__proto__.canvas;
 		this._context = this.__proto__.context;
+		this._appPath = window.location.href;
 	}
 
-	_openController() {
-		let xml = new XMLHttpRequest();
+	_openController(item) {
+		if(!this._levels[item].controller) {
+			let xml = new XMLHttpRequest();
 
-		xml.onreadystatechange = () => {
-			if(xml.readyState === 4)
-				this._levels[this._currentLevelId].controller = eval(`(${xml.responseText})`);
+			xml.onreadystatechange = () => {
+				if(xml.readyState === 4)
+					this._levels[item].controller = eval(`(${xml.responseText})`);
+			}
+
+			xml.open("get", this._appPath + this._levels[item].data.settings.controllerPath, false);
+			xml.send();
 		}
-
-		xml.open("get", this.__proto__.appPath + this._levels[this._currentLevelId].data.settings.controllerPath, false);
-		xml.send();
 	}
 
 	_openSpriteSheet(currentItem) {
@@ -32,7 +36,7 @@ export default class World {
 				this._levels[currentItem].spriteSheets = JSON.parse(xml.responseText);
 		}
 
-		xml.open("get", this.__proto__.appPath + this._levels[currentItem].data.settings.spriteSheetPath, false);
+		xml.open("get", this._appPath + this._levels[currentItem].data.settings.spriteSheetPath, false);
 		xml.send();
 	}
 
@@ -56,7 +60,7 @@ export default class World {
 							this._levels[i].data.elements[j].image.onload = () => {
 								this._levels[i].data.elements[j].isLoaded = true;
 							}
-							this._levels[i].data.elements[j].image.src = this.__proto__.appPath + this._levels[i].spriteSheets[this._levels[i].data.elements[j].spriteSheetIndex].file
+							this._levels[i].data.elements[j].image.src = this._appPath + this._levels[i].spriteSheets[this._levels[i].data.elements[j].spriteSheetIndex].file
 						}					
 					}
 				}
@@ -64,7 +68,6 @@ export default class World {
 				for(let j in this._levels[i].data.elements) {
 					if(this._levels[i].data.elements[j].isVisible === undefined)
 						this._levels[i].data.elements[j].isVisible = true;
-					if(this._spriteSheet)
 				}
 
 				if(this.allElementsLoaded()) {
@@ -112,7 +115,7 @@ export default class World {
 		// Controller init
 		if(this._levels[this._currentLevelId].data.settings.controllerPath && this._currentLevelId === this._levels[this._currentLevelId].id) {
 			// Read controller's file
-			this._openController();
+			this._openController(this._currentLevelId);
 
 			// Do actions in controller
 			this._levels[this._currentLevelId].controller({
@@ -170,7 +173,7 @@ export default class World {
 		let loadedLevelsElementsArr = [];
 		for(let i in this._levels[this._currentLevelId].data.elements) {
 			if(this._levels[this._currentLevelId].data.elements[i].type === "sprite" && this._levels[this._currentLevelId].data.elements[i].isLoaded)
-			loadedLevelsElementsArr.push(i);
+				loadedLevelsElementsArr.push(i);
 		}
 		return loadedLevelsElementsArr.length === this._levels[this._currentLevelId].data.elements.length;
 	}
@@ -191,15 +194,28 @@ export default class World {
 	}
 
 	set level(newLevelValue) {
+		this._previousLevelId = this._currentLevelId;
+
 		if(typeof newLevelValue === "number")
 			this._currentLevelId = newLevelValue;
 		else if(typeof newLevelValue === "string")
 			this._currentLevelId = this._levels.findIndex(level => level.data.settings.name === newLevelValue);
-		
-		console.info(`${this._levels[this._currentLevelId].data.settings.name} has been loaded`);
-	
-		this._openController();
-		this._levels[this._currentLevelId].controller(this, this._languages);
+
+		if(this._levels[this._currentLevelId].data.settings.controllerPath && this._currentLevelId === this._levels[this._currentLevelId].id) {
+			// Read controller's file
+			if(!this._levels[this._currentLevelId].controller)
+				this._openController(this._currentLevelId);
+
+			// Do actions in controller
+			this._levels[this._currentLevelId].controller({
+				app: this._app,
+				world: this, 
+				languages: this._languages,
+				keyboard: this._keyboard,
+				audio: this._audio,
+				globalVariables: this._globalVariables
+			});
+		}
 	}
 
 	get currentLevel() { return this._levels[this._currentLevelId] }

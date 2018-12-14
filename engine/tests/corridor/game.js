@@ -1,7 +1,7 @@
 import RPGinia from "/src/RPGinia.js";
 
-const engine = new RPGinia;
-const app = new engine.app("Test RPGinia app", undefined);
+const engine = new RPGinia();
+const app = new engine.App("Test RPGinia app");
 const load = new app.Loaders;
 const world = new app.World;
 const kb = new app.Keyboard;
@@ -11,11 +11,12 @@ kb.addKey("arrUp", 38);
 kb.addKey("arrDown", 40);
 kb.addKey("arrLeft", 37);
 kb.addKey("arrRight", 39);
+kb.addKey("shift", 16);
 
 const levelPaths = [
-    "/resources/levels/set_language/languages.json",
     "/resources/levels/menu/menu.json",
-    "/resources/levels/corridor/corridor.json"
+    "/resources/levels/corridor/corridor.json",
+    "/resources/levels/set_language/languages.json",
 ];
 const levels = load.jsonFiles("level", levelPaths);
 
@@ -31,7 +32,7 @@ app.setGlobalVariable("currentLanguage", 0);
 world.initialize({
     app: app,
     levels: levels,
-	currentLevelId: 0,
+	currentLevelId: 1,
     keyboard: kb,
     languages: languages
 });

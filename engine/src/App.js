@@ -2,9 +2,22 @@ import Loaders from "./Loaders.js";
 import World from "./World.js";
 import Keyboard from "./Keyboard.js";
 import AudioManager from "./AudioManager.js";
+import RPGinia from "./RPGinia.js";
 
-export default class App {
-	constructor(title = "RPGinia app", canvas = document.querySelector("canvas"), sizes = [800, 600], isImageSmoothingEnabled = true) {
+/**
+ * Class with main engine functional.
+ * @memberof RPGinia
+ * @class
+ */
+class App {
+	/**
+	 * 
+	 * @param {string} [title] 
+	 * @param {Object} [canvas] 
+	 * @param {Array} [sizes] 
+	 * @param {boolean} [isImageSmoothingEnabled] 
+	 */
+	constructor(title = "RPGinia app", canvas = document.querySelector("canvas"), sizes = [800, 600], isImageSmoothingEnabled = false) {
 		this._title = title;
 		this._canvas = canvas;
 		this._context = this._canvas.getContext("2d");
@@ -13,19 +26,13 @@ export default class App {
 
 		this._globalVariables = [];
 
-		Loaders.prototype.appPath = this.__proto__.appPath;
-		this._loaders = Loaders;
+		this.__proto__.Loaders = Loaders;
+		this.__proto__.Keyboard = Keyboard;
+		this.__proto__.AudioManager = AudioManager;
 
-		World.prototype.appPath = this.__proto__.appPath;
 		World.prototype.canvas = this._canvas;
 		World.prototype.context = this._context;
-		this._world = World;
-
-		Keyboard.prototype.appPath = this.__proto__.appPath;
-		this._keyboard = Keyboard;
-
-		AudioManager.prototype.appPath = this.__proto__.appPath;
-		this._audioManager = AudioManager;
+		this.__proto__.World = World;
 
 		this._init();
 	}
@@ -35,31 +42,23 @@ export default class App {
 		this._canvas.height = this._sizes[1];
 		this._context.imageSmoothingEnabled = this._isImageSmoothingEnabled;
 	}
-
+	
 	clearPlayground() {
 		this._context.clearRect(0, 0, this._canvas.width, this._canvas.height);
 	}
 
 	setGlobalVariable(name, value) {
 		this._globalVariables[name] = value;
-		return {
-			name: name,
-			value: value
-		}
 	}
 
 	getGlobalVariable(name) {
 		return this._globalVariables[name];
 	}
 
-	get Loaders() { return this._loaders }
-	get World() { return this._world }
-	get Keyboard() { return this._keyboard }
-	get AudioManager() { return this._audioManager }
-	get Rectangle() { return this._rectangle }
-
 	get canvas() { return this._canvas }
 	get context() { return this._context }
 
 	get globalVariables() { return this._globalVariables }
 }
+
+export default RPGinia;

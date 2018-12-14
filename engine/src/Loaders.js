@@ -2,6 +2,7 @@ export default class Loaders {
 	constructor() {
 		this._files = [];
 		this._xml = new XMLHttpRequest();
+		this._appPath = window.location.href;
 	}
 
 	_checkFileType(type) {
@@ -17,7 +18,7 @@ export default class Loaders {
 					this._files.push({
 						type: fileType,
 						isLoaded: false,
-						path: this.__proto__.appPath + filePath,
+						path: this._appPath + filePath,
 						data: {}
 					});
 				}
@@ -26,13 +27,13 @@ export default class Loaders {
 					this._files[this._files.length - 1].data = JSON.parse(xml.responseText);
 					this._files[this._files.length - 1].isLoaded = true;
 
-					console.info(`${fileType.charAt(0).toUpperCase()}${fileType.substring(1)} file loaded: ${this.__proto__.appPath + filePath}`);
+					console.info(`${fileType.charAt(0).toUpperCase()}${fileType.substring(1)} file loaded: ${this._appPath + filePath}`);
 
 					return this._files[this._files.length - 1];
 				}
 			}
 
-			xml.open("get", this.__proto__.appPath + filePath, false);
+			xml.open("get", this._appPath + filePath, false);
 			xml.send();
 
 			return this._files[this._files.length - 1];
@@ -53,7 +54,7 @@ export default class Loaders {
 						this._files.push({
 							type: filesType,
 							isLoaded: false,
-							path: this.__proto__.appPath + filesPath[counter],
+							path: this._appPath + filesPath[counter],
 							data: {}
 						});
 					}
@@ -67,7 +68,7 @@ export default class Loaders {
 					}
 				}
 
-				xml.open("get", this.__proto__.appPath + filesPath[counter], false);
+				xml.open("get", this._appPath + filesPath[counter], false);
 				xml.send();
 			}
 		}

@@ -1,5 +1,16 @@
 {
     "settings": {
-        "name": "Corridor"
-    }
+        "name": "Last corridor",
+        "controllerPath": "/resources/levels/corridor/corridorController.js",
+        "spriteSheetPath": "/resources/sprites/spriteSheets.json"
+    },
+    "elements": [
+        {
+            "name": "Corridor",
+            "type": "sprite",
+            "spriteSheetIndex": 1,
+            "spriteIndex": 0,
+            "coords": [150, 0, 3043, 490]
+        }
+    ]
 }
