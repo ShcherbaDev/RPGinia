@@ -1,6 +1,5 @@
 {
-    "file": "/assets/images/player/player.png",
-    "inGameSizes": [40, 55],
+    "file": "/resources/sprites/player/player.png",
     "sprites": [
         {
             "name": "up",
