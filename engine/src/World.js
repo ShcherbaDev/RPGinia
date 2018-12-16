@@ -8,6 +8,7 @@ export default class World {
 		this._keyboard = null;
 		this._lanugages = null;
 		this._audio = null;
+		this._player = null;
 
 		this._canvas = this.__proto__.canvas;
 		this._context = this.__proto__.context;
@@ -55,31 +56,47 @@ export default class World {
 					
 					for(let j in this._levels[i].data.elements) {
 						if(this._levels[i].data.elements[j].type === "sprite") {
+							if(!this._levels[i].data.elements[j].coords[2]) {
+								if(this._levels[i].spriteSheets[this._levels[i].data.elements[j].spriteSheetIndex].sprites[this._levels[i].data.elements[j].spriteIndex].rect)
+									this._levels[i].data.elements[j].coords[2] = this._levels[i].spriteSheets[this._levels[i].data.elements[j].spriteSheetIndex].sprites[this._levels[i].data.elements[j].spriteIndex].rect[2];
+								else 
+									this._levels[i].data.elements[j].coords[2] = this._levels[i].spriteSheets[this._levels[i].data.elements[j].spriteSheetIndex].sprites[this._levels[i].data.elements[j].spriteIndex].frames[this._levels[i].data.elements[j].frameFrom || 0].rect[2];
+							}
+
+							if(!this._levels[i].data.elements[j].coords[3]) {
+								if(this._levels[i].spriteSheets[this._levels[i].data.elements[j].spriteSheetIndex].sprites[this._levels[i].data.elements[j].spriteIndex].rect)
+									this._levels[i].data.elements[j].coords[3] = this._levels[i].spriteSheets[this._levels[i].data.elements[j].spriteSheetIndex].sprites[this._levels[i].data.elements[j].spriteIndex].rect[3];
+								else 
+									this._levels[i].data.elements[j].coords[3] = this._levels[i].spriteSheets[this._levels[i].data.elements[j].spriteSheetIndex].sprites[this._levels[i].data.elements[j].spriteIndex].frames[this._levels[i].data.elements[j].frameFrom || 0].rect[3];
+							}
+
+
 							this._levels[i].data.elements[j].image = new Image();
 							this._levels[i].data.elements[j].isLoaded = false;
 							this._levels[i].data.elements[j].image.onload = () => {
 								this._levels[i].data.elements[j].isLoaded = true;
 							}
 							this._levels[i].data.elements[j].image.src = this._appPath + this._levels[i].spriteSheets[this._levels[i].data.elements[j].spriteSheetIndex].file
-						}					
+						}
 					}
 				}
 
 				for(let j in this._levels[i].data.elements) {
 					if(this._levels[i].data.elements[j].isVisible === undefined)
 						this._levels[i].data.elements[j].isVisible = true;
+
+					if(this._levels[i].data.elements[j].layer === undefined)
+						this._levels[i].data.elements[j].layer = 1;
 				}
 
-				if(this.allElementsLoaded()) {
+				if(this.allElementsInLevelLoaded()) {
 					if(this._levels[i].data.elements) {
-						this._levels[i].data.elements = this._levels[i].data.elements.sort((a, b) => {
-							if(a.layer > b.layer) {
+						this._levels[i].data.elements.sort((a, b) => {
+							if(a.layer > b.layer)
 								return 1;
-							}
 				
-							if(a.layer < b.layer) {
+							if(a.layer < b.layer)
 								return -1;
-							}
 				
 							return 0;
 						});
@@ -103,14 +120,9 @@ export default class World {
 
 		// Audio init
 		this._audio = options.audio || null;
-		
-		// Global variables init
-		if(options.globalVariables) {
-			if(Array.isArray(options.globalVariables))
-				this._globalVariables = options.globalVariables;
-			else
-				this._globalVariables = [options.globalVariables];
-		}
+
+		// Player init
+		this._player = options.player || null;
 
 		// Controller init
 		if(this._levels[this._currentLevelId].data.settings.controllerPath && this._currentLevelId === this._levels[this._currentLevelId].id) {
@@ -124,23 +136,52 @@ export default class World {
 				languages: this._languages,
 				keyboard: this._keyboard,
 				audio: this._audio,
-				globalVariables: this._globalVariables
+				player: this._player
 			});
 		}
+	}
+
+	_isObjectVisible(currentLevelObjects, objectIndex) {
+		return currentLevelObjects[objectIndex].coords[0] <= this._app.canvas.width-30 &&
+			currentLevelObjects[objectIndex].coords[1] <= this._app.canvas.height-30 &&
+			currentLevelObjects[objectIndex].coords[0] + currentLevelObjects[objectIndex].coords[2] >= 30 &&
+			currentLevelObjects[objectIndex].coords[1] + currentLevelObjects[objectIndex].coords[3] >= 30
+	}
+
+	allElementsInLevelLoaded() {
+		let loadedLevelsElementsArr = [];
+		let spriteElements = [];
+
+		for(let i in this._levels[this._currentLevelId].data.elements) {
+			if(this._levels[this._currentLevelId].data.elements[i].type === "sprite") {
+				spriteElements.push(i)
+			}
+
+			if(this._levels[this._currentLevelId].data.elements[i].type === "sprite" && this._levels[this._currentLevelId].data.elements[i].isLoaded)
+				loadedLevelsElementsArr.push(i);
+		}
+		return loadedLevelsElementsArr.length === spriteElements.length;
 	}
 
 	draw() {
 		const currentLevel = this._levels[this._currentLevelId];
 
 		// Background draw
-		this._context.fillStyle = currentLevel.data.settings.background || "#000000";
-		this._context.fillRect(0, 0, this._canvas.width, this._canvas.height);
+		if(currentLevel.data.settings.background) {
+			this._context.fillStyle = currentLevel.data.settings.background;
+			this._context.fillRect(0, 0, this._canvas.width, this._canvas.height);
+		}
 
 		// Level draw
 		for(let i in currentLevel.data.elements) {
+			currentLevel.data.elements[i].isVisible = this._isObjectVisible(currentLevel.data.elements, i);
+
 			if(currentLevel.data.elements[i].isVisible) {
 				if(currentLevel.data.elements[i].type === "sprite" && currentLevel.data.elements[i].isLoaded) {
-					const spriteSheetCoords = currentLevel.spriteSheets[currentLevel.data.elements[i].spriteSheetIndex].sprites[currentLevel.data.elements[i].spriteIndex].rect;
+					const spriteSheetCoords = currentLevel.spriteSheets[currentLevel.data.elements[i].spriteSheetIndex].sprites[currentLevel.data.elements[i].spriteIndex].rect ? 
+											  currentLevel.spriteSheets[currentLevel.data.elements[i].spriteSheetIndex].sprites[currentLevel.data.elements[i].spriteIndex].rect :
+											  currentLevel.spriteSheets[currentLevel.data.elements[i].spriteSheetIndex].sprites[currentLevel.data.elements[i].spriteIndex].frames[currentLevel.data.elements[i].frameFrom || 0].rect;
+					
 					const spriteCoords = currentLevel.data.elements[i].coords;
 
 					this._context.drawImage(
@@ -169,14 +210,6 @@ export default class World {
 		}
 	}
 
-	allElementsLoaded() {
-		let loadedLevelsElementsArr = [];
-		for(let i in this._levels[this._currentLevelId].data.elements) {
-			if(this._levels[this._currentLevelId].data.elements[i].type === "sprite" && this._levels[this._currentLevelId].data.elements[i].isLoaded)
-				loadedLevelsElementsArr.push(i);
-		}
-		return loadedLevelsElementsArr.length === this._levels[this._currentLevelId].data.elements.length;
-	}
 
 	getElementByName(elementName) {
 		return this._levels[this._currentLevelId].data.elements[this._levels[this._currentLevelId].data.elements.findIndex(elem => elem.name === elementName)]
@@ -213,7 +246,7 @@ export default class World {
 				languages: this._languages,
 				keyboard: this._keyboard,
 				audio: this._audio,
-				globalVariables: this._globalVariables
+				player: this._player
 			});
 		}
 	}

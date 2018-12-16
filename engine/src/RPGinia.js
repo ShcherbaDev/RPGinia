@@ -3,9 +3,10 @@ import App from "./App.js";
 /**
  * Main engine class.
  * @class
+ * @global
+ * @hideconstructor
  */
 class RPGinia {
-	/** @constructor */
 	constructor() {
 		/** 
 		 * Defines an app path.
@@ -15,7 +16,7 @@ class RPGinia {
 
 		/**
 		 * Class with main engine functional.
-		 * @name App
+		 * @name RPGinia#App
 		 * @memberof RPGinia
 		 */
 		this.__proto__.App = App;

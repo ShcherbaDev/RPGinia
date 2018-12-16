@@ -1,5 +1,5 @@
 function controller(api) {
-    const corridor = api.world.getElementByName("Corridor");
+    const firstLayerObjects = api.world.getElementsFromLayer(1);
 
     let camSpeed;
 
@@ -7,33 +7,30 @@ function controller(api) {
     /* setTimeout(() => {
         api.world.level = "Menu";
     }, 1000); */
-
-    // Other side of level
-    /* corridor.coords[0] -= 1600;
-    for(let i in columns) {
-        columns[i].coords[0] -= 1600/0.6;
-    } */
+    
+    console.log(api.world.getElementByName("Save point"))
 
     function moveLevel(x, y) {
-        corridor.coords[0] += x;
-        corridor.coords[1] += y;
+        for(let i in firstLayerObjects) {
+            firstLayerObjects[i].coords[0] += x;
+            firstLayerObjects[i].coords[1] += y;
+        }
     }
 
     function handleKeyboard() {
         if(api.world.currentLevel.data.settings.name === "Last corridor") {
-            if(api.keyboard.isPressed("arrUp"))
-                moveLevel(0, camSpeed);
-
-            if(api.keyboard.isPressed("arrDown"))
-                moveLevel(0, -camSpeed);
-
             if(api.keyboard.isPressed("arrRight"))
                 moveLevel(-camSpeed, 0);
     
             if(api.keyboard.isPressed("arrLeft"))
                 moveLevel(camSpeed, 0);
-
-            camSpeed = api.keyboard.isPressed("shift") ? 20 : 8;
+        
+            if(api.keyboard.isPressed("shift"))
+                camSpeed = 20;
+            else if(api.keyboard.isPressed("controlLeft"))
+                camSpeed = 2;
+            else
+                camSpeed = 5;
 
             requestAnimationFrame(handleKeyboard);
         }
