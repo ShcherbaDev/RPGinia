@@ -7,7 +7,7 @@ export default class AudioManager {
 	add(name, path, volume = 100, isRepeating = false) {
 		this._list.push({
 			name: name,
-			path: this._appPath.appPath + path,
+			path: this._appPath + path,
 			volume: volume / 100,
 			isRepeating: isRepeating,
 			audio: new Audio()

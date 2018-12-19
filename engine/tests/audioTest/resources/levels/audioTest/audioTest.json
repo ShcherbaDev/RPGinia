@@ -1,6 +1,7 @@
 {
     "settings": {
         "name": "Audio Test",
+        "background": "#000",
         "controllerPath": "/resources/levels/audioTest/audioTestController.js"
     },
     "elements": [
@@ -103,17 +104,17 @@
             "layer": 2
         },
         {
-            "name": "soundtrackHotland",
+            "name": "soundtrackAnotherMedium",
             "type": "text",
             "settings": {
-                "text": "Hotland",
+                "text": "Another Medium",
                 "font": "8bitoperator",
                 "color": "#ffffff",
                 "size": 32,
                 "horizontalAlign": "center",
                 "verticalAlign": "middle"
             },
-            "coords": [970, 280],
+            "coords": [1030, 280],
             "layer": 2
         },
 

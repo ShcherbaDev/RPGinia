@@ -22,17 +22,15 @@ audio.add("hotland", "/resources/audio/anotherMedium.mp3");
 const level = load.jsonFile("level", "/resources/levels/audioTest/audioTest.json");
 
 world.initialize({
+	app: app,
 	levels: level,
-	currentLevelId: 0,
 	keyboard: kb,
 	audio: audio
 });
 
 function loop() {
 	app.clearPlayground();
-
 	world.draw();
-
 	requestAnimationFrame(loop);
 }
 loop();
