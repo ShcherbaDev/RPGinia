@@ -1,6 +1,6 @@
 import RPGinia from "/src/RPGinia.js";
 
-const engine = new RPGinia;
+const engine = new RPGinia("https://shcherbadev.github.io/rpginia/demos/audioTest");
 const app = new engine.App("Test RPGinia app", undefined, [1200, 600]);
 const load = new app.Loaders;
 const world = new app.World;
