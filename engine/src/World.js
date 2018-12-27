@@ -1,14 +1,17 @@
 export default class World {
-	constructor() {
+	constructor(debugModeEnabled = false) {
 		this._levels = [];
 		this._currentLevelId = 0;
 		this._previousLevelId = null;
+
+		this._debugMode = debugModeEnabled;
 
 		this._app = null;
 		this._keyboard = null;
 		this._lanugages = null;
 		this._audio = null;
 		this._player = null;
+		this._camera = null;
 
 		this._canvas = this.__proto__.canvas;
 		this._context = this.__proto__.context;
@@ -35,7 +38,8 @@ export default class World {
 				languages: this._languages,
 				keyboard: this._keyboard,
 				audio: this._audio,
-				player: this._player
+				player: this._player,
+				camera: this._camera
 			});
 		}
 	}
@@ -59,6 +63,10 @@ export default class World {
 		this._languages = options.languages || null;
 		this._audio = options.audio || null;
 		this._player = options.player || null;
+		this._camera = options.camera || null;
+
+		if(this._camera && !this._camera._world)
+			this._camera._world = this;
 
 		// Levels init
 		if(options.levels) {
@@ -77,9 +85,30 @@ export default class World {
 							if(this._levels[i].spriteSheets[this._levels[i].data.elements[j].spriteSheetIndex].sprites[this._levels[i].data.elements[j].spriteIndex].frames) {
 								if(!this._levels[i].data.elements[j].frameFrom)
 									this._levels[i].data.elements[j].frameFrom = 0;
+
+								if(!this._levels[i].data.elements[j].frameTo)
+									this._levels[i].data.elements[j].frameTo = this._levels[i].spriteSheets[this._levels[i].data.elements[j].spriteSheetIndex].sprites[this._levels[i].data.elements[j].spriteIndex].frames.length-1;
 								
 								if(!this._levels[i].data.elements[j].currentFrame)
 									this._levels[i].data.elements[j].currentFrame = this._levels[i].data.elements[j].frameFrom;
+							
+								if(!this._levels[i].data.elements[j].isRepeat)
+									this._levels[i].data.elements[j].isRepeat = false;
+
+								this._levels[i].data.elements[j].spriteAnimation = setInterval(() => {
+									if(this._levels[i].data.elements[j].currentFrame < this._levels[i].data.elements[j].frameTo)
+										this._levels[i].data.elements[j].currentFrame++;
+									
+									else {
+										if(this._levels[i].data.elements[j].isRepeat)
+											this._levels[i].data.elements[j].currentFrame = this._levels[i].data.elements[j].frameFrom;
+									
+										else {
+											clearInterval(this._levels[i].data.elements[j].spriteAnimation);
+											delete this._levels[i].data.elements[j].spriteAnimation;
+										}
+									}
+								}, this._levels[i].data.elements[j].interval);
 							}
 
 							if(!this._levels[i].data.elements[j].coords[2]) {
@@ -95,7 +124,6 @@ export default class World {
 								else 
 									this._levels[i].data.elements[j].coords[3] = this._levels[i].spriteSheets[this._levels[i].data.elements[j].spriteSheetIndex].sprites[this._levels[i].data.elements[j].spriteIndex].frames[this._levels[i].data.elements[j].currentFrame].rect[3];
 							}
-
 
 							this._levels[i].data.elements[j].image = new Image();
 							this._levels[i].data.elements[j].isLoaded = false;
@@ -124,10 +152,19 @@ export default class World {
 						if(!this._levels[i].data.elements[j].coords[3]) 
 							this._levels[i].data.elements[j].coords[3] = this._levels[i].data.elements[j].settings.size;
 					}
+
+					if(this._levels[i].data.elements[j].centralPointCooords === undefined) {
+						this._levels[i].data.elements[j].centralPointCoords = [
+							// this._app.canvas.width/2, this._app.canvas.height/2
+							this._levels[i].data.elements[j].coords[2].toFixed(0)/2,
+							this._levels[i].data.elements[j].coords[3].toFixed(0)/2
+						];
+						// console.log(this._levels[i].data.elements[j].centralPointCoords)
+					}
 				}
 
-				// Sorting elements.
 				if(this.allElementsInLevelLoaded(i)) {
+					// Sorting elements
 					this._levels[i].data.elements.sort((a, b) => {
 						if(a.layer > b.layer)
 							return 1;
@@ -150,10 +187,13 @@ export default class World {
 	}
 
 	_isObjectVisible(currentLevelObjects, objectIndex, padding) {
-		return currentLevelObjects[objectIndex].coords[0] <= this._app.canvas.width-padding &&
+		currentLevelObjects[objectIndex].isVisible = 
+			currentLevelObjects[objectIndex].coords[0] <= this._app.canvas.width-padding &&
 			currentLevelObjects[objectIndex].coords[1] <= this._app.canvas.height-padding &&
 			currentLevelObjects[objectIndex].coords[0] + currentLevelObjects[objectIndex].coords[2] >= padding &&
 			currentLevelObjects[objectIndex].coords[1] + currentLevelObjects[objectIndex].coords[3] >= padding
+	
+		return currentLevelObjects[objectIndex].isVisible;
 	}
 
 	allElementsInLevelLoaded(levelId) {
@@ -184,12 +224,16 @@ export default class World {
 			this._context.fillStyle = currentLevel.data.settings.background;
 			this._context.fillRect(0, 0, this._canvas.width, this._canvas.height);
 		}
+		
+		this._context.save();
 
+		// this._app.context.translate(this._app.canvas.width/2, this._app.canvas.height/2);
+		this._context.translate(this._canvas.width/2, this._canvas.height/2);
+		this._context.rotate(this._camera.degree * Math.PI/180);
+		this._context.translate(-this._canvas.width/2, -this._canvas.height/2);
 		// Level draw
 		for(let i in currentLevel.data.elements) {
-			currentLevel.data.elements[i].isVisible = this._isObjectVisible(currentLevel.data.elements, i, 10);
-
-			if(currentLevel.data.elements[i].isVisible) {
+			if(this._isObjectVisible(currentLevel.data.elements, i, 40)) {
 				if(currentLevel.data.elements[i].type === "sprite" && currentLevel.data.elements[i].isLoaded) {
 					const spriteSheetCoords = currentLevel.spriteSheets[currentLevel.data.elements[i].spriteSheetIndex].sprites[currentLevel.data.elements[i].spriteIndex].rect ? 
 											  currentLevel.spriteSheets[currentLevel.data.elements[i].spriteSheetIndex].sprites[currentLevel.data.elements[i].spriteIndex].rect :
@@ -220,8 +264,17 @@ export default class World {
 					this._context.textBaseline = currentLevel.data.elements[i].settings.verticalAlign || "middle";
 					this._context.fillText(currentLevel.data.elements[i].settings.text, currentLevel.data.elements[i].coords[0], currentLevel.data.elements[i].coords[1])
 				}
+
+				if(this._debugMode) {
+					this._context.fillStyle = "red";
+					this._context.fillRect(currentLevel.data.elements[i].coords[0]+currentLevel.data.elements[i].centralPointCoords[0]-5, currentLevel.data.elements[i].coords[1]+currentLevel.data.elements[i].centralPointCoords[1]-5, 10, 10);
+					this._context.fillStyle = "black";
+				}
+				
 			}
 		}
+		
+		this._context.restore();
 	}
 
 	getElementByName(elementName) {

@@ -1,82 +1,74 @@
 <!DOCTYPE html>
 <html>
-  <head>
+<head>
     <meta charset="UTF-8">
+    <meta http-equiv="Content-Security-Policy" content="script-src 'self' 'sha256-MXvD1l1xTswX3zvEf+u+0c7tvXAMvEoPGErpnNxX3jU='">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    
     <title>RPGinia level editor</title>
     <link rel="stylesheet" href="./assets/css/fonts.css">
-    <link rel="stylesheet" href="./assets/css/frame.css">
     <link rel="stylesheet" href="./assets/css/main.css">
-  </head>
-  <body>
-    <div class="app">
-      <div class="custom_frame" style="-webkit-app-region: drag">
-        <div class="navigation">
-          <button class="burger_icon" id="navigation_toggle">
-            <div class="icon">
-              <div class="bar-1"></div>
-              <div class="bar-2"></div>
-              <div class="bar-3"></div>
-            </div>
-          </button>
-          <ul class="nav_dropdown" id="navigation_dropdown">
-            <li>
-              <a href="#">File</a>
-              <ul class="nav_actions">
-                <li><a href="#">New file</a></li>
-                <li><a href="#">Open file</a></li>
-                <li class="separator"></li>
-                <li><a href="#">Save</a></li>
-                <li><a href="#">Save As...</a></li>
-                <li class="separator"></li>
-                <li><a href="#">Quit</a></li>
-              </ul>
-            </li>
-            <li>
-              <a href="#">Edit</a>
-            </li>
-            <li>
-              <a href="#">Window</a>
-            </li>
-            <li>
-              <a href="#">View</a>
-            </li>
-            <li>
-              <a href="#">Help</a>
-            </li>
-          </ul>
-        </div>
-        <div class="title">Unnamed level - RPGinia level editor</div>
-        <div class="controls macos_style">
-          <button class="btn minimize" id="minimize"></button>
-          <button class="btn resize" id="resize"></button>
-          <button class="btn close" id="close"></button>
-        </div>
-      </div>
-
-      <div class="editor">
+    <link rel="stylesheet" href="./assets/css/themes/dark.css">
+</head>
+<body>
+    <div class="editor">
         <div class="block layers">
-          <p class="title">Layers</p>
-          <div class="content">...</div>
+            <div class="title">
+                <div class="title_grid">
+                    <div class="left">
+                        <p>Layers</p>
+                    </div>
+                    <div class="right">
+                        <button class="btn_transparent" id="add_layer">+</button>
+                    </div>
+                </div> 
+            </div>
+            <div class="content">
+                <div class="layer_list">
+                    <div class="layer_item">
+                        <div class="thumbnail">
+                            <img src="https://via.placeholder.com/150x80?text=Layer+1" alt="Layer 1">
+                        </div>
+                        <p class="layer_number">1</p>
+                    </div>
+                </div>
+            </div>
         </div>
         <div class="block properties">
-          <div class="properties_block sprites">
-              <p class="title">Sprites properties</p>
-              <div class="content">...</div>
-          </div>
-          <div class="properties_block object">
-              <p class="title">Object properties</p>
-              <div class="content">...</div>
-          </div>
+            <div class="properties_block objects">
+                <div class="title">
+                    <div class="title_grid">
+                        <div class="left">
+                            <p>Object list</p>
+                        </div>
+                        <div class="right">
+                            <button class="btn_transparent" id="add_layer">+</button>
+                        </div>
+                    </div>    
+                </div>
+                <div class="content">
+                    <p class="error_text">No objects yet!</p>
+                </div>
+            </div>
+            <div class="properties_block object">
+                <p class="title">Object properties</p>
+                <div class="content">
+                    <p class="error_text">Object not selected.</p>
+                </div>
+            </div>
         </div>
         <div class="block playground">
-            <p class="title">Playground</p>
-            <div class="content">...</div>
+            <div class="title">Playground</div>
+            <div class="content">
+                <div class="canvas_container">
+                    <canvas id="playground"></canvas>
+                </div>
+            </div>
         </div>
-      </div>
     </div>
 
     <script>
-      require('./renderer.js')
+        require("./renderer.js")
     </script>
-  </body>
+</body>
 </html>

@@ -8,23 +8,28 @@ export default class AudioManager {
 		this._list.push({
 			name: name,
 			path: this._appPath + path,
-			volume: volume / 100,
+			volume: volume/100,
 			isRepeating: isRepeating,
 			audio: new Audio()
 		});
-
 		const lastAudio = this._list[this._list.length-1];
 
 		lastAudio.audio.src = lastAudio.path;
 		lastAudio.audio.load();
+
+		lastAudio.audio.addEventListener("ended", () => {
+			if(lastAudio.isRepeating) {
+				lastAudio.audio.currentTime = 0;
+				lastAudio.audio.play();
+			}
+		}, false);
 	}
 
 	playAudio(name) {
-        const lastAudio = this._list[this._list.length-1];
-        lastAudio.audio.loop = lastAudio.isRepeating;
-        lastAudio.volume = lastAudio.volume;
-        
-		this._list[this._list.findIndex(e => e.name === name)].audio.play();
+		const selectedAudio = this._list[this._list.findIndex(e => e.name === name)].audio;
+
+        selectedAudio.volume = this._list[this._list.findIndex(e => e.name === name)].volume;
+		selectedAudio.play();
 	}
 
 	pauseAudio(name) {

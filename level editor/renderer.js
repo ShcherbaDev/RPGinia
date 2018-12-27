@@ -1,34 +1,42 @@
-const {remote, ipcRenderer} = require("electron");
+const {ipcRenderer} = require("electron");
 
-document.querySelector(".custom_frame > .controls > button#minimize").addEventListener("click", (e) => {
-    remote.getCurrentWindow().minimize();
-});
+const playgroundBlock = document.querySelector(".editor > .block.playground .canvas_container");
+const playground = document.querySelector(".editor > .block.playground canvas#playground");
+const context = playground.getContext("2d");
 
-document.querySelector(".custom_frame > .controls > button#resize").addEventListener("click", (e) => {
-    const currentWindow = remote.getCurrentWindow();
-    if(currentWindow.isMaximized())
-        currentWindow.unmaximize();
-    else
-        currentWindow.maximize();
-});
+let view = null;
+let spriteSheet = null;
+let isPlaygroundWorking = false;
 
-document.querySelector(".custom_frame > .controls > button#close").addEventListener("click", (e) => {
-    remote.app.quit();
-});
+ipcRenderer.on("setPlaygroundSizes", () => { setupCanvasSizes() });
+ipcRenderer.on("createLevelApproved", (event, data) => { setupCanvas(data.view, data.spriteSheetData) });
 
+function setupCanvasSizes() {
+    playground.width = playgroundBlock.clientWidth;
+    playground.height = playgroundBlock.clientHeight >= 636 ? playgroundBlock.clientHeight/1.5 : playgroundBlock.clientHeight;
+}
 
-const hamburgerBtn = document.querySelector(".custom_frame > .navigation > button#navigation_toggle");
-const navDropdown = document.querySelector(".custom_frame > .navigation > ul#navigation_dropdown");
-let isNavigationOpened = false;
-hamburgerBtn.addEventListener("click", (e) => {
-    if(isNavigationOpened) {
-        isNavigationOpened = false;
-        navDropdown.style.display = "none";
-        hamburgerBtn.style.backgroundColor = "transparent";
+function setupCanvas(viewArg, spriteSheetArg) {
+    setupCanvasSizes();
+
+    view = viewArg;
+    spriteSheet = spriteSheetArg;
+    isPlaygroundWorking = true;
+
+    function draw() {
+        if(isPlaygroundWorking) {
+            context.clearRect(0, 0, playground.width, playground.height);
+
+            // Background draw
+            context.fillStyle = view.settings.background || "#000000";
+            context.fillRect(0, 0, playground.width, playground.height);
+            
+            requestAnimationFrame(draw);
+        }
     }
-    else {
-        isNavigationOpened = true;
-        navDropdown.style.display = "block";
-        hamburgerBtn.style.backgroundColor = "rgba(255, 255, 255, 0.2)";
-    }
+    draw();
+}
+
+window.addEventListener("resize", () => {
+    setupCanvasSizes();
 });

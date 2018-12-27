@@ -44,7 +44,7 @@
                 "horizontalAlign": "center",
                 "verticalAlign": "middle"
             },
-            "coords": [200, 280],
+            "coords": [200, 290],
             "layer": 2
         },
         {
@@ -58,7 +58,7 @@
                 "horizontalAlign": "center",
                 "verticalAlign": "middle"
             },
-            "coords": [320, 280],
+            "coords": [320, 290],
             "layer": 2
         },
         {
@@ -72,7 +72,7 @@
                 "horizontalAlign": "center",
                 "verticalAlign": "middle"
             },
-            "coords": [450, 280],
+            "coords": [450, 290],
             "layer": 2
         },
         {
@@ -86,7 +86,7 @@
                 "horizontalAlign": "center",
                 "verticalAlign": "middle"
             },
-            "coords": [625, 280],
+            "coords": [625, 290],
             "layer": 2
         },
         {
@@ -100,7 +100,7 @@
                 "horizontalAlign": "center",
                 "verticalAlign": "middle"
             },
-            "coords": [815, 280],
+            "coords": [815, 290],
             "layer": 2
         },
         {
@@ -114,7 +114,21 @@
                 "horizontalAlign": "center",
                 "verticalAlign": "middle"
             },
-            "coords": [1030, 280],
+            "coords": [1030, 290],
+            "layer": 2
+        },
+        {
+            "name": "soundtrackGastersTheme",
+            "type": "text",
+            "settings": {
+                "text": "Gaster's theme",
+                "font": "8bitoperator",
+                "color": "#ffffff",
+                "size": 32,
+                "horizontalAlign": "left",
+                "verticalAlign": "middle"
+            },
+            "coords": [160, 330],
             "layer": 2
         },
 

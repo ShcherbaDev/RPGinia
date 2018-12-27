@@ -3,6 +3,7 @@ import World from "./World.js";
 import Keyboard from "./Keyboard.js";
 import AudioManager from "./AudioManager.js";
 import Player from "./Player.js";
+import Camera from "./Camera.js";
 
 /**
  * Class with main engine functional.
@@ -25,7 +26,7 @@ class App {
 		this._isImageSmoothingEnabled = isImageSmoothingEnabled;
 
 		this._globalVariables = [];
-
+		
 		/**
 		 * Class for loading files.
 		 * @name RPGinia#App#Loaders
@@ -65,6 +66,13 @@ class App {
 		World.prototype.appPath = this.__proto__.appPath;
 		World.prototype.canvas = this._canvas;
 		World.prototype.context = this._context;
+
+		/**
+		 * Class for working with camera: move, zoom or rotate camera.
+		 * @name RPGinia#App#Camera
+		 * @memberof RPGinia#App
+		 */
+		this.__proto__.Camera = Camera;
 
 		this._init();
 	}

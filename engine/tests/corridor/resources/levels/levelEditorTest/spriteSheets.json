@@ -1,0 +1,45 @@
+[
+    {
+        "file": "D:/Щербаков Андрей/Мои проекты/WEB/RPGinia (OOP version)/engine/tests/corridor/resources/levels/levelEditorTest/languageSpriteSheet.jpg",
+        "sprites": [
+            {
+                "name": "english",
+                "rect": [0, 0, 506, 287]
+            },
+            {
+                "name": "russian",
+                "rect": [506, 0, 504, 287]
+            },
+            {
+                "name": "ukrainian",
+                "rect": [1010, 0, 504, 287]
+            }
+        ]
+    },
+    {
+        "file": "D:/Щербаков Андрей/Мои проекты/WEB/RPGinia (OOP version)/engine/tests/corridor/resources/levels/levelEditorTest/languageSpriteSheet.jpg",
+        "sprites": [
+            {
+                "name": "corridor",
+                "rect": [0, 0, 2100, 350]
+            },
+            {
+                "name": "frontColumn",
+                "rect": [2105, 0, 84, 246]
+            },
+            {
+                "name": "savePoint",
+                "frames": [
+                    {
+                        "name": "idle",
+                        "rect": [2105, 251, 29, 28]
+                    },
+                    {
+                        "name": "frame-2",
+                        "rect": [2139, 251, 29, 28]
+                    }
+                ]
+            }
+        ]
+    }
+]

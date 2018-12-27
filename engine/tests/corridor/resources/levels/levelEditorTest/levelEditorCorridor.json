@@ -1,9 +1,8 @@
 {
     "settings": {
-        "name": "Last corridor",
-        "controllerPath": "/resources/levels/corridor/corridorController.js",
-        "spriteSheetPath": "/resources/sprites/spriteSheets.json",
-        "background": "#000000"
+        "name": "Last corridor created via level editor",
+        "spriteSheetPath": "D:/Щербаков Андрей/Мои проекты/WEB/RPGinia (OOP version)/engine/tests/corridor/resources/levels/levelEditorTest/spriteSheets.json",
+        "background": "#00ffff"
     },
     "elements": [   
         {

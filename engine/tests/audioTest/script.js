@@ -1,31 +1,35 @@
 import RPGinia from "/src/RPGinia.js";
 
-const engine = new RPGinia("https://shcherbadev.github.io/rpginia/demos/audioTest");
+const engine = new RPGinia();
 const app = new engine.App("Test RPGinia app", undefined, [1200, 600]);
-const load = new app.Loaders;
-const world = new app.World;
-const kb = new app.Keyboard;
-const audio = new app.AudioManager;
+const load = new app.Loaders();
+const world = new app.World();
+const kb = new app.Keyboard();
+const audio = new app.AudioManager();
+const cam = new app.Camera();
 
+const musicVolume = 50;
+
+// Defining keyboard keys
 kb.addKey("arrLeft", 37);
 kb.addKey("arrRight", 39);
 kb.addKey("enter", 13);
 
-audio.add("ruins", "/resources/audio/ruins.mp3");
-audio.add("snowy", "/resources/audio/snowy.mp3");
-audio.add("snowdin", "/resources/audio/snowdin.mp3");
-audio.add("bonetrousle", "/resources/audio/bonetrousle.mp3");
-audio.add("waterfall", "/resources/audio/waterfall.mp3");
-audio.add("hotland", "/resources/audio/anotherMedium.mp3");
-
-// Loading levels
-const level = load.jsonFile("level", "/resources/levels/audioTest/audioTest.json");
+// Adding audios
+audio.add("ruins", "/resources/audio/ruins.mp3", musicVolume, true);
+audio.add("snowy", "/resources/audio/snowy.mp3", musicVolume, true);
+audio.add("snowdin", "/resources/audio/snowdin.mp3", musicVolume, true);
+audio.add("bonetrousle", "/resources/audio/bonetrousle.mp3", musicVolume, true);
+audio.add("waterfall", "/resources/audio/waterfall.mp3", musicVolume, true);
+audio.add("anotherMedium", "/resources/audio/anotherMedium.mp3", musicVolume, true);
+audio.add("gastersTheme", "/resources/audio/gastersTheme.mp3", musicVolume, true);
 
 world.initialize({
 	app: app,
-	levels: level,
+	levels: load.jsonFile("level", "/resources/levels/audioTest/audioTest.json"),
 	keyboard: kb,
-	audio: audio
+	audio: audio,
+	camera: cam
 });
 
 function loop() {

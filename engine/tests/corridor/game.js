@@ -6,8 +6,10 @@ const load = new app.Loaders();
 const world = new app.World();
 const kb = new app.Keyboard();
 const pl = new app.Player();
+const cam = new app.Camera(world);
 
 kb.addKey("enter", 13);
+kb.addKey("space", 32);
 kb.addKey("arrUp", 38);
 kb.addKey("arrDown", 40);
 kb.addKey("arrLeft", 37);
@@ -29,7 +31,8 @@ world.initialize({
     levels: levels,
 	currentLevelId: 1,
     keyboard: kb,
-    player: pl
+    player: pl,
+    camera: cam
 });
 
 function draw() {
