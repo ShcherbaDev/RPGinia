@@ -3,7 +3,7 @@
 <head>
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width,initial-scale=1">
-    <title>Player - Documentation</title>
+    <title>AudioManager.js - Documentation</title>
 
     <script src="scripts/prettify/prettify.js"></script>
     <script src="scripts/prettify/lang-css.js"></script>
@@ -29,213 +29,74 @@
 
 <div id="main">
     
-    <h1 class="page-title">Player</h1>
+    <h1 class="page-title">AudioManager.js</h1>
     
 
     
 
 
 
-
-<section>
-
-<header>
     
-        <h2>
-            <span class="ancestors"><a href="RPGinia.html">RPGinia</a><a href="RPGinia.App.html">.App</a>.</span>
-        
-        Player
-        </h2>
-        
-            <div class="class-description">Class for defining player.</div>
-        
+    <section>
+        <article>
+            <pre class="prettyprint source linenums"><code>/**
+ * Class for work with audio files
+ * @memberof RPGinia.App
+ * @class
+ */
+class AudioManager {
+	constructor() {
+		this._list = [];
+		this._appPath = this.__proto__.appPath;
+	}
+
+	add(name, path, volume = 100, isRepeating = false) {
+		this._list.push({
+			name: name,
+			path: this._appPath + path,
+			volume: volume/100,
+			isRepeating: isRepeating,
+			audio: new Audio()
+		});
+		const lastAudio = this._list[this._list.length-1];
+
+		lastAudio.audio.src = lastAudio.path;
+		lastAudio.audio.load();
+
+		lastAudio.audio.addEventListener("ended", () => {
+			if(lastAudio.isRepeating) {
+				lastAudio.audio.currentTime = 0;
+				lastAudio.audio.play();
+			}
+		}, false);
+	}
+
+	playAudio(name) {
+		const selectedAudio = this._list[this._list.findIndex(e => e.name === name)].audio;
+
+        selectedAudio.volume = this._list[this._list.findIndex(e => e.name === name)].volume;
+		selectedAudio.play();
+	}
+
+	pauseAudio(name) {
+		this._list[this._list.findIndex(e => e.name === name)].audio.pause();
+	}
+
+	stopAudio(name) {
+		this._list[this._list.findIndex(e => e.name === name)].audio.pause();
+		this._list[this._list.findIndex(e => e.name === name)].audio.currentTime = 0;
+	}
+
+	getAudioByName(name) {
+		return this._list[this._list.findIndex(e => e.name === name)];
+    }
     
-</header>
-
-<article>
-    <div class="container-overview">
-    
-        
-<div class="section-method">
-
-    
-    <h2>Constructor</h2>
-    
-
-    <h4 class="name" id="Player"><span class="type-signature"></span>new Player<span class="signature">(spriteSheet, sizes)</span><span class="type-signature"></span></h4>
-
-    
-
-
-
-
-
-
-
-<dl class="details">
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-    <dt class="tag-source">Source:</dt>
-    <dd class="tag-source"><ul class="dummy"><li>
-        <a href="Player.js.html">Player.js</a>, <a href="Player.js.html#line6">line 6</a>
-    </li></ul></dd>
-    
-
-    
-
-    
-
-    
-</dl>
-
-
-
-
-
-
-
-
-
-    <h5>Parameters:</h5>
-    
-
-<table class="params">
-    <thead>
-    <tr>
-        
-        <th>Name</th>
-        
-
-        <th>Type</th>
-
-        
-
-        
-
-        <th class="last">Description</th>
-    </tr>
-    </thead>
-
-    <tbody>
-    
-
-        <tr>
-            
-                <td class="name"><code>spriteSheet</code></td>
-            
-
-            <td class="type">
-            
-                
-<span class="param-type"><code>Object</code></span>
-
-
-            
-            </td>
-
-            
-
-            
-
-            <td class="description last">
-                Information about sprite sheet with sprites data.
-                
-            </td>
-        </tr>
-
-    
-
-        <tr>
-            
-                <td class="name"><code>sizes</code></td>
-            
-
-            <td class="type">
-            
-                
-<span class="param-type"><code>Array.&lt;number></code></span>
-
-
-            
-            </td>
-
-            
-
-            
-
-            <td class="description last">
-                In-game sizes. If they are not defined - takes them from the sprite sheet.
-                
-            </td>
-        </tr>
-
-    
-    </tbody>
-</table>
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-</div>
-    
-    </div>
-
-    
-
-    
-
-    
-
-     
-
-    
-
-    
-
-    
-
-    
-
-    
-</article>
-
-</section>
+    get list() { return this._list }
+}
+
+export default AudioManager;</code></pre>
+        </article>
+    </section>
 
 
 

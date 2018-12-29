@@ -1,4 +1,9 @@
-export default class AudioManager {
+/**
+ * Class for work with audio files
+ * @memberof RPGinia.App
+ * @class
+ */
+class AudioManager {
 	constructor() {
 		this._list = [];
 		this._appPath = this.__proto__.appPath;
@@ -47,3 +52,5 @@ export default class AudioManager {
     
     get list() { return this._list }
 }
+
+export default AudioManager;

@@ -25,6 +25,10 @@ class App {
 		this._sizes = sizes;
 		this._isImageSmoothingEnabled = isImageSmoothingEnabled;
 
+		/**
+		 * An array of global variables
+		 * @private
+		 */
 		this._globalVariables = [];
 		
 		/**
@@ -78,7 +82,7 @@ class App {
 	}
 	
 	/**
-	 * Initialize method for setting up the playground's sizes and other settings.
+	 * Initialize method for setting up the playground's sizes and image smoothing.
 	 * @private
 	 */
 	_init() {
@@ -98,18 +102,41 @@ class App {
 	 * Adds a global variable into an global variables array.
 	 * @param {string} name - The name of a global variable. 
 	 * @param {*} value - The value of a global variable.
+	 * @returns {*} The value of a created global variable.
 	 */
 	setGlobalVariable(name, value) {
 		this._globalVariables[name] = value;
+		return this._globalVariables[name];
 	}
 
+	/**
+	 * Gets a value of global variable by name.
+	 * @param {string} name - Searched global variable name.
+	 * @returns {*} The value of searched global variable.
+	 */
 	getGlobalVariable(name) {
 		return this._globalVariables[name];
 	}
 
+	/** 
+	 * Get a canvas object.
+	 * @readonly
+	 * @type {Object}
+	 */
 	get canvas() { return this._canvas }
+
+	/** 
+	 * Get a context object for draw object
+	 * @readonly
+	 * @type {Object}
+	 */
 	get context() { return this._context }
 
+	/** 
+	 * Get an array of global variables.
+	 * @readonly
+	 * @type {Array}
+	 */
 	get globalVariables() { return this._globalVariables }
 }
 

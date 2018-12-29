@@ -2,22 +2,35 @@
 <html lang="en">
 <head>
     <meta charset="utf-8">
-    <title>JSDoc: Class: RPGinia</title>
+    <meta name="viewport" content="width=device-width,initial-scale=1">
+    <title>RPGinia - Documentation</title>
 
-    <script src="scripts/prettify/prettify.js"> </script>
-    <script src="scripts/prettify/lang-css.js"> </script>
+    <script src="scripts/prettify/prettify.js"></script>
+    <script src="scripts/prettify/lang-css.js"></script>
     <!--[if lt IE 9]>
       <script src="//html5shiv.googlecode.com/svn/trunk/html5.js"></script>
     <![endif]-->
+    <link type="text/css" rel="stylesheet" href="https://code.ionicframework.com/ionicons/2.0.1/css/ionicons.min.css">
     <link type="text/css" rel="stylesheet" href="styles/prettify-tomorrow.css">
     <link type="text/css" rel="stylesheet" href="styles/jsdoc-default.css">
 </head>
-
 <body>
 
-<div id="main">
+<input type="checkbox" id="nav-trigger" class="nav-trigger" />
+<label for="nav-trigger" class="navicon-button x">
+  <div class="navicon"></div>
+</label>
 
-    <h1 class="page-title">Class: RPGinia</h1>
+<label for="nav-trigger" class="overlay"></label>
+
+<nav>
+    <li class="nav-link nav-home-link"><a href="index.html">Home</a></li><li class="nav-heading">Classes</li><li class="nav-heading"><span class="nav-item-type type-class">C</span><span class="nav-item-name"><a href="RPGinia.html">RPGinia</a></span></li><li class="nav-heading"><span class="nav-item-type type-class">C</span><span class="nav-item-name"><a href="RPGinia.App.html">App</a></span></li><li class="nav-item"><span class="nav-item-type type-function">F</span><span class="nav-item-name"><a href="RPGinia.App.html#clearPlayground">clearPlayground</a></span></li><li class="nav-item"><span class="nav-item-type type-function">F</span><span class="nav-item-name"><a href="RPGinia.App.html#getGlobalVariable">getGlobalVariable</a></span></li><li class="nav-item"><span class="nav-item-type type-function">F</span><span class="nav-item-name"><a href="RPGinia.App.html#setGlobalVariable">setGlobalVariable</a></span></li><li class="nav-heading"><span class="nav-item-type type-class">C</span><span class="nav-item-name"><a href="RPGinia.App.AudioManager.html">AudioManager</a></span></li><li class="nav-heading"><span class="nav-item-type type-class">C</span><span class="nav-item-name"><a href="RPGinia.App.Loaders.html">Loaders</a></span></li><li class="nav-item"><span class="nav-item-type type-function">F</span><span class="nav-item-name"><a href="RPGinia.App.Loaders.html#jsonFile">jsonFile</a></span></li><li class="nav-item"><span class="nav-item-type type-function">F</span><span class="nav-item-name"><a href="RPGinia.App.Loaders.html#jsonFiles">jsonFiles</a></span></li><li class="nav-heading"><span class="nav-item-type type-class">C</span><span class="nav-item-name"><a href="RPGinia.App.Player.html">Player</a></span></li>
+</nav>
+
+<div id="main">
+    
+    <h1 class="page-title">RPGinia</h1>
+    
 
     
 
@@ -28,7 +41,9 @@
 
 <header>
     
-        <h2><span class="attribs"><span class="type-signature"></span></span>RPGinia</h2>
+        <h2>
+        RPGinia
+        </h2>
         
             <div class="class-description">Main engine class.</div>
         
@@ -39,14 +54,15 @@
     <div class="container-overview">
     
         
+<div class="section-method">
 
+    
+    <h2>Constructor</h2>
+    
 
+    <h4 class="name" id="RPGinia"><span class="type-signature"></span>new RPGinia<span class="signature">(appPath<span class="signature-attributes">opt</span>)</span><span class="type-signature"></span></h4>
 
-
-
-
-
-
+    
 
 
 
@@ -83,7 +99,7 @@
     
     <dt class="tag-source">Source:</dt>
     <dd class="tag-source"><ul class="dummy"><li>
-        <a href="RPGinia.js.html">RPGinia.js</a>, <a href="RPGinia.js.html#line9">line 9</a>
+        <a href="RPGinia.js.html">RPGinia.js</a>, <a href="RPGinia.js.html#line8">line 8</a>
     </li></ul></dd>
     
 
@@ -102,6 +118,76 @@
 
 
 
+    <h5>Parameters:</h5>
+    
+
+<table class="params">
+    <thead>
+    <tr>
+        
+        <th>Name</th>
+        
+
+        <th>Type</th>
+
+        
+        <th>Attributes</th>
+        
+
+        
+        <th>Default</th>
+        
+
+        <th class="last">Description</th>
+    </tr>
+    </thead>
+
+    <tbody>
+    
+
+        <tr>
+            
+                <td class="name"><code>appPath</code></td>
+            
+
+            <td class="type">
+            
+                
+<span class="param-type"><code>string</code></span>
+
+
+            
+            </td>
+
+            
+                <td class="attributes">
+                
+                    &lt;optional><br>
+                
+
+                
+
+                
+                </td>
+            
+
+            
+                <td class="default">
+                
+                    App URL
+                
+                </td>
+            
+
+            <td class="description last">
+                Defines an app path. By default it's window.location.href
+                
+            </td>
+        </tr>
+
+    
+    </tbody>
+</table>
 
 
 
@@ -111,6 +197,14 @@
 
 
 
+
+
+
+
+
+
+
+</div>
     
     </div>
 
@@ -127,9 +221,7 @@
         </dl>
     
 
-    
-
-    
+     
 
     
 
@@ -138,6 +230,7 @@
 
         
             
+<div class="section-members">
 <h4 class="name" id="App"><span class="type-signature"></span>App<span class="type-signature"></span></h4>
 
 
@@ -146,8 +239,6 @@
 <div class="description">
     Class with main engine functional.
 </div>
-
-
 
 
 
@@ -182,7 +273,7 @@
     
     <dt class="tag-source">Source:</dt>
     <dd class="tag-source"><ul class="dummy"><li>
-        <a href="RPGinia.js.html">RPGinia.js</a>, <a href="RPGinia.js.html#line17">line 17</a>
+        <a href="RPGinia.js.html">RPGinia.js</a>, <a href="RPGinia.js.html#line16">line 16</a>
     </li></ul></dd>
     
 
@@ -197,6 +288,83 @@
 
 
 
+
+
+</div>
+
+        
+            
+<div class="section-members">
+<h4 class="name" id="appPath"><span class="type-signature">(readonly) </span>appPath<span class="type-signature"> :string</span></h4>
+
+
+
+
+<div class="description">
+    Get an app path.
+</div>
+
+
+
+
+
+<dl class="details">
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+    <dt class="tag-source">Source:</dt>
+    <dd class="tag-source"><ul class="dummy"><li>
+        <a href="RPGinia.js.html">RPGinia.js</a>, <a href="RPGinia.js.html#line30">line 30</a>
+    </li></ul></dd>
+    
+
+    
+
+    
+
+    
+</dl>
+
+
+
+    <h5>Type:</h5>
+    <ul>
+        <li>
+            
+<span class="param-type"><code>string</code></span>
+
+
+        </li>
+    </ul>
+
+
+
+
+
+</div>
 
         
     
@@ -215,17 +383,13 @@
 
 </div>
 
-<nav>
-    <h2><a href="index.html">Home</a></h2><h3>Classes</h3><ul><li><a href="RPGinia.html">RPGinia</a></li><li><a href="RPGinia.App.html">App</a></li><li><a href="RPGinia.App.Loaders.html">Loaders</a></li><li><a href="RPGinia.App.Player.html">Player</a></li></ul>
-</nav>
-
 <br class="clear">
 
 <footer>
-    Documentation generated by <a href="https://github.com/jsdoc3/jsdoc">JSDoc 3.5.5</a> on Sun Dec 16 2018 22:19:05 GMT+0300 (GMT+03:00)
+    Generated by <a href="https://github.com/jsdoc3/jsdoc">JSDoc 3.5.5</a> on Sat Dec 29 2018 21:59:07 GMT+0300 (GMT+03:00) using the Minami theme.
 </footer>
 
-<script> prettyPrint(); </script>
-<script src="scripts/linenumber.js"> </script>
+<script>prettyPrint();</script>
+<script src="scripts/linenumber.js"></script>
 </body>
 </html>

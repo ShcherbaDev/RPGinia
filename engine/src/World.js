@@ -1,4 +1,4 @@
-export default class World {
+class World {
 	constructor(debugModeEnabled = false) {
 		this._levels = [];
 		this._currentLevelId = 0;
@@ -147,7 +147,7 @@ export default class World {
 					// Setting up a width and height for texts.
 					if(this._levels[i].data.elements[j].type === "text") {
 						if(!this._levels[i].data.elements[j].coords[2])
-							this._levels[i].data.elements[j].coords[2] = this._app.context.measureText(this._levels[i].data.elements[j].settings.text).width;
+							this._levels[i].data.elements[j].coords[2] = this._context.measureText(this._levels[i].data.elements[j].settings.text).width;
 
 						if(!this._levels[i].data.elements[j].coords[3]) 
 							this._levels[i].data.elements[j].coords[3] = this._levels[i].data.elements[j].settings.size;
@@ -155,11 +155,9 @@ export default class World {
 
 					if(this._levels[i].data.elements[j].centralPointCooords === undefined) {
 						this._levels[i].data.elements[j].centralPointCoords = [
-							// this._app.canvas.width/2, this._app.canvas.height/2
 							this._levels[i].data.elements[j].coords[2].toFixed(0)/2,
 							this._levels[i].data.elements[j].coords[3].toFixed(0)/2
 						];
-						// console.log(this._levels[i].data.elements[j].centralPointCoords)
 					}
 				}
 
@@ -188,8 +186,8 @@ export default class World {
 
 	_isObjectVisible(currentLevelObjects, objectIndex, padding) {
 		currentLevelObjects[objectIndex].isVisible = 
-			currentLevelObjects[objectIndex].coords[0] <= this._app.canvas.width-padding &&
-			currentLevelObjects[objectIndex].coords[1] <= this._app.canvas.height-padding &&
+			currentLevelObjects[objectIndex].coords[0] <= this._canvas.width-padding &&
+			currentLevelObjects[objectIndex].coords[1] <= this._canvas.height-padding &&
 			currentLevelObjects[objectIndex].coords[0] + currentLevelObjects[objectIndex].coords[2] >= padding &&
 			currentLevelObjects[objectIndex].coords[1] + currentLevelObjects[objectIndex].coords[3] >= padding
 	
@@ -218,6 +216,7 @@ export default class World {
 
 	draw() {
 		const currentLevel = this._levels[this._currentLevelId];
+		const elementsInLevel = currentLevel.data.elements;
 
 		// Background draw
 		if(currentLevel.data.settings.background) {
@@ -227,22 +226,22 @@ export default class World {
 		
 		this._context.save();
 
-		// this._app.context.translate(this._app.canvas.width/2, this._app.canvas.height/2);
 		this._context.translate(this._canvas.width/2, this._canvas.height/2);
 		this._context.rotate(this._camera.degree * Math.PI/180);
 		this._context.translate(-this._canvas.width/2, -this._canvas.height/2);
+
 		// Level draw
-		for(let i in currentLevel.data.elements) {
-			if(this._isObjectVisible(currentLevel.data.elements, i, 40)) {
-				if(currentLevel.data.elements[i].type === "sprite" && currentLevel.data.elements[i].isLoaded) {
-					const spriteSheetCoords = currentLevel.spriteSheets[currentLevel.data.elements[i].spriteSheetIndex].sprites[currentLevel.data.elements[i].spriteIndex].rect ? 
-											  currentLevel.spriteSheets[currentLevel.data.elements[i].spriteSheetIndex].sprites[currentLevel.data.elements[i].spriteIndex].rect :
-											  currentLevel.spriteSheets[currentLevel.data.elements[i].spriteSheetIndex].sprites[currentLevel.data.elements[i].spriteIndex].frames[currentLevel.data.elements[i].currentFrame].rect;
+		for(let i in elementsInLevel) {
+			if(this._isObjectVisible(elementsInLevel, i, 0)) {
+				if(elementsInLevel[i].type === "sprite" && elementsInLevel[i].isLoaded) {
+					const spriteSheetCoords = currentLevel.spriteSheets[elementsInLevel[i].spriteSheetIndex].sprites[elementsInLevel[i].spriteIndex].rect ? 
+											  currentLevel.spriteSheets[elementsInLevel[i].spriteSheetIndex].sprites[elementsInLevel[i].spriteIndex].rect :
+											  currentLevel.spriteSheets[elementsInLevel[i].spriteSheetIndex].sprites[elementsInLevel[i].spriteIndex].frames[elementsInLevel[i].currentFrame].rect;
 					
-					const spriteCoords = currentLevel.data.elements[i].coords;
+					const spriteCoords = elementsInLevel[i].coords;
 
 					this._context.drawImage(
-						currentLevel.data.elements[i].image,
+						elementsInLevel[i].image,
 
 						spriteSheetCoords[0], 
 						spriteSheetCoords[1], 
@@ -256,21 +255,25 @@ export default class World {
 					);
 				}
 
-				if(currentLevel.data.elements[i].type === "text") {
-					this._context.fillStyle = currentLevel.data.elements[i].settings.color || "red";
-					this._context.font = `${currentLevel.data.elements[i].settings.size}px "${currentLevel.data.elements[i].settings.font}"`;
+				if(elementsInLevel[i].type === "text") {
+					const textSettings = elementsInLevel[i].settings;
+
+					this._context.fillStyle = textSettings.color || "red";
+					this._context.font = `${textSettings.size}px "${textSettings.font}"`;
 					
-					this._context.textAlign = currentLevel.data.elements[i].settings.horizontalAlign || "center";
-					this._context.textBaseline = currentLevel.data.elements[i].settings.verticalAlign || "middle";
-					this._context.fillText(currentLevel.data.elements[i].settings.text, currentLevel.data.elements[i].coords[0], currentLevel.data.elements[i].coords[1])
+					this._context.textAlign = textSettings.horizontalAlign || "center";
+					this._context.textBaseline = textSettings.verticalAlign || "middle";
+					this._context.fillText(textSettings.text, elementsInLevel[i].coords[0], elementsInLevel[i].coords[1])
 				}
 
 				if(this._debugMode) {
 					this._context.fillStyle = "red";
-					this._context.fillRect(currentLevel.data.elements[i].coords[0]+currentLevel.data.elements[i].centralPointCoords[0]-5, currentLevel.data.elements[i].coords[1]+currentLevel.data.elements[i].centralPointCoords[1]-5, 10, 10);
+					this._context.fillRect(
+						elementsInLevel[0] + elementsInLevel[i].centralPointCoords[0]-5, 
+						elementsInLevel[1] + elementsInLevel[i].centralPointCoords[1]-5, 
+						10, 10);
 					this._context.fillStyle = "black";
 				}
-				
 			}
 		}
 		
@@ -307,3 +310,5 @@ export default class World {
 	get currentLevelId() { return this._currentLevelId }
 	get levels() { return this._levels }
 }
+
+export default World;

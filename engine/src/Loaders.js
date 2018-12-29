@@ -1,11 +1,14 @@
 /**
  * Class for loading files. Mostly JSON files.
  * @memberof RPGinia.App
- * @hideconstructor
  * @class
  */
 
 class Loaders {
+	/**
+	 * @constructor
+	 * @param {boolean} [enableDebugMode=false] - Enable debug mode to display load or error notifications in console.
+	 */
 	constructor(enableDebugMode = false) {
 		this._files = [];
 		this._xml = new XMLHttpRequest();
@@ -14,13 +17,18 @@ class Loaders {
 		this._debugMode = enableDebugMode;
 	}
 
+	/**
+	 * Type checking.
+	 * @private
+	 * @param {string} type 
+	 */
 	_checkFileType(type) {
 		return type === "level" || type === "language" || type === "spriteSheet";
 	}
 
 	/**
-	 * Load one JSON file
-	 * @param {string} fileType - Loaded file type. Can access only types "level" and "language".
+	 * Load one JSON file.
+	 * @param {string} fileType - File type. Can access only types "level", "language" and "spriteSheet".
 	 * @param {string} filePath - Defines a file's path. 
 	 * @throws Will throw an error if the "fileType" argument is not equals "level" or "language" or "spriteSheet".
 	 */
@@ -59,6 +67,11 @@ class Loaders {
 			throw new Error(`${fileType} type is undefined!`)
 	}
 
+	/**
+	 * Load multiple JSON files.
+	 * @param {string} filesType 
+	 * @param {string} filesPath 
+	 */
 	jsonFiles(filesType, filesPath) {
 		const xml = this._xml;
 		let returnArr = [];

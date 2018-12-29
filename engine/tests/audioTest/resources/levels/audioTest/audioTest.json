@@ -133,7 +133,7 @@
         },
 
         {
-            "name": "RPGiniaAuthor",
+            "name": "rpginiaAuthor",
             "type": "text",
             "settings": {
                 "text": "RPGinia by Andrey Shcherbakov",

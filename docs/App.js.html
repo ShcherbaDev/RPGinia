@@ -2,22 +2,35 @@
 <html lang="en">
 <head>
     <meta charset="utf-8">
-    <title>JSDoc: Source: App.js</title>
+    <meta name="viewport" content="width=device-width,initial-scale=1">
+    <title>App.js - Documentation</title>
 
-    <script src="scripts/prettify/prettify.js"> </script>
-    <script src="scripts/prettify/lang-css.js"> </script>
+    <script src="scripts/prettify/prettify.js"></script>
+    <script src="scripts/prettify/lang-css.js"></script>
     <!--[if lt IE 9]>
       <script src="//html5shiv.googlecode.com/svn/trunk/html5.js"></script>
     <![endif]-->
+    <link type="text/css" rel="stylesheet" href="https://code.ionicframework.com/ionicons/2.0.1/css/ionicons.min.css">
     <link type="text/css" rel="stylesheet" href="styles/prettify-tomorrow.css">
     <link type="text/css" rel="stylesheet" href="styles/jsdoc-default.css">
 </head>
-
 <body>
 
-<div id="main">
+<input type="checkbox" id="nav-trigger" class="nav-trigger" />
+<label for="nav-trigger" class="navicon-button x">
+  <div class="navicon"></div>
+</label>
 
-    <h1 class="page-title">Source: App.js</h1>
+<label for="nav-trigger" class="overlay"></label>
+
+<nav>
+    <li class="nav-link nav-home-link"><a href="index.html">Home</a></li><li class="nav-heading">Classes</li><li class="nav-heading"><span class="nav-item-type type-class">C</span><span class="nav-item-name"><a href="RPGinia.html">RPGinia</a></span></li><li class="nav-heading"><span class="nav-item-type type-class">C</span><span class="nav-item-name"><a href="RPGinia.App.html">App</a></span></li><li class="nav-item"><span class="nav-item-type type-function">F</span><span class="nav-item-name"><a href="RPGinia.App.html#clearPlayground">clearPlayground</a></span></li><li class="nav-item"><span class="nav-item-type type-function">F</span><span class="nav-item-name"><a href="RPGinia.App.html#getGlobalVariable">getGlobalVariable</a></span></li><li class="nav-item"><span class="nav-item-type type-function">F</span><span class="nav-item-name"><a href="RPGinia.App.html#setGlobalVariable">setGlobalVariable</a></span></li><li class="nav-heading"><span class="nav-item-type type-class">C</span><span class="nav-item-name"><a href="RPGinia.App.AudioManager.html">AudioManager</a></span></li><li class="nav-heading"><span class="nav-item-type type-class">C</span><span class="nav-item-name"><a href="RPGinia.App.Loaders.html">Loaders</a></span></li><li class="nav-item"><span class="nav-item-type type-function">F</span><span class="nav-item-name"><a href="RPGinia.App.Loaders.html#jsonFile">jsonFile</a></span></li><li class="nav-item"><span class="nav-item-type type-function">F</span><span class="nav-item-name"><a href="RPGinia.App.Loaders.html#jsonFiles">jsonFiles</a></span></li><li class="nav-heading"><span class="nav-item-type type-class">C</span><span class="nav-item-name"><a href="RPGinia.App.Player.html">Player</a></span></li>
+</nav>
+
+<div id="main">
+    
+    <h1 class="page-title">App.js</h1>
+    
 
     
 
@@ -31,6 +44,7 @@ import World from "./World.js";
 import Keyboard from "./Keyboard.js";
 import AudioManager from "./AudioManager.js";
 import Player from "./Player.js";
+import Camera from "./Camera.js";
 
 /**
  * Class with main engine functional.
@@ -52,14 +66,19 @@ class App {
 		this._sizes = sizes;
 		this._isImageSmoothingEnabled = isImageSmoothingEnabled;
 
+		/**
+		 * An array of global variables
+		 * @private
+		 */
 		this._globalVariables = [];
-
+		
 		/**
 		 * Class for loading files.
 		 * @name RPGinia#App#Loaders
 		 * @memberof RPGinia#App
 		 */
 		this.__proto__.Loaders = Loaders;
+		Loaders.prototype.appPath = this.__proto__.appPath;
 
 		/**
 		 * Class for event handling from the keyboard.
@@ -74,6 +93,7 @@ class App {
 		 * @memberof RPGinia#App
 		 */
 		this.__proto__.AudioManager = AudioManager;
+		AudioManager.prototype.appPath = this.__proto__.appPath;
 
 		/**
 		 * Class for drawing player.
@@ -88,14 +108,22 @@ class App {
 		 * @memberof RPGinia#App
 		 */
 		this.__proto__.World = World;
+		World.prototype.appPath = this.__proto__.appPath;
 		World.prototype.canvas = this._canvas;
 		World.prototype.context = this._context;
+
+		/**
+		 * Class for working with camera: move, zoom or rotate camera.
+		 * @name RPGinia#App#Camera
+		 * @memberof RPGinia#App
+		 */
+		this.__proto__.Camera = Camera;
 
 		this._init();
 	}
 	
 	/**
-	 * Initialize method for setting up the playground's sizes and other settings.
+	 * Initialize method for setting up the playground's sizes and image smoothing.
 	 * @private
 	 */
 	_init() {
@@ -115,18 +143,41 @@ class App {
 	 * Adds a global variable into an global variables array.
 	 * @param {string} name - The name of a global variable. 
 	 * @param {*} value - The value of a global variable.
+	 * @returns {*} The value of a created global variable.
 	 */
 	setGlobalVariable(name, value) {
 		this._globalVariables[name] = value;
+		return this._globalVariables[name];
 	}
 
+	/**
+	 * Gets a value of global variable by name.
+	 * @param {string} name - Searched global variable name.
+	 * @returns {*} The value of searched global variable.
+	 */
 	getGlobalVariable(name) {
 		return this._globalVariables[name];
 	}
 
+	/** 
+	 * Get a canvas object.
+	 * @readonly
+	 * @type {Object}
+	 */
 	get canvas() { return this._canvas }
+
+	/** 
+	 * Get a context object for draw object
+	 * @readonly
+	 * @type {Object}
+	 */
 	get context() { return this._context }
 
+	/** 
+	 * Get an array of global variables.
+	 * @readonly
+	 * @type {Array}
+	 */
 	get globalVariables() { return this._globalVariables }
 }
 
@@ -139,17 +190,13 @@ export default App;</code></pre>
 
 </div>
 
-<nav>
-    <h2><a href="index.html">Home</a></h2><h3>Classes</h3><ul><li><a href="RPGinia.html">RPGinia</a></li><li><a href="RPGinia.App.html">App</a></li><li><a href="RPGinia.App.Loaders.html">Loaders</a></li><li><a href="RPGinia.App.Player.html">Player</a></li></ul>
-</nav>
-
 <br class="clear">
 
 <footer>
-    Documentation generated by <a href="https://github.com/jsdoc3/jsdoc">JSDoc 3.5.5</a> on Sun Dec 16 2018 22:19:05 GMT+0300 (GMT+03:00)
+    Generated by <a href="https://github.com/jsdoc3/jsdoc">JSDoc 3.5.5</a> on Sat Dec 29 2018 21:59:07 GMT+0300 (GMT+03:00) using the Minami theme.
 </footer>
 
-<script> prettyPrint(); </script>
-<script src="scripts/linenumber.js"> </script>
+<script>prettyPrint();</script>
+<script src="scripts/linenumber.js"></script>
 </body>
 </html>
