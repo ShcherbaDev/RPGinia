@@ -135,7 +135,7 @@ class App {
 	/** 
 	 * Get an array of global variables.
 	 * @readonly
-	 * @type {Array}
+	 * @type {Object[]}
 	 */
 	get globalVariables() { return this._globalVariables }
 }

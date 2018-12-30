@@ -3,7 +3,7 @@
 <head>
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width,initial-scale=1">
-    <title>Loaders - Documentation</title>
+    <title>Camera - Documentation</title>
 
     <script src="scripts/prettify/prettify.js"></script>
     <script src="scripts/prettify/lang-css.js"></script>
@@ -29,7 +29,7 @@
 
 <div id="main">
     
-    <h1 class="page-title">Loaders</h1>
+    <h1 class="page-title">Camera</h1>
     
 
     
@@ -44,10 +44,10 @@
         <h2>
             <span class="ancestors"><a href="RPGinia.html">RPGinia</a><a href="RPGinia.App.html">.App</a>.</span>
         
-        Loaders
+        Camera
         </h2>
         
-            <div class="class-description">Class for loading files. Mostly JSON files.</div>
+            <div class="class-description">Class for move or rotate camera.</div>
         
     
 </header>
@@ -62,7 +62,7 @@
     <h2>Constructor</h2>
     
 
-    <h4 class="name" id="Loaders"><span class="type-signature"></span>new Loaders<span class="signature">(enableDebugMode<span class="signature-attributes">opt</span>)</span><span class="type-signature"></span></h4>
+    <h4 class="name" id="Camera"><span class="type-signature"></span>new Camera<span class="signature">()</span><span class="type-signature"></span></h4>
 
     
 
@@ -101,7 +101,7 @@
     
     <dt class="tag-source">Source:</dt>
     <dd class="tag-source"><ul class="dummy"><li>
-        <a href="Loaders.js.html">Loaders.js</a>, <a href="Loaders.js.html#line7">line 7</a>
+        <a href="Camera.js.html">Camera.js</a>, <a href="Camera.js.html#line6">line 6</a>
     </li></ul></dd>
     
 
@@ -118,78 +118,6 @@
 
 
 
-
-
-    <h5>Parameters:</h5>
-    
-
-<table class="params">
-    <thead>
-    <tr>
-        
-        <th>Name</th>
-        
-
-        <th>Type</th>
-
-        
-        <th>Attributes</th>
-        
-
-        
-        <th>Default</th>
-        
-
-        <th class="last">Description</th>
-    </tr>
-    </thead>
-
-    <tbody>
-    
-
-        <tr>
-            
-                <td class="name"><code>enableDebugMode</code></td>
-            
-
-            <td class="type">
-            
-                
-<span class="param-type"><code>Boolean</code></span>
-
-
-            
-            </td>
-
-            
-                <td class="attributes">
-                
-                    &lt;optional><br>
-                
-
-                
-
-                
-                </td>
-            
-
-            
-                <td class="default">
-                
-                    false
-                
-                </td>
-            
-
-            <td class="description last">
-                Enable debug mode to display load or error notifications in console.
-                
-            </td>
-        </tr>
-
-    
-    </tbody>
-</table>
 
 
 
@@ -221,24 +149,18 @@
     
 
     
-
-    
-        <h3 class="subsection-title">Methods</h3>
+        <h3 class="subsection-title">Members</h3>
 
         
             
-<div class="section-method">
+<div class="section-members">
+<h4 class="name" id="degree"><span class="type-signature">(readonly) </span>degree<span class="type-signature"> :Number</span></h4>
 
-    
-
-    <h4 class="name" id="jsonFile"><span class="type-signature"></span>jsonFile<span class="signature">(fileType, filePath)</span><span class="type-signature"></span></h4>
-
-    
 
 
 
 <div class="description">
-    Load one JSON file.
+    Get a camera rotation degree.
 </div>
 
 
@@ -274,7 +196,91 @@
     
     <dt class="tag-source">Source:</dt>
     <dd class="tag-source"><ul class="dummy"><li>
-        <a href="Loaders.js.html">Loaders.js</a>, <a href="Loaders.js.html#line35">line 35</a>
+        <a href="Camera.js.html">Camera.js</a>, <a href="Camera.js.html#line56">line 56</a>
+    </li></ul></dd>
+    
+
+    
+
+    
+
+    
+</dl>
+
+
+
+    <h5>Type:</h5>
+    <ul>
+        <li>
+            
+<span class="param-type"><code>Number</code></span>
+
+
+        </li>
+    </ul>
+
+
+
+
+
+</div>
+
+        
+    
+
+    
+        <h3 class="subsection-title">Methods</h3>
+
+        
+            
+<div class="section-method">
+
+    
+
+    <h4 class="name" id="move"><span class="type-signature"></span>move<span class="signature">(x, y)</span><span class="type-signature"></span></h4>
+
+    
+
+
+
+<div class="description">
+    Move camera.
+</div>
+
+
+
+
+
+<dl class="details">
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+    <dt class="tag-source">Source:</dt>
+    <dd class="tag-source"><ul class="dummy"><li>
+        <a href="Camera.js.html">Camera.js</a>, <a href="Camera.js.html#line29">line 29</a>
     </li></ul></dd>
     
 
@@ -318,13 +324,13 @@
 
         <tr>
             
-                <td class="name"><code>fileType</code></td>
+                <td class="name"><code>x</code></td>
             
 
             <td class="type">
             
                 
-<span class="param-type"><code>String</code></span>
+<span class="param-type"><code>Number</code></span>
 
 
             
@@ -335,7 +341,7 @@
             
 
             <td class="description last">
-                File type. Can access only types "level", "language" and "spriteSheet".
+                X axis.
                 
             </td>
         </tr>
@@ -344,13 +350,13 @@
 
         <tr>
             
-                <td class="name"><code>filePath</code></td>
+                <td class="name"><code>y</code></td>
             
 
             <td class="type">
             
                 
-<span class="param-type"><code>String</code></span>
+<span class="param-type"><code>Number</code></span>
 
 
             
@@ -361,7 +367,7 @@
             
 
             <td class="description last">
-                Defines a file's path.
+                Y axis.
                 
             </td>
         </tr>
@@ -381,21 +387,6 @@
 
 
 
-<div class="section-throws">
-<h5>Throws:</h5>
-
-        
-
-    <div class="param-desc">
-    
-        Will throw an error if the "fileType" argument is not equals "level" or "language" or "spriteSheet".
-    
-    </div>
-
-
-    
-</div>
-
 
 
 
@@ -407,14 +398,14 @@
 
     
 
-    <h4 class="name" id="jsonFiles"><span class="type-signature"></span>jsonFiles<span class="signature">(filesType, filesPath)</span><span class="type-signature"></span></h4>
+    <h4 class="name" id="rotate"><span class="type-signature"></span>rotate<span class="signature">(deg)</span><span class="type-signature"></span></h4>
 
     
 
 
 
 <div class="description">
-    Load multiple JSON files.
+    Rotate camera.
 </div>
 
 
@@ -450,7 +441,7 @@
     
     <dt class="tag-source">Source:</dt>
     <dd class="tag-source"><ul class="dummy"><li>
-        <a href="Loaders.js.html">Loaders.js</a>, <a href="Loaders.js.html#line75">line 75</a>
+        <a href="Camera.js.html">Camera.js</a>, <a href="Camera.js.html#line41">line 41</a>
     </li></ul></dd>
     
 
@@ -494,13 +485,13 @@
 
         <tr>
             
-                <td class="name"><code>filesType</code></td>
+                <td class="name"><code>deg</code></td>
             
 
             <td class="type">
             
                 
-<span class="param-type"><code>String</code></span>
+<span class="param-type"><code>Number</code></span>
 
 
             
@@ -511,33 +502,7 @@
             
 
             <td class="description last">
-                
-                
-            </td>
-        </tr>
-
-    
-
-        <tr>
-            
-                <td class="name"><code>filesPath</code></td>
-            
-
-            <td class="type">
-            
-                
-<span class="param-type"><code>String</code></span>
-
-
-            
-            </td>
-
-            
-
-            
-
-            <td class="description last">
-                
+                Value of how much the degree will increase.
                 
             </td>
         </tr>

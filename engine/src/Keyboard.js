@@ -1,50 +1,77 @@
-export default class Keyboard {
-	constructor(debugEnable = false) {
-		this._keys = {};
-		this._keyState = {};
+/**
+ * Keyboard event handler class 
+ * @memberof RPGinia.App
+ * @class
+ */
+class Keyboard {
+	/**
+	 * @constructor
+	 * @param {Boolean} [debugModeEnable=false] - Debug mode for key press notifications.
+	 */
+	constructor(debugModeEnable = false) {
+		/**
+		 * @private
+		 */
+		this._keys = [];
+
+		/**
+		 * @private
+		 */
+		this._keyState = [];
+
+		/**
+		 * @private
+		 */
 		this._pressActions = [];
 
-		this._debugEnable = debugEnable;
+		/**
+		 * @private
+		 */
+		this._debugEnable = debugModeEnable;
 
 		this._init();
 	}
 
 	_init() {
 		window.onkeydown = e => {
-			this._keyState[e.keyCode] = true;
+			for(let i in this._keys) {
+				if(this._keys[i].keyCode === e.keyCode) {
+					this._keys[i].isActive = true;
 
-			for(let i in this._pressActions) {
-				if(e.keyCode === this._pressActions[i].keyCode)
-					return this._pressActions[i].action(e); 
+					if(this._keys[i].action !== null)
+						return this._keys[i].action(e);
+				}
 				else continue;
 			}
 
 			if(this._debugEnable)
-				console.log(e)
+				console.log(e);
 		}
 
 		window.onkeyup = e => {
-			this._keyState[e.keyCode] = false;
+			for(let i in this._keys) {
+				if(this._keys[i].keyCode === e.keyName)
+					this._keys[i].isActive = false;
+			}
 		}
 	}
 
-	addKey(key, keyCode) {
-		this._keys[key] = keyCode;
-	}
-
-	pressEvent(callback, key) {
-		this._pressActions.push({
-			action: callback,
-			keyCode: this._keys[key],
-			isActive: this._keyState[this._keys[key]]
+	addKey(key, keyCode) { 
+		this._keys.push({
+			keyName: key,
+			keyCode: keyCode,
+			action: null,
+			isActive: false
 		});
 	}
 
-	isPressed(key) {
-		return (this._keyState[this._keys[key]]) ? true : false;
+	pressEvent(callback, key) {
+		this._keys[this._keys.findIndex(item => item.keyName === key)].action = callback;
 	}
 
+	isPressed(key) { return !!this._keys[this._keys.findIndex(item => item.keyName === key)].isActive }
+
 	get keys() { return this._keys }
-	get pressedKeys() { return this._keyState }
-	get actions() { return this._pressActions }
 }
+
+export default Keyboard;

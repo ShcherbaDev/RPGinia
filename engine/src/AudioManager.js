@@ -1,9 +1,12 @@
 /**
- * Class for work with audio files
+ * Class for work with audio files.
  * @memberof RPGinia.App
  * @class
  */
 class AudioManager {
+	/**
+	 * @hideconstructor
+	 */
 	constructor() {
 		/**
 		 * The list of audio settings objects.

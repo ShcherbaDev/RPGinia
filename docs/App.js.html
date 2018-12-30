@@ -24,7 +24,7 @@
 <label for="nav-trigger" class="overlay"></label>
 
 <nav>
-    <li class="nav-link nav-home-link"><a href="index.html">Home</a></li><li class="nav-heading">Classes</li><li class="nav-heading"><span class="nav-item-type type-class">C</span><span class="nav-item-name"><a href="RPGinia.html">RPGinia</a></span></li><li class="nav-heading"><span class="nav-item-type type-class">C</span><span class="nav-item-name"><a href="RPGinia.App.html">App</a></span></li><li class="nav-item"><span class="nav-item-type type-function">F</span><span class="nav-item-name"><a href="RPGinia.App.html#clearPlayground">clearPlayground</a></span></li><li class="nav-item"><span class="nav-item-type type-function">F</span><span class="nav-item-name"><a href="RPGinia.App.html#getGlobalVariable">getGlobalVariable</a></span></li><li class="nav-item"><span class="nav-item-type type-function">F</span><span class="nav-item-name"><a href="RPGinia.App.html#setGlobalVariable">setGlobalVariable</a></span></li><li class="nav-heading"><span class="nav-item-type type-class">C</span><span class="nav-item-name"><a href="RPGinia.App.AudioManager.html">AudioManager</a></span></li><li class="nav-heading"><span class="nav-item-type type-class">C</span><span class="nav-item-name"><a href="RPGinia.App.Loaders.html">Loaders</a></span></li><li class="nav-item"><span class="nav-item-type type-function">F</span><span class="nav-item-name"><a href="RPGinia.App.Loaders.html#jsonFile">jsonFile</a></span></li><li class="nav-item"><span class="nav-item-type type-function">F</span><span class="nav-item-name"><a href="RPGinia.App.Loaders.html#jsonFiles">jsonFiles</a></span></li><li class="nav-heading"><span class="nav-item-type type-class">C</span><span class="nav-item-name"><a href="RPGinia.App.Player.html">Player</a></span></li>
+    <li class="nav-link nav-home-link"><a href="index.html">Home</a></li><li class="nav-heading">Classes</li><li class="nav-heading"><span class="nav-item-type type-class">C</span><span class="nav-item-name"><a href="RPGinia.html">RPGinia</a></span></li><li class="nav-heading"><span class="nav-item-type type-class">C</span><span class="nav-item-name"><a href="RPGinia.App.html">App</a></span></li><li class="nav-item"><span class="nav-item-type type-function">F</span><span class="nav-item-name"><a href="RPGinia.App.html#clearPlayground">clearPlayground</a></span></li><li class="nav-item"><span class="nav-item-type type-function">F</span><span class="nav-item-name"><a href="RPGinia.App.html#getGlobalVariable">getGlobalVariable</a></span></li><li class="nav-item"><span class="nav-item-type type-function">F</span><span class="nav-item-name"><a href="RPGinia.App.html#setGlobalVariable">setGlobalVariable</a></span></li><li class="nav-heading"><span class="nav-item-type type-class">C</span><span class="nav-item-name"><a href="RPGinia.App.AudioManager.html">AudioManager</a></span></li><li class="nav-item"><span class="nav-item-type type-function">F</span><span class="nav-item-name"><a href="RPGinia.App.AudioManager.html#add">add</a></span></li><li class="nav-item"><span class="nav-item-type type-function">F</span><span class="nav-item-name"><a href="RPGinia.App.AudioManager.html#getAudioByName">getAudioByName</a></span></li><li class="nav-item"><span class="nav-item-type type-function">F</span><span class="nav-item-name"><a href="RPGinia.App.AudioManager.html#pauseAudio">pauseAudio</a></span></li><li class="nav-item"><span class="nav-item-type type-function">F</span><span class="nav-item-name"><a href="RPGinia.App.AudioManager.html#playAudio">playAudio</a></span></li><li class="nav-item"><span class="nav-item-type type-function">F</span><span class="nav-item-name"><a href="RPGinia.App.AudioManager.html#stopAudio">stopAudio</a></span></li><li class="nav-heading"><span class="nav-item-type type-class">C</span><span class="nav-item-name"><a href="RPGinia.App.Camera.html">Camera</a></span></li><li class="nav-item"><span class="nav-item-type type-function">F</span><span class="nav-item-name"><a href="RPGinia.App.Camera.html#move">move</a></span></li><li class="nav-item"><span class="nav-item-type type-function">F</span><span class="nav-item-name"><a href="RPGinia.App.Camera.html#rotate">rotate</a></span></li><li class="nav-heading"><span class="nav-item-type type-class">C</span><span class="nav-item-name"><a href="RPGinia.App.Loaders.html">Loaders</a></span></li><li class="nav-item"><span class="nav-item-type type-function">F</span><span class="nav-item-name"><a href="RPGinia.App.Loaders.html#jsonFile">jsonFile</a></span></li><li class="nav-item"><span class="nav-item-type type-function">F</span><span class="nav-item-name"><a href="RPGinia.App.Loaders.html#jsonFiles">jsonFiles</a></span></li><li class="nav-heading"><span class="nav-item-type type-class">C</span><span class="nav-item-name"><a href="RPGinia.App.Player.html">Player</a></span></li>
 </nav>
 
 <div id="main">
@@ -54,10 +54,10 @@ import Camera from "./Camera.js";
 class App {
 	/**
 	 * @constructor
-	 * @param {string} [title=RPGinia app] - App's title.
+	 * @param {String} [title=RPGinia app] - App's title.
 	 * @param {Object} [canvas=document.querySelector("canvas")] - App's playground.
 	 * @param {Array} [sizes=[800, 600]] - Playground sizes. First element - width, second element - height.
-	 * @param {boolean} [isImageSmoothingEnabled=false] - Image smoothing.
+	 * @param {Boolean} [isImageSmoothingEnabled=false] - Image smoothing.
 	 */
 	constructor(title = "RPGinia app", canvas = document.querySelector("canvas"), sizes = [800, 600], isImageSmoothingEnabled = false) {
 		this._title = title;
@@ -141,7 +141,7 @@ class App {
 
 	/**
 	 * Adds a global variable into an global variables array.
-	 * @param {string} name - The name of a global variable. 
+	 * @param {String} name - The name of a global variable. 
 	 * @param {*} value - The value of a global variable.
 	 * @returns {*} The value of a created global variable.
 	 */
@@ -152,7 +152,7 @@ class App {
 
 	/**
 	 * Gets a value of global variable by name.
-	 * @param {string} name - Searched global variable name.
+	 * @param {String} name - Searched global variable name.
 	 * @returns {*} The value of searched global variable.
 	 */
 	getGlobalVariable(name) {
@@ -176,7 +176,7 @@ class App {
 	/** 
 	 * Get an array of global variables.
 	 * @readonly
-	 * @type {Array}
+	 * @type {Object[]}
 	 */
 	get globalVariables() { return this._globalVariables }
 }
@@ -193,7 +193,7 @@ export default App;</code></pre>
 <br class="clear">
 
 <footer>
-    Generated by <a href="https://github.com/jsdoc3/jsdoc">JSDoc 3.5.5</a> on Sat Dec 29 2018 21:59:07 GMT+0300 (GMT+03:00) using the Minami theme.
+    Generated by <a href="https://github.com/jsdoc3/jsdoc">JSDoc 3.5.5</a> on Sun Dec 30 2018 17:59:07 GMT+0300 (GMT+03:00) using the Minami theme.
 </footer>
 
 <script>prettyPrint();</script>

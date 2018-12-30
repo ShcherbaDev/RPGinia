@@ -24,7 +24,7 @@
 <label for="nav-trigger" class="overlay"></label>
 
 <nav>
-    <li class="nav-link nav-home-link"><a href="index.html">Home</a></li><li class="nav-heading">Classes</li><li class="nav-heading"><span class="nav-item-type type-class">C</span><span class="nav-item-name"><a href="RPGinia.html">RPGinia</a></span></li><li class="nav-heading"><span class="nav-item-type type-class">C</span><span class="nav-item-name"><a href="RPGinia.App.html">App</a></span></li><li class="nav-item"><span class="nav-item-type type-function">F</span><span class="nav-item-name"><a href="RPGinia.App.html#clearPlayground">clearPlayground</a></span></li><li class="nav-item"><span class="nav-item-type type-function">F</span><span class="nav-item-name"><a href="RPGinia.App.html#getGlobalVariable">getGlobalVariable</a></span></li><li class="nav-item"><span class="nav-item-type type-function">F</span><span class="nav-item-name"><a href="RPGinia.App.html#setGlobalVariable">setGlobalVariable</a></span></li><li class="nav-heading"><span class="nav-item-type type-class">C</span><span class="nav-item-name"><a href="RPGinia.App.AudioManager.html">AudioManager</a></span></li><li class="nav-heading"><span class="nav-item-type type-class">C</span><span class="nav-item-name"><a href="RPGinia.App.Loaders.html">Loaders</a></span></li><li class="nav-item"><span class="nav-item-type type-function">F</span><span class="nav-item-name"><a href="RPGinia.App.Loaders.html#jsonFile">jsonFile</a></span></li><li class="nav-item"><span class="nav-item-type type-function">F</span><span class="nav-item-name"><a href="RPGinia.App.Loaders.html#jsonFiles">jsonFiles</a></span></li><li class="nav-heading"><span class="nav-item-type type-class">C</span><span class="nav-item-name"><a href="RPGinia.App.Player.html">Player</a></span></li>
+    <li class="nav-link nav-home-link"><a href="index.html">Home</a></li><li class="nav-heading">Classes</li><li class="nav-heading"><span class="nav-item-type type-class">C</span><span class="nav-item-name"><a href="RPGinia.html">RPGinia</a></span></li><li class="nav-heading"><span class="nav-item-type type-class">C</span><span class="nav-item-name"><a href="RPGinia.App.html">App</a></span></li><li class="nav-item"><span class="nav-item-type type-function">F</span><span class="nav-item-name"><a href="RPGinia.App.html#clearPlayground">clearPlayground</a></span></li><li class="nav-item"><span class="nav-item-type type-function">F</span><span class="nav-item-name"><a href="RPGinia.App.html#getGlobalVariable">getGlobalVariable</a></span></li><li class="nav-item"><span class="nav-item-type type-function">F</span><span class="nav-item-name"><a href="RPGinia.App.html#setGlobalVariable">setGlobalVariable</a></span></li><li class="nav-heading"><span class="nav-item-type type-class">C</span><span class="nav-item-name"><a href="RPGinia.App.AudioManager.html">AudioManager</a></span></li><li class="nav-item"><span class="nav-item-type type-function">F</span><span class="nav-item-name"><a href="RPGinia.App.AudioManager.html#add">add</a></span></li><li class="nav-item"><span class="nav-item-type type-function">F</span><span class="nav-item-name"><a href="RPGinia.App.AudioManager.html#getAudioByName">getAudioByName</a></span></li><li class="nav-item"><span class="nav-item-type type-function">F</span><span class="nav-item-name"><a href="RPGinia.App.AudioManager.html#pauseAudio">pauseAudio</a></span></li><li class="nav-item"><span class="nav-item-type type-function">F</span><span class="nav-item-name"><a href="RPGinia.App.AudioManager.html#playAudio">playAudio</a></span></li><li class="nav-item"><span class="nav-item-type type-function">F</span><span class="nav-item-name"><a href="RPGinia.App.AudioManager.html#stopAudio">stopAudio</a></span></li><li class="nav-heading"><span class="nav-item-type type-class">C</span><span class="nav-item-name"><a href="RPGinia.App.Camera.html">Camera</a></span></li><li class="nav-item"><span class="nav-item-type type-function">F</span><span class="nav-item-name"><a href="RPGinia.App.Camera.html#move">move</a></span></li><li class="nav-item"><span class="nav-item-type type-function">F</span><span class="nav-item-name"><a href="RPGinia.App.Camera.html#rotate">rotate</a></span></li><li class="nav-heading"><span class="nav-item-type type-class">C</span><span class="nav-item-name"><a href="RPGinia.App.Loaders.html">Loaders</a></span></li><li class="nav-item"><span class="nav-item-type type-function">F</span><span class="nav-item-name"><a href="RPGinia.App.Loaders.html#jsonFile">jsonFile</a></span></li><li class="nav-item"><span class="nav-item-type type-function">F</span><span class="nav-item-name"><a href="RPGinia.App.Loaders.html#jsonFiles">jsonFiles</a></span></li><li class="nav-heading"><span class="nav-item-type type-class">C</span><span class="nav-item-name"><a href="RPGinia.App.Player.html">Player</a></span></li>
 </nav>
 
 <div id="main">
@@ -48,7 +48,7 @@
 class Loaders {
 	/**
 	 * @constructor
-	 * @param {boolean} [enableDebugMode=false] - Enable debug mode to display load or error notifications in console.
+	 * @param {Boolean} [enableDebugMode=false] - Enable debug mode to display load or error notifications in console.
 	 */
 	constructor(enableDebugMode = false) {
 		this._files = [];
@@ -59,9 +59,9 @@ class Loaders {
 	}
 
 	/**
-	 * Type checking.
+	 * Type checking. Allowed values: "level", "language", "spriteSheet"
 	 * @private
-	 * @param {string} type 
+	 * @param {String} type 
 	 */
 	_checkFileType(type) {
 		return type === "level" || type === "language" || type === "spriteSheet";
@@ -69,8 +69,8 @@ class Loaders {
 
 	/**
 	 * Load one JSON file.
-	 * @param {string} fileType - File type. Can access only types "level", "language" and "spriteSheet".
-	 * @param {string} filePath - Defines a file's path. 
+	 * @param {String} fileType - File type. Can access only types "level", "language" and "spriteSheet".
+	 * @param {String} filePath - Defines a file's path. 
 	 * @throws Will throw an error if the "fileType" argument is not equals "level" or "language" or "spriteSheet".
 	 */
 	jsonFile(fileType, filePath) {
@@ -110,8 +110,8 @@ class Loaders {
 
 	/**
 	 * Load multiple JSON files.
-	 * @param {string} filesType 
-	 * @param {string} filesPath 
+	 * @param {String} filesType 
+	 * @param {String} filesPath 
 	 */
 	jsonFiles(filesType, filesPath) {
 		const xml = this._xml;
@@ -187,7 +187,7 @@ export default Loaders;</code></pre>
 <br class="clear">
 
 <footer>
-    Generated by <a href="https://github.com/jsdoc3/jsdoc">JSDoc 3.5.5</a> on Sat Dec 29 2018 21:59:07 GMT+0300 (GMT+03:00) using the Minami theme.
+    Generated by <a href="https://github.com/jsdoc3/jsdoc">JSDoc 3.5.5</a> on Sun Dec 30 2018 17:59:07 GMT+0300 (GMT+03:00) using the Minami theme.
 </footer>
 
 <script>prettyPrint();</script>

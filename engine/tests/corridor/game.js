@@ -26,8 +26,6 @@ const levels = load.jsonFiles("level", levelPaths);
 pl.spriteSheet = load.jsonFile("spriteSheet", "/resources/sprites/player/player.json");
 pl.sizes = [40, 55];
 
-console.log(typeof app.canvas)
-
 world.initialize({
     app: app,
     levels: levels,
