@@ -8,7 +8,7 @@ import App from "./App.js";
 class RPGinia {
 	/**
 	 * @constructor
-	 * @param {string} [appPath=App URL] - Defines an app path. By default it's window.location.href
+	 * @param {String} [appPath=App URL] - Defines an app path. By default it's window.location.href
 	 */
 	constructor(appPath = window.location.href) {
 		this._appPath = appPath;
@@ -25,7 +25,7 @@ class RPGinia {
 	/**
 	 * Get an app path.
 	 * @readonly
-	 * @type {string}
+	 * @type {String}
 	 */
 	get appPath() { return this._appPath }
 }

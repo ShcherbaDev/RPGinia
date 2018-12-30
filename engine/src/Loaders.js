@@ -7,7 +7,7 @@
 class Loaders {
 	/**
 	 * @constructor
-	 * @param {boolean} [enableDebugMode=false] - Enable debug mode to display load or error notifications in console.
+	 * @param {Boolean} [enableDebugMode=false] - Enable debug mode to display load or error notifications in console.
 	 */
 	constructor(enableDebugMode = false) {
 		this._files = [];
@@ -18,9 +18,9 @@ class Loaders {
 	}
 
 	/**
-	 * Type checking.
+	 * Type checking. Allowed values: "level", "language", "spriteSheet"
 	 * @private
-	 * @param {string} type 
+	 * @param {String} type 
 	 */
 	_checkFileType(type) {
 		return type === "level" || type === "language" || type === "spriteSheet";
@@ -28,8 +28,8 @@ class Loaders {
 
 	/**
 	 * Load one JSON file.
-	 * @param {string} fileType - File type. Can access only types "level", "language" and "spriteSheet".
-	 * @param {string} filePath - Defines a file's path. 
+	 * @param {String} fileType - File type. Can access only types "level", "language" and "spriteSheet".
+	 * @param {String} filePath - Defines a file's path. 
 	 * @throws Will throw an error if the "fileType" argument is not equals "level" or "language" or "spriteSheet".
 	 */
 	jsonFile(fileType, filePath) {
@@ -69,8 +69,8 @@ class Loaders {
 
 	/**
 	 * Load multiple JSON files.
-	 * @param {string} filesType 
-	 * @param {string} filesPath 
+	 * @param {String} filesType 
+	 * @param {String} filesPath 
 	 */
 	jsonFiles(filesType, filesPath) {
 		const xml = this._xml;

@@ -13,10 +13,10 @@ import Camera from "./Camera.js";
 class App {
 	/**
 	 * @constructor
-	 * @param {string} [title=RPGinia app] - App's title.
+	 * @param {String} [title=RPGinia app] - App's title.
 	 * @param {Object} [canvas=document.querySelector("canvas")] - App's playground.
 	 * @param {Array} [sizes=[800, 600]] - Playground sizes. First element - width, second element - height.
-	 * @param {boolean} [isImageSmoothingEnabled=false] - Image smoothing.
+	 * @param {Boolean} [isImageSmoothingEnabled=false] - Image smoothing.
 	 */
 	constructor(title = "RPGinia app", canvas = document.querySelector("canvas"), sizes = [800, 600], isImageSmoothingEnabled = false) {
 		this._title = title;
@@ -100,7 +100,7 @@ class App {
 
 	/**
 	 * Adds a global variable into an global variables array.
-	 * @param {string} name - The name of a global variable. 
+	 * @param {String} name - The name of a global variable. 
 	 * @param {*} value - The value of a global variable.
 	 * @returns {*} The value of a created global variable.
 	 */
@@ -111,7 +111,7 @@ class App {
 
 	/**
 	 * Gets a value of global variable by name.
-	 * @param {string} name - Searched global variable name.
+	 * @param {String} name - Searched global variable name.
 	 * @returns {*} The value of searched global variable.
 	 */
 	getGlobalVariable(name) {

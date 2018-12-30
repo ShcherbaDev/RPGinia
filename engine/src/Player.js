@@ -7,7 +7,7 @@ class Player {
     /**
      * @constructor
      * @param {Object} spriteSheet - Information about sprite sheet with sprites data.
-     * @param {number[]} sizes - In-game sizes. If they are not defined - takes them from the sprite sheet.
+     * @param {Number[]} sizes - In-game sizes. If they are not defined - takes them from the sprite sheet.
      */
     constructor(spriteSheet, sizes) {
         this._spriteSheet = spriteSheet !== undefined && typeof spriteSheet === "object" ? spriteSheet : null;
