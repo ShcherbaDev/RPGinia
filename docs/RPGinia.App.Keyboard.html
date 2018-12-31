@@ -3,7 +3,7 @@
 <head>
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width,initial-scale=1">
-    <title>Loaders - Documentation</title>
+    <title>Keyboard - Documentation</title>
 
     <script src="scripts/prettify/prettify.js"></script>
     <script src="scripts/prettify/lang-css.js"></script>
@@ -29,7 +29,7 @@
 
 <div id="main">
     
-    <h1 class="page-title">Loaders</h1>
+    <h1 class="page-title">Keyboard</h1>
     
 
     
@@ -44,10 +44,10 @@
         <h2>
             <span class="ancestors"><a href="RPGinia.html">RPGinia</a><a href="RPGinia.App.html">.App</a>.</span>
         
-        Loaders
+        Keyboard
         </h2>
         
-            <div class="class-description">Class for loading files. Mostly JSON files.</div>
+            <div class="class-description">Keyboard event handler class</div>
         
     
 </header>
@@ -62,7 +62,7 @@
     <h2>Constructor</h2>
     
 
-    <h4 class="name" id="Loaders"><span class="type-signature"></span>new Loaders<span class="signature">(enableDebugMode<span class="signature-attributes">opt</span>)</span><span class="type-signature"></span></h4>
+    <h4 class="name" id="Keyboard"><span class="type-signature"></span>new Keyboard<span class="signature">(debugModeEnable<span class="signature-attributes">opt</span>)</span><span class="type-signature"></span></h4>
 
     
 
@@ -101,7 +101,7 @@
     
     <dt class="tag-source">Source:</dt>
     <dd class="tag-source"><ul class="dummy"><li>
-        <a href="Loaders.js.html">Loaders.js</a>, <a href="Loaders.js.html#line12">line 12</a>
+        <a href="Keyboard.js.html">Keyboard.js</a>, <a href="Keyboard.js.html#line6">line 6</a>
     </li></ul></dd>
     
 
@@ -149,7 +149,7 @@
 
         <tr>
             
-                <td class="name"><code>enableDebugMode</code></td>
+                <td class="name"><code>debugModeEnable</code></td>
             
 
             <td class="type">
@@ -182,7 +182,7 @@
             
 
             <td class="description last">
-                Enable debug mode to display load or error notifications in console.
+                Debug mode for key press notifications.
                 
             </td>
         </tr>
@@ -226,13 +226,13 @@
         
             
 <div class="section-members">
-<h4 class="name" id="files"><span class="type-signature">(readonly) </span>files<span class="type-signature"> :Array.&lt;Object></span></h4>
+<h4 class="name" id="keys"><span class="type-signature">(readonly) </span>keys<span class="type-signature"> :Array</span></h4>
 
 
 
 
 <div class="description">
-    Get an array of files.
+    Get a keys array added via Keyboard.addKey().
 </div>
 
 
@@ -268,7 +268,7 @@
     
     <dt class="tag-source">Source:</dt>
     <dd class="tag-source"><ul class="dummy"><li>
-        <a href="Loaders.js.html">Loaders.js</a>, <a href="Loaders.js.html#line184">line 184</a>
+        <a href="Keyboard.js.html">Keyboard.js</a>, <a href="Keyboard.js.html#line87">line 87</a>
     </li></ul></dd>
     
 
@@ -285,229 +285,7 @@
     <ul>
         <li>
             
-<span class="param-type"><code>Array.&lt;Object></code></span>
-
-
-        </li>
-    </ul>
-
-
-
-
-
-</div>
-
-        
-            
-<div class="section-members">
-<h4 class="name" id="languages"><span class="type-signature">(readonly) </span>languages<span class="type-signature"> :Array.&lt;Object></span></h4>
-
-
-
-
-<div class="description">
-    Get an array of loaded languages.
-</div>
-
-
-
-
-
-<dl class="details">
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-    <dt class="tag-source">Source:</dt>
-    <dd class="tag-source"><ul class="dummy"><li>
-        <a href="Loaders.js.html">Loaders.js</a>, <a href="Loaders.js.html#line156">line 156</a>
-    </li></ul></dd>
-    
-
-    
-
-    
-
-    
-</dl>
-
-
-
-    <h5>Type:</h5>
-    <ul>
-        <li>
-            
-<span class="param-type"><code>Array.&lt;Object></code></span>
-
-
-        </li>
-    </ul>
-
-
-
-
-
-</div>
-
-        
-            
-<div class="section-members">
-<h4 class="name" id="levels"><span class="type-signature">(readonly) </span>levels<span class="type-signature"> :Array.&lt;Object></span></h4>
-
-
-
-
-<div class="description">
-    Get an array of loaded levels.
-</div>
-
-
-
-
-
-<dl class="details">
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-    <dt class="tag-source">Source:</dt>
-    <dd class="tag-source"><ul class="dummy"><li>
-        <a href="Loaders.js.html">Loaders.js</a>, <a href="Loaders.js.html#line142">line 142</a>
-    </li></ul></dd>
-    
-
-    
-
-    
-
-    
-</dl>
-
-
-
-    <h5>Type:</h5>
-    <ul>
-        <li>
-            
-<span class="param-type"><code>Array.&lt;Object></code></span>
-
-
-        </li>
-    </ul>
-
-
-
-
-
-</div>
-
-        
-            
-<div class="section-members">
-<h4 class="name" id="spriteSheets"><span class="type-signature">(readonly) </span>spriteSheets<span class="type-signature"> :Array.&lt;Object></span></h4>
-
-
-
-
-<div class="description">
-    Get an array of loaded sprite sheets.
-</div>
-
-
-
-
-
-<dl class="details">
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-    <dt class="tag-source">Source:</dt>
-    <dd class="tag-source"><ul class="dummy"><li>
-        <a href="Loaders.js.html">Loaders.js</a>, <a href="Loaders.js.html#line170">line 170</a>
-    </li></ul></dd>
-    
-
-    
-
-    
-
-    
-</dl>
-
-
-
-    <h5>Type:</h5>
-    <ul>
-        <li>
-            
-<span class="param-type"><code>Array.&lt;Object></code></span>
+<span class="param-type"><code>Array</code></span>
 
 
         </li>
@@ -531,14 +309,14 @@
 
     
 
-    <h4 class="name" id="jsonFile"><span class="type-signature"></span>jsonFile<span class="signature">(fileType, filePath)</span><span class="type-signature"></span></h4>
+    <h4 class="name" id="addKey"><span class="type-signature"></span>addKey<span class="signature">(key, keyCode)</span><span class="type-signature"></span></h4>
 
     
 
 
 
 <div class="description">
-    Load one JSON file.
+    Adds a key to an array.
 </div>
 
 
@@ -574,7 +352,7 @@
     
     <dt class="tag-source">Source:</dt>
     <dd class="tag-source"><ul class="dummy"><li>
-        <a href="Loaders.js.html">Loaders.js</a>, <a href="Loaders.js.html#line57">line 57</a>
+        <a href="Keyboard.js.html">Keyboard.js</a>, <a href="Keyboard.js.html#line57">line 57</a>
     </li></ul></dd>
     
 
@@ -618,7 +396,7 @@
 
         <tr>
             
-                <td class="name"><code>fileType</code></td>
+                <td class="name"><code>key</code></td>
             
 
             <td class="type">
@@ -635,7 +413,7 @@
             
 
             <td class="description last">
-                File type. Can access only types "level", "language" and "spriteSheet".
+                Keys name.
                 
             </td>
         </tr>
@@ -644,13 +422,13 @@
 
         <tr>
             
-                <td class="name"><code>filePath</code></td>
+                <td class="name"><code>keyCode</code></td>
             
 
             <td class="type">
             
                 
-<span class="param-type"><code>String</code></span>
+<span class="param-type"><code>Number</code></span>
 
 
             
@@ -661,7 +439,7 @@
             
 
             <td class="description last">
-                Defines a file path.
+                Keys code. To find desired key code, turn on the debug mode in constructor.
                 
             </td>
         </tr>
@@ -680,21 +458,6 @@
 
 
 
-
-<div class="section-throws">
-<h5>Throws:</h5>
-
-        
-
-    <div class="param-desc">
-    
-        Will throw an error if the "fileType" argument is not equals "level" or "language" or "spriteSheet".
-    
-    </div>
-
-
-    
-</div>
 
 
 
@@ -707,14 +470,14 @@
 
     
 
-    <h4 class="name" id="jsonFiles"><span class="type-signature"></span>jsonFiles<span class="signature">(filesType, filesPath)</span><span class="type-signature"></span></h4>
+    <h4 class="name" id="isPressed"><span class="type-signature"></span>isPressed<span class="signature">(key)</span><span class="type-signature"> &rarr; {Boolean}</span></h4>
 
     
 
 
 
 <div class="description">
-    Load multiple JSON files.
+    Checking if a key is pressed. Using in a game loop.
 </div>
 
 
@@ -750,7 +513,7 @@
     
     <dt class="tag-source">Source:</dt>
     <dd class="tag-source"><ul class="dummy"><li>
-        <a href="Loaders.js.html">Loaders.js</a>, <a href="Loaders.js.html#line98">line 98</a>
+        <a href="Keyboard.js.html">Keyboard.js</a>, <a href="Keyboard.js.html#line80">line 80</a>
     </li></ul></dd>
     
 
@@ -794,7 +557,7 @@
 
         <tr>
             
-                <td class="name"><code>filesType</code></td>
+                <td class="name"><code>key</code></td>
             
 
             <td class="type">
@@ -811,33 +574,7 @@
             
 
             <td class="description last">
-                Files type. Can access only types "level", "language" and "spriteSheet".
-                
-            </td>
-        </tr>
-
-    
-
-        <tr>
-            
-                <td class="name"><code>filesPath</code></td>
-            
-
-            <td class="type">
-            
-                
-<span class="param-type"><code>Array.&lt;String></code></span>
-
-
-            
-            </td>
-
-            
-
-            
-
-            <td class="description last">
-                Files pathes array.
+                Desired key. Must be in array with keys via Keyboard.addKey().
                 
             </td>
         </tr>
@@ -857,20 +594,191 @@
 
 
 
-<div class="section-throws">
-<h5>Throws:</h5>
+
+
+<div class="section-returns">
+<h5>Returns:</h5>
 
         
 
-    <div class="param-desc">
-    
-        Will throw an error if the "filesType" argument is not equals "level" or "language" or "spriteSheet".
-    
-    </div>
+<dl class="param-type">
+    <dt>
+        Type:
+    </dt>
+    <dd>
+        
+<span class="param-type"><code>Boolean</code></span>
 
+
+    </dd>
+</dl>
+
+
+<div class="param-desc">
+    Is key pressed or not.
+</div>
 
     
 </div>
+
+
+
+</div>
+        
+            
+<div class="section-method">
+
+    
+
+    <h4 class="name" id="pressEvent"><span class="type-signature"></span>pressEvent<span class="signature">(callback, key)</span><span class="type-signature"></span></h4>
+
+    
+
+
+
+<div class="description">
+    Allows you to do a callback when you press a button.
+</div>
+
+
+
+
+
+<dl class="details">
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+    <dt class="tag-source">Source:</dt>
+    <dd class="tag-source"><ul class="dummy"><li>
+        <a href="Keyboard.js.html">Keyboard.js</a>, <a href="Keyboard.js.html#line71">line 71</a>
+    </li></ul></dd>
+    
+
+    
+
+    
+
+    
+</dl>
+
+
+
+
+
+
+
+
+
+    <h5>Parameters:</h5>
+    
+
+<table class="params">
+    <thead>
+    <tr>
+        
+        <th>Name</th>
+        
+
+        <th>Type</th>
+
+        
+
+        
+
+        <th class="last">Description</th>
+    </tr>
+    </thead>
+
+    <tbody>
+    
+
+        <tr>
+            
+                <td class="name"><code>callback</code></td>
+            
+
+            <td class="type">
+            
+                
+<span class="param-type"><code>function</code></span>
+
+
+            
+            </td>
+
+            
+
+            
+
+            <td class="description last">
+                The callback will work if user has pressed the desired key.
+                
+            </td>
+        </tr>
+
+    
+
+        <tr>
+            
+                <td class="name"><code>key</code></td>
+            
+
+            <td class="type">
+            
+                
+<span class="param-type"><code>String</code></span>
+
+
+            
+            </td>
+
+            
+
+            
+
+            <td class="description last">
+                The key that will do callback. Must be in array with keys via Keyboard.addKey().
+                
+            </td>
+        </tr>
+
+    
+    </tbody>
+</table>
+
+
+
+
+
+
+
+
+
+
+
 
 
 
