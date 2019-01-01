@@ -8,7 +8,7 @@ class World {
 
 		this._app = null;
 		this._keyboard = null;
-		this._lanugages = null;
+		this._languages = null;
 		this._audio = null;
 		this._player = null;
 		this._camera = null;
@@ -18,21 +18,21 @@ class World {
 		this._appPath = this.__proto__.appPath;
 	}
 
-	_doController(item) {
-		if(this._levels[item].data.settings.controllerPath && item === this._levels[item].id) {
-			if(!this._levels[item].controller) {
+	_doController(levelId) {
+		if(this._levels[levelId].data.settings.controllerPath !== undefined && levelId === this._levels[levelId].id) {
+			if(!this._levels[levelId].controller) {
 				let xml = new XMLHttpRequest();
 	
 				xml.onreadystatechange = () => {
 					if(xml.readyState === 4)
-						this._levels[item].controller = eval(`(${xml.responseText})`);
+						this._levels[levelId].controller = eval(`(${xml.responseText})`);
 				}
 	
-				xml.open("get", this._appPath + this._levels[item].data.settings.controllerPath, false);
+				xml.open("get", this._appPath + this._levels[levelId].data.settings.controllerPath, false);
 				xml.send();
 			}
-
-			this._levels[this._currentLevelId].controller({
+			
+			this._levels[levelId].controller({
 				app: this._app,
 				world: this, 
 				languages: this._languages,
@@ -56,6 +56,22 @@ class World {
 		xml.send();
 	}
 
+	_getReadyObjects(levelId, elementId) {
+		// Sort elements
+		this._levels[levelId].data.elements.sort((a, b) => {
+			if(a.layer > b.layer) 
+				return 1;
+
+			if(a.layer < b.layer) 
+				return -1;
+
+			return 0;
+		});
+
+		// Controller init
+		this._doController(levelId);
+	}
+
 	initialize(options) {
 		// Elements init
 		this._app = options.app || null;
@@ -74,13 +90,69 @@ class World {
 
 			for(let i in this._levels) {
 				// Giving an ID for each level
-				this._levels[i].id = parseInt(i);
+				this._levels[i].id = i;
 				
 				// Adding a sprite sheet for each level
 				if(this._levels[i].data.settings.spriteSheetPath) {
 					this._openSpriteSheet(i);
-					
-					for(let j in this._levels[i].data.elements) {
+				}
+				
+				// Set up properties to default values.
+				for(let j in this._levels[i].data.elements) {
+					if(this._levels[i].data.elements[j].borderCoords === undefined) {
+						this._levels[i].data.elements[j].borderCoords = [
+							this._levels[i].data.elements[j].coords[0],
+							this._levels[i].data.elements[j].coords[1]
+						];
+					}
+
+					if(this._levels[i].data.elements[j].type === "text" && !this._levels[i].data.elements[j].coords[2]) {
+						this._context.font = `${this._levels[i].data.elements[j].settings.size}px "${this._levels[i].data.elements[j].settings.font}"`;
+						this._levels[i].data.elements[j].coords[2] = this._context.measureText(this._levels[i].data.elements[j].settings.text).width;
+					}
+
+					if(this._levels[i].data.elements[j].type === "text" && !this._levels[i].data.elements[j].coords[3]) {
+						this._context.font = `${this._levels[i].data.elements[j].settings.size}px "${this._levels[i].data.elements[j].settings.font}"`;
+						this._levels[i].data.elements[j].coords[3] = this._levels[i].data.elements[j].settings.size;
+					}
+
+					if(this._levels[i].data.elements[j].centralPointCooords === undefined) {
+						this._levels[i].data.elements[j].centralPointCoords = [
+							this._levels[i].data.elements[j].coords[2].toFixed(0)/2,
+							this._levels[i].data.elements[j].coords[3].toFixed(0)/2
+						];
+					}
+
+					// Setting up a width and height for texts.
+					if(this._levels[i].data.elements[j].type === "text") {
+						this._context.font = `${this._levels[i].data.elements[j].settings.size}px "${this._levels[i].data.elements[j].settings.font}"`;
+
+						if(this._levels[i].data.elements[j].settings.horizontalAlign === undefined)
+							this._levels[i].data.elements[j].settings.horizontalAlign = "center";
+
+						this._levels[i].data.elements[j].borderCoords[1] -= this._levels[i].data.elements[j].settings.size/2;
+						this._levels[i].data.elements[j].centralPointCoords[1] -= this._levels[i].data.elements[j].settings.size/2;
+
+						if(this._levels[i].data.elements[j].settings.horizontalAlign === "center") {
+							this._levels[i].data.elements[j].borderCoords[0] -= this._levels[i].data.elements[j].coords[2]/2;
+							this._levels[i].data.elements[j].centralPointCoords[0] -= this._levels[i].data.elements[j].coords[2]/2;
+						}
+
+						if(this._levels[i].data.elements[j].settings.horizontalAlign === "right") {
+							this._levels[i].data.elements[j].borderCoords[0] -= this._levels[i].data.elements[j].coords[2];
+							this._levels[i].data.elements[j].centralPointCoords[0] -= this._levels[i].data.elements[j].coords[2];
+						}
+					}
+
+					// Setting up a "layer" property to default value, if it's not defined.
+					if(this._levels[i].data.elements[j].layer === undefined)
+						this._levels[i].data.elements[j].layer = 1;
+
+					// Setting up a "isVisible" property to default value, if it's not defined.
+					if(this._levels[i].data.elements[j].isVisible === undefined)
+						this._levels[i].data.elements[j].isVisible = true;
+
+					if(this._levels[i].data.settings.spriteSheetPath) {
 						if(this._levels[i].data.elements[j].type === "sprite") {
 							if(this._levels[i].spriteSheets[this._levels[i].data.elements[j].spriteSheetIndex].sprites[this._levels[i].data.elements[j].spriteIndex].frames) {
 								if(!this._levels[i].data.elements[j].frameFrom)
@@ -128,60 +200,27 @@ class World {
 							this._levels[i].data.elements[j].image = new Image();
 							this._levels[i].data.elements[j].isLoaded = false;
 							this._levels[i].data.elements[j].image.onload = () => {
-								this._levels[i].data.elements[j].isLoaded = true;
+								this._levels[i].data.elements[j].isLoaded = true;	
+								
+								if(this.allElementsInLevelLoaded()) {
+									this._getReadyObjects(i, j);
+								}
 							}
-							this._levels[i].data.elements[j].image.src = this._appPath + this._levels[i].spriteSheets[this._levels[i].data.elements[j].spriteSheetIndex].file
-						}
-					}
-				}
-
-				for(let j in this._levels[i].data.elements) {
-					// Setting up a "layer" property to default value, if it's not defined.
-					if(this._levels[i].data.elements[j].layer === undefined)
-						this._levels[i].data.elements[j].layer = 1;
-
-					// Setting up a "isVisible" property to default value, if it's not defined.
-					if(this._levels[i].data.elements[j].isVisible === undefined)
-						this._levels[i].data.elements[j].isVisible = true;
-
-					// Setting up a width and height for texts.
-					if(this._levels[i].data.elements[j].type === "text") {
-						if(!this._levels[i].data.elements[j].coords[2])
-							this._levels[i].data.elements[j].coords[2] = this._context.measureText(this._levels[i].data.elements[j].settings.text).width;
-
-						if(!this._levels[i].data.elements[j].coords[3]) 
-							this._levels[i].data.elements[j].coords[3] = this._levels[i].data.elements[j].settings.size;
+							this._levels[i].data.elements[j].image.src = this._appPath + this._levels[i].spriteSheets[this._levels[i].data.elements[j].spriteSheetIndex].file;	
+						}					
 					}
 
-					if(this._levels[i].data.elements[j].centralPointCooords === undefined) {
-						this._levels[i].data.elements[j].centralPointCoords = [
-							this._levels[i].data.elements[j].coords[2].toFixed(0)/2,
-							this._levels[i].data.elements[j].coords[3].toFixed(0)/2
-						];
+					else {
+						this._getReadyObjects(i, j);
 					}
-				}
-
-				if(this.allElementsInLevelLoaded(i)) {
-					// Sorting elements
-					this._levels[i].data.elements.sort((a, b) => {
-						if(a.layer > b.layer)
-							return 1;
-			
-						if(a.layer < b.layer)
-							return -1;
-			
-						return 0;
-					});
 				}
 			}
 		}
+		
 		else
 			throw new Error("Levels are not defined!\nPlease connect at least one level to eliminate this error.");
 
 		this._currentLevelId = options.currentLevelId || 0;
-
-		// Controller init
-		this._doController(this._currentLevelId);
 	}
 
 	_isObjectVisible(currentLevelObjects, objectIndex, padding) {
@@ -194,24 +233,20 @@ class World {
 		return currentLevelObjects[objectIndex].isVisible;
 	}
 
-	allElementsInLevelLoaded(levelId) {
-		if(this._levels[levelId].data.elements) {
-			let loadedLevelsElementsArr = [];
-			let spriteElements = [];
+	allElementsInLevelLoaded(levelId = this._currentLevelId) {
+		let spriteElements = [];
+		let loadedLevelsElementsArr = [];
 
-			for(let i in this._levels[levelId].data.elements) {
-				if(this._levels[levelId].data.elements[i].type === "sprite") {
-					spriteElements.push(i)
-				}
-
-				if(this._levels[levelId].data.elements[i].type === "sprite" && this._levels[levelId].data.elements[i].isLoaded)
-					loadedLevelsElementsArr.push(i);
+		for(let i in this._levels[levelId].data.elements) {
+			if(this._levels[levelId].data.elements[i].type === "sprite" && this._levels[levelId].data.elements[i].isLoaded) {
+				loadedLevelsElementsArr.push(i);
 			}
-			return loadedLevelsElementsArr.length === spriteElements.length;
+
+			if(this._levels[levelId].data.elements[i].type === "sprite")
+				spriteElements.push(i);
 		}
-		else {
-			throw new Error(`There are not any elements in the ${this._levels[levelId].data.settings.name} level.`)
-		}
+
+		return spriteElements.length === loadedLevelsElementsArr.length;
 	}
 
 	draw() {
@@ -261,16 +296,26 @@ class World {
 					this._context.fillStyle = textSettings.color || "red";
 					this._context.font = `${textSettings.size}px "${textSettings.font}"`;
 					
-					this._context.textAlign = textSettings.horizontalAlign || "center";
-					this._context.textBaseline = textSettings.verticalAlign || "middle";
+					this._context.textAlign = textSettings.horizontalAlign;
+					this._context.textBaseline = "middle";
 					this._context.fillText(textSettings.text, elementsInLevel[i].coords[0], elementsInLevel[i].coords[1])
 				}
 
 				if(this._debugMode) {
+					// Draw borders of elements
+					this._context.strokeStyle = "blue";
+					this._context.lineWidth = 3;
+					this._context.strokeRect(
+						elementsInLevel[i].borderCoords[0], elementsInLevel[i].borderCoords[1], 
+						elementsInLevel[i].coords[2], elementsInLevel[i].coords[3]);
+					this._context.lineWidth = 1;
+					this._context.strokeStyle = "black";
+
+					// Draw central points of elements
 					this._context.fillStyle = "red";
 					this._context.fillRect(
-						elementsInLevel[0] + elementsInLevel[i].centralPointCoords[0]-5, 
-						elementsInLevel[1] + elementsInLevel[i].centralPointCoords[1]-5, 
+						elementsInLevel[i].coords[0] + elementsInLevel[i].centralPointCoords[0]-5, 
+						elementsInLevel[i].coords[1] + elementsInLevel[i].centralPointCoords[1]-5, 
 						10, 10);
 					this._context.fillStyle = "black";
 				}

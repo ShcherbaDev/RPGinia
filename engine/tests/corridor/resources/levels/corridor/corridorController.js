@@ -26,12 +26,9 @@ function controller(api) {
                 api.camera.rotate(1);
             }
         
-            if(api.keyboard.isPressed("shift"))
-                camSpeed = 20;
-            else if(api.keyboard.isPressed("controlLeft"))
-                camSpeed = 2;
-            else
-                camSpeed = 5;
+            if(api.keyboard.isPressed("shift")) camSpeed = 20;
+            else if(api.keyboard.isPressed("controlLeft")) camSpeed = 2;
+            else camSpeed = 5;
 
             requestAnimationFrame(handleKeyboard);
         }

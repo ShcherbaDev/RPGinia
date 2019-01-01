@@ -31,6 +31,9 @@ class Camera {
         for(let i in levelElements) {
             levelElements[i].coords[0] += x;
             levelElements[i].coords[1] += y;
+
+            levelElements[i].borderCoords[0] += x;
+            levelElements[i].borderCoords[1] += y;
         }
     }
     

@@ -56,6 +56,7 @@ class Loaders {
 	 */
 	jsonFile(fileType, filePath) {
 		const xml = this._xml;
+		let lastFile;
 
 		if(this._checkFileType(fileType)) {
 			xml.onreadystatechange = () => {
@@ -66,23 +67,27 @@ class Loaders {
 						path: this._appPath + filePath,
 						data: {}
 					});
+
+					lastFile = this._files[this._files.length-1];
 				}
 
 				if(xml.readyState === 4) {
-					this._files[this._files.length-1].data = JSON.parse(xml.responseText);
-					this._files[this._files.length-1].isLoaded = true;
+					const output = JSON.parse(xml.responseText);
+
+					lastFile.data = output;
+					lastFile.isLoaded = true;
 
 					if(this._debugMode)
-						console.info(`${fileType.charAt(0).toUpperCase()}${fileType.substring(1)} file loaded: ${this._appPath + filePath}`);
+						console.info(`${fileType} file loaded: ${this._appPath + filePath}`);
 
-					return this._files[this._files.length - 1];
+					return lastFile;
 				}
 			}
 
 			xml.open("get", this._appPath + filePath, false);
 			xml.send();
 
-			return this._files[this._files.length - 1];
+			return lastFile;
 		}
 
 		else
