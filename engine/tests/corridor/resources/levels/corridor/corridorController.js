@@ -8,23 +8,29 @@ function controller(api) {
     //     api.world.level = "Menu";
     // }, 1000);
 
+    console.log(false)
+
     function handleKeyboard() {
         if(api.world.currentLevel.data.settings.name === "Last corridor") {
-            if(api.keyboard.isPressed("arrLeft") && !api.keyboard.isPressed("space")) {
-                api.camera.move(camSpeed, 0);
+            if(api.keyboard.isPressed("arrLeft")) {
+                if(!api.keyboard.isPressed("space"))
+                    api.camera.move(camSpeed, 0);
+                else
+                    api.camera.rotate(-1);
             }
 
-            if(api.keyboard.isPressed("arrRight") && !api.keyboard.isPressed("space")) {
-                api.camera.move(-camSpeed, 0);
+            if(api.keyboard.isPressed("arrRight")) {
+                if(!api.keyboard.isPressed("space"))
+                    api.camera.move(-camSpeed, 0);
+                else
+                    api.camera.rotate(1); 
             }
 
-            if(api.keyboard.isPressed("space") && api.keyboard.isPressed("arrLeft")) {
-                api.camera.rotate(-1);
-            }
+            if(api.keyboard.isPressed("arrUp"))
+                api.camera.move(0, camSpeed);
 
-            if(api.keyboard.isPressed("space") && api.keyboard.isPressed("arrRight")) {
-                api.camera.rotate(1);
-            }
+            if(api.keyboard.isPressed("arrDown"))
+                api.camera.move(0, -camSpeed);
         
             if(api.keyboard.isPressed("shift")) camSpeed = 20;
             else if(api.keyboard.isPressed("controlLeft")) camSpeed = 2;

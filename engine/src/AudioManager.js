@@ -65,7 +65,7 @@ class AudioManager {
 	 * Starts audio playback.
 	 * @param {String} name - Audio's name to play
 	 */
-	playAudio(name) {
+	play(name) {
 		const selectedAudio = this._list[this._list.findIndex(e => e.name === name)].audio;
 
         selectedAudio.volume = this._list[this._list.findIndex(e => e.name === name)].volume;
@@ -76,7 +76,7 @@ class AudioManager {
 	 * Pausing audio playback.
 	 * @param {String} name - Audio's name to pause.
 	 */
-	pauseAudio(name) {
+	pause(name) {
 		this._list[this._list.findIndex(e => e.name === name)].audio.pause();
 	}
 
@@ -84,7 +84,7 @@ class AudioManager {
 	 * Stops audio playback and setting up time to start.
 	 * @param {String} name - Audio's name to stop.
 	 */
-	stopAudio(name) {
+	stop(name) {
 		this._list[this._list.findIndex(e => e.name === name)].audio.pause();
 		this._list[this._list.findIndex(e => e.name === name)].audio.currentTime = 0;
 	}

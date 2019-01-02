@@ -1,6 +1,7 @@
 {
     "settings": {
         "name": "Choose the language",
+        "background": "#000000",
         "controllerPath": "/resources/levels/set_language/languagesController.js",
         "spriteSheetPath": "/resources/sprites/spriteSheets.json"
     },
@@ -25,7 +26,7 @@
             "spriteSheetIndex": 0,
             "spriteIndex": 0,
             "coords": [90, 230, 180, 100],
-            "layer": 1
+            "layer": 2
         },
         {
             "name": "Russian",
@@ -33,7 +34,7 @@
             "spriteSheetIndex": 0,
             "spriteIndex": 1,
             "coords": [310, 230, 180, 100],
-            "layer": 1
+            "layer": 2
         },
         {
             "name": "Ukrainian",
@@ -55,8 +56,8 @@
                 "horizontalAlign": "center",
                 "verticalAlign": "top"
             },
-            "coords": [180, 340],
-            "layer": 1
+            "coords": [180, 360],
+            "layer": 3
         },
         {
             "name": "Russian label",
@@ -69,8 +70,8 @@
                 "horizontalAlign": "center",
                 "verticalAlign": "top"
             },
-            "coords": [400, 340],
-            "layer": 1
+            "coords": [400, 360],
+            "layer": 3
         },
         {
             "name": "Ukrainian label",
@@ -83,8 +84,8 @@
                 "horizontalAlign": "center",
                 "verticalAlign": "top"
             },
-            "coords": [620, 340],
-            "layer": 1
+            "coords": [620, 360],
+            "layer": 3
         }
     ]
 }

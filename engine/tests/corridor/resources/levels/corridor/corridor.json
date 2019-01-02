@@ -3,7 +3,7 @@
         "name": "Last corridor",
         "controllerPath": "/resources/levels/corridor/corridorController.js",
         "spriteSheetPath": "/resources/sprites/spriteSheets.json",
-        "background": "#000000"
+        "background": "cyan"
     },
     "elements": [   
         {

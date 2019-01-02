@@ -48,17 +48,18 @@ class Loaders {
 		return type === "level" || type === "language" || type === "spriteSheet";
 	}
 
-	/**
-	 * Load one JSON file.
-	 * @param {String} fileType - File type. Can access only types "level", "language" and "spriteSheet".
-	 * @param {String} filePath - Defines a file path. 
-	 * @throws Will throw an error if the "fileType" argument is not equals "level" or "language" or "spriteSheet".
-	 */
-	jsonFile(fileType, filePath) {
-		const xml = this._xml;
-		let lastFile;
+	_filterFiles(arr) {
+		let tmp = {};
+		return arr.filter(a => a.path in tmp ? 0 : tmp[a.path] = 1);
+	}
+
+	_loadSignleFile(filePath, fileType, callback) {
+		// let previousFile = this._files.length > 1 ? this._files.length-1 : 0;
+		// console.log(previousFile, this._files, this._files[previousFile]);
 
 		if(this._checkFileType(fileType)) {
+			const xml = this._xml;
+			let lastFile;
 			xml.onreadystatechange = () => {
 				if(xml.readyState === 1) {
 					this._files.push({
@@ -67,27 +68,180 @@ class Loaders {
 						path: this._appPath + filePath,
 						data: {}
 					});
-
 					lastFile = this._files[this._files.length-1];
 				}
 
 				if(xml.readyState === 4) {
 					const output = JSON.parse(xml.responseText);
-
+					lastFile.isLoaded = lastFile.type !== "level" ? true : false;
 					lastFile.data = output;
-					lastFile.isLoaded = true;
 
-					if(this._debugMode)
-						console.info(`${fileType} file loaded: ${this._appPath + filePath}`);
 
-					return lastFile;
+					return callback(output);
 				}
 			}
 
 			xml.open("get", this._appPath + filePath, false);
 			xml.send();
+		}
+	}
 
-			return lastFile;
+	/**
+	 * Load one JSON file.
+	 * @param {String} fileType - File type. Can access only types "level", "language" and "spriteSheet".
+	 * @param {String} filePath - Defines a file path. 
+	 * @throws Will throw an error if the "fileType" argument is not equals "level" or "language" or "spriteSheet".
+	 */
+	jsonFile(fileType, filePath) {
+		if(this._checkFileType(fileType)) {
+			const loadFile = this._loadSignleFile(filePath, fileType, (output) => {
+				let lastFile = this._files[this._files.length-1];
+				if(lastFile.type === "level" && output.settings.spriteSheetPath !== undefined) {
+					let spriteElements = [];
+					let loadedSpriteElements = [];
+
+					for(let i in output.elements) {
+						if(output.elements[i].type === "sprite") {
+							output.elements[i].image = new Image();
+							output.elements[i].isLoaded = false;
+							output.elements[i].image.onload = () => {
+								output.elements[i].isLoaded = true;
+								spriteElements.push(i);
+								loadedSpriteElements.push(i);
+							}
+							this._loadSignleFile(output.settings.spriteSheetPath, "spriteSheet", (response) => {
+								output.elements[i].image.src = this._appPath + response[output.elements[i].spriteSheetIndex].file;
+								if(spriteElements.length === loadedSpriteElements.length) {
+									lastFile.data = output;
+									return lastFile;
+								}
+							});
+						}
+					}
+				}
+
+				this._files = this._filterFiles(this._files);
+
+				return lastFile;
+			});
+			console.log(loadFile)
+			return loadFile;
+			// console.log(this._files);
+
+			// const xml = this._xml;
+			// let lastFile;
+			// xml.onreadystatechange = () => {
+			// 	if(xml.readyState === 1) {
+			// 		this._files.push({
+			// 			type: fileType,
+			// 			isLoaded: false,
+			// 			path: this._appPath + filePath,
+			// 			data: {}
+			// 		});
+	
+			// 		lastFile = this._files[this._files.length-1];
+			// 	}
+	
+			// 	if(xml.readyState === 4) {
+			// 		const output = JSON.parse(xml.responseText);
+					
+			// 		if(lastFile.type === "level" && output.settings.spriteSheetPath !== undefined) {
+			// 			for(let i in output.elements) {
+			// 				if(output.elements[i].type === "sprite") {
+			// 					output.elements[i].image = new Image();
+			// 					output.elements[i].isLoaded = false;
+			// 					output.elements[i].image.onload = () => {
+			// 						output.elements[i].isLoaded = true;
+			// 					}
+			// 					this._loadSignleFile(output.settings.spriteSheetPath, "spriteSheet", (response) => {
+			// 						output.elements[i].image.src = this._appPath + response[output.elements[i].spriteSheetIndex].file;
+			// 					});
+			// 				}
+			// 			}
+			// 		}
+			// 	}
+			// }
+			// xml.open("get", this._appPath + filePath, false);
+			// xml.send();
+
+
+
+			// this._loadSignleFile(filePath, fileType)
+			// 	.then(response => {
+			// 		if(fileType === "level" && response.settings.spriteSheetPath !== undefined) {
+			// 			for(let i in response.elements) {
+			// 				if(response.elements[i].type === "sprite") {
+			// 					this._loadSignleFile("spriteSheet", response.settings.spriteSheetPath).then(resp => {
+			// 						console.log("asd");
+			// 						// response.elements[i].image = new Image();
+			// 						// response.elements[i].image.onload = () => {
+
+			// 						// }
+								
+									
+			// 						// response.elements[i].image.src = 
+			// 					});
+								
+			// 					// response.elements[i].image.src = 
+			// 				}
+			// 			}
+			// 		}
+			// 		return response;
+
+			// 		// console.log(response, this._files);
+			// 	}).then(output => {
+			// 		console.log(output)
+			// 		return output;
+			// 	});
+
+			// xml.onreadystatechange = () => {
+			// 	if(xml.readyState === 1) {
+			// 		this._files.push({
+			// 			type: fileType,
+			// 			isLoaded: false,
+			// 			path: this._appPath + filePath,
+			// 			data: {}
+			// 		});
+
+			// 		lastFile = this._files[this._files.length-1];
+			// 	}
+
+			// 	if(xml.readyState === 4) {
+					
+			// 		const output = JSON.parse(xml.responseText);
+					
+			// 		if(fileType === "level" && output.settings.spriteSheetPath !== undefined) {
+			// 			console.log();
+			// 			for(let i in output.elements) {
+			// 				if(output.elements[i].type === "sprite") {
+			// 					output.elements[i].image = new Image();
+			// 					output.elements[i].isLoaded = false;
+			// 					output.elements[i].image.onload = () => {
+			// 						output.elements[i].isLoaded = true;
+			// 					}
+			// 					this._loadSignleFile(output.settings.spriteSheetPath, "spriteSheet")
+			// 						.then(response => {
+			// 							output.elements[i].image.src = this._appPath + response[0].file;
+			// 						});
+			// 				}
+			// 			}
+			// 		}
+
+			// 		lastFile.data = output;
+					
+					// lastFile.isLoaded = true;
+
+					// if(this._debugMode)
+					// 	console.info(`${fileType} file loaded: ${this._appPath + filePath}`);
+
+					// return lastFile;
+			// 	}
+			// }
+
+			// xml.open("get", this._appPath + filePath, false);
+			// // xml.send();
+
+			// return lastFile;
 		}
 
 		else
