@@ -21,20 +21,17 @@ kb.addKey("controlLeft", 17);
 audio.add("languageConfirm", "/resources/audio/languageConfirm.wav");
 
 const levelPaths = [
-    "/resources/levels/set_language/languages.json",
+    "/resources/levels/set_language/languagesView.json",
     "/resources/levels/corridor/corridor.json"
 ];
 
-
-
-// pl.spriteSheet = load.jsonFile("spriteSheet", "/resources/sprites/player/player.json");
+pl.spriteSheet = load.jsonFile("spriteSheet", "/resources/sprites/player/player.json");
 pl.sizes = [40, 55];
 
 world.initialize({
     app: app,
     levels: load.jsonFile("level", levelPaths[0]),
     keyboard: kb,
-    currentLevelId: 0,
     player: pl,
     camera: cam,
     audio: audio

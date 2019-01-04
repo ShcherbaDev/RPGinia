@@ -31,8 +31,10 @@ function controller(api) {
 
     languagesLabels[hoveredLanguage].settings.color = "yellow";
 
+    console.log(api.world.currentLevel.data.elements);
+
     api.keyboard.pressEvent(() => {
-        if(canChooseLanguage) {
+        // if(canChooseLanguage) {
             if(hoveredLanguage > 0) {
                 hoveredLanguage--;
                 languagesLabels[hoveredLanguage+1].settings.color = "white";
@@ -45,11 +47,11 @@ function controller(api) {
 
             chooseRect.coords[0] = flags[hoveredLanguage].coords[0]-5;
             languagesLabels[hoveredLanguage].settings.color = "yellow";
-        }
+        // }
     }, "arrLeft");
 
     api.keyboard.pressEvent(() => {
-        if(canChooseLanguage) {
+        // if(canChooseLanguage) {
             if(hoveredLanguage < flags.length-1) {
                 hoveredLanguage++;
                 languagesLabels[hoveredLanguage-1].settings.color = "white";
@@ -62,22 +64,23 @@ function controller(api) {
 
             chooseRect.coords[0] = flags[hoveredLanguage].coords[0]-5;
             languagesLabels[hoveredLanguage].settings.color = "yellow";
-        }
+        // }
+        // console.log(false)
     }, "arrRight");
 
     api.keyboard.pressEvent(() => {
-        if(canChooseLanguage) {
+        // if(canChooseLanguage) {
             console.log(languagesLabels[hoveredLanguage].settings.text);
-            // api.audio.play("languageConfirm");
+            api.audio.play("languageConfirm");
             canChooseLanguage = false;
 
             for(let i in api.world.currentLevel.data.elements) {
                 api.world.currentLevel.data.elements[i].isVisible = false;
             }
 
-            setTimeout(() => {
-                api.world.level = "Last corridor";
-            }, 2000);
-        }
+            // setTimeout(() => {
+                api.world.level = "/resources/levels/corridor/corridor.json";
+            // }, 2000);
+        // }
     }, "enter");
 }

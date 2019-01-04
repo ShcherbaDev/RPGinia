@@ -8,8 +8,6 @@ function controller(api) {
     //     api.world.level = "Menu";
     // }, 1000);
 
-    console.log(false)
-
     function handleKeyboard() {
         if(api.world.currentLevel.data.settings.name === "Last corridor") {
             if(api.keyboard.isPressed("arrLeft")) {

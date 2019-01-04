@@ -19,7 +19,6 @@
             },
             "coords": [400, 160]
         },
-
         {
             "name": "English",
             "type": "sprite",
@@ -44,7 +43,6 @@
             "coords": [530, 230, 180, 100],
             "layer": 2
         },
-
         {
             "name": "English label",
             "type": "text",
