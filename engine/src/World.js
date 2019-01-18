@@ -1,18 +1,14 @@
-import Loaders from "./Loaders.js";
-
 class World {
 	constructor(debugModeEnabled = false) {
 		this._levels = [];
 		this._currentLevelId = null;
 		this._previousLevelId = null;
-		this._spriteSheets = [];
 		this._controller = null;
-
-		this._loaders = new Loaders();
 
 		this._debugMode = debugModeEnabled;
 
 		this._app = null;
+		this._loaders = null;
 		this._keyboard = null;
 		this._languages = null;
 		this._audio = null;
@@ -24,41 +20,36 @@ class World {
 		this._appPath = this.__proto__.appPath;
 	}
 
-	_doController() {
+	_doController(levelId) {
+		// Notice:
+		// If you want to change the level, but there are keyboard 
+		// events or intervals at the current level, make sure that in
+		// pressEvent, isPressed and intervals includes checking for the
+		// current level name.
+
 		const levelList = this._levels;
 		let xml = new XMLHttpRequest();
 
 		xml.onreadystatechange = () => {
-			if(xml.readyState === 4) {
-				levelList[this._currentLevelId].controller = eval(`(${xml.responseText})`);
-			}
+			if(xml.readyState === 4)
+				levelList[levelId].controller = eval(`(${xml.responseText})`);
 		}
 
-		if(levelList[this._currentLevelId].controller === undefined) {
-			xml.open("get", this._appPath + levelList[this._currentLevelId].data.settings.controllerPath, false);
+		if(levelList[levelId].controller === undefined) {
+			xml.open("get", this._appPath + levelList[levelId].data.settings.controllerPath, false);
 			xml.send();
 		}
-		console.log(this._currentLevelId, this._previousLevelId);
-
-		if(this._currentLevelId === this._previousLevelId) {
-			return levelList[this._currentLevelId].controller({
-				app: this._app,
-				world: this, 
-				languages: this._languages,
-				keyboard: this._keyboard,
-				audio: this._audio,
-				player: this._player,
-				camera: this._camera
-			});
-		}
-
 		
-		// console.log(this._currentLevelId, this._previousLevelId, levelId);
-
-		// if(levelId !== this._previousLevelId) {
-		// 	console.log(true)
-		
-		// }
+		levelList[levelId].controller({
+			app: this._app,
+			world: this,
+			loaders: this._loaders,
+			languages: this._languages,
+			keyboard: this._keyboard,
+			audio: this._audio,
+			player: this._player,
+			camera: this._camera
+		});
 	}
 
 	_sortElements(levelId) {
@@ -188,7 +179,7 @@ class World {
 	_getReadyLevel(path) {
 		const levelList = this._levels;
 		this._previousLevelId = this._currentLevelId;
-		// console.log(levelList[levelList.findIndex(item => item.path === path)])
+		
 		if(levelList[levelList.findIndex(item => item.path === path)] === undefined) {
 			this._currentLevelId++;
 			levelList[this._currentLevelId] = this._loaders._loadLevel(path);
@@ -198,31 +189,19 @@ class World {
 		else
 			this._currentLevelId = levelList.findIndex(item => item.path === path)
 
-		// if(!levelList[this._currentLevelId]) {
-		// 	levelList[this._currentLevelId] = this._loaders._loadLevel(path);
-		// 	levelList[this._currentLevelId].id = this._currentLevelId;
-		// }
-
-		// this._currentLevelId = levelList.findIndex(item => item.path === path) || this._currentLevelId;
-		
-		// if(!levelList[this._currentLevelId]) {
-		// 	levelList[this._currentLevelId] = levelList[this._currentLevelId] === undefined ? this._loaders._loadLevel(path) : levelList[this._currentLevelId];
-		// 	levelList[this._currentLevelId].id = levelList.length;
-		// }
-		// console.log(levelList[this._currentLevelId])
 		for(let j in levelList[this._currentLevelId].data.elements) {
 			this._prepareObject(levelList[this._currentLevelId].data.elements[j])
 		}
+		this._sortElements(this._currentLevelId);
 
-		// this._sortElements(this._currentLevelId);
-		if(levelList[this._currentLevelId].data.settings.controllerPath !== undefined) {
+		if(levelList[this._currentLevelId].data.settings.controllerPath !== undefined)
 			this._doController(this._currentLevelId);
-		}
 	}
 
 	initialize(options) {
 		// Elements init
 		this._app = options.app || null;
+		this._loaders = options.loaders || null;
 		this._keyboard = options.keyboard || null;
 		this._languages = options.languages || null;
 		this._audio = options.audio || null;
@@ -244,15 +223,17 @@ class World {
 			throw new Error("Levels are not defined!\nPlease connect at least one level to eliminate this error.");
 	}
 
-	_isObjectVisible(currentLevelObjects, objectIndex, padding) {
-		currentLevelObjects[objectIndex].isVisible = 
-			currentLevelObjects[objectIndex].isVisible &&
-			currentLevelObjects[objectIndex].coords[0] <= this._canvas.width-padding &&
-			currentLevelObjects[objectIndex].coords[1] <= this._canvas.height-padding &&
-			currentLevelObjects[objectIndex].coords[0] + currentLevelObjects[objectIndex].coords[2] >= padding &&
-			currentLevelObjects[objectIndex].coords[1] + currentLevelObjects[objectIndex].coords[3] >= padding
-	
-		return currentLevelObjects[objectIndex].isVisible;
+	_isObjectVisible(object, padding) {
+		if(object.isVisible) {
+			return object.coords[0] <= this._canvas.width-padding &&
+				object.coords[1] <= this._canvas.height-padding &&
+				object.coords[0] + object.coords[2] >= padding &&
+				object.coords[1] + object.coords[3] >= padding;
+		}
+
+		else {
+			return false;
+		}
 	}
 
 	draw() {
@@ -275,7 +256,7 @@ class World {
 
 		// Level draw
 		for(let i in elementsInLevel) {
-			if(this._isObjectVisible(elementsInLevel, i, 0)) {
+			if(this._isObjectVisible(elementsInLevel[i], 0)) {
 				if(elementsInLevel[i].type === "rectangle") {
 					const rectSettings = elementsInLevel[i].settings;
 					this._context.fillStyle = rectSettings.fill;
@@ -385,28 +366,29 @@ class World {
 	}
 
 	deleteElement(name) {
-		const elementsInLevel = levelList[levelId].data.elements;
-		elementsInLevel.splice(
-			elementsInLevel.findIndex(item => item.name === name), 
-			1
-		);
-		this._sortElements(this._currentLevelId);
+		const elementsInLevel = this._levels[this._currentLevelId].data.elements;
+
+		if(elementsInLevel.findIndex(item => item.name === name) !== -1) {
+			elementsInLevel.splice(
+				elementsInLevel.findIndex(item => item.name === name), 
+				1
+			);
+			this._sortElements(this._currentLevelId);
+		}
+	
+		else
+			throw new Error(`Element with name "${name}" is not defined!`);
 	}
 
 	set level(levelPath) {
 		if(this._currentLevelId !== this._previousLevelId)
 			this._previousLevelId = this._currentLevelId;
 
-		// if(this._levels[this._levels.findIndex(item => item.path === levelPath)] === -1) {
-		// 	this._currentLevelId++;
-		// 	this._levels[this._currentLevelId] = this._loaders._loadLevel(path);
-		// 	this._levels[this._currentLevelId].id = this._currentLevelId;
-		// }
-		
 		this._getReadyLevel(this._appPath + levelPath);
 	}
 
 	get currentLevel() { return this._levels[this._currentLevelId] }
+	get currentLevelName() { return this._levels[this._currentLevelId].data.settings.name }
 	get currentLevelId() { return this._currentLevelId }
 	get levels() { return this._levels }
 }

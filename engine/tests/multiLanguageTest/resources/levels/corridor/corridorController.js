@@ -1,15 +1,18 @@
 function controller(api) {
-    // const firstLayerObjects = api.world.getElementsFromLayer(1);
-
     let camSpeed;
 
-    // Change level
-    // setTimeout(() => {
-    //     api.world.level = "Menu";
-    // }, 1000);
+    function checkLevel() {
+        return api.world.currentLevelName === "Last corridor";
+    }
+
+    console.log("Level corridor")
+    
+    api.keyboard.pressEvent(() => {
+        api.world.level = "/resources/levels/set_language/languagesView.json";
+    }, "enter");
 
     function handleKeyboard() {
-        if(api.world.currentLevel.data.settings.name === "Last corridor") {
+        if(checkLevel()) {
             if(api.keyboard.isPressed("arrLeft")) {
                 if(!api.keyboard.isPressed("space"))
                     api.camera.move(camSpeed, 0);

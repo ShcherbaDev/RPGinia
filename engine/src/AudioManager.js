@@ -48,6 +48,7 @@ class AudioManager {
 		const lastAudio = this._list[this._list.length-1];
 
 		lastAudio.audio.src = lastAudio.path;
+		lastAudio.audio.volume = lastAudio.volume;
 		lastAudio.audio.load();
 
 		// Audio end event
@@ -67,8 +68,6 @@ class AudioManager {
 	 */
 	play(name) {
 		const selectedAudio = this._list[this._list.findIndex(e => e.name === name)].audio;
-
-        selectedAudio.volume = this._list[this._list.findIndex(e => e.name === name)].volume;
 		selectedAudio.play();
 	}
 

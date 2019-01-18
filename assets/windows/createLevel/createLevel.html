@@ -1,0 +1,71 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="Content-Security-Policy" content="script-src 'self' 'sha256-FkYgl+pu8zemKM+z8EV9gmdRAcszCvCIWXIfXe3GS3U='">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>New level properties</title>
+    <link rel="stylesheet" href="../../css/main.css">
+    <link rel="stylesheet" href="../../css/themes/dark.css">
+</head>
+<body>
+    <div class="modal_content">
+        <div class="form_group">
+            <label for="levelName">Level name <sup class="required">*</sup></label>
+            <input type="text" class="form_control" id="levelName">
+        </div>
+        <div class="form_group">
+            <label for="projectPath">Project path <sup class="required">*</sup></label>
+            <div class="input_file">
+                <div class="path">
+                    <p class="file_path" id="projectPathField">Folder not choosed</p>
+                </div>
+                <div class="choose_button">
+                    <button id="projectPath">Choose</button>
+                </div>
+            </div>
+        </div>
+        <div class="form_group">
+            <label for="levelPath">Level path <sup class="required">*</sup></label>
+            <div class="input_file">
+                <div class="path">
+                    <p class="file_path" id="levelPathField">File not choosed</p>
+                </div>
+                <div class="choose_button">
+                    <button id="levelPath">Choose</button>
+                </div>
+            </div>
+        </div>
+        <div class="form_group">
+            <label for="spriteSheetPath">Sprite sheet path</label>
+            <div class="input_file">
+                <div class="path">
+                    <p class="file_path" id="spriteSheetPathField">File not choosed</p>
+                </div>
+                <div class="choose_button">
+                    <button id="spriteSheetPath">Choose</button>
+                </div>
+            </div>
+        </div>
+        <div class="form_group">
+            <label for="controllerPath">Level controller path</label>
+            <div class="input_file">
+                <div class="path">
+                    <p class="file_path" id="controllerPathField">File not choosed</p>
+                </div>
+                <div class="choose_button">
+                    <button id="controllerPath">Choose</button>
+                </div>
+            </div>
+        </div>
+        <div class="form_group justify_content_row">
+            <label for="levelBackgroundColor">Background color</label>
+            <input type="color" class="form_control" id="levelBackgroundColor">
+        </div>
+        <button class="bottom_right_button">Create</button>
+    </div>
+    <script>
+        require("./createLevel.js");
+    </script>
+</body>
+</html>

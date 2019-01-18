@@ -5,7 +5,6 @@ const app = new engine.App("Test RPGinia app");
 const load = new app.Loaders();
 const world = new app.World();
 const kb = new app.Keyboard();
-const pl = new app.Player();
 const cam = new app.Camera(world);
 const audio = new app.AudioManager();
 
@@ -19,20 +18,19 @@ kb.addKey("shift", 16);
 kb.addKey("controlLeft", 17);
 
 audio.add("languageConfirm", "/resources/audio/languageConfirm.wav");
+audio.add("phoneRing", "/resources/audio/ring.wav");
 
 const levelPaths = [
     "/resources/levels/set_language/languagesView.json",
+    "/resources/levels/dialog/dialogView.json",
     "/resources/levels/corridor/corridor.json"
 ];
 
-pl.spriteSheet = load.jsonFile("spriteSheet", "/resources/sprites/player/player.json");
-pl.sizes = [40, 55];
-
 world.initialize({
     app: app,
+    loaders: load,
     levels: load.jsonFile("level", levelPaths[0]),
     keyboard: kb,
-    player: pl,
     camera: cam,
     audio: audio
 });

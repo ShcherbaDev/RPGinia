@@ -40,14 +40,19 @@ class Loaders {
 	}
 
 	/**
-	 * Type checking. Allowed values: "level", "language", "spriteSheet"
+	 * Type checking. Allowed values: "level", "language", "spriteSheet".
 	 * @private
 	 * @param {String} type 
 	 */
 	_checkFileType(type) {
 		return type === "level" || type === "language" || type === "spriteSheet";
 	}
-
+	
+	/**
+	 * Deletes repeating files.
+	 * @private
+	 * @param {Object[]} arr 
+	 */
 	_filterFiles(arr) {
 		let tmp = {};
 		return arr.filter(a => a.path in tmp ? 0 : tmp[a.path] = 1);
@@ -71,11 +76,13 @@ class Loaders {
 				if(xml.readyState === 4) {
 					let output = JSON.parse(xml.responseText);
 
-					if(lastFile.type !== "level") {
+					if(callback)
+						callback(output, lastFile);
+
+					else {
 						lastFile.isLoaded = true;
 						lastFile.data = output;
 					}
-					callback(output, lastFile);
 				}
 			}
 			xml.open("get", this._appPath + filePath, false);
@@ -87,7 +94,6 @@ class Loaders {
 
 	_loadLevel(path) {
 		let returnedLevelData;
-		console.log(path);
 		this._loadSignleFile(path.replace(this._appPath, ""), "level", (output, lastFile) => {
 			if(output.settings.spriteSheetPath !== undefined) {
 				let spriteElements = [];
@@ -135,56 +141,20 @@ class Loaders {
 	 * @throws Will throw an error if the "fileType" argument is not equals "level" or "language" or "spriteSheet".
 	 */
 	jsonFile(fileType, filePath) {
+		let fileData;
 		if(this._checkFileType(fileType)) {
-			if(fileType === "level") {
+			if(fileType === "level")
 				this._loadLevel(filePath);
-			}
+
+			else
+				this._loadSignleFile(filePath, fileType);
+
 			return this._files[this._files.findIndex(item => item.path === this._appPath + filePath)];
 		}
 
 		else
 			throw new Error(`${fileType} type is undefined!`)
 	}
-
-	// JSONFILES LOADER FOR MULTIPLE FILES
-	// jsonFiles(filesType, filesPath) {
-	// 	const xml = this._xml;
-	// 	let returnArr = [];
-
-	// 	if(this._checkFileType(filesType)) {
-	// 		for(let counter in filesPath) {
-	// 			xml.onreadystatechange = () => {
-	// 				if(xml.readyState === 1) {
-	// 					this._files.push({
-	// 						type: filesType,
-	// 						isLoaded: false,
-	// 						path: this._appPath + filesPath[counter],
-	// 						data: {}
-	// 					});
-	// 				}
-
-	// 				if(xml.readyState === 4) {
-	// 					this._files[this._files.length-1].data = JSON.parse(xml.responseText);
-	// 					this._files[this._files.length-1].isLoaded = true;
-
-	// 					returnArr.push(this._files[this._files.length-1])
-	// 					return this._files[this._files.length-1];
-	// 				}
-	// 			}
-
-	// 			xml.open("get", this._appPath + filesPath[counter], false);
-	// 			xml.send();
-	// 		}
-	// 	}
-
-	// 	else
-	// 		throw new Error(`${filesType} type is undefined!`)
-
-	// 	if(this._debugMode)
-	// 		console.info(`${filesType.charAt(0).toUpperCase()}${filesType.substring(1)} files loaded:`, filesPath);
-	
-	// 	return returnArr;
-	// }
 
 	/** 
 	 * Get an array of loaded levels.
@@ -221,7 +191,7 @@ class Loaders {
 	 */
 	get spriteSheets() {
 		let resultArr = [];
-		for (let i in this._files) {
+		for(let i in this._files) {
 			if(this._files[i].type === "spriteSheet" && this._files[i].isLoaded)
 				resultArr.push(this._files[i]);
 		}
