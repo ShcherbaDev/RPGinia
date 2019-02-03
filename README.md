@@ -25,7 +25,7 @@ npm install
 У вас запустится локальный сервер. Для того, чтобы просмотреть содержимое, введите в браузере адрес из поля `Local`
 
 ## Заметки
-Документация по движку находится [тут](https://shcherbadev.github.io/RPGinia/docs).
+Документация по движку находится [тут](https://shcherbadev.github.io/rpginia/docs/api/).
 
 # README on Ukrainian (README на Українській мові)
 ## Вступ
@@ -48,4 +48,4 @@ npm install
 У вас запуститься локальний сервер. Для того, щоб продивитися вміст, введіть у браузері адрес з рядка `Local`
 
 ## Нотатки
-Документація по двигуну знаходиться [тут](https://shcherbadev.github.io/RPGinia/docs).
+Документація по двигуну знаходиться [тут](https://shcherbadev.github.io/rpginia/docs/api/).
