@@ -1,6 +1,7 @@
 /**
  * Class for defining player.
  * @memberof RPGinia.App
+ * @private
  * @class
  */
 class Player {

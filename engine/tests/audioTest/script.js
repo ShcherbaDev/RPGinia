@@ -3,12 +3,12 @@ import RPGinia from "/src/RPGinia.js";
 const engine = new RPGinia();
 const app = new engine.App("Test RPGinia app", undefined, [1200, 600]);
 const load = new app.Loaders();
-const world = new app.World(true);
+const world = new app.World();
 const kb = new app.Keyboard();
 const audio = new app.AudioManager();
 const cam = new app.Camera();
 
-const musicVolume = 50;
+const musicVolume = 100;
 
 // Defining keyboard keys
 kb.addKey("arrLeft", 37);

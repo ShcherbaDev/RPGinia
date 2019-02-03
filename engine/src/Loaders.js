@@ -58,9 +58,17 @@ class Loaders {
 		return arr.filter(a => a.path in tmp ? 0 : tmp[a.path] = 1);
 	}
 
+	/**
+	 * Loads JSON file and setting up needable settings.
+	 * @private
+	 * @param {String} filePath 
+	 * @param {String} fileType 
+	 * @param {Function} callback 
+	 */
 	_loadSignleFile(filePath, fileType, callback) {
 		if(this._checkFileType(fileType)) {
 			const xml = new XMLHttpRequest();
+			
 			let lastFile;
 			xml.onreadystatechange = () => {
 				if(xml.readyState === 1) {
@@ -75,6 +83,9 @@ class Loaders {
 
 				if(xml.readyState === 4) {
 					let output = JSON.parse(xml.responseText);
+
+					if(this._debugMode)
+						console.info(`${fileType} loaded! Path: ${this._appPath + filePath}`)
 
 					if(callback)
 						callback(output, lastFile);
@@ -92,48 +103,6 @@ class Loaders {
 		}
 	}
 
-	_loadLevel(path) {
-		let returnedLevelData;
-		this._loadSignleFile(path.replace(this._appPath, ""), "level", (output, lastFile) => {
-			if(output.settings.spriteSheetPath !== undefined) {
-				let spriteElements = [];
-				let loadedSpriteElements = [];
-
-				for(let i in output.elements) {
-					if(output.elements[i].type === "sprite") {
-						output.elements[i].image = new Image();
-						output.elements[i].isLoaded = false;
-						output.elements[i].image.onload = () => {
-							output.elements[i].isLoaded = true;
-							spriteElements.push(i);
-							loadedSpriteElements.push(i);
-						}
-
-						this._loadSignleFile(output.settings.spriteSheetPath, "spriteSheet", (response) => {
-							response = Array.isArray(response) ? response : [response];
-							lastFile.spriteSheets = response;
-							output.elements[i].image.src = this._appPath + response[output.elements[i].spriteSheetIndex].file;
-							if(spriteElements.length === loadedSpriteElements.length) {
-								lastFile.data = output;
-								lastFile.isLoaded = true;
-
-								returnedLevelData = lastFile;
-							}
-						});
-					}
-				}
-			}
-
-			else {
-				lastFile.data = output;
-				lastFile.isLoaded = true;
-
-				returnedLevelData = lastFile;
-			}
-		});
-		return returnedLevelData;
-	}
-
 	/**
 	 * Load one JSON file.
 	 * @param {String} fileType - File type. Can access only types "level", "language" and "spriteSheet".
@@ -141,19 +110,20 @@ class Loaders {
 	 * @throws Will throw an error if the "fileType" argument is not equals "level" or "language" or "spriteSheet".
 	 */
 	jsonFile(fileType, filePath) {
-		let fileData;
+		const changedFilePath = filePath.replace(this._appPath, '');
 		if(this._checkFileType(fileType)) {
-			if(fileType === "level")
-				this._loadLevel(filePath);
+			this._loadSignleFile(changedFilePath, fileType, (output, lastFile) => {
+				if(fileType === 'level' && output.settings.spriteSheetPath) 
+					this._loadSignleFile(output.settings.spriteSheetPath.replace(this._appPath, ''), 'spriteSheet', (spriteSheet) => output.spriteSheets = spriteSheet);
 
-			else
-				this._loadSignleFile(filePath, fileType);
-
+				lastFile.isLoaded = true;
+				lastFile.data = output;
+			});
 			return this._files[this._files.findIndex(item => item.path === this._appPath + filePath)];
 		}
 
 		else
-			throw new Error(`${fileType} type is undefined!`)
+			throw new Error(`The ${fileType} type is undefined!`);
 	}
 
 	/** 

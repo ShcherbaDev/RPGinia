@@ -9,7 +9,8 @@ class Camera {
      */
     constructor() {
         /**
-         * Link to the World class for getting elements from it.
+         * Link to the World class for getting elements from it. 
+         * A value is assigned in World.js in "initialize" method.
          * @private
          */
         this._world = null;
@@ -29,11 +30,11 @@ class Camera {
     move(x, y) {
         const levelElements = this._world.currentLevel.data.elements;
         for(let i in levelElements) {
-            levelElements[i].coords[0] += x;
-            levelElements[i].coords[1] += y;
+            levelElements[i].settings.coords[0] += x;
+            levelElements[i].settings.coords[1] += y;
 
-            levelElements[i].borderCoords[0] += x;
-            levelElements[i].borderCoords[1] += y;
+            levelElements[i].settings.borderCoords[0] += x;
+            levelElements[i].settings.borderCoords[1] += y;
         }
     }
     

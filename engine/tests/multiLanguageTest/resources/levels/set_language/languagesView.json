@@ -51,8 +51,7 @@
                 "font": "8bitoperator",
                 "size": 32,
                 "color": "#ffffff",
-                "horizontalAlign": "center",
-                "verticalAlign": "top"
+                "horizontalAlign": "center"
             },
             "coords": [180, 360],
             "layer": 3
@@ -65,8 +64,7 @@
                 "font": "8bitoperator",
                 "size": 32,
                 "color": "#ffffff",
-                "horizontalAlign": "center",
-                "verticalAlign": "top"
+                "horizontalAlign": "center"
             },
             "coords": [400, 360],
             "layer": 3
@@ -79,8 +77,7 @@
                 "font": "8bitoperator",
                 "size": 32,
                 "color": "#ffffff",
-                "horizontalAlign": "center",
-                "verticalAlign": "top"
+                "horizontalAlign": "center"
             },
             "coords": [620, 360],
             "layer": 3

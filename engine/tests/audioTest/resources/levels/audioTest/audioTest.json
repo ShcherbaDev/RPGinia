@@ -13,8 +13,7 @@
                 "font": "8bitoperator",
                 "color": "#ffffff",
                 "size": 42,
-                "horizontalAlign": "center",
-                "verticalAlign": "middle"
+                "horizontalAlign": "center"
             },
             "coords": [600, 100]
         },
@@ -27,8 +26,7 @@
                 "font": "8bitoperator",
                 "color": "#ffffff",
                 "size": 36,
-                "horizontalAlign": "center",
-                "verticalAlign": "middle"
+                "horizontalAlign": "center"
             },
             "coords": [600, 240]
         },
@@ -41,8 +39,7 @@
                 "font": "8bitoperator",
                 "color": "#ffffff",
                 "size": 32,
-                "horizontalAlign": "center",
-                "verticalAlign": "middle"
+                "horizontalAlign": "center"
             },
             "coords": [200, 290],
             "layer": 2
@@ -55,8 +52,7 @@
                 "font": "8bitoperator",
                 "color": "#ffffff",
                 "size": 32,
-                "horizontalAlign": "center",
-                "verticalAlign": "middle"
+                "horizontalAlign": "center"
             },
             "coords": [320, 290],
             "layer": 2
@@ -69,8 +65,7 @@
                 "font": "8bitoperator",
                 "color": "#ffffff",
                 "size": 32,
-                "horizontalAlign": "center",
-                "verticalAlign": "middle"
+                "horizontalAlign": "center"
             },
             "coords": [450, 290],
             "layer": 2
@@ -83,8 +78,7 @@
                 "font": "8bitoperator",
                 "color": "#ffffff",
                 "size": 32,
-                "horizontalAlign": "center",
-                "verticalAlign": "middle"
+                "horizontalAlign": "center"
             },
             "coords": [625, 290],
             "layer": 2
@@ -97,8 +91,7 @@
                 "font": "8bitoperator",
                 "color": "#ffffff",
                 "size": 32,
-                "horizontalAlign": "center",
-                "verticalAlign": "middle"
+                "horizontalAlign": "center"
             },
             "coords": [815, 290],
             "layer": 2
@@ -111,8 +104,7 @@
                 "font": "8bitoperator",
                 "color": "#ffffff",
                 "size": 32,
-                "horizontalAlign": "center",
-                "verticalAlign": "middle"
+                "horizontalAlign": "center"
             },
             "coords": [1030, 290],
             "layer": 2
@@ -125,8 +117,7 @@
                 "font": "8bitoperator",
                 "color": "#ffffff",
                 "size": 32,
-                "horizontalAlign": "left",
-                "verticalAlign": "middle"
+                "horizontalAlign": "left"
             },
             "coords": [160, 330],
             "layer": 2
@@ -140,10 +131,9 @@
                 "font": "8bitoperator",
                 "color": "#ffffff",
                 "size": 18,
-                "horizontalAlign": "left",
-                "verticalAlign": "bottom"
+                "horizontalAlign": "left"
             },
-            "coords": [10, 590]
+            "coords": [10, 585]
         },
         {
             "name": "soundtracksAuthor",
@@ -153,10 +143,9 @@
                 "font": "8bitoperator",
                 "color": "#ffffff",
                 "size": 18,
-                "horizontalAlign": "right",
-                "verticalAlign": "bottom"
+                "horizontalAlign": "right"
             },
-            "coords": [1190, 590]
+            "coords": [1190, 585]
         }
     ]
 }

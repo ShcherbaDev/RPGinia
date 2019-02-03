@@ -7,7 +7,6 @@ function controller(api) {
     const defaultColor = "white";
 
     const soundtrackList = api.world.getElementsFromLayer(2);
-
     soundtrackList[hoveredSoundtrack].settings.color = selectColor;
 
     api.keyboard.pressEvent(e => {
@@ -39,27 +38,27 @@ function controller(api) {
     api.keyboard.pressEvent(e => {
         if(isPlaying && selectedSoundtrack === hoveredSoundtrack) {
             isPlaying = false;
-            api.audio.stopAudio(api.audio.list[selectedSoundtrack].name);
+            api.audio.stop(api.audio.list[selectedSoundtrack].name);
             return;
         }
 
         if(isPlaying && selectedSoundtrack !== hoveredSoundtrack) {
-            api.audio.stopAudio(api.audio.list[selectedSoundtrack].name);
+            api.audio.stop(api.audio.list[selectedSoundtrack].name);
             selectedSoundtrack = hoveredSoundtrack;
-            api.audio.playAudio(api.audio.list[selectedSoundtrack].name);
+            api.audio.play(api.audio.list[selectedSoundtrack].name);
             return;
         }
 
         if(!isPlaying && selectedSoundtrack === hoveredSoundtrack) {
             isPlaying = true;
-            api.audio.playAudio(api.audio.list[selectedSoundtrack].name);
+            api.audio.play(api.audio.list[selectedSoundtrack].name);
             return;
         }
 
         if(!isPlaying && selectedSoundtrack !== hoveredSoundtrack) {
             isPlaying = true;
             selectedSoundtrack = hoveredSoundtrack;
-            api.audio.playAudio(api.audio.list[selectedSoundtrack].name);
+            api.audio.play(api.audio.list[selectedSoundtrack].name);
             return;
         }
     }, "enter");

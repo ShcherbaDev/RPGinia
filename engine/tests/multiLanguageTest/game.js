@@ -2,10 +2,10 @@ import RPGinia from "/src/RPGinia.js";
 
 const engine = new RPGinia();
 const app = new engine.App("Test RPGinia app");
-const load = new app.Loaders();
+const load = new app.Loaders(true);
 const world = new app.World();
 const kb = new app.Keyboard();
-const cam = new app.Camera(world);
+const cam = new app.Camera();
 const audio = new app.AudioManager();
 
 kb.addKey("enter", 13);
@@ -24,6 +24,12 @@ const levelPaths = [
     "/resources/levels/set_language/languagesView.json",
     "/resources/levels/dialog/dialogView.json",
     "/resources/levels/corridor/corridor.json"
+];
+
+const languagePaths = [
+    '/resources/languages/english.json',
+    '/resources/languages/russian.json',
+    '/resources/languages/ukrainian.json'
 ];
 
 world.initialize({

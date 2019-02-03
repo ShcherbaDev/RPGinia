@@ -3,7 +3,7 @@
         "name": "Last corridor",
         "controllerPath": "/resources/levels/corridor/corridorController.js",
         "spriteSheetPath": "/resources/sprites/spriteSheets.json",
-        "background": "cyan"
+        "background": "#000"
     },
     "elements": [   
         {
@@ -22,6 +22,17 @@
             "interval": 500,
             "isRepeat": true,
             "coords": [210, 399, 32, 32]
+        },
+        {
+            "name": "Easer egg",
+            "type": "text",
+            "settings": {
+                "text": "Bonus level :)",
+                "font": "8bitoperator",
+                "size": 32,
+                "color": "#ffffff"
+            },
+            "coords": [200, 550]
         }
     ]
 }

@@ -91,7 +91,7 @@ function controller(api) {
             setTimeout(() => {
                 api.world.createElement({
                     type: "rectangle",
-                    name: "fill",
+                    name: "backgroundFill",
                     settings: {
                         fill: "#000"
                     },
@@ -104,8 +104,8 @@ function controller(api) {
             }, 490);
 
             setTimeout(() => {
-                if(api.world.getElementByName('fill') !== undefined)
-                    api.world.deleteElement('fill');
+                if(api.world.getElementByName('backgroundFill') !== undefined)
+                    api.world.deleteElement('backgroundFill');
 
                 if(api.world.getElementByName('chooseRect') !== undefined)
                     api.world.deleteElement('chooseRect');

@@ -36,14 +36,13 @@ class AudioManager {
 	 * @returns {Object} Returns an object of audio settings.
 	 */
 	add(name, path, volume = 100, isRepeating = false) {
-		const settingsObj = {
+		this._list.push({
 			name: name,
 			path: this._appPath + path,
 			volume: volume/100,
 			isRepeating: isRepeating,
 			audio: new Audio()
-		}
-		this._list.push(settingsObj);
+		});
 
 		const lastAudio = this._list[this._list.length-1];
 
