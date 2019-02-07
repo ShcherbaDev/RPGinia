@@ -8,7 +8,7 @@ function controller(api) {
     console.log("Level corridor")
     
     api.keyboard.pressEvent(() => {
-        api.world.level = "/resources/levels/set_language/languagesView.json";
+        api.world.setLevel("/resources/levels/set_language/languagesView.json");
     }, "enter");
 
     function handleKeyboard() {

@@ -348,10 +348,10 @@ class World {
 	}
 
 	/**
-	 * Changes level to another
+	 * Changes level to another.
 	 * @param {String} levelPath - Path to the new level.
 	 */ 
-	set level(levelPath) {
+	setLevel(levelPath) {
 		if(this._currentLevelId !== this._previousLevelId)
 			this._previousLevelId = this._currentLevelId;
 		this._getReadyLevel(levelPath);

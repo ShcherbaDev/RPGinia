@@ -110,7 +110,7 @@ function controller(api) {
                 if(api.world.getElementByName('chooseRect') !== undefined)
                     api.world.deleteElement('chooseRect');
 
-                api.world.level = "/resources/levels/dialog/dialogView.json";
+                api.world.setLevel("/resources/levels/dialog/dialogView.json");
             }, 1800);
         }
     }, "enter");
