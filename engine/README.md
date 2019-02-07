@@ -3,4 +3,4 @@ Engine directory
 
 ## Structure
 - *src* - engine files
--  *tests* - test applications for engine working demonstration
+-  *examples* - test applications for engine working demonstration

@@ -51,8 +51,6 @@ class Text extends Object {
 
         super.drawInDebug();
     }
-
-    get settings() { return this._settings }
 }
 
 export default Text;

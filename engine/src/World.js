@@ -3,33 +3,81 @@ import Text from './ObjectTypes/Text.js';
 import Rectangle from './ObjectTypes/Rectangle.js';
 import Sprite from './ObjectTypes/Sprite.js';
 
+/**
+ * Class for drawing levels and doing their logic.
+ * @memberof RPGinia.App
+ * @class
+ */
 class World {
+	/**
+	 * @constructor
+	 * @param {Boolean} [debugModeEnabled=false] - Show objects borders.
+	 */
 	constructor(debugModeEnabled = false) {
+		/**
+		 * Levels array
+		 * @private
+		 */
 		this._levels = [];
+
+		/**
+		 * Current level ID
+		 * @private
+		 */
 		this._currentLevelId = null;
+		
+		/**
+		 * Previous level ID. Changes when level is changing.
+		 * @private
+		 */
 		this._previousLevelId = null;
-		this._controller = null;
 
 		this._debugMode = debugModeEnabled;
 
 		this._app = null;
 		this._loaders = null;
 		this._keyboard = null;
-		this._languages = null;
 		this._audio = null;
 		this._player = null;
 		this._camera = null;
 
+		/** 
+		 * Playground tag from the prototype given from App class.
+		 * @type {Object}
+		 * @private
+		 */
 		this._canvas = this.__proto__.canvas;
+
+		/** 
+         * Get a context object for drawing given from App class.
+         * @private
+         * @type {Object}
+         */
 		this._context = this.__proto__.context;
+
+		/** 
+		 * App path from the prototype given from App class.
+		 * @type {String}
+		 * @private
+		 */
 		this._appPath = this.__proto__.appPath;
 
+		/**
+		 * Object class.
+		 * @name RPGinia#App#World#Object
+		 * @memberof RPGinia#App#World
+		 */
 		this.__proto__.Object = Object;
 		Object.prototype.appPath = this._appPath;
 		Object.prototype.context = this._context;
 	}
 
-	_doController(levelId) {
+	/**
+	 * Method for doing a logic of level.
+	 * @param {Number} [levelId=Current level ID] - ID of level
+	 * @private
+	 */
+	_doController(levelId = this._currentLevelId) {
 		// Notice:
 		// If you want to change the level, but there are keyboard 
 		// events or intervals at the current level, make sure that in
@@ -49,11 +97,11 @@ class World {
 			xml.send();
 		}
 		
+		// Do controller
 		levelList[levelId].controller({
 			app: this._app,
 			world: this,
 			loaders: this._loaders,
-			languages: this._languages,
 			keyboard: this._keyboard,
 			audio: this._audio,
 			player: this._player,
@@ -61,7 +109,12 @@ class World {
 		});
 	}
 
-	_sortElements(levelId) {
+	/**
+	 * Sorting objects by layers.
+	 * @param {Number} [levelId=Current level ID] - ID of level. 
+	 * @private
+	 */
+	_sortElements(levelId = this._currentLevelId) {
 		this._levels[levelId].data.elements.sort((a, b) => {
 			if(a.settings.layer > b.settings.layer) 
 				return 1;
@@ -73,6 +126,13 @@ class World {
 		});
 	}
 
+	/**
+	 * Returns a prepared object.
+	 * @param {Object} object - Game object.
+	 * @param {Object} spriteSheets - Sprite sheet for object (If you're adding a sprite)
+	 * @returns {Object} - Prepared for drawing game object.
+	 * @private
+	 */
 	_prepareObject(object, spriteSheets) {
 		if(object.type === 'rectangle')
 			return new Rectangle(object);
@@ -84,10 +144,16 @@ class World {
 			return new Text(object);
 	}
 
+	/**
+	 * Prepares a level for use.
+	 * @param {String} path - Path to level .JSON file.
+	 * @private
+	 */
 	_getReadyLevel(path) {
 		const levelList = this._levels;
 		this._previousLevelId = this._currentLevelId;
 		
+		// If can't find needable level - it loads it.
 		if(levelList[levelList.findIndex(item => item.path === path)] === undefined) {
 			this._currentLevelId++;
 			levelList[this._currentLevelId] = this._loaders.jsonFile('level', path);
@@ -97,6 +163,7 @@ class World {
 		else
 			this._currentLevelId = levelList.findIndex(item => item.path === path)
 
+		// Setting up level objects.
 		for(let j in levelList[this._currentLevelId].data.elements) {
 			levelList[this._currentLevelId].data.elements[j] = 
 				levelList[this._currentLevelId].data.elements[j].type !== 'sprite' ?
@@ -104,13 +171,20 @@ class World {
 				this._prepareObject(levelList[this._currentLevelId].data.elements[j], levelList[this._currentLevelId].data.spriteSheets);
 		}
 
-		this._sortElements(this._currentLevelId);
+		this._sortElements();
 
 		if(levelList[this._currentLevelId].data.settings.controllerPath !== undefined)
-			this._doController(this._currentLevelId);
+			this._doController();
 	}
 
-	_isObjectVisible(object, padding) {
+	/**
+	 * Object's visibility check.
+	 * @param {Object} object - Game object
+	 * @param {Number} [padding=0] - Indent from which the check will be made. Need for debugging.
+	 * @returns {Boolean} Is the object visible or not.
+	 * @private
+	 */
+	_isObjectVisible(object, padding = 0) {
 		if(object.isVisible) {
 			return object.coords[0] <= this._canvas.width-padding &&
 				object.coords[1] <= this._canvas.height-padding &&
@@ -118,19 +192,39 @@ class World {
 				object.coords[1] + object.coords[3] >= padding;
 		}
 
-		else {
-			return false;
-		}
+		else return false;
 	}
 
+	/**
+	 * Initializes necessary components for stable work. 
+	 * @example
+	 * // Simple initializing.
+	 * const engine = new RPGinia();
+	 * const app = new engine.App();
+	 * const world = new app.World();
+	 * const loaders = new app.Loaders();
+	 * 
+	 * world.initialize({
+	 * 	app: app,
+	 * 	loaders: loaders,
+	 * 	levels: loaders.jsonFile('level', '/path/to/level/levelView.json')
+	 * });
+	 * 
+	 * @param {Object} options - Other engine classes.
+	 * @param {Object} options.app - App class.
+	 * @param {Object} options.loaders - Loaders class.
+	 * @param {Object} options.keyboard - Keyboard class.
+	 * @param {Object} options.audio - Audio manager class.
+	 * @param {Object} options.camera - Camera class.
+	 * @param {Object|Object[]} options.levels - Level object or array of levels.
+	 * @param {Number} [options.currentLevelId=0] - Loads the level which ID was specified.
+	 */
 	initialize(options) {
 		// Elements init
 		this._app = options.app || null;
 		this._loaders = options.loaders || null;
 		this._keyboard = options.keyboard || null;
-		this._languages = options.languages || null;
 		this._audio = options.audio || null;
-		this._player = options.player || null;
 		this._camera = options.camera || null;
 
 		if(this._camera && !this._camera._world)
@@ -147,6 +241,15 @@ class World {
 			throw new Error("Levels are not defined!\nPlease connect at least one level to eliminate this error.");
 	}
 
+	/** 
+	 * Draws level objects. Must be used in a loop.
+	 * @example
+	 * function loop() {
+	 * 	world.draw();
+	 * 	requestAnimationFrame(loop);
+	 * }
+	 * loop();
+	 */
 	draw() {
 		const levelList = this._levels;
 		const levelId = this._currentLevelId;
@@ -171,7 +274,7 @@ class World {
 		for(let i in elementsInLevel) {
 			const objSettings = elementsInLevel[i].settings;
 			
-			if(this._isObjectVisible(objSettings, 0)) {
+			if(this._isObjectVisible(objSettings)) {
 				elementsInLevel[i].draw();
 
 				// If debug mode is enabled - show borders and center points of objects
@@ -183,11 +286,21 @@ class World {
 		this._context.restore();
 	}
 
+	/**
+	 * Searches game object by name.
+	 * @param {String} elementName - Searching object name.
+	 * @returns {Object} Requested object.
+	 */
 	getElementByName(elementName) {
 		const levelElements = this._levels[this._currentLevelId].data.elements;
 		return levelElements[levelElements.findIndex(elem => elem.settings.name === elementName)].settings;
 	}
 
+	/**
+	 * Searches game objects by layer.
+	 * @param {Number} layerNum - Searching layer.
+	 * @returns {Object[]} Objects located in the desired layer.
+	 */
 	getElementsFromLayer(layerNum) {
 		const levelElements = this._levels[this._currentLevelId].data.elements;
 		let arr = [];
@@ -200,6 +313,12 @@ class World {
 		return arr;
 	}
 
+	/**
+	 * Creating a new object in level.
+	 * @param {Object} settings - Object settings.
+	 * @param {Object[]} spriteSheets - Array of sprite sheets.
+	 * @returns {Object} Created object settings.
+	 */
 	createElement(settings, spriteSheets) {
 		const levelData = this._levels[this._currentLevelId].data;
 		levelData.elements.push(
@@ -207,31 +326,63 @@ class World {
 			this._prepareObject(settings) :
 			this._prepareObject(settings, spriteSheets || this._levels[this._currentLevelId].spriteSheets)
 		);
-		this._sortElements(this._currentLevelId);
+		this._sortElements();
 		return settings;
 	}
 
+	/**
+	 * Deletes an object in level by name.
+	 * @param {String} name - Object name.
+	 * @throws Will throw an error if the object wasn't found.
+	 */
 	deleteElement(name) {
 		const elementsInLevel = this._levels[this._currentLevelId].data.elements;
 		const searchingElement = elementsInLevel.findIndex(item => item.settings.name === name);
 		if(searchingElement !== -1) {
 			elementsInLevel.splice(searchingElement, 1);
-			this._sortElements(this._currentLevelId);
+			this._sortElements();
 		}
 	
 		else
 			throw new Error(`Element with name "${name}" is not defined!`);
 	}
 
+	/**
+	 * Changes level to another
+	 * @param {String} levelPath - Path to the new level.
+	 */ 
 	set level(levelPath) {
 		if(this._currentLevelId !== this._previousLevelId)
 			this._previousLevelId = this._currentLevelId;
 		this._getReadyLevel(levelPath);
 	}
 
+	/** 
+	 * Get a current level object.
+	 * @readonly
+	 * @type {Object}
+	 */
 	get currentLevel() { return this._levels[this._currentLevelId] }
+
+	/** 
+	 * Get a current level name.
+	 * @readonly
+	 * @type {String}
+	 */
 	get currentLevelName() { return this._levels[this._currentLevelId].data.settings.name }
+
+	/** 
+	 * Get a current level ID.
+	 * @readonly
+	 * @type {Number}
+	 */
 	get currentLevelId() { return this._currentLevelId }
+
+	/** 
+	 * Get levels array.
+	 * @readonly
+	 * @type {Object[]}
+	 */
 	get levels() { return this._levels }
 }
 

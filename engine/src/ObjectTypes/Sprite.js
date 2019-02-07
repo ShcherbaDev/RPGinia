@@ -95,8 +95,6 @@ class Sprite extends Object {
 
         super.drawInDebug();
     }
-
-    get settings() { return this._settings }
 }
 
 export default Sprite;

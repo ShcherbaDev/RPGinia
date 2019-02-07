@@ -21,7 +21,7 @@
   },
   "homepage": "https://github.com/ShcherbaDev/rpginia-new#readme",
   "dependencies": {
-    "serve": "^10.0.2"
+    "serve": "^10.1.1"
   },
   "devDependencies": {
     "minami": "^1.2.3"

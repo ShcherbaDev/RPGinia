@@ -2,7 +2,7 @@ import RPGinia from "/src/RPGinia.js";
 
 const engine = new RPGinia();
 const app = new engine.App("Test RPGinia app");
-const load = new app.Loaders(true);
+const load = new app.Loaders();
 const world = new app.World();
 const kb = new app.Keyboard();
 const cam = new app.Camera();

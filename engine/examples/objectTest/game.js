@@ -3,7 +3,7 @@ import RPGinia from "/src/RPGinia.js";
 const engine = new RPGinia();
 const app = new engine.App("Test RPGinia app");
 const kb = new app.Keyboard();
-const load = new app.Loaders();
+const load = new app.Loaders(true);
 const world = new app.World(true);
 
 const sprSheet = load.jsonFile('spriteSheet', '/resources/sprites/spriteSheets.json').data;
@@ -63,7 +63,7 @@ world.createElement({
     name: "testDynamicalAnimatedSprite",
     type: "sprite",
     spriteSheetIndex: 1,
-    spriteIndex: 2,
+    spriteIndex: 0,
     frameTo: 1,
     interval: 500,
     isRepeat: true,

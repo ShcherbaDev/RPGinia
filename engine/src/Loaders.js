@@ -61,9 +61,9 @@ class Loaders {
 	/**
 	 * Loads JSON file and setting up needable settings.
 	 * @private
-	 * @param {String} filePath 
-	 * @param {String} fileType 
-	 * @param {Function} callback 
+	 * @param {String} filePath - File path to the file.
+	 * @param {String} fileType - File type. Can be "level", "language" or "spriteSheet".
+	 * @param {Function} callback - Actions after file loading.
 	 */
 	_loadSignleFile(filePath, fileType, callback) {
 		if(this._checkFileType(fileType)) {

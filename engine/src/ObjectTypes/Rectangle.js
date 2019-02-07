@@ -1,5 +1,10 @@
 import Object from '../Object.js';
 
+/**
+ * Somethins
+ * @extends Object
+ * @class
+ */
 class Rectangle extends Object {
     constructor(settings) {
         super(settings);
@@ -27,8 +32,6 @@ class Rectangle extends Object {
 
         super.drawInDebug();
     }
-
-    get settings() { return this._settings }
 }
 
 export default Rectangle;

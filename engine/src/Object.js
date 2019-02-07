@@ -1,10 +1,40 @@
-export default class Object {
+/**
+ * Class for creating game objects. The game objects are inherit from it.
+ * @memberof RPGinia.App.World
+ * @class
+ */
+class Object {
+    /**
+     * @constructor
+     * @param {Object} settings - game object's settings. * There will be a link to the settings details *
+     * @param {String} settings.name - object's name.
+     * @param {String} settings.type - object's type. Can be rectangle, sprite or text.
+     * @param {Object} settings.settings - object's settings for object's customization. Watch about it in the inherited classes from it.
+     * @param {Number[]} settings.coords - object's coords. First value - x coordinate, second value - y coordinate, third value - object's width, fourth value - object's height.
+     * @param {Number} [settings.layer=1] - object's layer.
+     */
     constructor(settings) {
-        this._appPath = this.__proto__.appPath;
-        this._context = this.__proto__.context;
-
+        /**
+         * Object's settings
+         * @private
+         */
         this._settings = settings;
-    
+
+        /** 
+		 * App path from the prototype given from World class.
+		 * @type {String}
+		 * @private
+		 */
+        this._appPath = this.__proto__.appPath;
+
+        /** 
+         * Get a context object for drawing
+         * @private
+         * @type {Object}
+         */
+        this._context = this.__proto__.context;
+        
+        // Setting up width and height for text
         if(this._settings.type === 'text') {
             this._context.font = `${this._settings.settings.size}px "${this._settings.font}"`;
 
@@ -15,6 +45,7 @@ export default class Object {
                 this._settings.coords[3] = this._settings.settings.size;
         }
 
+        // Setting up border coordinations.
         if(this._settings.borderCoords === undefined) {
 			this._settings.borderCoords = [
 				this._settings.coords[0],
@@ -22,6 +53,7 @@ export default class Object {
             ];
 		}
 
+        // Setting up central point coordinations
 		if(this._settings.centralPointCoords === undefined) {
 			this._settings.centralPointCoords = [
 				this._settings.coords[2].toFixed(0)/2,
@@ -38,10 +70,17 @@ export default class Object {
             this._settings.isVisible = true;
     }
 
+    /**
+     * Method for drawing game objects.
+     * @returns {Boolean} false
+     */
     draw() {
         return false;
     }
 
+    /**
+     * Drawing object borders and central points. Works only if debug mode in World class is turned on.
+     */
     drawInDebug() {
         const objectSettings = this._settings;
         
@@ -65,3 +104,4 @@ export default class Object {
 
     get settings() { return this._settings }
 }
+export default Object;

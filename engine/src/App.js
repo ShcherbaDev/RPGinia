@@ -2,7 +2,6 @@ import Loaders from "./Loaders.js";
 import World from "./World.js";
 import Keyboard from "./Keyboard.js";
 import AudioManager from "./AudioManager.js";
-import Player from "./Player.js";
 import Camera from "./Camera.js";
 
 /**
@@ -55,13 +54,6 @@ class App {
 		AudioManager.prototype.appPath = this.__proto__.appPath;
 
 		/**
-		 * Class for drawing player.
-		 * @name RPGinia#App#Player
-		 * @memberof RPGinia#Player
-		 */
-		this.__proto__.Player = Player;
-
-		/**
 		 * Class for working with levels.
 		 * @name RPGinia#App#World
 		 * @memberof RPGinia#App
@@ -92,7 +84,16 @@ class App {
 	}
 	
 	/**
-	 * Clears a playground.
+	 * Clears a playground. Must be used in a loop.
+	 * @example
+	 * function loop() {
+	 * 	app.clearBackground();
+	 * 
+	 *	// Your drawing actions here...
+	 *
+	 * 	requestAnimationFrame(loop);
+	 * }
+	 * loop();
 	 */
 	clearPlayground() {
 		this._context.clearRect(0, 0, this._canvas.width, this._canvas.height);
@@ -126,7 +127,7 @@ class App {
 	get canvas() { return this._canvas }
 
 	/** 
-	 * Get a context object for draw object
+	 * Get a context object for drawing object
 	 * @readonly
 	 * @type {Object}
 	 */
