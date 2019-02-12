@@ -1,0 +1,186 @@
+@import "grid.css";
+@import "scrollbar.css";
+
+* {
+	margin: 0;
+	padding: 0;
+	box-sizing: border-box;
+	font-family: Arial, Helvetica, sans-serif;
+}
+
+html, body, .editor {
+	width: 100%;
+	height: 100vh;
+}
+
+a {
+	text-decoration: none;
+}
+
+a:hover {
+	text-decoration: underline;
+}
+
+.layers .content {
+	overflow-x: hidden;
+}
+
+.layers .layer_list > .layer_item > .thumbnail img {
+	width: 100%;
+}
+
+button {
+	padding: 0;
+	font-size: 20px;
+	cursor: pointer;
+}
+
+button.btn_transparent {
+	border: 0;
+	background-color: transparent;
+}
+
+.title, .title p {
+	font-family: "8bitoperator";
+}
+
+.title {
+	font-size: 20px;
+	padding: 10px;
+	height: 41px;
+}
+
+.content {
+	padding: 10px;
+	height: 100%;
+	overflow-x: auto;
+	overflow-y: auto;
+}
+
+sup.required {
+	color: red;
+}
+
+/* Layer block styles */
+.block.layers .layer_list > .layer_item:not(:first-child) {
+	padding-top: 10px;
+}
+
+.block.layers .layer_list > .layer_item:not(:last-child) {
+	border-bottom: 1px solid;
+}
+
+.layer_item > .thumbnail {
+	text-align: center;
+}
+
+.layer_item > .layer_number {
+	text-align: center;
+	padding-bottom: 4px;
+	font-size: 14px;
+	font-weight: bold;
+}
+
+/* Playground block styles */
+.block.playground .canvas_container {
+	display: flex;
+	justify-content: center;
+	align-items: center;
+	width: 100%;
+	height: 100%;
+}
+
+.block.playground .canvas_container > canvas {
+	border: 1px dashed;
+}
+
+/* Modal main styles */
+.modal-body {
+	padding: 15px;
+}
+
+.modal-body, .modal-footer {
+	border-top: 1px solid #ddd;
+}
+
+/* Forms */
+.form_group:first-child {
+	margin-top: 0;
+}
+
+.form_group {
+	display: flex;
+	flex-direction: column;
+	margin-top: 10px;
+}
+
+.form_group label {
+	font-size: 22px;
+	margin-bottom: 5px;
+}
+
+.form_group input[type="text"] {
+	padding: 10px 12px;
+	border-radius: 5px;
+	border: 1px solid #ccc;
+	font-size: 16px;
+}
+
+/* Custom file input */
+.custom_file_input {
+	display: grid;
+	grid-template-columns: 90% 1fr;
+}
+
+.custom_file_input .result_field > p#filePath {
+	border-radius: 5px 0 0 5px;
+	padding: 14px 16px;
+	background-color: #aaa;
+}
+
+.custom_file_input .choose_btn > a {
+	display: flex;
+	justify-content: center;
+	height: 100%;
+	align-items: center;
+	background-color: #aaa;
+	border-left: 1px solid #ccc;
+	border-radius: 0 6px 6px 0;
+}
+
+/* .form_group .input_file {
+	display: grid;
+	grid-template-columns: 1.7fr 0.3fr;
+	grid-gap: 0 0;
+	height: 36px;
+}
+
+.form_group .input_file .path {
+	border: 1px solid;
+	border-right: 0;
+	border-radius: 5px 0 0 5px;
+}
+
+.form_group .input_file .path > p.file_path {
+	line-height: 36px;
+	margin-left: 10px;
+}
+
+.form_group .input_file .choose_button button {
+	width: 100%;
+	height: 100%;
+	background-color: transparent;
+	border: 1px solid;
+	border-radius: 0 5px 5px 0;
+	font-size: 16px;
+} */
+
+.bottom_right_button {
+	border: 1px solid;
+	border-radius: 5px;
+	font-size: 16px;
+	position: absolute;
+	bottom: 20px;
+	right: 20px;
+	padding: 10px 20px;
+}
