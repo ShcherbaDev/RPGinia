@@ -4,8 +4,6 @@ function controller(api) {
     function checkLevel() {
         return api.world.currentLevelName === "Last corridor";
     }
-
-    console.log("Level corridor")
     
     api.keyboard.pressEvent(() => {
         api.world.setLevel("/resources/levels/set_language/languagesView.json");

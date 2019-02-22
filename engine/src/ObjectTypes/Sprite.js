@@ -79,8 +79,8 @@ class Sprite extends Object {
                 spriteSheetCoords[2], 
                 spriteSheetCoords[3],
                 
-                spriteCoords[0], 
-                spriteCoords[1], 
+                spriteCoords[0] + this._camera.x, 
+                spriteCoords[1] + this._camera.y, 
                 spriteCoords[2] || spriteSheetCoords[2], 
                 spriteCoords[3] || spriteSheetCoords[3]
             );
@@ -89,8 +89,8 @@ class Sprite extends Object {
 
     drawInDebug() {
         this._settings.borderCoords = [
-            this._settings.coords[0],
-            this._settings.coords[1]
+            this._settings.coords[0] + this._camera.x,
+            this._settings.coords[1] + this._camera.y
         ];
 
         super.drawInDebug();

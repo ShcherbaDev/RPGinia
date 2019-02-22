@@ -9,12 +9,17 @@
         
         <div class="block properties">
             <PropertiesBlock className="objects" title="Object list" titleAddButton titleDeleteButton>
-                <p class="error_text">
-                    Lorem ipsum dolor, sit amet consectetur adipisicing elit. Sed unde nihil explicabo consequatur, placeat atque vel? Suscipit distinctio quasi voluptas! Natus itaque cupiditate eaque exercitationem quae quis optio, tempore dignissimos, praesentium cumque consequatur possimus beatae aperiam omnis quia facere ut corrupti, dolore fuga in odit harum vero voluptates a. Similique itaque voluptatum enim consequatur excepturi dolorum nesciunt id ipsam architecto maiores vitae autem, cupiditate facere ea veniam. Modi ab provident blanditiis consequuntur hic animi, doloribus quae at ipsam, dolores voluptatibus? Facilis officiis, voluptatibus quas, numquam eaque aliquid cum voluptas aperiam unde iusto dolorum quasi. Iste, veritatis eaque. Perspiciatis reiciendis quis laborum natus doloribus distinctio suscipit provident labore dolor, aliquid commodi corporis similique cumque earum quae. Cumque nemo repellat quo esse, libero iure quae maxime est nobis dolorem illo itaque hic quaerat! Error quos tenetur sequi, eum corporis eveniet placeat sint optio libero quae illo mollitia nam ipsum cumque asperiores tempore fuga molestiae eos possimus. Libero sint vitae incidunt inventore adipisci deserunt ipsa, nobis, error doloribus natus voluptatibus deleniti dolorum repellendus? Voluptate, voluptatibus vitae cumque vel aliquam ab repudiandae libero incidunt quaerat tenetur debitis sapiente eveniet sint totam, laudantium maxime minima corporis iure. Nulla, aspernatur odio? Libero a perferendis ad. Numquam!
+                <p class="error_text" v-if="!projectObjects.length">
+                    Object list is empty!
                 </p>
+                <ObjectList v-else></ObjectList>
             </PropertiesBlock>
             <PropertiesBlock className="object" title="Object properties">
-                <p class="error_text">Object not selected.</p>
+                <p class="error_text" v-if="!selectedObjects.length">Object not selected.</p>
+                <ObjectProperties v-for="objId in selectedObjects"
+                                  :key="projectObjects[projectObjects.findIndex(item => item.$id === objId)].$id"
+                                  :object="projectObjects[projectObjects.findIndex(item => item.$id === objId)]"
+                                  v-else></ObjectProperties>
             </PropertiesBlock>
         </div>
 
@@ -26,18 +31,50 @@
     </div>
 </template>
 <script>
-import Block from './EditorBlocks/Block';
-import PropertiesBlock from './EditorBlocks/PropertiesBlock';
-import LayerItem from './EditorBlocks/LayerItem';
+import Block from './EditorComponents/Blocks/Block';
+import PropertiesBlock from './EditorComponents/Blocks/PropertiesBlock';
+import LayerItem from './EditorComponents/LayerItem';
+import ObjectList from './EditorComponents/ObjectList';
+import ObjectProperties from './EditorComponents/ObjectProperties';
+
+import { mapGetters, mapActions } from 'vuex';
+
+import '../store/index.js';
+
+import { ipcRenderer } from 'electron';
+
+import initPlayground from '../assets/js/canvas.js';
 
 export default {
     name: 'editor',
     components: {
-        Block, PropertiesBlock, LayerItem
+        Block, PropertiesBlock, LayerItem, ObjectList, ObjectProperties
+    },
+    methods: mapActions(['setUpProjectStore']),
+    computed: {
+        ...mapGetters(['projectSettings', 'projectObjects', 'selectedObjects']),
+
+        projectData: function() {
+            if(this.$store.getters.projectType === 'level') {
+                return {
+                    settings: this.$store.getters.projectSettings,
+                    elements: this.$store.getters.projectObjects
+                }
+            }
+        }
+    },
+    created: function() {
+        ipcRenderer.on('setUpProject', (e, data) => {
+            initPlayground(data, this.$store);
+            this.setUpProjectStore(data);
+        });
+
+        ipcRenderer.on('getProjectData', e => {
+            e.sender.send('getProjectDataResponse', {
+                projectData: this.projectData,
+                store: this.$store.getters
+            })
+        });
     }
 }
 </script>
-<style src="../assets/css/main.css"></style>
-<style src="../assets/css/fonts.css"></style>
-<style src="../assets/css/themes/dark.css"></style>
-<style src="../assets/css/scrollbar.css"></style>

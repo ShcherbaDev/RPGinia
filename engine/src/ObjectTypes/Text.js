@@ -18,7 +18,6 @@ class Text extends Object {
         }
 
         this._settings.borderCoords[1] -= this._settings.settings.size/2;
-        
         this._settings.centralPointCoords[1] -= this._settings.settings.size/2;
     }
 
@@ -31,7 +30,8 @@ class Text extends Object {
             
             this._context.textAlign = textSettings.horizontalAlign;
             this._context.textBaseline = 'middle';
-            this._context.fillText(textSettings.text, this._settings.coords[0], this._settings.coords[1])
+
+            this._context.fillText(textSettings.text, this._settings.coords[0]+this._camera.x, this._settings.coords[1]+this._camera.y)
         }
     }
 
@@ -40,14 +40,17 @@ class Text extends Object {
         
         let borderCoordsX = this._settings.coords[0], 
             borderCoordsY = this._settings.coords[1] - objectSettings.size/2;
-
+                     
         if(objectSettings.horizontalAlign === 'center')
             borderCoordsX -= this._settings.coords[2]/2;
 
         if(objectSettings.horizontalAlign === 'right') 
             borderCoordsX -= this._settings.coords[2];
     
-        this._settings.borderCoords = [borderCoordsX, borderCoordsY];
+        this._settings.borderCoords = [
+            borderCoordsX + this._camera.x, 
+            borderCoordsY + this._camera.y
+        ];
 
         super.drawInDebug();
     }

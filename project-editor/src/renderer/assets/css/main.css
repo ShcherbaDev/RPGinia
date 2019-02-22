@@ -81,6 +81,34 @@ sup.required {
 	font-weight: bold;
 }
 
+/* Object list item styles */
+.obj_list_item {
+	display: grid;
+	grid-template-columns: 23px 1fr 22%;
+	padding: 5px 10px;
+	cursor: pointer;
+}
+
+.obj_list_item > .icon,
+.obj_list_item > .name,
+.obj_list_item > .type {
+	max-height: 23px;
+}
+
+.obj_list_item > .name,
+.obj_list_item > .type {
+	line-height: 23px;
+}
+
+.obj_list_item > .name {
+	padding-left: 7px;
+}
+
+.obj_list_item > .type {
+	text-align: right;
+	font-size: 13px;
+}
+
 /* Playground block styles */
 .block.playground .canvas_container {
 	display: flex;

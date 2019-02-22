@@ -227,8 +227,10 @@ class World {
 		this._audio = options.audio || null;
 		this._camera = options.camera || null;
 
-		if(this._camera && !this._camera._world)
+		if(this._camera && !this._camera._world) {
 			this._camera._world = this;
+			Object.prototype.camera = this._camera;
+		}
 
 		this._currentLevelId = options.currentLevelId || 0;
 

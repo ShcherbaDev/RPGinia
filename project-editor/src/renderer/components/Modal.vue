@@ -25,9 +25,6 @@ export default {
             type: Boolean,
             default: true
         }
-    },
-    created: function() {
-        ipcRenderer.on('closeModal', e => this.$emit('close'));
     }
 }
 </script>

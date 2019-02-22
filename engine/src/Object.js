@@ -15,7 +15,7 @@ class Object {
      */
     constructor(settings) {
         /**
-         * Object's settings
+         * Object's settings.
          * @private
          */
         this._settings = settings;
@@ -28,11 +28,17 @@ class Object {
         this._appPath = this.__proto__.appPath;
 
         /** 
-         * Get a context object for drawing
+         * Get a context object for drawing.
          * @private
          * @type {Object}
          */
         this._context = this.__proto__.context;
+
+        this._camera = this.__proto__.camera || {
+            x: 0,
+            y: 0,
+            rotateDeg: 0
+        };
         
         // Setting up width and height for text
         if(this._settings.type === 'text') {
@@ -62,21 +68,17 @@ class Object {
         }
         
         // Setting up a 'layer' property to default value, if it's not defined.
-		if(this._settings.layer === undefined)
-        this._settings.layer = 1;
+		if(this._settings.layer === undefined) this._settings.layer = 1;
 
         // Setting up a 'isVisible' property to default value, if it's not defined.
-        if(this._settings.isVisible === undefined)
-            this._settings.isVisible = true;
+        if(this._settings.isVisible === undefined) this._settings.isVisible = true;
     }
 
     /**
      * Method for drawing game objects.
      * @returns {Boolean} false
      */
-    draw() {
-        return false;
-    }
+    draw() { return false }
 
     /**
      * Drawing object borders and central points. Works only if debug mode in World class is turned on.
@@ -96,8 +98,8 @@ class Object {
         // Draw central points of elements
         this._context.fillStyle = 'red';
         this._context.fillRect(
-            objectSettings.coords[0] + objectSettings.centralPointCoords[0]-10/2, 
-            objectSettings.coords[1] + objectSettings.centralPointCoords[1]-10/2, 
+            objectSettings.coords[0] + objectSettings.centralPointCoords[0]-10/2 + this._camera.x, 
+            objectSettings.coords[1] + objectSettings.centralPointCoords[1]-10/2 + this._camera.y, 
             10, 10);
         this._context.fillStyle = 'black';
     }

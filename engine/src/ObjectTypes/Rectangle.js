@@ -1,10 +1,5 @@
 import Object from '../Object.js';
 
-/**
- * Somethins
- * @extends Object
- * @class
- */
 class Rectangle extends Object {
     constructor(settings) {
         super(settings);
@@ -16,18 +11,20 @@ class Rectangle extends Object {
     draw() {
         if(this._settings.type === 'rectangle') {
             const rectSettings = this._settings.settings;
+            
             this._context.fillStyle = rectSettings.fill;
             this._context.fillRect(
-                this._settings.coords[0], this._settings.coords[1],
+                this._settings.coords[0] + this._camera.x, 
+                this._settings.coords[1] + this._camera.y,
                 this._settings.coords[2], this._settings.coords[3],  
             );
         }
     }
 
-    drawInDebug() {
+    drawInDebug() { 
         this._settings.borderCoords = [
-            this._settings.coords[0],
-            this._settings.coords[1]
+            this._settings.coords[0] + this._camera.x,
+            this._settings.coords[1] + this._camera.y
         ];
 
         super.drawInDebug();

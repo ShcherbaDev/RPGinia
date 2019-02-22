@@ -53,10 +53,9 @@ export default {
             const dir = this.projDir;
 
             if(name && type && dir) {
-                ipcRenderer.send('createProject', { name, type, dir });
-                this.$router.push('/', (a) => {
-                    console.log("Completed!", a)
-                });
+                this.$router.push('editor');
+                this.$emit('createProject', { name, type, dir });
+                // ipcRenderer.send('createProject', { name, type, dir });
             }
             else console.error('Form is not valid!');
         }

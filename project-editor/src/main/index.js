@@ -1,4 +1,9 @@
-import { app, BrowserWindow, ipcMain, dialog } from 'electron'
+import { app, BrowserWindow, ipcMain, dialog, Menu, globalShortcut } from 'electron';
+import * as path from 'path';
+import * as os from 'os';
+import * as storage from 'electron-json-storage';
+import menuTemplate from './customMenu';
+import * as projectActions from './projectActions';
 
 /**
  * Set `__static` path to static files in production
@@ -8,29 +13,43 @@ if (process.env.NODE_ENV !== 'development') {
     global.__static = require('path').join(__dirname, '/static').replace(/\\/g, '\\\\');
 }
 
-let mainWindow
+let mainWindow;
 const winURL = process.env.NODE_ENV === 'development'
     ? `http://localhost:9080`
     : `file://${__dirname}/index.html`
 
 function createWindow() {
-    /**
-     * Initial window options
-     */
+    // Initial window options
     mainWindow = new BrowserWindow({
-        height: 563,
-        useContentSize: true,
-        width: 1000
+        minWidth: 1095,
+        minHeight: 650
     });
-
     mainWindow.loadURL(winURL);
     mainWindow.maximize();
+    
+    mainWindow.webContents.openDevTools();
+
+    // Define custom menu
+    const menu = Menu.buildFromTemplate(menuTemplate);
+    Menu.setApplicationMenu(menu);
 
     mainWindow.on('closed', () => {
-        mainWindow = null
+        mainWindow = null;
     });
 
+
+    storage.setDataPath(path.join(os.tmpdir(), 'RPGinia project editor'));
+    mainWindow.webContents.on('did-finish-load', () => {
+        projectActions.openProject(mainWindow);
+
+        // Register shortcuts
+        // globalShortcut.register('CommandOrControl+S', () => {
+        //     projectActions.saveProject(mainWindow);
+        // });
+    })
+
     // ipcMain events
+    // Event for custom file input
     ipcMain.on('requestChooseFile', (e, arg) => {
         dialog.showSaveDialog({
             title: 'Choose project path',
@@ -38,7 +57,7 @@ function createWindow() {
                 { name: arg.extensionLabel, extensions: [arg.extension] }
             ]
         }, filePath => {
-            if (filePath !== undefined) {
+            if(filePath !== undefined) {
                 filePath = filePath.replace(/\\/g, '\\\\');
                 e.returnValue = filePath;
             }
@@ -46,14 +65,13 @@ function createWindow() {
         });
     });
 
-    ipcMain.on('createProject', (e, arg) => {
-        console.log('Project has been created!\nArguments:', arg);
-        e.sender.send('closeModal');
+    // Create new project
+    ipcMain.on('createProject', e => {
+        projectActions.createProject(mainWindow);
     });
 }
 
 app.on('ready', createWindow);
-
 app.on('window-all-closed', () => {
     if (process.platform !== 'darwin') {
         app.quit();

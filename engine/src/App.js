@@ -139,6 +139,23 @@ class App {
 	 * @type {Object[]}
 	 */
 	get globalVariables() { return this._globalVariables }
+
+	/** 
+	 * Get a canvas sizes.
+	 * @readonly
+	 * @type {Number[]}
+	 */
+	get sizes() { return this._sizes }
+
+	/**
+	 * Set new canvas sizes.
+	 * @param {Number[]} newSizesValue - New canvas sizes. First value - width, second - height.
+	 */
+	set sizes(newSizesValue) { 
+		this._sizes = newSizesValue;
+		this._canvas.width = this._sizes[0];
+		this._canvas.height = this._sizes[1];
+	}
 }
 
 export default App;

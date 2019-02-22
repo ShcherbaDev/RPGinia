@@ -6,6 +6,14 @@ a {
     color: #4988DB;
 }
 
+p.error_text {
+    color: #eee;
+}
+
+button {
+    color: #fff;
+}
+
 .title {
     color: #fff;
 	background-color: #2d2d2d;
@@ -28,8 +36,26 @@ a {
     border-right-color: #555;
 }
 
-button {
-    color: #fff;
+/* Object items */
+.obj_list_item > .name {
+    color: #eee;
+}
+
+.obj_list_item > .type {
+    color: #888;
+}
+
+.obj_list_item:hover {
+	background-color: rgba(225,225,225, .2)
+}
+
+.obj_list_item.selected {
+    background-color: rgba(225,225,225, .1);
+}
+
+.obj_list_item:hover > .type,
+.obj_list_item.selected > .type {
+    color: #999;
 }
 
 .block.playground .canvas_container > canvas {
