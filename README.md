@@ -25,7 +25,7 @@ Engine API is located [here](https://shcherbadev.github.io/rpginia/docs/api/).
 
 
 # README on other languages:
-* [On Russian (На русском)](#readme-on-russian-readme-%D0%BD%D0%B0-%D1%80%D1%83%D1%81%D1%81%D0%BA%D0%BE%D0%BC)
+* [On Russian (На русском)](#readme-on-russian-readme-на-русском-языке)
 * [On Ukrainian (На українській)](#readme-on-ukrainian-readme-%D0%BD%D0%B0-%D1%83%D0%BA%D1%80%D0%B0%D1%97%D0%BD%D1%81%D1%8C%D0%BA%D1%96%D0%B9-%D0%BC%D0%BE%D0%B2%D1%96)
 
 
