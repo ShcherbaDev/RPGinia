@@ -104,6 +104,7 @@ let rendererConfig = {
     new VueLoaderPlugin(),
     new MiniCssExtractPlugin({filename: 'styles.css'}),
     new HtmlWebpackPlugin({
+      title: 'RPGinia project editor',
       filename: 'index.html',
       template: path.resolve(__dirname, '../src/index.ejs'),
       minify: {

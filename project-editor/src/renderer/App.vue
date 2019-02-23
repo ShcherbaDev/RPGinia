@@ -41,6 +41,7 @@ export default {
 		}
 	},
 	created: function() {
+		this.setDataToDefault();
 		ipcRenderer.on('openModal', (e, type) => {
 			if(type === 'createProject') {
 				this.modalInfo.type = 'createProject';

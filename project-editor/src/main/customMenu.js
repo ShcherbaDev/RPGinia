@@ -12,10 +12,21 @@ const menuTemplate = [
                     projectActions.createProject(BrowserWindow.getFocusedWindow());
                 }
             },
-            { label: 'Open project', accelerator: 'CommandOrControl+O' },
+            {
+                label: 'Open project',
+                accelerator: 'CommandOrControl+O',
+                click() {
+                    projectActions.openProject(BrowserWindow.getFocusedWindow(), true)
+                }
+            },
             { type: 'separator' },
-            { label: 'Save', accelerator: 'CommandOrControl+S' },
-            { label: 'Save as...', accelerator: 'CommandOrControl+Shift+S' },
+            {
+                label: 'Save',
+                accelerator: 'CommandOrControl+S',
+                click() {
+                    projectActions.saveProject(BrowserWindow.getFocusedWindow());
+                }
+            },
             { type: 'separator' },
             { role: 'quit', accelerator: 'CommandOrControl+Q' }
         ]

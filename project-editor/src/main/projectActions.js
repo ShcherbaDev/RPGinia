@@ -1,35 +1,84 @@
 import { writeFileSync, existsSync, readFile } from 'fs';
-import { ipcMain } from 'electron';
+import { ipcMain, dialog } from 'electron';
 import { get, has, set } from 'electron-json-storage';
 
-export function openProject(window) {
-    has('projectData', (err, hasKey) => {
-        if(err) throw err;
-        
-        if(hasKey) {
-            get('projectData', (error, data) => {
+export function openProject(window, startFromDialog = false) {
+    if(startFromDialog) {
+        const openProjectDialog = dialog.showOpenDialog(window, {
+            title: 'Select project',
+            filters: [
+                {
+                    name: '.JSON file',
+                    extensions: ['json']
+                }
+            ]
+        });
+
+        if(openProjectDialog !== undefined) {
+            const path = openProjectDialog[0];
+
+            readFile(path, 'utf8', (error, data) => {
                 if(error) throw error;
 
-                if(existsSync(data.path)) {
-                    readFile(data.path, 'utf8', (loadFileErr, fileData) => {
-                        if(loadFileErr) throw loadFileErr;
+                let projType = '';
+                let projData = JSON.parse(data);
 
-                        fileData = JSON.parse(fileData);
-                        console.log(`Project has been opened!\nProject name: ${fileData.settings.name}\nProject type: ${data.type}\nProject path: ${data.path}`);
-                        window.setTitle(`${fileData.settings.name} - ${window.getTitle()}`);
-                        
-                        window.webContents.send('setUpProject', { 
-                            type: data.type, 
-                            data: fileData 
-                        });
-                    });
+                // Checking project type 
+                if(projData.elements) projType = 'level'; // If project type is a level
+
+                else {
+                    dialog.showErrorBox('Project type error', 'The program can\'t define the type of project');
+                    return false;
                 }
-                else window.webContents.send('projectNotExist');
-            });
+
+                window.setTitle(`${projData.settings && projData.settings.name ? projData.settings.name : path} - RPGinia project editor`);
+
+                set('projectData', {
+                    path: path,
+                    type: projType
+                });
+
+                window.webContents.send('setUpProject', { 
+                    type: projType, 
+                    data: projData 
+                });
+
+                window.reload();
+            })
         }
 
-        else window.webContents.send('projectNotExist');
-    });
+        else
+            return false;
+    }
+
+    else {
+        has('projectData', (err, hasKey) => {
+            if(err) throw err;
+            
+            if(hasKey) {
+                get('projectData', (error, data) => {
+                    if(error) throw error;
+
+                    if(existsSync(data.path)) {
+                        readFile(data.path, 'utf8', (loadFileErr, fileData) => {
+                            if(loadFileErr) throw loadFileErr;
+                            fileData = JSON.parse(fileData);
+                            console.log(`Project has been opened!\nProject name: ${fileData.settings.name}\nProject type: ${data.type}\nProject path: ${data.path}`);
+                            window.setTitle(`${fileData.settings.name} - RPGinia project editor`);
+                            
+                            window.webContents.send('setUpProject', { 
+                                type: data.type, 
+                                data: fileData 
+                            });
+                        });
+                    }
+                    else window.webContents.send('projectNotExist');
+                });
+            }
+
+            else window.webContents.send('projectNotExist');
+        });
+    }
 }
 
 export function saveProject(window) {
@@ -63,20 +112,19 @@ export function createProject(window) {
         let data;
         if(arg.type === 'level') {
             data = `{
-        "settings": {
-            "name": "${arg.name}",
-            "background": "#000000"
-        },
-        "elements": []
-    }`;
+    "settings": {
+        "name": "${arg.name}",
+        "background": "#000000"
+    },
+    "elements": []
+}`;
             writeFileSync(arg.dir, data);
         }
 
-        window.setTitle(`${arg.name} - ${window.getTitle()}`);
+        window.setTitle(`${arg.name} - RPGinia project editor`);
 
         console.log('Project has been created!\nArguments:', arg);
 
-        // e.sender.send('closeModal');
         e.sender.send('setUpProject', { 
             type: arg.type, 
             data: JSON.parse(data) 

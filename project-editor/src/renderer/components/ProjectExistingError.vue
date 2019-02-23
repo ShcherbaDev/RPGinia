@@ -9,7 +9,7 @@
                     You can 
                     <a href="#" id="createProject" @click="createProject">create new</a> 
                     or 
-                    <a href="#" id="openProject">open existing</a>
+                    <a href="#" id="openProject" @click="openProject">open</a>
                 </p>
             </div>
         </div>
@@ -27,6 +27,10 @@ export default {
     methods: {
         createProject: function() {
             ipcRenderer.send('createProject')
+        },
+
+        openProject: function() {
+            ipcRenderer.send('openProject')
         }
     }
 }

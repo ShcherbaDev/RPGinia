@@ -69,6 +69,11 @@ function createWindow() {
     ipcMain.on('createProject', e => {
         projectActions.createProject(mainWindow);
     });
+
+    // Open other project via dialog
+    ipcMain.on('openProject', e => {
+        projectActions.openProject(mainWindow, true);
+    });
 }
 
 app.on('ready', createWindow);

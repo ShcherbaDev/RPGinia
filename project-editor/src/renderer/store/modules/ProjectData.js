@@ -14,7 +14,21 @@ const getters = {
 }
 
 const mutations = {
+    clearProjectStore(state) {
+        state.type = '';
+        state.settings = {};
+        state.layers = [];
+        state.objects = [];
+        state.selectedObjects = [];
+    },
+
     setUpProjectStore(state, projData) {
+        state.type = '';
+        state.settings = {};
+        state.layers = [];
+        state.objects = [];
+        state.selectedObjects = [];
+
         const projectType = projData.type;
         const projectData = projData.data;
 
@@ -50,6 +64,10 @@ const mutations = {
 }
 
 const actions = {
+    clearProjectStore({ commit }) {
+        commit('clearProjectStore');
+    },
+
     setUpProjectStore({ commit }, projData) {
         commit('setUpProjectStore', projData);
     },

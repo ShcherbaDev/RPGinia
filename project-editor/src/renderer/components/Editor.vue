@@ -50,7 +50,7 @@ export default {
     components: {
         Block, PropertiesBlock, LayerItem, ObjectList, ObjectProperties
     },
-    methods: mapActions(['setUpProjectStore']),
+    methods: mapActions(['clearProjectStore', 'setUpProjectStore']),
     computed: {
         ...mapGetters(['projectSettings', 'projectObjects', 'selectedObjects']),
 
