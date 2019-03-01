@@ -1,6 +1,6 @@
 <img src="https://camo.githubusercontent.com/b529c1ef9225dae56457d17f7a3069d61036c921/68747470733a2f2f73686368657262616465762e6769746875622e696f2f696d616765732f525047696e69612532306c6f676f25323066756c6c2e706e67" alt="RPGinia logo" data-canonical-src="https://shcherbadev.github.io/images/RPGinia%20logo%20full.png" width="500">
 
-# README on English
+# README on english
 ## Introduction
 RPGinia using for creating 2D games using Javascript. With his help you can create your own masterpiece of game industry. Well suited for indie developers as it's easy to learn.
 
@@ -27,11 +27,11 @@ Change log is located [here](https://github.com/ShcherbaDev/RPGinia/blob/master/
 
 
 # README on other languages:
-* [On Russian (На Русском)](#readme-on-russian-readme-%D0%BD%D0%B0-%D1%80%D1%83%D1%81%D1%81%D0%BA%D0%BE%D0%BC)
-* [On Ukrainian (На Українській)](#readme-on-ukrainian-readme-%D0%BD%D0%B0-%D1%83%D0%BA%D1%80%D0%B0%D1%97%D0%BD%D1%81%D1%8C%D0%BA%D1%96%D0%B9-%D0%BC%D0%BE%D0%B2%D1%96)
+* [On Russian (На русском)](#readme-on-russian-readme-на-русском-языке)
+* [On Ukrainian (На українській)](#readme-on-ukrainian-readme-на-українській-мові)
 
 
-# README on Russian (README на Русском)
+# README on russian (README на русском языке)
 ## Вступление
 RPGinia используется для создания 2D игр с использованием Javascript. С помощью него Вы сможете создать свой шедевр игровой индустрии. Хорошо подойдет для инди-разработчиков, поскольку он легок в изучении.
 
@@ -57,7 +57,7 @@ API движка находится [тут](https://shcherbadev.github.io/rpgin
 Список изменений находится [тут](https://github.com/ShcherbaDev/RPGinia/blob/master/CHANGELOG.md)
 
 
-# README on Ukrainian (README на Українській мові)
+# README on ukrainian (README на українській мові)
 ## Вступ
 RPGinia викоритсовується для створення 2D ігор з використанням Javascript. З його допомогою ви зможете створити свій шедевр ігрової індустрії. Добре підійде для інді-розробників, бо він легкий у вивченні.
 
