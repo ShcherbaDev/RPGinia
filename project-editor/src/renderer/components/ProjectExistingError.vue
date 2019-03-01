@@ -30,7 +30,7 @@ export default {
         },
 
         openProject: function() {
-            ipcRenderer.send('openProject')
+            ipcRenderer.send('openProject');
         }
     }
 }

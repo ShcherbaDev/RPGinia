@@ -1,13 +1,13 @@
 <template>
-    <div class="modal-mask">
-        <div class="modal-container">
-            <div class="modal-header">
-                <span class="modal-title">{{ title }}</span>
+    <div class="modal_mask">
+        <div class="modal_container">
+            <div class="modal_header">
+                <span class="modal_title">{{ title }}</span>
                 <button v-if="showExitBtn" class="btn_transparent" id="exit_btn" @click="$emit('close')">x</button>
             </div>
             <slot>
-                <div class="modal-body">Body</div>
-                <div class="modal-footer">Footer</div>
+                <div class="modal_body">Body</div>
+                <div class="modal_footer">Footer</div>
             </slot>
         </div>
     </div>

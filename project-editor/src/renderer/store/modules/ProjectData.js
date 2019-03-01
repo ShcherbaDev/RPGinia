@@ -55,11 +55,27 @@ const mutations = {
         state.selectedObjects = [];
     },
 
+    addObject(state, newObject) {
+        // state.objects.push(newObject);
+        state.objects[state.objects.length-1].$id = state.objects.length;
+        state.selectedObjects.push(state.objects[state.objects.length-1].$id);
+    },
+
+    deleteObject(state, objectIndex) {
+        const objectIndexInSelectedObjectsList = state.selectedObjects.findIndex(item => item === state.objects[objectIndex].$id);
+
+        if(objectIndexInSelectedObjectsList !== -1) state.selectedObjects.splice(objectIndexInSelectedObjectsList, 1);
+        state.objects.splice(objectIndex, 1);
+    },
+
     setObjectProperty(state, args) {
+        if(!args.newPropertyValue)
+            args.newPropertyValue = 'Unknown value';
+
         if(args.propertySetting)
-            state.objects[state.objects.findIndex(item => item.settings.$id === args.id)].settings[args.property][args.propertySetting] = args.newPropertyValue;
+            state.objects[state.objects.findIndex(item => item.$id === args.id)].settings[args.property][args.propertySetting] = args.newPropertyValue;
         else
-            state.objects[state.objects.findIndex(item => item.settings.$id === args.id)].settings[args.property] = args.newPropertyValue;
+            state.objects[state.objects.findIndex(item => item.$id === args.id)].settings[args.property] = args.newPropertyValue;
     }
 }
 
@@ -82,6 +98,14 @@ const actions = {
 
     clearSelectedObjects({ commit }) {
         commit('clearSelectedObjects');
+    },
+
+    addObject({ commit }, newObject) {
+        commit('addObject', newObject);
+    },
+
+    deleteObject({ commit }, objectIndex) {
+        commit('deleteObject', objectIndex);
     },
 
     setObjectProperty({ commit }, args) {

@@ -3,10 +3,10 @@ function controller(api) {
                 api.app.getGlobalVariable("selectedLanguage").data.replics :
                 api.loaders.jsonFile('language', '/resources/languages/english.json').data.replics; // If global variable "selectedLanguage" is undefined
 
-    const textMessage = api.world.getElementByName('testText');
+    const textMessage = api.world.getElementByName('testText').settings;
     textMessage.settings.text = replics['test_multilanguage_text'];
 
-    const selectedLanguage = api.world.getElementByName('selectedLanguage');
+    const selectedLanguage = api.world.getElementByName('selectedLanguage').settings;
     selectedLanguage.settings.text = replics['selected_language'];
 
     const padding = 6;
@@ -52,7 +52,7 @@ function controller(api) {
 
     let interval = setInterval(() => {
         if(currentSymbolIndex < phrase.length) {
-            api.world.getElementByName('dialogText').settings.text += phrase[currentSymbolIndex];
+            api.world.getElementByName('dialogText').settings.settings.text += phrase[currentSymbolIndex];
             currentSymbolIndex++;
         }
         else

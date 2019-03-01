@@ -74,17 +74,17 @@ function draw() {
     app.clearPlayground();
     
     if(kb.isPressed('arrRight')) {
-        world.getElementByName('cyanRectangle').coords[0] += 2;
-        world.getElementByName('secondDynamicalText').coords[0] += 2;
-        world.getElementByName('testDynamicalSprite').coords[0] -= 2;
-        world.getElementByName('testDynamicalAnimatedSprite').coords[1] -= 3;
+        world.getElementByName('cyanRectangle').settings.coords[0] += 2;
+        world.getElementByName('secondDynamicalText').settings.coords[0] += 2;
+        world.getElementByName('testDynamicalSprite').settings.coords[0] -= 2;
+        world.getElementByName('testDynamicalAnimatedSprite').settings.coords[1] -= 3;
     }
     
     if(kb.isPressed('arrLeft')) {
-        world.getElementByName('cyanRectangle').coords[0] -= 2;
-        world.getElementByName('secondDynamicalText').coords[0] -= 2;
-        world.getElementByName('testDynamicalSprite').coords[0] += 2;
-        world.getElementByName('testDynamicalAnimatedSprite').coords[1] += 3;
+        world.getElementByName('cyanRectangle').settings.coords[0] -= 2;
+        world.getElementByName('secondDynamicalText').settings.coords[0] -= 2;
+        world.getElementByName('testDynamicalSprite').settings.coords[0] += 2;
+        world.getElementByName('testDynamicalAnimatedSprite').settings.coords[1] += 3;
     }
 
     world.draw();

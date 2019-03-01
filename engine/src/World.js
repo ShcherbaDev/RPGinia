@@ -295,7 +295,7 @@ class World {
 	 */
 	getElementByName(elementName) {
 		const levelElements = this._levels[this._currentLevelId].data.elements;
-		return levelElements[levelElements.findIndex(elem => elem.settings.name === elementName)].settings;
+		return levelElements[levelElements.findIndex(elem => elem.settings.name === elementName)];
 	}
 
 	/**
@@ -309,7 +309,7 @@ class World {
 
 		for(let i in levelElements) {
 			if(levelElements[i].settings.layer === layerNum)
-				arr.push(levelElements[i].settings)
+				arr.push(levelElements[i])
 		}
 
 		return arr;

@@ -1,25 +1,26 @@
 <template>
     <div>
-        <div class="modal-body">
-            <div class="form_group">
-                <label for="projectName">Project name:</label>
-                <input type="text" id="projectName" name="projectName" v-model="projName">
-            </div>
-            <div class="form_group">
-                <label for="projectType">Project type:</label>
-                <select id="projectType" name="projectType" v-model="projType">
-                    <option v-for="type in projectTypes" 
-                            :key="type.id"
-                            :value="type.value" 
-                           :disabled="type.disabled">{{ type.text }}</option>
-                </select>
-            </div>
-            <div class="form_group">
-                <label for="savingDirectory_btn">Saving directory:</label>
-                <CustomFileInput id="savingDirectory" @fileChoosed="projDir = $event"></CustomFileInput>
-            </div>
+        <div class="modal_body">
+            <CustomInput 
+                type="text"
+                id="projectName"
+                label="Project name:"
+                v-model="projName" />
+
+            <CustomInput 
+                type="select"
+                id="projectType"
+                label="Project type:"
+                v-model="projType"
+                :options="projectTypes" />
+
+            <CustomInput
+                type="file"
+                id="savingDirectory"
+                label="Saving directory:"
+                v-model="projDir" />
         </div>
-        <div class="modal-footer">
+        <div class="modal_footer">
             <button class="btn btn_big btn_green" id="createProject" v-if="projName && projType && projDir" @click="validateForm()">Create</button>
             <button class="btn btn_big btn_red" id="createProject" disabled v-else>Form is not valid</button>
         </div>
@@ -29,11 +30,11 @@
 <script>
 import { ipcRenderer } from 'electron';
 
-import Modal from '../Modal';
+import CustomInputs from '../CustomInputs';
 import CustomFileInput from '../CustomFileInput';
 
 export default {
-    components: { Modal, CustomFileInput },
+    components: { CustomInput: CustomInputs, CustomFileInput },
     data: function() {
         return {
             projName: '',
@@ -55,7 +56,6 @@ export default {
             if(name && type && dir) {
                 this.$router.push('editor');
                 this.$emit('createProject', { name, type, dir });
-                // ipcRenderer.send('createProject', { name, type, dir });
             }
             else console.error('Form is not valid!');
         }

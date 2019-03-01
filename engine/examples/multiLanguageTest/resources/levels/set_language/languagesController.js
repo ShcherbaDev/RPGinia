@@ -4,15 +4,15 @@ function controller(api) {
     }
 
     const flags = [
-        api.world.getElementsFromLayer(2)[0], // Britain flag
-        api.world.getElementsFromLayer(2)[1], // Ukrainian flag
-        api.world.getElementsFromLayer(2)[2]  // Russian flag
+        api.world.getElementsFromLayer(2)[0].settings, // Britain flag
+        api.world.getElementsFromLayer(2)[1].settings, // Ukrainian flag
+        api.world.getElementsFromLayer(2)[2].settings  // Russian flag
     ];
 
     const languagesLabels = [
-        api.world.getElementsFromLayer(3)[0], // English language
-        api.world.getElementsFromLayer(3)[1], // Ukrainian language
-        api.world.getElementsFromLayer(3)[2]  // Russian language
+        api.world.getElementsFromLayer(3)[0].settings, // English language
+        api.world.getElementsFromLayer(3)[1].settings, // Ukrainian language
+        api.world.getElementsFromLayer(3)[2].settings  // Russian language
     ];
 
     const languagesPaths = [

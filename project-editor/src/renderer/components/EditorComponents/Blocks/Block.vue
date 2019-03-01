@@ -2,7 +2,9 @@
     <div :class="'block ' + className">
         <BlockTitle :title="title"
                     :addButton="titleAddButton" 
-                    :deleteButton="titleDeleteButton"></BlockTitle>
+                    :deleteButton="titleDeleteButton"
+                    @add="$emit('add')"
+                    @delete="$emit('delete')" />
         <div class="content">
             <slot></slot>
         </div>

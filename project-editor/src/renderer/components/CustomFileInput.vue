@@ -30,7 +30,7 @@ export default {
 
             const filePath = ipcRenderer.sendSync('requestChooseFile', { extension, extensionLabel });
             document.querySelector(`.custom_file_input#${this.id} p#filePath`).innerHTML = filePath.replace(/\\\\/g, '\\');
-            this.$emit('fileChoosed', filePath);
+            this.$emit('input', filePath);
         }
     }
 }

@@ -1,5 +1,6 @@
 import { BrowserWindow } from 'electron';
 import * as projectActions from './projectActions';
+import * as clipboard from '../renderer/assets/js/clipboard';
 
 const menuTemplate = [
     {
@@ -34,10 +35,22 @@ const menuTemplate = [
     {
         label: 'Edit',
         submenu: [
-            { role: 'cut' },
-            { role: 'copy' },
-            { role: 'paste' },
-            { role: 'delete' }
+            { role: 'cut', enabled: false },
+            { 
+                label: 'Copy',
+                accelerator: 'CommandOrControl+C',
+                click() {
+                    clipboard.copy(BrowserWindow.getFocusedWindow());
+                }
+            },
+            { 
+                label: 'Paste',
+                accelerator: 'CommandOrControl+V',
+                click() {
+                    clipboard.paste(BrowserWindow.getFocusedWindow())
+                } 
+            },
+            { role: 'delete', enabled: false }
         ]
     },
     {

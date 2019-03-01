@@ -25,19 +25,6 @@ export default {
         ...mapActions(['selectObject', 'unselectObject', 'clearSelectedObjects']),
         select: function(event) {
             const isCtrlKey = event.ctrlKey;
-            
-            // Not working till fix.
-            /* if(isCtrlKey) {
-                if(this.isObjectSelected) {
-                    this.unselectObject({ 
-                        from: this.selectedObjects.indexOf(this.id), 
-                        to: 1
-                    });
-                }
-                else {
-                    this.selectObject(this.id);
-                }
-            } */
 
             if(!this.isObjectSelected) {
                 for(let i in this.selectedObjects) {

@@ -1,7 +1,7 @@
-import { app, BrowserWindow, ipcMain, dialog, Menu, globalShortcut } from 'electron';
-import * as path from 'path';
-import * as os from 'os';
-import * as storage from 'electron-json-storage';
+import { app, BrowserWindow, ipcMain, dialog, Menu } from 'electron';
+import { join } from 'path';
+import { tmpdir } from 'os';
+import { setDataPath } from 'electron-json-storage';
 import menuTemplate from './customMenu';
 import * as projectActions from './projectActions';
 
@@ -26,10 +26,8 @@ function createWindow() {
     });
     mainWindow.loadURL(winURL);
     mainWindow.maximize();
-    
-    mainWindow.webContents.openDevTools();
 
-    // Define custom menu
+    // Defining custom menu
     const menu = Menu.buildFromTemplate(menuTemplate);
     Menu.setApplicationMenu(menu);
 
@@ -37,16 +35,13 @@ function createWindow() {
         mainWindow = null;
     });
 
+    // Setting up path for saving project data (In Temp)
+    setDataPath(join(tmpdir(), 'RPGinia project editor'));
 
-    storage.setDataPath(path.join(os.tmpdir(), 'RPGinia project editor'));
     mainWindow.webContents.on('did-finish-load', () => {
+        // Try to open existing project
         projectActions.openProject(mainWindow);
-
-        // Register shortcuts
-        // globalShortcut.register('CommandOrControl+S', () => {
-        //     projectActions.saveProject(mainWindow);
-        // });
-    })
+    });
 
     // ipcMain events
     // Event for custom file input
@@ -74,17 +69,29 @@ function createWindow() {
     ipcMain.on('openProject', e => {
         projectActions.openProject(mainWindow, true);
     });
+
+    // Open modal window
+    ipcMain.on('requestModalOpen', (e, type) => {
+        e.sender.send('openModal', type);
+    });
+
+    // Create new object
+    ipcMain.on('createObjectRequest', (e, obj) => {
+        e.sender.send('createObject', obj);
+    });
+
+    // Delete object
+    ipcMain.on('requestDeleteObject', (e, index) => {
+        e.sender.send('deleteObject', index);
+    });
 }
 
 app.on('ready', createWindow);
+
 app.on('window-all-closed', () => {
-    if (process.platform !== 'darwin') {
-        app.quit();
-    }
+    if(process.platform !== 'darwin') app.quit();
 });
 
 app.on('activate', () => {
-    if (mainWindow === null) {
-        createWindow();
-    }
+    if(mainWindow === null) createWindow();
 });

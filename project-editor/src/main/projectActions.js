@@ -5,7 +5,7 @@ import { get, has, set } from 'electron-json-storage';
 export function openProject(window, startFromDialog = false) {
     if(startFromDialog) {
         const openProjectDialog = dialog.showOpenDialog(window, {
-            title: 'Select project',
+            title: 'Open project',
             filters: [
                 {
                     name: '.JSON file',
@@ -44,7 +44,7 @@ export function openProject(window, startFromDialog = false) {
                 });
 
                 window.reload();
-            })
+            });
         }
 
         else
@@ -129,5 +129,7 @@ export function createProject(window) {
             type: arg.type, 
             data: JSON.parse(data) 
         });
+
+        window.reload();
     });
 }

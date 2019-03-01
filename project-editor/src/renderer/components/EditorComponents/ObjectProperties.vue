@@ -1,11 +1,11 @@
 <template>
-    <Rectangle :object="object.settings"></Rectangle>
+    <RectangleProperties :object="object" v-if="object.settings.type === 'rectangle'" />
 </template>
 <script>
-import Rectangle from './Objects/Rectangle';
+import RectangleProperties from './Objects/RectangleProperties';
 
 export default {
-    components: { Rectangle },
+    components: { RectangleProperties },
     props: {
         object: Object
     }
