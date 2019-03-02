@@ -74,12 +74,12 @@ sup.required {
 .obj_list_item > .icon,
 .obj_list_item > .name,
 .obj_list_item > .type {
-	max-height: 23px;
+	max-height: 24px;
 }
 
 .obj_list_item > .name,
 .obj_list_item > .type {
-	line-height: 23px;
+	line-height: 24px;
 }
 
 .obj_list_item > .name {
