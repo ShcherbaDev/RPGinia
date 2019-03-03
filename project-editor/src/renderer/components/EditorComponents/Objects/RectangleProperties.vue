@@ -54,18 +54,14 @@ import '../../../store/index.js';
 import { mapGetters, mapActions } from 'vuex';
 
 export default {
-    data() {
-        return {
-            asd: ''
-        }
-    },
     components: { CustomInput: CustomInputs },
     computed: mapGetters(['projectObjects', 'selectedObjects']),
     methods: {
         ...mapActions(['setObjectProperty']),
 
-        parseToHex(color) { return convertColorNameToHex(color) },
-        test(e) { console.log(e) }
+        parseToHex: function(color) { 
+            return convertColorNameToHex(color) 
+        }
     },
     props: {
         object: Object

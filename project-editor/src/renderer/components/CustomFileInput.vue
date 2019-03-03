@@ -4,7 +4,7 @@
             <p id="filePath">File path is not choosed</p>
         </div>
         <div class="choose_btn">
-            <a href="#" class="choose_btn" :id="`chooseBtn ${id}_btn`" @click="requestChoosingFile()">Choose</a>
+            <a href="#" class="choose_btn" :id="`chooseBtn ${id}_btn`" @click="requestChoosingFile">Choose</a>
         </div>
     </div>
 </template>
@@ -24,11 +24,11 @@ export default {
         }
     },
     methods: {
-        requestChoosingFile() {
+        requestChoosingFile: function() {
             const extension = this.extension;
             const extensionLabel = this.extensionLabel;
 
-            const filePath = ipcRenderer.sendSync('requestChooseFile', { extension, extensionLabel });
+            const filePath = ipcRenderer.sendSync('requestChooseFile', { name: extensionLabel, extensions: [extension] });
             document.querySelector(`.custom_file_input#${this.id} p#filePath`).innerHTML = filePath.replace(/\\\\/g, '\\');
             this.$emit('input', filePath);
         }

@@ -1,6 +1,40 @@
 import { writeFileSync, existsSync, readFile } from 'fs';
 import { ipcMain, dialog } from 'electron';
 import { get, has, set } from 'electron-json-storage';
+import config from './config';
+
+export function createProject(window) {
+    window.webContents.send('openModal', 'createProject');
+    ipcMain.once('closeModal', (e, arg) => {
+        set('projectData', {
+            path: arg.dir.replace(/\\\\/g, '\\'),
+            type: arg.type
+        });
+
+        let data;
+        if(arg.type === 'level') {
+            data = `{
+    "settings": {
+        "name": "${arg.name}",
+        "background": "#000000"
+    },
+    "elements": []
+}`;
+            writeFileSync(arg.dir, data);
+        }
+
+        window.setTitle(`${arg.name} - ${config.appName}`);
+
+        console.log('Project has been created!\nArguments:', arg);
+
+        e.sender.send('setUpProject', { 
+            type: arg.type, 
+            data: JSON.parse(data) 
+        });
+
+        window.reload();
+    });
+}
 
 export function openProject(window, startFromDialog = false) {
     if(startFromDialog) {
@@ -19,7 +53,7 @@ export function openProject(window, startFromDialog = false) {
 
             readFile(path, 'utf8', (error, data) => {
                 if(error) throw error;
-
+                
                 let projType = '';
                 let projData = JSON.parse(data);
 
@@ -31,19 +65,19 @@ export function openProject(window, startFromDialog = false) {
                     return false;
                 }
 
-                window.setTitle(`${projData.settings && projData.settings.name ? projData.settings.name : path} - RPGinia project editor`);
+                window.setTitle(`${projData.settings && projData.settings.name ? projData.settings.name : path} - ${config.appName}`);
 
                 set('projectData', {
                     path: path,
                     type: projType
                 });
 
+                window.reload();
+
                 window.webContents.send('setUpProject', { 
                     type: projType, 
                     data: projData 
                 });
-
-                window.reload();
             });
         }
 
@@ -64,7 +98,7 @@ export function openProject(window, startFromDialog = false) {
                             if(loadFileErr) throw loadFileErr;
                             fileData = JSON.parse(fileData);
                             console.log(`Project has been opened!\nProject name: ${fileData.settings.name}\nProject type: ${data.type}\nProject path: ${data.path}`);
-                            window.setTitle(`${fileData.settings.name} - RPGinia project editor`);
+                            window.setTitle(`${fileData.settings.name} - ${config.appName}`);
                             
                             window.webContents.send('setUpProject', { 
                                 type: data.type, 
@@ -83,7 +117,7 @@ export function openProject(window, startFromDialog = false) {
 
 export function saveProject(window) {
     window.webContents.send('getProjectData');
-    ipcMain.on('getProjectDataResponse', (e, obj) => {
+    ipcMain.once('getProjectDataResponse', (e, obj) => {
         const store = obj.store;
 
         let projData = Object.assign({}, obj.projectData);
@@ -98,38 +132,5 @@ export function saveProject(window) {
             }
             writeFileSync(configData.path.replace(/\\/g, '\\\\'), JSON.stringify(projData, null, 4));
         });
-    });
-}
-
-export function createProject(window) {
-    window.webContents.send('openModal', 'createProject');
-    ipcMain.on('closeModal', (e, arg) => {
-        set('projectData', {
-            path: arg.dir.replace(/\\\\/g, '\\'),
-            type: arg.type
-        });
-
-        let data;
-        if(arg.type === 'level') {
-            data = `{
-    "settings": {
-        "name": "${arg.name}",
-        "background": "#000000"
-    },
-    "elements": []
-}`;
-            writeFileSync(arg.dir, data);
-        }
-
-        window.setTitle(`${arg.name} - RPGinia project editor`);
-
-        console.log('Project has been created!\nArguments:', arg);
-
-        e.sender.send('setUpProject', { 
-            type: arg.type, 
-            data: JSON.parse(data) 
-        });
-
-        window.reload();
     });
 }

@@ -1,9 +1,9 @@
 {
   "name": "rpginia-project-editor",
-  "version": "0.1.2",
+  "version": "0.1.3",
   "author": "shcherbaDev <andrey_shcherba@ukr.net>",
   "description": "RPGinia project editor for creating levels, languages and sprite sheets for RPGinia project.",
-  "license": null,
+  "license": "MIT",
   "main": "./dist/electron/main.js",
   "scripts": {
     "build": "node .electron-vue/build.js && electron-builder",

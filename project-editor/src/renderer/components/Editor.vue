@@ -8,7 +8,7 @@
                 @add="createObject"
                 @delete="deleteObject"
             >
-                <p class="error_text" v-if="!projectObjects.length">
+                <p class="error_text" v-if="projectObjects.length === 0">
                     Object list is empty!
                 </p>
 
@@ -21,7 +21,7 @@
                 </ul>
             </Block>
             <Block className="object" title="Object properties">
-                <p class="error_text" v-if="!selectedObjects.length">Object not selected.</p>
+                <p class="error_text" v-if="selectedObjects.length === 0">Object not selected.</p>
                 <ObjectProperties v-for="objId in selectedObjects"
                                   :key="objId"
                                   :object="projectObjects[projectObjects.findIndex(item => item.$id === objId)]"
@@ -47,6 +47,8 @@ import '../store/index.js';
 import { ipcRenderer } from 'electron';
 
 import initPlayground from '../assets/js/canvas';
+import selectObjects from '../assets/js/selectObjects';
+import initClipboardActions from '../assets/js/clipboard';
 
 export default {
     name: 'editor',
@@ -54,16 +56,15 @@ export default {
         Block, ObjectListItem, ObjectProperties, Playground
     },
     methods: {
-        ...mapActions(['addObject', 'clearProjectStore', 'setUpProjectStore']),
+        ...mapActions(['setUpProjectStore', 'addObject', 'clearProjectStore', 'clearSelectedObjects']),
 
         createObject: function() {
             ipcRenderer.send('requestModalOpen', 'createObject');
         },
 
         deleteObject: function() {
-            for(let selectedObjectId of this.selectedObjects) {
-                ipcRenderer.send('requestDeleteObject', this.projectObjects.findIndex(item => item.$id === selectedObjectId))
-            }
+            for(let selectedObjectId of this.selectedObjects)
+                ipcRenderer.send('requestDeleteObject', this.projectObjects.findIndex(item => item.$id === selectedObjectId));
         }
     },
     computed: {
@@ -74,14 +75,23 @@ export default {
                 return {
                     settings: this.$store.getters.projectSettings,
                     elements: this.$store.getters.projectObjects
-                }
+                };
             }
         }
     },
     created: function() {
-        // Set up project store and playground
+        // Actions on setting up project
         ipcRenderer.on('setUpProject', (e, data) => {
+            // If the click was not on the list of objects - deselect all objects
+            document.querySelector('.block.object_list > .content').addEventListener('click', e => {
+                if(this.selectedObjects.length > 0 && e.path.findIndex(item => item.tagName === 'UL') === -1)
+                    this.clearSelectedObjects();
+            });
+
+            // Initialize playground - connect engine and draw objects
             initPlayground(data, this.$store);
+
+            // Set up store's settings
             this.setUpProjectStore(data);
         });
 
@@ -93,38 +103,13 @@ export default {
             });
         });
 
-        // Clipboard actions with game objects (supports only copying one object)
-        // Copy
-        ipcRenderer.on('copySelectedObjects', e => {
-            document.execCommand('copy');
-        });
+        // 'addObject' event is on renderer/assets/canvas.js
 
-        document.addEventListener('copy', e => {
-            const getters = this.$store.getters;
-            if(getters.selectedObjects.length) {
-                e.clipboardData.setData(
-                    'text/plain', 
-                    getters.projectObjects[
-                        getters.projectObjects.findIndex(item => item.$id === getters.selectedObjects[0])
-                    ].$id
-                );
-                e.preventDefault();
-            }
-        });
+        // Delete object
+        ipcRenderer.on('deleteObject', (e, objectIndex) => this.$store.dispatch('deleteObject', objectIndex));
 
-        // Paste
-        ipcRenderer.on('pasteSelectedObjects', e => {
-            const getters = this.$store.getters;
-            document.execCommand('paste');
-        });
-
-        document.addEventListener('paste', e => {
-            const getters = this.$store.getters;
-            const id = parseInt(e.clipboardData.getData('text/plain'));
-            const obj = Object.assign(getters.projectObjects[getters.projectObjects.findIndex(item => item.$id === id)]);
-            
-            ipcRenderer.send('createObjectRequest', obj.settings);
-        });
+        // Initialize clipboard actions for game objects (supports only one object)
+        initClipboardActions(this.$store, document);
     }
 }
 </script>

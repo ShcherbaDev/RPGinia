@@ -12,6 +12,7 @@
 </template>
 <script>
 import BlockTitle from './BlockTitle';
+
 export default {
     props: {
         className: String,

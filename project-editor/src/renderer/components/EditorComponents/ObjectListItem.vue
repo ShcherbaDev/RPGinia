@@ -2,6 +2,8 @@
     <li class="obj_list_item" :class="{ selected: this.isObjectSelected }" @click="select($event)">
         <div class="icon">
             <img src="static/images/rectangleIcon.png" alt="Rectangle icon" v-if="type === 'rectangle'">
+
+            <img src="static/images/missingObjectIcon.png" alt="Undefined object type icon" v-else>
         </div>
         <div class="name">{{ name }}</div>
         <div class="type">
@@ -23,6 +25,7 @@ export default {
     },
     methods: {
         ...mapActions(['selectObject', 'unselectObject', 'clearSelectedObjects']),
+        
         select: function(event) {
             const isCtrlKey = event.ctrlKey;
 
