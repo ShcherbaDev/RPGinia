@@ -14,7 +14,7 @@
         <input 
             :type="type" 
             :id="id"
-            :value="id"
+            :checked="isChecked"
             @change="$emit('change', $event.target.checked)"
             v-else-if="type === 'checkbox'">
 
@@ -73,6 +73,8 @@ export default {
         },
         value: [String, Number, Boolean],
         label: String,
+
+        isChecked: Boolean,
 
         options: Array
     }

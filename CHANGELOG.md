@@ -1,5 +1,16 @@
 # RPGinia change log
 
+## v0.1.3
+### Editor changes:
+* Fixed bug with throwing an error on object creating.
+* Fixed a bug in file choosing, where in the dialog box when clicking on "cancel" app did not respond to clicks.
+* On clicking on not object list - deselecting all objects.
+* Editor is not adding objects borders coordinates and their central points when saving.
+* In the objects settings you can now make them invisible.
+
+### Engine changes:
+* You can't now change text align.
+
 ## v0.1.2
 ### Editor changes:
 * The packager to `.exe` was changed from `electron-packager` to `electron-builder`.

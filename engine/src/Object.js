@@ -51,13 +51,16 @@ class Object {
                 this._settings.coords[3] = this._settings.settings.size;
         }
 
+
         // Setting up border coordinations.
         if(this._settings.borderCoords === undefined) {
-			this._settings.borderCoords = [
-				this._settings.coords[0],
-				this._settings.coords[1]
+            this._settings.borderCoords = [
+                0, 
+                0, 
+                this._settings.coords[2], 
+                this._settings.coords[3]
             ];
-		}
+        }
 
         // Setting up central point coordinations
 		if(this._settings.centralPointCoords === undefined) {
@@ -85,13 +88,16 @@ class Object {
      */
     drawInDebug() {
         const objectSettings = this._settings;
-        
+
         // Draw borders of elements
         this._context.strokeStyle = 'blue';
         this._context.lineWidth = 3;
         this._context.strokeRect(
-            objectSettings.borderCoords[0], objectSettings.borderCoords[1], 
-            objectSettings.coords[2], objectSettings.coords[3]);
+            objectSettings.coords[0] + objectSettings.borderCoords[0] + this._camera.x, 
+            objectSettings.coords[1] + objectSettings.borderCoords[1] + this._camera.y, 
+            objectSettings.borderCoords[2], 
+            objectSettings.borderCoords[3]
+        );
         this._context.lineWidth = 1;
         this._context.strokeStyle = 'black';
 
@@ -100,7 +106,8 @@ class Object {
         this._context.fillRect(
             objectSettings.coords[0] + objectSettings.centralPointCoords[0]-10/2 + this._camera.x, 
             objectSettings.coords[1] + objectSettings.centralPointCoords[1]-10/2 + this._camera.y, 
-            10, 10);
+            10, 10
+        );
         this._context.fillStyle = 'black';
     }
 

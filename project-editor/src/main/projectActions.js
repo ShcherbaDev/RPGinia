@@ -128,6 +128,14 @@ export function saveProject(window) {
             if(configData.type === 'level') {
                 for(let i in store.projectObjects) {
                     projData.elements[i] = store.projectObjects[i]._settings;
+
+                    if(projData.elements[i].borderCoords) {
+                        delete projData.elements[i].borderCoords;
+                    }
+
+                    if(projData.elements[i].centralPointCoords) {
+                        delete projData.elements[i].centralPointCoords;
+                    }
                 }
             }
             writeFileSync(configData.path.replace(/\\/g, '\\\\'), JSON.stringify(projData, null, 4));

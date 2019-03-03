@@ -21,12 +21,7 @@ class Rectangle extends Object {
         }
     }
 
-    drawInDebug() { 
-        this._settings.borderCoords = [
-            this._settings.coords[0] + this._camera.x,
-            this._settings.coords[1] + this._camera.y
-        ];
-
+    drawInDebug() {
         super.drawInDebug();
     }
 }

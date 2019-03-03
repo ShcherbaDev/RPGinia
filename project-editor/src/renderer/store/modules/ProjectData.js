@@ -69,9 +69,6 @@ const mutations = {
     },
 
     setObjectProperty(state, args) {
-        if(!args.newPropertyValue)
-            args.newPropertyValue = 'Unknown value';
-
         if(args.propertySetting)
             state.objects[state.objects.findIndex(item => item.$id === args.id)].settings[args.property][args.propertySetting] = args.newPropertyValue;
         else
