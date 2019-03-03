@@ -36,8 +36,9 @@ const mutations = {
         state.settings = projectData.settings;
 
         if(projectType === 'level') {
-            for(let i in projectData.elements)
+            for(let i in projectData.elements) {
                 projectData.elements[i].$id = parseInt(i)+1;
+            }
         }
         state.objects = projectType === 'level' ? projectData.elements : [];
     },
@@ -54,17 +55,16 @@ const mutations = {
         state.selectedObjects = [];
     },
 
-    addObject(state, obj) {
-        state.objects[state.objects.length-1].$id = state.objects.length; 
+    addObject(state, newObject) {
+        // state.objects.push(newObject);
+        state.objects[state.objects.length-1].$id = state.objects.length;
         state.selectedObjects.push(state.objects[state.objects.length-1].$id);
     },
 
     deleteObject(state, objectIndex) {
         const objectIndexInSelectedObjectsList = state.selectedObjects.findIndex(item => item === state.objects[objectIndex].$id);
 
-        if(objectIndexInSelectedObjectsList !== -1) 
-            state.selectedObjects.splice(objectIndexInSelectedObjectsList, 1);
-
+        if(objectIndexInSelectedObjectsList !== -1) state.selectedObjects.splice(objectIndexInSelectedObjectsList, 1);
         state.objects.splice(objectIndex, 1);
     },
 
