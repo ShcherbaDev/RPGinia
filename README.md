@@ -20,7 +20,7 @@ To start, in the `engine` directory, enter the command `npm start`. After succes
 
 Your local server has been started. To view the content, enter in the browser the address from the field `Local`
 
-## For notes
+## Notes
 Engine API is located [here](https://shcherbadev.github.io/rpginia/docs/api/index.html).
 
 Change log is located [here](https://github.com/ShcherbaDev/RPGinia/blob/master/CHANGELOG.md).
