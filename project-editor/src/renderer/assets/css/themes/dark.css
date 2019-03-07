@@ -65,3 +65,55 @@ button {
 ::-webkit-scrollbar-thumb:hover {
 	background: #777; 
 }
+
+/* Modals */
+.modal_mask .modal_header,
+.modal_mask .modal_footer {
+    color: #fff;
+    background-color: #2d2d2d;
+}
+
+.modal_mask .modal_body {
+    background-color: #444;
+}
+
+.modal_mask .modal_body,
+.modal_mask .modal_footer {
+    border-color: #555;
+}
+
+/* Inputs */
+.input_group label {
+    color: #fff;
+}
+
+.input_group input[type="text"] {
+    color: #ddd;
+    background-color: #555;
+    border-color: #777;
+}
+
+/* Inputs - select */
+.input_group select {
+    color: #ddd;
+    background-color: #555;
+    border-color: #777;
+}
+
+select > option:disabled {
+    color: #aaa;
+}
+
+/* Inputs - file */
+.custom_file_input .result_field > p#filePath {
+    color: #ddd;
+    background-color: #555;
+    border-color: #777;
+}
+
+.custom_file_input .choose_btn > a {
+    background-color: #666;
+    border-color: #777;
+    color: #eee;
+    text-decoration: none;
+}

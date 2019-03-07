@@ -126,14 +126,21 @@ sup.required {
 
 .input_group label {
 	font-size: 22px;
-	margin-bottom: 5px;
+	margin-bottom: 6px;
 }
 
 .input_group input[type="text"] {
 	padding: 10px 12px;
 	border-radius: 5px;
-	border: 1px solid #ccc;
+	border: 1px solid;
 	font-size: 16px;
+}
+
+.input_group select {
+	padding: 9.5px 12px;
+	font-size: 16px;
+	border: 1px solid;
+	border-radius: 5px;
 }
 
 /* Custom file input */
@@ -144,8 +151,8 @@ sup.required {
 
 .custom_file_input .result_field > p#filePath {
 	border-radius: 5px 0 0 5px;
-	padding: 14px 16px;
-	background-color: #aaa;
+	padding: 11px 9px;
+	border: 1px solid;
 }
 
 .custom_file_input .choose_btn > a {
@@ -153,17 +160,7 @@ sup.required {
 	justify-content: center;
 	height: 100%;
 	align-items: center;
-	background-color: #aaa;
-	border-left: 1px solid #ccc;
-	border-radius: 0 6px 6px 0;
-}
-
-.bottom_right_button {
 	border: 1px solid;
-	border-radius: 5px;
-	font-size: 16px;
-	position: absolute;
-	bottom: 20px;
-	right: 20px;
-	padding: 10px 20px;
+	border-left: 0;
+	border-radius: 0 5px 5px 0;
 }

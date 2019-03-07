@@ -44,7 +44,7 @@
 }
 
 .modal_body, .modal_footer {
-    border-top: 1px solid #ddd;
+    border-top: 1px solid;
 }
 
 .modal_footer {
