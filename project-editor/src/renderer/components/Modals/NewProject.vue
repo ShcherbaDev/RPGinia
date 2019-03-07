@@ -16,12 +16,31 @@
 
             <CustomInput
                 type="file"
+                chooseFileTitle="Choose a project path:"
+                fileMethod="save"
                 id="savingDirectory"
                 label="Saving directory:"
                 v-model="projDir" />
+
+            <!-- Sprite sheet -->
+            <CustomInput 
+                type="checkbox"
+                id="includeSpriteSheetCheckbox"
+                label="Include sprite sheet:"
+                :isChecked="includeSpriteSheet"
+                @change="includeSpriteSheet = $event" />
+
+            <CustomInput
+                type="file"
+                chooseFileTitle="Select an existing sprite sheet"
+                fileMethod="open"
+                id="spriteSheetPath"
+                label="Path to sprite sheet:"
+                v-model="spriteSheetPath"
+                v-if="includeSpriteSheet" />
         </div>
         <div class="modal_footer">
-            <button class="btn btn_big btn_green" id="createProject" v-if="projName && projType && projDir" @click="validateForm()">Create</button>
+            <button class="btn btn_big btn_green" id="createProject" v-if="projName !== '' && projType !== '' && projDir !== ''" @click="validateForm()">Create</button>
             <button class="btn btn_big btn_red" id="createProject" disabled v-else>Form is not valid</button>
         </div>
     </div>
@@ -39,12 +58,14 @@ export default {
         return {
             projName: '',
             projType: 'level',
-            projDir: '',
             projectTypes: [
                 { id: 1, text: 'Level', value: 'level', disabled: false },
                 { id: 2, text: 'Sprite sheet', value: 'spriteSheet', disabled: true },
                 { id: 3, text: 'Language', value: 'language', disabled: true }
-            ]
+            ],
+            projDir: '',
+            includeSpriteSheet: false,
+            spriteSheetPath: ''
         }
     },
     methods: {
@@ -52,10 +73,11 @@ export default {
             const name = this.projName;
             const type = this.projType;
             const dir = this.projDir;
+            const spriteSheetPath = this.spriteSheetPath;
 
-            if(name && type && dir) {
+            if(name !== '' && type !== '' && dir !== '') {
                 this.$router.push('editor');
-                this.$emit('createProject', { name, type, dir });
+                this.$emit('createProject', { name, type, dir, spriteSheetPath });
             }
             else console.error('Form is not valid!');
         }

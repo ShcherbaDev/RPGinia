@@ -13,6 +13,8 @@ import { ipcRenderer } from 'electron';
 
 export default {
     props: {
+        title: String,
+        method: String,
         id: String,
         extensionLabel: {
             type: String,
@@ -25,10 +27,12 @@ export default {
     },
     methods: {
         requestChoosingFile: function() {
+            const title = this.title;
+            const method = this.method;
             const extension = this.extension;
             const extensionLabel = this.extensionLabel;
 
-            const filePath = ipcRenderer.sendSync('requestChooseFile', { name: extensionLabel, extensions: [extension] });
+            const filePath = ipcRenderer.sendSync('requestChooseFile', { title, method, name: extensionLabel, extensions: [extension] });
             document.querySelector(`.custom_file_input#${this.id} p#filePath`).innerHTML = filePath.replace(/\\\\/g, '\\');
             this.$emit('input', filePath);
         }

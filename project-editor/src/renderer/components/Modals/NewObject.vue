@@ -115,7 +115,7 @@ export default {
     components: { CustomInput: CustomInputs },
     methods: {
         createObject: function() {
-            if(this.name && this.type && this.layer && this.coords) {
+            if(this.name !== '' && this.type !== '' && this.layer !== null && this.coords !== []) {
                 if(this.type === 'rectangle') {
                     this.$emit('createObject', {
                         name: this.name,

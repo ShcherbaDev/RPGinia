@@ -38,7 +38,6 @@ class World {
 		this._loaders = null;
 		this._keyboard = null;
 		this._audio = null;
-		this._player = null;
 		this._camera = null;
 
 		/** 
@@ -70,6 +69,7 @@ class World {
 		this.__proto__.Object = Object;
 		Object.prototype.appPath = this._appPath;
 		Object.prototype.context = this._context;
+		Object.prototype.world = this;
 	}
 
 	/**
@@ -78,11 +78,11 @@ class World {
 	 * @private
 	 */
 	_doController(levelId = this._currentLevelId) {
-		// Notice:
-		// If you want to change the level, but there are keyboard 
-		// events or intervals at the current level, make sure that in
-		// pressEvent, isPressed and intervals includes checking for the
-		// current level name.
+		/* Notice:
+		 * If you want to change the level, but there are keyboard 
+		 * events or intervals at the current level, make sure that in
+		 * pressEvent, isPressed and intervals includes checking for the
+		 * current level name. */
 
 		const levelList = this._levels;
 		let xml = new XMLHttpRequest();
@@ -104,7 +104,6 @@ class World {
 			loaders: this._loaders,
 			keyboard: this._keyboard,
 			audio: this._audio,
-			player: this._player,
 			camera: this._camera
 		});
 	}
@@ -129,16 +128,16 @@ class World {
 	/**
 	 * Returns a prepared object.
 	 * @param {Object} object - Game object.
-	 * @param {Object} spriteSheets - Sprite sheet for object (If you're adding a sprite)
+	 * @param {Object} spriteSheet - Sprite sheet for object (If you're adding a sprite)
 	 * @returns {Object} - Prepared for drawing game object.
 	 * @private
 	 */
-	_prepareObject(object, spriteSheets) {
+	_prepareObject(object) {
 		if(object.type === 'rectangle')
 			return new Rectangle(object);
 
 		else if(object.type === 'sprite')
-			return new Sprite(object, spriteSheets);
+			return new Sprite(object);
 
 		else if(object.type === 'text')
 			return new Text(object);
@@ -158,23 +157,25 @@ class World {
 			this._currentLevelId++;
 			levelList[this._currentLevelId] = this._loaders.jsonFile('level', path);
 			levelList[this._currentLevelId].id = this._currentLevelId;
-		}
-
-		else
-			this._currentLevelId = levelList.findIndex(item => item.path === path)
+		} else this._currentLevelId = levelList.findIndex(item => item.path === path)
 
 		// Setting up level objects.
 		for(let j in levelList[this._currentLevelId].data.elements) {
-			levelList[this._currentLevelId].data.elements[j] = 
-				levelList[this._currentLevelId].data.elements[j].type !== 'sprite' ?
-				this._prepareObject(levelList[this._currentLevelId].data.elements[j]) :
-				this._prepareObject(levelList[this._currentLevelId].data.elements[j], levelList[this._currentLevelId].data.spriteSheets);
+			levelList[this._currentLevelId].data.elements[j] = this._prepareObject(levelList[this._currentLevelId].data.elements[j])
 		}
 
+		// Sorting objects
 		this._sortElements();
 
-		if(levelList[this._currentLevelId].data.settings.controllerPath !== undefined)
+		// Setting up camera coordinations
+		if(this._camera) {
+			this._camera.x = 0;
+			this._camera.y = 0;
+		}
+
+		if(levelList[this._currentLevelId].data.settings.controllerPath) {
 			this._doController();
+		}
 	}
 
 	/**
@@ -186,10 +187,19 @@ class World {
 	 */
 	_isObjectVisible(object, padding = 0) {
 		if(object.isVisible) {
-			return object.coords[0] <= this._canvas.width-padding &&
-				object.coords[1] <= this._canvas.height-padding &&
-				object.coords[0] + object.coords[2] >= padding &&
-				object.coords[1] + object.coords[3] >= padding;
+			if(this._camera) {
+				return object.coords[0] <= this._canvas.width - padding - this._camera.x
+					&& object.coords[1] <= this._canvas.height - padding - this._camera.y
+					&& object.coords[0] + object.coords[2] + this._camera.x >= padding 
+					&& object.coords[1] + object.coords[3] + this._camera.y >= padding;
+			}
+
+			else {
+				return object.coords[0] <= this._canvas.width - padding
+					&& object.coords[1] <= this._canvas.height - padding
+					&& object.coords[0] + object.coords[2] >= padding 
+					&& object.coords[1] + object.coords[3] >= padding;
+			}
 		}
 
 		else return false;

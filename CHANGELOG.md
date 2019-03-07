@@ -7,9 +7,14 @@
 * On clicking on not object list - deselecting all objects.
 * Editor is not adding objects borders coordinates and their central points when saving.
 * In the objects settings you can now make them invisible.
+* Added text object type support.
 
 ### Engine changes:
 * You can't now change text align.
+* Sprite setting `currentFrame` was renamed to `frameIndex`.
+* Sprite setting `isRepeat` was renamed to `isRepeating`.
+* The default value for sprite setting `interval` was set to 60ms.
+* Was added a new sprite setting `isPlaying` for play or stop animation when necessary.
 
 ## v0.1.2
 ### Editor changes:

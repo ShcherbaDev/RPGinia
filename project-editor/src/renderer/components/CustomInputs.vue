@@ -52,6 +52,8 @@
         <!-- File -->
         <CustomFileInput 
             :id="id"
+            :title="chooseFileTitle"
+            :method="fileMethod"
             @input="$emit('input', $event)"
             v-else-if="type === 'file'" />
     </div>
@@ -71,12 +73,15 @@ export default {
             type: String,
             default: 'text'
         },
-        value: [String, Number, Boolean],
+        value: [String, Number],
         label: String,
 
         isChecked: Boolean,
 
-        options: Array
+        options: Array,
+
+        chooseFileTitle: String,
+        fileMethod: String
     }
 }
 </script>

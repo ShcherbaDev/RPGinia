@@ -43,20 +43,33 @@ function createWindow() {
     // ipcMain events
     // Event for custom file input
     ipcMain.on('requestChooseFile', (e, arg) => {
-        const { name, extensions } = arg;
+        const { title, method, name, extensions } = arg;
+        console.log(method);
+        if(method === 'save') {
+            dialog.showSaveDialog({
+                title: title,
+                filters: [
+                    { name, extensions }
+                ]
+            }, filePath => {
+                if(filePath) {
+                    filePath = filePath.replace(/\\/g, '\\\\');
+                    e.returnValue = filePath;
+                } else e.returnValue = 'File is not choosed';
+            });
+        }
 
-        dialog.showSaveDialog({
-            title: 'Choose project path',
-            filters: [
-                { name, extensions }
-            ]
-        }, filePath => {
-            if(filePath) {
-                filePath = filePath.replace(/\\/g, '\\\\');
-                e.returnValue = filePath;
-            }
-            else e.returnValue = 'File is not choosed';
-        });
+        else if(method === 'open') {
+            dialog.showOpenDialog(mainWindow, {
+                title: title,
+                filters: [
+                    { name, extensions }
+                ]
+            }, filePath => {
+                console.log(filePath)
+                e.returnValue = filePath[0].replace(/\\/g, '\\\\');
+            });
+        }
     });
 
     // Create new project
@@ -78,9 +91,13 @@ function createWindow() {
 app.on('ready', createWindow);
 
 app.on('window-all-closed', () => {
-    if(process.platform !== 'darwin') app.quit();
+    if(process.platform !== 'darwin') {
+        app.quit();
+    }
 });
 
 app.on('activate', () => {
-    if(mainWindow === null) createWindow();
+    if(mainWindow === null) {
+        createWindow();
+    }
 });

@@ -6,10 +6,10 @@
 class Object {
     /**
      * @constructor
-     * @param {Object} settings - game object's settings. * There will be a link to the settings details *
+     * @param {Object} settings - game object's settings.
      * @param {String} settings.name - object's name.
      * @param {String} settings.type - object's type. Can be rectangle, sprite or text.
-     * @param {Object} settings.settings - object's settings for object's customization. Watch about it in the inherited classes from it.
+     * @param {Object} settings.settings - object's settings for object's customization.
      * @param {Number[]} settings.coords - object's coords. First value - x coordinate, second value - y coordinate, third value - object's width, fourth value - object's height.
      * @param {Number} [settings.layer=1] - object's layer.
      */
@@ -29,20 +29,32 @@ class Object {
 
         /** 
          * Get a context object for drawing.
-         * @private
          * @type {Object}
+         * @private
          */
         this._context = this.__proto__.context;
 
+        /**
+         * Camera class for moving camera.
+         * @type {Object}
+         * @private
+         */
         this._camera = this.__proto__.camera || {
             x: 0,
             y: 0,
             rotateDeg: 0
         };
+
+        /**
+         * World class.
+         * @private
+         * @type {Object}
+         */
+        this._world = this.__proto__.world;
         
         // Setting up width and height for text
         if(this._settings.type === 'text') {
-            this._context.font = `${this._settings.settings.size}px "${this._settings.font}"`;
+            this._context.font = `${this._settings.settings.size}px "${this._settings.settings.font}"`;
 
             if(!this._settings.coords[2])
 			    this._settings.coords[2] = this._context.measureText(this._settings.settings.text).width;
@@ -71,10 +83,10 @@ class Object {
         }
         
         // Setting up a 'layer' property to default value, if it's not defined.
-		if(this._settings.layer === undefined) this._settings.layer = 1;
+		if(!this._settings.layer) this._settings.layer = 1;
 
         // Setting up a 'isVisible' property to default value, if it's not defined.
-        if(this._settings.isVisible === undefined) this._settings.isVisible = true;
+        if(!this._settings.isVisible) this._settings.isVisible = true;
     }
 
     /**

@@ -22,24 +22,30 @@
         {
             "name": "English",
             "type": "sprite",
-            "spriteSheetIndex": 0,
-            "spriteIndex": 0,
+            "settings": {
+                "spriteSheetIndex": 0,
+                "spriteIndex": 0
+            },
             "coords": [90, 230, 180, 100],
             "layer": 2
         },
         {
             "name": "Russian",
             "type": "sprite",
-            "spriteSheetIndex": 0,
-            "spriteIndex": 1,
+            "settings": {
+                "spriteSheetIndex": 0,
+                "spriteIndex": 1
+            },
             "coords": [310, 230, 180, 100],
             "layer": 2
         },
         {
             "name": "Ukrainian",
             "type": "sprite",
-            "spriteSheetIndex": 0,
-            "spriteIndex": 2,
+            "settings": {
+                "spriteSheetIndex": 0,
+                "spriteIndex": 2
+            },
             "coords": [530, 230, 180, 100],
             "layer": 2
         },

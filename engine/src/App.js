@@ -24,6 +24,8 @@ class App {
 		this._sizes = sizes;
 		this._isImageSmoothingEnabled = isImageSmoothingEnabled;
 
+		
+
 		/**
 		 * An array of global variables
 		 * @private

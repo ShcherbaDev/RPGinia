@@ -27,8 +27,8 @@ Change log is located [here](https://github.com/ShcherbaDev/RPGinia/blob/master/
 
 
 # README on other languages:
-* [On Russian (На русском)](#readme-on-russian-readme-на-русском-языке)
-* [On Ukrainian (На українській)](#readme-on-ukrainian-readme-на-українській-мові)
+* [On russian (На русском)](#readme-on-russian-readme-на-русском-языке)
+* [On ukrainian (На українській)](#readme-on-ukrainian-readme-на-українській-мові)
 
 
 # README on russian (README на русском языке)

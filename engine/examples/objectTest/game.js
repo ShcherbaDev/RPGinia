@@ -6,8 +6,6 @@ const kb = new app.Keyboard();
 const load = new app.Loaders(true);
 const world = new app.World(true);
 
-const sprSheet = load.jsonFile('spriteSheet', '/resources/sprites/spriteSheets.json').data;
-
 kb.addKey('arrLeft', 37);
 kb.addKey('arrRight', 39);
 
@@ -57,7 +55,7 @@ world.createElement({
     spriteIndex: 0,
     coords: [400, 200, 200, 150],
     layer: 2
-}, sprSheet);
+});
 
 world.createElement({
     name: "testDynamicalAnimatedSprite",
@@ -66,9 +64,9 @@ world.createElement({
     spriteIndex: 0,
     frameTo: 1,
     interval: 500,
-    isRepeat: true,
+    isRepeating: true,
     coords: [400, 400, 200, 200]
-}, sprSheet);
+});
 
 function draw() {
     app.clearPlayground();

@@ -11,16 +11,20 @@ export function createProject(window) {
             type: arg.type
         });
 
-        let data;
+        let data = {};
         if(arg.type === 'level') {
-            data = `{
-    "settings": {
-        "name": "${arg.name}",
-        "background": "#000000"
-    },
-    "elements": []
-}`;
-            writeFileSync(arg.dir, data);
+            data.settings = {
+                name: arg.name,
+                background: '#000000'
+            };
+
+            data.elements = [];
+
+            if(arg.spriteSheetPath !== '') {
+                data.settings.spriteSheetPath = arg.spriteSheetPath;
+            }
+
+            writeFileSync(arg.dir, JSON.stringify(data, null, 2));
         }
 
         window.setTitle(`${arg.name} - ${config.appName}`);
@@ -29,7 +33,7 @@ export function createProject(window) {
 
         e.sender.send('setUpProject', { 
             type: arg.type, 
-            data: JSON.parse(data) 
+            data: data 
         });
 
         window.reload();
