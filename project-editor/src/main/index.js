@@ -43,31 +43,37 @@ function createWindow() {
     // ipcMain events
     // Event for custom file input
     ipcMain.on('requestChooseFile', (e, arg) => {
-        const { title, method, name, extensions } = arg;
-        console.log(method);
+        const { title, method, name, isOpenDirectory, extensions } = arg;
+        console.log()
         if(method === 'save') {
             dialog.showSaveDialog({
                 title: title,
                 filters: [
                     { name, extensions }
                 ]
-            }, filePath => {
-                if(filePath) {
-                    filePath = filePath.replace(/\\/g, '\\\\');
-                    e.returnValue = filePath;
+            }, path => {
+                if(path) {
+                    console.log(path)
+                    path = path.replace(/\\/g, '\\\\');
+                    e.returnValue = path;
                 } else e.returnValue = 'File is not choosed';
             });
         }
 
         else if(method === 'open') {
-            dialog.showOpenDialog(mainWindow, {
-                title: title,
-                filters: [
-                    { name, extensions }
-                ]
-            }, filePath => {
-                console.log(filePath)
-                e.returnValue = filePath[0].replace(/\\/g, '\\\\');
+            let settings = {
+                title: title
+            };
+
+            if(isOpenDirectory) settings.properties = ['openDirectory'];
+            else settings.filters = [ { name, extensions } ];
+
+            dialog.showOpenDialog(mainWindow, settings, path => {
+                if(path) e.returnValue = path[0].replace(/\\/g, '\\\\');
+                else {
+                    if(isOpenDirectory) e.returnValue = 'Directory is not choosed';
+                    else e.returnValue = 'File is not choosed';
+                }
             });
         }
     });

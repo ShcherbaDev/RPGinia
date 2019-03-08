@@ -6,12 +6,14 @@ import config from './config';
 export function createProject(window) {
     window.webContents.send('openModal', 'createProject');
     ipcMain.once('closeModal', (e, arg) => {
+        let data = {};
+
         set('projectData', {
-            path: arg.dir.replace(/\\\\/g, '\\'),
+            path: arg.filePath.replace(/\\\\/g, '\\'),
+            appPath: arg.appPath.replace(/\\\\/g, '\\'),
             type: arg.type
         });
 
-        let data = {};
         if(arg.type === 'level') {
             data.settings = {
                 name: arg.name,
@@ -24,7 +26,7 @@ export function createProject(window) {
                 data.settings.spriteSheetPath = arg.spriteSheetPath;
             }
 
-            writeFileSync(arg.dir, JSON.stringify(data, null, 2));
+            writeFileSync(arg.filePath, JSON.stringify(data, null, 2));
         }
 
         window.setTitle(`${arg.name} - ${config.appName}`);
@@ -33,6 +35,7 @@ export function createProject(window) {
 
         e.sender.send('setUpProject', { 
             type: arg.type, 
+            appPath: arg.appPath.replace(/\\\\/g, '\\'),
             data: data 
         });
 
@@ -104,8 +107,14 @@ export function openProject(window, startFromDialog = false) {
                             console.log(`Project has been opened!\nProject name: ${fileData.settings.name}\nProject type: ${data.type}\nProject path: ${data.path}`);
                             window.setTitle(`${fileData.settings.name} - ${config.appName}`);
                             
+                            readFile(data.appPath + fileData.settings.spriteSheetPath, 'utf8', (ee, aa) => {
+                                if(ee) throw ee;
+                                console.log(JSON.parse(aa));
+                            })
+
                             window.webContents.send('setUpProject', { 
-                                type: data.type, 
+                                type: data.type,
+                                appPath: data.appPath,
                                 data: fileData 
                             });
                         });

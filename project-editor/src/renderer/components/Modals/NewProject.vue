@@ -16,11 +16,20 @@
 
             <CustomInput
                 type="file"
-                chooseFileTitle="Choose a project path:"
+                chooseFileTitle="Choose a file path:"
                 fileMethod="save"
                 id="savingDirectory"
                 label="Saving directory:"
-                v-model="projDir" />
+                v-model="filePath" />
+
+            <CustomInput 
+                type="file"
+                chooseFileTitle="Choose a path to your RPGinia app"
+                fileMethod="open"
+                :isOpenDirectory="true"
+                id="appDir"
+                label="RPGinia app path:"
+                v-model="appPath" />
 
             <!-- Sprite sheet -->
             <CustomInput 
@@ -40,7 +49,7 @@
                 v-if="includeSpriteSheet" />
         </div>
         <div class="modal_footer">
-            <button class="btn btn_big btn_green" id="createProject" v-if="projName !== '' && projType !== '' && projDir !== ''" @click="validateForm()">Create</button>
+            <button class="btn btn_big btn_green" id="createProject" v-if="projName !== '' && projType !== '' && filePath !== '' && appPath !== ''" @click="validateForm()">Create</button>
             <button class="btn btn_big btn_red" id="createProject" disabled v-else>Form is not valid</button>
         </div>
     </div>
@@ -63,7 +72,8 @@ export default {
                 { id: 2, text: 'Sprite sheet', value: 'spriteSheet', disabled: true },
                 { id: 3, text: 'Language', value: 'language', disabled: true }
             ],
-            projDir: '',
+            filePath: '',
+            appPath: '',
             includeSpriteSheet: false,
             spriteSheetPath: ''
         }
@@ -72,12 +82,13 @@ export default {
         validateForm: function() {
             const name = this.projName;
             const type = this.projType;
-            const dir = this.projDir;
+            const filePath = this.filePath;
+            const appPath = this.appPath;
             const spriteSheetPath = this.spriteSheetPath;
 
-            if(name !== '' && type !== '' && dir !== '') {
+            if(name !== '' && type !== '' && filePath !== '' && appPath !== '') {
                 this.$router.push('editor');
-                this.$emit('createProject', { name, type, dir, spriteSheetPath });
+                this.$emit('createProject', { name, type, filePath, appPath, spriteSheetPath });
             }
             else console.error('Form is not valid!');
         }

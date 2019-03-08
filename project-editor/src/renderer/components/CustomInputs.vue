@@ -54,6 +54,7 @@
             :id="id"
             :title="chooseFileTitle"
             :method="fileMethod"
+            :isOpenDirectory="isOpenDirectory"
             @input="$emit('input', $event)"
             v-else-if="type === 'file'" />
     </div>
@@ -81,7 +82,8 @@ export default {
         options: Array,
 
         chooseFileTitle: String,
-        fileMethod: String
+        fileMethod: String,
+        isOpenDirectory: Boolean
     }
 }
 </script>

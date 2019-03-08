@@ -2,12 +2,11 @@ import { ipcRenderer } from 'electron';
 import RPGinia from '../../../../../engine/src/RPGinia';
 import selectObjects from './selectObjects';
 
-let engine, app, world, cam, loop;
+let engine, app, world, cam, load, loop;
 let store, storeGetters;
-const appURL = process.env.NODE_ENV === 'development' ? 'http://localhost:9080' : `file:///${__dirname}/`;
 
 export default function initPlayground(data, projStore) {
-    engine = new RPGinia(appURL);
+    engine = new RPGinia(data.appPath);
     app = new engine.App(
         'RPGinia project editor playground', 
         document.querySelector('canvas#playground'), 
@@ -18,6 +17,7 @@ export default function initPlayground(data, projStore) {
     );
     world = new app.World();
     cam = new app.Camera();
+    load = new app.Loaders();
 
     store = projStore;
     storeGetters = store.getters;
@@ -34,7 +34,8 @@ export default function initPlayground(data, projStore) {
     world.initialize({
         app: app,
         camera: cam,
-        levels: data
+        levels: data,
+        loaders: load
     });
 
     app.canvas.onmousemove = e => { 

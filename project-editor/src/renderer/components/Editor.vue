@@ -82,6 +82,7 @@ export default {
     created: function() {
         // Actions on setting up project
         ipcRenderer.on('setUpProject', (e, data) => {
+            console.log(data);
             // If the click was not on the list of objects - deselect all objects
             document.querySelector('.block.object_list > .content').addEventListener('click', e => {
                 if(this.selectedObjects.length > 0 && e.path.findIndex(item => item.tagName === 'UL') === -1)
