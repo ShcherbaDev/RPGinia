@@ -115,6 +115,7 @@ export function openProject(window, startFromDialog = false) {
                             window.webContents.send('setUpProject', { 
                                 type: data.type,
                                 appPath: data.appPath,
+                                path: data.path,
                                 data: fileData 
                             });
                         });
@@ -148,6 +149,14 @@ export function saveProject(window) {
 
                     if(projData.elements[i].centralPointCoords) {
                         delete projData.elements[i].centralPointCoords;
+                    }
+
+                    if(projData.elements[i].image) {
+                        delete projData.elements[i].image;
+                    }
+
+                    if(projData.elements[i].isLoaded) {
+                        delete projData.elements[i].isLoaded;
                     }
                 }
             }

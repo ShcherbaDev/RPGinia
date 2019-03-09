@@ -2,10 +2,15 @@ import { ipcRenderer } from 'electron';
 import RPGinia from '../../../../../engine/src/RPGinia';
 import selectObjects from './selectObjects';
 
+// import '../../store/modules/ProjectData';
+
 let engine, app, world, cam, load, loop;
 let store, storeGetters;
 
+// const appURL = process.env.NODE_ENV === 'development' ? `http://localhost:9080` : `file:///${__dirname}/`;
+
 export default function initPlayground(data, projStore) {
+    // console.log(data);
     engine = new RPGinia(data.appPath);
     app = new engine.App(
         'RPGinia project editor playground', 
@@ -34,10 +39,12 @@ export default function initPlayground(data, projStore) {
     world.initialize({
         app: app,
         camera: cam,
-        levels: data,
+        levels: load.jsonFile('level', data.path.replace(data.appPath, '')),
         loaders: load
     });
 
+    store.dispatch('setUpProjectStore', world.currentLevel)
+    
     app.canvas.onmousemove = e => { 
         // If alt key and left mouse button are pressed - move camera
         if(e.altKey && e.buttons === 1) 

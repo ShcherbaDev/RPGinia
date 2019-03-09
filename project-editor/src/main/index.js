@@ -13,13 +13,16 @@ if(process.env.NODE_ENV !== 'development') {
 }
 
 let mainWindow;
-const winURL = process.env.NODE_ENV === 'development' ? `http://localhost:9080` : `file:///${__dirname}/index.html`;
+// const winURL = process.env.NODE_ENV === 'development' ? `http://localhost:9080` : `file:///${__dirname}/index.html`;
 
 function createWindow() {
     // Initial window options
     mainWindow = new BrowserWindow({
         minWidth: 1095,
-        minHeight: 650
+        minHeight: 650,
+        webPreferences: {
+            webSecurity: false
+        }
     });
     mainWindow.loadURL(config.appPath);
     mainWindow.maximize();

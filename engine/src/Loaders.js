@@ -1,7 +1,8 @@
-// Note:
-// This class uses a synchronous type of loading files. 
-// Actually, I don't know, which of types I need to use: synchronous or asynchronous. 
-// Maybe I'll add a new branch with asynchronous type of loading.
+/* Note:
+ * This class uses a synchronous type of loading files. 
+ * Actually, I don't know, which of types I need to use: synchronous or asynchronous. 
+ * Maybe I'll add a new branch with asynchronous type of loading. 
+ */
 
 /**
  * Class for loading files. Mostly JSON files.

@@ -6,12 +6,7 @@
 class Object {
     /**
      * @constructor
-     * @param {Object} settings - game object's settings.
-     * @param {String} settings.name - object's name.
-     * @param {String} settings.type - object's type. Can be rectangle, sprite or text.
-     * @param {Object} settings.settings - object's settings for object's customization.
-     * @param {Number[]} settings.coords - object's coords. First value - x coordinate, second value - y coordinate, third value - object's width, fourth value - object's height.
-     * @param {Number} [settings.layer=1] - object's layer.
+     * @param {Object} settings - game object settings.
      */
     constructor(settings) {
         /**
@@ -96,7 +91,7 @@ class Object {
     draw() { return false }
 
     /**
-     * Drawing object borders and central points. Works only if debug mode in World class is turned on.
+     * Drawing object borders and their central points. Works only if debug mode in World class is turned on.
      */
     drawInDebug() {
         const objectSettings = this._settings;

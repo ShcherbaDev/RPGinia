@@ -25,6 +25,7 @@
                 <ObjectProperties v-for="objId in selectedObjects"
                                   :key="objId"
                                   :object="projectObjects[projectObjects.findIndex(item => item.$id === objId)]"
+                                  :spriteSheets="projectSpriteSheets"
                                   v-else />
             </Block>
         </div>
@@ -56,7 +57,7 @@ export default {
         Block, ObjectListItem, ObjectProperties, Playground
     },
     methods: {
-        ...mapActions(['setUpProjectStore', 'addObject', 'clearProjectStore', 'clearSelectedObjects']),
+        ...mapActions(['addObject', 'clearProjectStore', 'clearSelectedObjects']),
 
         createObject: function() {
             ipcRenderer.send('requestModalOpen', 'createObject');
@@ -68,7 +69,7 @@ export default {
         }
     },
     computed: {
-        ...mapGetters(['projectSettings', 'projectObjects', 'selectedObjects']),
+        ...mapGetters(['projectSettings', 'projectObjects', 'selectedObjects', 'projectSpriteSheets']),
 
         projectData: function() {
             if(this.$store.getters.projectType === 'level') {
@@ -82,7 +83,7 @@ export default {
     created: function() {
         // Actions on setting up project
         ipcRenderer.on('setUpProject', (e, data) => {
-            console.log(data);
+            // console.log(data.data.elements[0]);
             // If the click was not on the list of objects - deselect all objects
             document.querySelector('.block.object_list > .content').addEventListener('click', e => {
                 if(this.selectedObjects.length > 0 && e.path.findIndex(item => item.tagName === 'UL') === -1)
@@ -91,9 +92,6 @@ export default {
 
             // Initialize playground - connect engine and draw objects
             initPlayground(data, this.$store);
-
-            // Set up store's settings
-            this.setUpProjectStore(data);
         });
 
         // Get data of project

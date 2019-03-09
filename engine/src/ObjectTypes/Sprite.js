@@ -1,6 +1,68 @@
 import Object from '../Object.js';
 
+/**
+ * Game object type for creating sprites.
+ * @memberof RPGinia.App.World.Object
+ * @class
+ * 
+ * @example
+ * // spriteSheets.json
+ * {
+ *  "file": "path/to/your/sprite/sheet/image.png",
+ *  "sprites" {
+ *   {
+ *     "name": "test_sprite_0",
+ *     "rect": [0, 0, 506, 287] 
+ *   },
+ *   {
+ *     "name": "test_sprite_1",
+ *     "rect": [506, 0, 504, 287] 
+ *   }
+ *  }
+ * }
+ * 
+ * // game.js
+ * const engine = new RPGinia();
+ * const app = new engine.App();
+ * const world = new app.World();
+ * 
+ * world.initialize({
+ *  // Your options here...
+ * });
+ * 
+ * // createElement method from World class can create an object with indicated object type.
+ * world.createElement({
+ *  name: 'Test sprite',
+ *  type: 'sprite',
+ *  settings: {
+ *    spriteSheetIndex: 0,
+ *    spriteIndex: 1
+ *  },
+ *  coords: [10, 34, 56, 21]
+ * });
+ */
 class Sprite extends Object {
+    /**
+     * @constructor
+     * 
+     * @param {Object} settings - object settings.
+     * @param {String} settings.name - object name.
+     * 
+     * @param {Object} settings.settings - object settings for only this type.
+     * @param {Number} settings.settings.spriteSheetIndex - sprite sheet number.
+     * @param {Number} settings.settings.spriteIndex - sprite number.
+     * @param {Number} [settings.settings.frameIndex=settings.frameFrom] - frame number. Works only if current sprite have the frame list. If frameFrom is not defined - setting up value to 0.
+     * @param {Boolean} [settings.settings.isRepeating=false] - should animation repeating after it's ending (Works if current sprite have frame list).
+     * @param {Boolean} [settings.settings.isPlaying=false] - should animation playing (Works only if current sprite have frame list).
+     * @param {Number} [settings.settings.interval=60] - interval of changing animation frames.
+     * @param {Number} [settings.settings.frameFrom=0] - frame from which the animation should be played.
+     * @param {Number} [settings.settings.frameTo=frame list length] - frame to which the animation should be played.
+     * 
+     * @param {Number[]} settings.coords - object coordinations. First value - x coord, second value - y coord, third value - width, fourth value - height. If width and/or height are not defined - they will be taken from the sprite sheet.
+     * @param {String} settings.type - object type. For this object type it is "sprite".
+     * @param {Number} [settings.layer=1] - object layer.
+     * @param {Boolean} [settings.isVisible=true] - show object in the playground.
+     */
     constructor(settings) {
         super(settings);
 
@@ -32,6 +94,27 @@ class Sprite extends Object {
         this._setUpSettingsForAnimatedSprite();
     }
 
+    _setUpSettingsForAnimatedSprite() {
+        if(this._spriteSheets[this._settings.settings.spriteSheetIndex].sprites[this._settings.settings.spriteIndex].frames) {
+            if(!this._settings.settings.interval) 
+                this._settings.settings.interval = 60;
+
+            if(!this._settings.settings.frameFrom)
+                this._settings.settings.frameFrom = 0;
+
+            if(!this._settings.settings.frameTo)
+                this._settings.settings.frameTo = this._spriteSheets[this._settings.settings.spriteSheetIndex].sprites[this._settings.settings.spriteIndex].frames.length-1;
+            
+            if(!this._settings.settings.frameIndex)
+                this._settings.settings.frameIndex = this._settings.settings.frameFrom;
+        
+            if(!this._settings.settings.isRepeating)
+                this._settings.settings.isRepeating = false;
+
+            this._setUpAnimationInterval();
+        }
+    }
+
     _setUpAnimationInterval() {
         this._settings.settings.spriteAnimation = setInterval(() => {
             if(this._settings.settings.isPlaying) {
@@ -58,27 +141,9 @@ class Sprite extends Object {
         }, this._settings.settings.interval);
     }
 
-    _setUpSettingsForAnimatedSprite() {
-        if(this._spriteSheets[this._settings.settings.spriteSheetIndex].sprites[this._settings.settings.spriteIndex].frames) {
-            if(!this._settings.settings.interval) 
-                this._settings.settings.interval = 60;
-
-            if(!this._settings.settings.frameFrom)
-                this._settings.settings.frameFrom = 0;
-
-            if(!this._settings.settings.frameTo)
-                this._settings.settings.frameTo = this._spriteSheets[this._settings.settings.spriteSheetIndex].sprites[this._settings.settings.spriteIndex].frames.length-1;
-            
-            if(!this._settings.settings.frameIndex)
-                this._settings.settings.frameIndex = this._settings.settings.frameFrom;
-        
-            if(!this._settings.settings.isRepeating)
-                this._settings.settings.isRepeating = false;
-
-            this._setUpAnimationInterval();
-        }
-    }
-
+    /** 
+     * Drawing object on the playground. 
+     */
     draw() {
         if(this._settings.type === 'sprite' && this._settings.isLoaded) {
             const currentSprite = this._spriteSheets[this._settings.settings.spriteSheetIndex].sprites[this._settings.settings.spriteIndex];        
@@ -105,6 +170,9 @@ class Sprite extends Object {
         }
     }
 
+    /**
+     * Drawing object borders and their central points. Works only if debug mode in World class is turned on.
+     */
     drawInDebug() {
         super.drawInDebug();
     }

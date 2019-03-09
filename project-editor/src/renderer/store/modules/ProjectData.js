@@ -1,6 +1,7 @@
 const state = {
     type: '',
     settings: {},
+    spriteSheets: [],
     layers: [],
     objects: [],
     selectedObjects: []
@@ -9,6 +10,7 @@ const state = {
 const getters = {
     projectType: state => state.type,
     projectSettings: state => state.settings,
+    projectSpriteSheets: state => state.spriteSheets,
     projectObjects: state => state.objects,
     selectedObjects: state => state.selectedObjects
 }
@@ -17,6 +19,7 @@ const mutations = {
     clearProjectStore(state) {
         state.type = '';
         state.settings = {};
+        state.spriteSheets = [];
         state.layers = [];
         state.objects = [];
         state.selectedObjects = [];
@@ -25,6 +28,7 @@ const mutations = {
     setUpProjectStore(state, projData) {
         state.type = '';
         state.settings = {};
+        state.spriteSheets = [];
         state.layers = [];
         state.objects = [];
         state.selectedObjects = [];
@@ -36,6 +40,9 @@ const mutations = {
         state.settings = projectData.settings;
 
         if(projectType === 'level') {
+            if(projectData.spriteSheets)
+                state.spriteSheets = projectData.spriteSheets
+
             for(let i in projectData.elements)
                 projectData.elements[i].$id = parseInt(i)+1;
         }

@@ -207,8 +207,9 @@ class World {
 
 	/**
 	 * Initializes necessary components for stable work. 
+	 * 
 	 * @example
-	 * // Simple initializing.
+	 * // Simple initializing with loading one level.
 	 * const engine = new RPGinia();
 	 * const app = new engine.App();
 	 * const world = new app.World();
@@ -217,7 +218,26 @@ class World {
 	 * world.initialize({
 	 * 	app: app,
 	 * 	loaders: loaders,
-	 * 	levels: loaders.jsonFile('level', '/path/to/level/levelView.json')
+	 * 	levels: loaders.jsonFile('level', '/path/to/level.json')
+	 * });
+	 * 
+	 * @example
+	 * // Simple initializing with loading few levels.
+	 * const engine = new RPGinia();
+	 * const app = new engine.App();
+	 * const world = new app.World();
+	 * const loaders = new app.Loaders();
+	 * 
+	 * const levels = [
+	 * 	loaders.jsonFile('level', '/path/to/level_1.json'),
+	 * 	loaders.jsonFile('level', '/path/to/level_2.json'),
+	 * 	loaders.jsonFile('level', '/path/to/level_3.json')
+	 * ];
+	 * 
+	 * world.initialize({
+	 * 	app: app,
+	 * 	loaders: loaders,
+	 * 	levels: levels
 	 * });
 	 * 
 	 * @param {Object} options - Other engine classes.

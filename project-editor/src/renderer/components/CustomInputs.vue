@@ -25,6 +25,8 @@
             :type="type" 
             :id="id" 
             :value="value" 
+            :min="numMin"
+            :max="numMax"
             @input="$emit('input', parseInt($event.target.value))"
             v-else-if="type === 'number'">
 
@@ -80,6 +82,9 @@ export default {
         isChecked: Boolean,
 
         options: Array,
+
+        numMin: Number,
+        numMax: Number,
 
         chooseFileTitle: String,
         fileMethod: String,
