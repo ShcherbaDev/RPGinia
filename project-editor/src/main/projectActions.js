@@ -1,5 +1,5 @@
 import { writeFileSync, existsSync, readFile } from 'fs';
-import { ipcMain, dialog } from 'electron';
+import { ipcMain, dialog, app } from 'electron';
 import { get, has, set } from 'electron-json-storage';
 import config from './config';
 
@@ -8,35 +8,39 @@ export function createProject(window) {
     ipcMain.once('closeModal', (e, arg) => {
         let data = {};
 
+        let { filePath, appPath, spriteSheetPath, type, name } = arg;
+        filePath = filePath.replace(/\\\\/g, '\\');
+        appPath = appPath.replace(/\\\\/g, '\\');
+        spriteSheetPath = spriteSheetPath.replace(/\\\\/g, '\\').replace(appPath, '');
+
         set('projectData', {
-            path: arg.filePath.replace(/\\\\/g, '\\'),
-            appPath: arg.appPath.replace(/\\\\/g, '\\'),
-            type: arg.type
+            path: filePath,
+            appPath,
+            type
         });
 
-        if(arg.type === 'level') {
+        if(type === 'level') {
             data.settings = {
-                name: arg.name,
+                name,
                 background: '#000000'
             };
 
             data.elements = [];
 
             if(arg.spriteSheetPath !== '') {
-                data.settings.spriteSheetPath = arg.spriteSheetPath;
+                data.settings.spriteSheetPath = spriteSheetPath;
             }
 
-            writeFileSync(arg.filePath, JSON.stringify(data, null, 2));
+            writeFileSync(filePath, JSON.stringify(data, null, 2));
         }
 
-        window.setTitle(`${arg.name} - ${config.appName}`);
-
-        console.log('Project has been created!\nArguments:', arg);
+        window.setTitle(`${name} - ${config.appName}`);
 
         e.sender.send('setUpProject', { 
-            type: arg.type, 
-            appPath: arg.appPath.replace(/\\\\/g, '\\'),
-            data: data 
+            type, 
+            appPath,
+            path: filePath,
+            data 
         });
 
         window.reload();
@@ -55,37 +59,38 @@ export function openProject(window, startFromDialog = false) {
             ]
         });
 
-        if(openProjectDialog !== undefined) {
-            const path = openProjectDialog[0];
+        if(openProjectDialog) {
+            const appPathDialog = openAppPathDialog(window);
 
-            readFile(path, 'utf8', (error, data) => {
-                if(error) throw error;
-                
-                let projType = '';
-                let projData = JSON.parse(data);
+            if(appPathDialog) {
+                const projectFilePath = openProjectDialog[0];
+                const appPath = appPathDialog[0];
 
-                // Checking project type 
-                if(projData.elements) projType = 'level'; // If project type is a level
+                readFile(projectFilePath, 'utf8', (error, data) => {
+                    if(error) throw error;
+                    
+                    let projType = '';
+                    let projData = JSON.parse(data);
 
-                else {
-                    dialog.showErrorBox('Project type error', 'The program can\'t define the type of project');
-                    return false;
-                }
+                    // Checking project type 
+                    if(projData.elements) projType = 'level'; // If project type is a level
 
-                window.setTitle(`${projData.settings && projData.settings.name ? projData.settings.name : path} - ${config.appName}`);
+                    else {
+                        dialog.showErrorBox('Project type error', 'The program can\'t define the type of project');
+                        return false;
+                    }
 
-                set('projectData', {
-                    path: path,
-                    type: projType
+                    window.setTitle(`${projData.settings && projData.settings.name ? projData.settings.name : projectFilePath} - ${config.appName}`);
+
+                    set('projectData', {
+                        path: projectFilePath,
+                        appPath,
+                        type: projType
+                    });
+
+                    window.reload();
                 });
-
-                window.reload();
-
-                window.webContents.send('setUpProject', { 
-                    type: projType, 
-                    data: projData 
-                });
-            });
+            } else app.quit();
         }
 
         else
@@ -99,25 +104,42 @@ export function openProject(window, startFromDialog = false) {
             if(hasKey) {
                 get('projectData', (error, data) => {
                     if(error) throw error;
-
-                    if(existsSync(data.path)) {
-                        readFile(data.path, 'utf8', (loadFileErr, fileData) => {
+                    
+                    let { path, appPath, type } = data;
+                    
+                    if(existsSync(path)) {
+                        readFile(path, 'utf8', (loadFileErr, fileData) => {
                             if(loadFileErr) throw loadFileErr;
-                            fileData = JSON.parse(fileData);
-                            console.log(`Project has been opened!\nProject name: ${fileData.settings.name}\nProject type: ${data.type}\nProject path: ${data.path}`);
-                            window.setTitle(`${fileData.settings.name} - ${config.appName}`);
-                            
-                            readFile(data.appPath + fileData.settings.spriteSheetPath, 'utf8', (ee, aa) => {
-                                if(ee) throw ee;
-                                console.log(JSON.parse(aa));
-                            })
 
-                            window.webContents.send('setUpProject', { 
-                                type: data.type,
-                                appPath: data.appPath,
-                                path: data.path,
-                                data: fileData 
-                            });
+                            const projectData = JSON.parse(fileData);
+
+                            if(appPath) {
+                                window.setTitle(`${projectData.settings.name} - ${config.appName}`);
+                                window.webContents.send('setUpProject', { 
+                                    type, 
+                                    appPath, 
+                                    path,
+                                    data: projectData 
+                                });
+                            }
+
+                            else {
+                                const appPathDialog = openAppPathDialog(window);
+
+                                if(appPathDialog) {
+                                    const appPath = appPathDialog[0];
+
+                                    set('projectData', { path, appPath, type });
+                                    
+                                    window.setTitle(`${projectData.settings.name} - ${config.appName}`);
+                                    window.webContents.send('setUpProject', { 
+                                        type, 
+                                        appPath,
+                                        path,
+                                        data: projectData 
+                                    });
+                                } else app.quit();
+                            }
                         });
                     }
                     else window.webContents.send('projectNotExist');
@@ -143,24 +165,20 @@ export function saveProject(window) {
                 for(let i in store.projectObjects) {
                     projData.elements[i] = store.projectObjects[i]._settings;
 
-                    if(projData.elements[i].borderCoords) {
-                        delete projData.elements[i].borderCoords;
-                    }
-
-                    if(projData.elements[i].centralPointCoords) {
-                        delete projData.elements[i].centralPointCoords;
-                    }
-
-                    if(projData.elements[i].image) {
-                        delete projData.elements[i].image;
-                    }
-
-                    if(projData.elements[i].isLoaded) {
-                        delete projData.elements[i].isLoaded;
-                    }
+                    if(projData.elements[i].borderCoords) delete projData.elements[i].borderCoords;
+                    if(projData.elements[i].centralPointCoords) delete projData.elements[i].centralPointCoords;
+                    if(projData.elements[i].image) delete projData.elements[i].image;
+                    if(projData.elements[i].isLoaded) delete projData.elements[i].isLoaded;
                 }
             }
             writeFileSync(configData.path.replace(/\\/g, '\\\\'), JSON.stringify(projData, null, 4));
         });
+    });
+}
+
+function openAppPathDialog(window) {
+    return dialog.showOpenDialog(window, {
+        title: 'Choose a path to your RPGinia app',
+        properties: ['openDirectory']
     });
 }
