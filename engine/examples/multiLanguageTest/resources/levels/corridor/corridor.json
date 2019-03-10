@@ -1,43 +1,49 @@
 {
-    "settings": {
-        "name": "Last corridor",
-        "controllerPath": "/resources/levels/corridor/corridorController.js",
-        "spriteSheetPath": "/resources/sprites/spriteSheets.json",
-        "background": "#000"
-    },
-    "elements": [   
+    "elements": [
         {
+            "coords": [
+                150,
+                0,
+                3043,
+                490
+            ],
+            "isVisible": true,
+            "layer": 1,
             "name": "Corridor",
-            "type": "sprite",
             "settings": {
-                "spriteSheetIndex": 1,
-                "spriteIndex": 0
+                "spriteIndex": 0,
+                "spriteSheetIndex": 1
             },
-            "coords": [150, 0, 3043, 490]
+            "type": "sprite"
         },
         {
+            "coords": [
+                159,
+                303,
+                32,
+                32
+            ],
+            "isVisible": true,
+            "layer": 1,
             "name": "Save point",
-            "type": "sprite",
             "settings": {
-                "spriteSheetIndex": 1,
-                "spriteIndex": 2,
+                "frameFrom": 0,
+                "frameIndex": 0,
                 "frameTo": 1,
                 "interval": 500,
+                "isPlaying": true,
                 "isRepeating": true,
-                "isPlaying": true
+                "spriteAnimation": 4,
+                "spriteIndex": 2,
+                "spriteSheetIndex": 1
             },
-            "coords": [210, 399, 32, 32]
-        },
-        {
-            "name": "Easter egg",
-            "type": "text",
-            "settings": {
-                "text": "Bonus level",
-                "font": "8bitoperator",
-                "size": 32,
-                "color": "#ffffff"
-            },
-            "coords": [200, 550]
+            "type": "sprite"
         }
-    ]
+    ],
+    "settings": {
+        "background": "#000",
+        "controllerPath": "/resources/levels/corridor/corridorController.js",
+        "name": "Last corridor",
+        "spriteSheetPath": "/resources/sprites/spriteSheets.json"
+    }
 }

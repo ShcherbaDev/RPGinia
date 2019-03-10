@@ -1,0 +1,8 @@
+.modal_body.modal_settings {
+    display: grid;
+    grid-template-columns: 20% 1fr;
+}
+
+.modal_settings > .sidebar {
+    background-color: #2d2d2d;
+}

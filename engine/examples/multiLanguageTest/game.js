@@ -42,8 +42,8 @@ world.initialize({
 const camBordersVertical = 220;
 const camBordersHorizontal = 370;
 
-let pl;
-let playerSpeed = 3;
+const playerSpeed = 3;
+let player;
 
 // Adding player object
 if(world.currentLevelName === 'Last corridor') {
@@ -62,35 +62,35 @@ if(world.currentLevelName === 'Last corridor') {
         ]
     });
 
-    pl = world.getElementByName('Player').settings;
+    player = world.getElementByName('Player').settings;
 }
 
 function movePlayer() {
     if(kb.isPressed('arrUp')) {
-        playerMovement.moveUp(pl, playerSpeed);
+        playerMovement.moveUp(player, playerSpeed);
 
-        if(pl.coords[1] + cam.y <= camBordersVertical)
+        if(player.coords[1] + cam.y <= camBordersVertical)
             cam.y += playerSpeed;
     }
 
     if(kb.isPressed('arrDown')) {
-        playerMovement.moveDown(pl, playerSpeed);
+        playerMovement.moveDown(player, playerSpeed);
 
-        if(pl.coords[1] + pl.coords[3] + cam.y >= app.canvas.height - camBordersVertical)
+        if(player.coords[1] + player.coords[3] + cam.y >= app.canvas.height - camBordersVertical)
             cam.y -= playerSpeed;
     }
 
     if(kb.isPressed('arrLeft')) {
-        playerMovement.moveLeft(pl, playerSpeed);
+        playerMovement.moveLeft(player, playerSpeed);
 
-        if(pl.coords[0] + cam.x <= camBordersHorizontal)
+        if(player.coords[0] + cam.x <= camBordersHorizontal)
             cam.x += playerSpeed;
     }
 
     if(kb.isPressed('arrRight')) {
-        playerMovement.moveRight(pl, playerSpeed);
+        playerMovement.moveRight(player, playerSpeed);
 
-        if(pl.coords[0] + pl.coords[2] + cam.x >= app.canvas.width - camBordersHorizontal)
+        if(player.coords[0] + player.coords[2] + cam.x >= app.canvas.width - camBordersHorizontal)
             cam.x -= playerSpeed;
     }
 
@@ -100,8 +100,8 @@ function movePlayer() {
         && !kb.isPressed('arrLeft') 
         && !kb.isPressed('arrRight')
     ) {
-        pl.settings.frameIndex = 0;
-        pl.settings.isPlaying = false;
+        player.settings.frameIndex = 0;
+        player.settings.isPlaying = false;
     }
 }
 
@@ -110,7 +110,6 @@ function draw() {
     world.draw();
 
     if(world.currentLevelName === 'Last corridor') {
-        playerSpeed = kb.isPressed('shift') ? 5 : 3;
         movePlayer();
     }
 

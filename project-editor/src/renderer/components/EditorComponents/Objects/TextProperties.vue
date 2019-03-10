@@ -52,6 +52,14 @@
             :value="object.settings.settings.color"
             @change="setObjectProperty({id: object.$id, property: 'settings', propertySetting: 'color', newPropertyValue: $event})" />
 
+        <CustomInput
+            type="number"
+            id="objectSize"
+            label="Size:"
+            :value="object.settings.settings.size"
+            :numMin="0"
+            @input="setObjectProperty({id: object.$id, property: 'settings', propertySetting: 'size', newPropertyValue: $event})" />
+
         <CustomInput 
             type="checkbox"
             id="objectVisibility"

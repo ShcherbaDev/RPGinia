@@ -56,7 +56,6 @@ function createWindow() {
                 ]
             }, path => {
                 if(path) {
-                    console.log(path)
                     path = path.replace(/\\/g, '\\\\');
                     e.returnValue = path;
                 } else e.returnValue = 'File is not choosed';
@@ -92,9 +91,6 @@ function createWindow() {
 
     // Create new object
     ipcMain.on('createObjectRequest', (e, obj) => e.sender.send('createObject', obj));
-
-    // Delete object
-    ipcMain.on('requestDeleteObject', (e, index) => e.sender.send('deleteObject', index));
 }
 
 app.on('ready', createWindow);

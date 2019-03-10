@@ -25,7 +25,6 @@
                 <ObjectProperties v-for="objId in selectedObjects"
                                   :key="objId"
                                   :object="projectObjects[projectObjects.findIndex(item => item.$id === objId)]"
-                                  :spriteSheets="projectSpriteSheets"
                                   v-else />
             </Block>
         </div>
@@ -65,13 +64,13 @@ export default {
 
         deleteObject: function() {
             for(let selectedObjectId of this.selectedObjects)
-                ipcRenderer.send('requestDeleteObject', this.projectObjects.findIndex(item => item.$id === selectedObjectId));
+                this.$store.dispatch('deleteObject', this.projectObjects.findIndex(item => item.$id === selectedObjectId))
         }
     },
     computed: {
-        ...mapGetters(['projectSettings', 'projectObjects', 'selectedObjects', 'projectSpriteSheets']),
+        ...mapGetters(['projectSettings', 'projectObjects', 'selectedObjects']),
 
-        projectData: function() {
+        getProjectData: function() {
             if(this.$store.getters.projectType === 'level') {
                 return {
                     settings: this.$store.getters.projectSettings,
@@ -83,7 +82,6 @@ export default {
     created: function() {
         // Actions on setting up project
         ipcRenderer.on('setUpProject', (e, data) => {
-            // console.log(data.data.elements[0]);
             // If the click was not on the list of objects - deselect all objects
             document.querySelector('.block.object_list > .content').addEventListener('click', e => {
                 if(this.selectedObjects.length > 0 && e.path.findIndex(item => item.tagName === 'UL') === -1)
@@ -97,7 +95,7 @@ export default {
         // Get data of project
         ipcRenderer.on('getProjectData', e => {
             e.sender.send('getProjectDataResponse', {
-                projectData: this.projectData,
+                projectData: this.getProjectData,
                 store: this.$store.getters
             });
         });
@@ -105,7 +103,7 @@ export default {
         // 'addObject' event is on renderer/assets/canvas.js
 
         // Delete object
-        ipcRenderer.on('deleteObject', (e, objectIndex) => this.$store.dispatch('deleteObject', objectIndex));
+        ipcRenderer.on('deleteObject', e => this.deleteObject());
 
         // Initialize clipboard actions for game objects (supports only one object)
         initClipboardActions(this.$store, document);

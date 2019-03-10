@@ -3,8 +3,9 @@
     <router-view></router-view>
 
     <Modal :title="modalInfo.title" v-if="modalInfo.isOpened" @close="modalInfo.isOpened = false">
-    	<NewProject v-if="modalInfo.type === 'createProject'" @createProject="createProject"></NewProject>
-		<NewObject v-else-if="modalInfo.type === 'createObject'" @createObject="createObject"></NewObject>
+    	<NewProject v-if="modalInfo.type === 'createProject'" @createProject="createProject" />
+		<NewObject v-else-if="modalInfo.type === 'createObject'" @createObject="createObject" />
+		<Settings v-else-if="modalInfo.type === 'settings'" />
 
 		<div v-else>...</div>
     </Modal>
@@ -15,12 +16,13 @@
 import Modal from './components/Modal';
 import NewProject from './components/Modals/NewProject';
 import NewObject from './components/Modals/NewObject';
+import Settings from './components/Modals/Settings';
 
 import { ipcRenderer } from 'electron';
 
 export default {
 	name: "project-editor",
-	components: { Modal, NewProject, NewObject },
+	components: { Modal, NewProject, NewObject, Settings },
 	data: function() {
 		return {
 			modalInfo: {
@@ -54,14 +56,19 @@ export default {
 			if(type === 'createProject') {
 				this.modalInfo.type = 'createProject';
 				this.modalInfo.title = 'Create new project';
-				this.modalInfo.isOpened = true;
 			}
 
 			if(type === 'createObject') {
 				this.modalInfo.type = 'createObject';
 				this.modalInfo.title = 'Create new object';
-				this.modalInfo.isOpened = true;
 			}
+
+			if(type === 'settings') {
+				this.modalInfo.type = 'settings';
+				this.modalInfo.title = 'Settings';
+			}
+
+			this.modalInfo.isOpened = true;
 		});
 	}
 };

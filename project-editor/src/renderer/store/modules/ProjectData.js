@@ -61,9 +61,8 @@ const mutations = {
         state.selectedObjects = [];
     },
 
-    addObject(state, obj) {
-        state.objects[state.objects.length-1].$id = state.objects.length; 
-        state.selectedObjects.push(state.objects[state.objects.length-1].$id);
+    addObject(state) {
+        state.objects[state.objects.length-1].$id = state.objects.length;
     },
 
     deleteObject(state, objectIndex) {

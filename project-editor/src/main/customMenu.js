@@ -1,6 +1,5 @@
 import { BrowserWindow } from 'electron';
 import * as projectActions from './projectActions';
-import * as clipboard from '../renderer/assets/js/clipboard';
 
 const menuTemplate = [
     {
@@ -29,28 +28,40 @@ const menuTemplate = [
                 }
             },
             { type: 'separator' },
+            {
+                label: 'Settings',
+                click() {
+                    BrowserWindow.getFocusedWindow().send('openModal', 'settings');
+                }
+            },
+            { type: 'separator' },
             { role: 'quit', accelerator: 'CommandOrControl+Q' }
         ]
     },
     {
         label: 'Edit',
         submenu: [
-            { role: 'cut', enabled: false },
             { 
                 label: 'Copy',
                 accelerator: 'CommandOrControl+C',
                 click() {
-                    clipboard.copy(BrowserWindow.getFocusedWindow());
+                    BrowserWindow.getFocusedWindow().send('copySelectedObjects');
                 }
             },
             { 
                 label: 'Paste',
                 accelerator: 'CommandOrControl+V',
                 click() {
-                    clipboard.paste(BrowserWindow.getFocusedWindow())
-                } 
+                    BrowserWindow.getFocusedWindow().send('pasteSelectedObjects');
+                }
             },
-            { role: 'delete', enabled: false }
+            { 
+                label: 'Delete',
+                accelerator: 'Delete',
+                click() {
+                    BrowserWindow.getFocusedWindow().webContents.send('deleteObject');
+                }
+            }
         ]
     },
     {

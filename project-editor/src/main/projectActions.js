@@ -8,7 +8,8 @@ export function createProject(window) {
     ipcMain.once('closeModal', (e, arg) => {
         let data = {};
 
-        let { filePath, appPath, spriteSheetPath, type, name } = arg;
+        let { filePath, appPath, spriteSheetPath, type, name, backgroundColor } = arg;
+        console.log(arg, backgroundColor);
         filePath = filePath.replace(/\\\\/g, '\\');
         appPath = appPath.replace(/\\\\/g, '\\');
         spriteSheetPath = spriteSheetPath.replace(/\\\\/g, '\\').replace(appPath, '');
@@ -22,14 +23,11 @@ export function createProject(window) {
         if(type === 'level') {
             data.settings = {
                 name,
-                background: '#000000'
+                background: backgroundColor
             };
-
             data.elements = [];
 
-            if(arg.spriteSheetPath !== '') {
-                data.settings.spriteSheetPath = spriteSheetPath;
-            }
+            if(spriteSheetPath !== '') data.settings.spriteSheetPath = spriteSheetPath;
 
             writeFileSync(filePath, JSON.stringify(data, null, 2));
         }
@@ -68,12 +66,12 @@ export function openProject(window, startFromDialog = false) {
 
                 readFile(projectFilePath, 'utf8', (error, data) => {
                     if(error) throw error;
-                    
+
                     let projType = '';
                     let projData = JSON.parse(data);
 
                     // Checking project type 
-                    if(projData.elements) projType = 'level'; // If project type is a level
+                    if(projData.elements) projType = 'level'; // If project have elements 
 
                     else {
                         dialog.showErrorBox('Project type error', 'The program can\'t define the type of project');
@@ -93,8 +91,7 @@ export function openProject(window, startFromDialog = false) {
             } else app.quit();
         }
 
-        else
-            return false;
+        else return false;
     }
 
     else {
@@ -115,6 +112,7 @@ export function openProject(window, startFromDialog = false) {
 
                             if(appPath) {
                                 window.setTitle(`${projectData.settings.name} - ${config.appName}`);
+
                                 window.webContents.send('setUpProject', { 
                                     type, 
                                     appPath, 
@@ -132,6 +130,7 @@ export function openProject(window, startFromDialog = false) {
                                     set('projectData', { path, appPath, type });
                                     
                                     window.setTitle(`${projectData.settings.name} - ${config.appName}`);
+
                                     window.webContents.send('setUpProject', { 
                                         type, 
                                         appPath,
@@ -158,10 +157,10 @@ export function saveProject(window) {
 
         let projData = Object.assign({}, obj.projectData);
 
-        get('projectData', (error, configData) => {
+        get('projectData', (error, data) => {
             if(error) throw error;
 
-            if(configData.type === 'level') {
+            if(data.type === 'level') {
                 for(let i in store.projectObjects) {
                     projData.elements[i] = store.projectObjects[i]._settings;
 
@@ -169,9 +168,10 @@ export function saveProject(window) {
                     if(projData.elements[i].centralPointCoords) delete projData.elements[i].centralPointCoords;
                     if(projData.elements[i].image) delete projData.elements[i].image;
                     if(projData.elements[i].isLoaded) delete projData.elements[i].isLoaded;
+                    if(projData.elements[i].spriteAnimation) delete projData.elements[i].spriteAnimation;
                 }
             }
-            writeFileSync(configData.path.replace(/\\/g, '\\\\'), JSON.stringify(projData, null, 4));
+            writeFileSync(data.path.replace(/\\/g, '\\\\'), JSON.stringify(projData, null, 4));
         });
     });
 }

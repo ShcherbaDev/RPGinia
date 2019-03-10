@@ -1,7 +1,7 @@
 import { ipcRenderer } from 'electron';
 
 export default function initClipboardActions(store, document) {
-    ipcRenderer.on('copySelectedObjects', e => document.execCommand('copy'));
+    ipcRenderer.on('copySelectedObjects', e => {console.log('asdasd'); document.execCommand('copy')});
     ipcRenderer.on('pasteSelectedObjects', e => document.execCommand('paste'));
 
     document.addEventListener('copy', e => {
@@ -21,7 +21,8 @@ export default function initClipboardActions(store, document) {
         const getters = store.getters;
         const id = parseInt(e.clipboardData.getData('text/plain'));
         const obj = Object.assign(getters.projectObjects[getters.projectObjects.findIndex(item => item.$id === id)]);
-        
+        obj.settings.coords[0] += 32;
+        obj.settings.coords[1] += 32;
         ipcRenderer.send('createObjectRequest', obj.settings);
     });
 }

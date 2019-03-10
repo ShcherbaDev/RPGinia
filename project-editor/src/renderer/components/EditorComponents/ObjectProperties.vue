@@ -7,7 +7,6 @@
                         v-else-if="object.settings.type === 'text'" />
 
         <SpriteProperties :object="object"
-                          :spriteSheets="spriteSheets"
                           v-else-if="object.settings.type === 'sprite'" />
     </div>
 </template>
@@ -20,7 +19,6 @@ export default {
     components: { RectangleProperties, TextProperties, SpriteProperties },
     props: {
         object: Object,
-        spriteSheets: [Object, Array]
     }
 }
 </script>

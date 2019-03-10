@@ -16,7 +16,8 @@
 * Sprite setting `isRepeat` was renamed to `isRepeating`.
 * The default value for sprite setting `interval` was set to 60ms.
 * Was added a new sprite setting `isPlaying` for play or stop animation when necessary.
-* Improved API documentation.
+* Was added argument `loadLevelsControllers` for `World` class.
+* API documentation was updated.
 
 ## v0.1.2
 ### Editor changes:

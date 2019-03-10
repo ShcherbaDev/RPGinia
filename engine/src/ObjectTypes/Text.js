@@ -50,6 +50,9 @@ class Text extends Object {
         super(settings);
     }
 
+    /** 
+     * Drawing object on the playground. 
+     */
     draw() {
         if(this._settings.type === 'text') {
             const textSettings = this._settings.settings;
@@ -64,6 +67,9 @@ class Text extends Object {
         }
     }
 
+    /**
+     * Drawing object borders and their central points. Works only if debug mode in World class is turned on.
+     */
     drawInDebug() {
         super.drawInDebug();
     }

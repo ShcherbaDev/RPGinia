@@ -38,6 +38,7 @@
                 type="number" 
                 id="objectWidth" 
                 label="Width:"
+                :numMin="0"
                 v-model="coords[2]"
                 v-if="type !== 'text'" />
 
@@ -45,6 +46,7 @@
                 type="number" 
                 id="objectHeight" 
                 label="Height:"
+                :numMin="0"
                 v-model="coords[3]"
                 v-if="type !== 'text'" />
 
@@ -74,6 +76,33 @@
                 :value="color" 
                 @change="color = $event"
                 v-if="type === 'text'" />
+
+            <CustomInput
+                type="number"
+                id="objectSize"
+                label="Size:"
+                :numMin="0"
+                v-model="textSize"
+                v-if="type === 'text'" />
+
+            <!-- Settings for sprites -->
+            <CustomInput
+                type="number"
+                id="objectSpriteSheetIndex"
+                label="Sprite sheet index"
+                :numMin="0"
+                :numMax="projectSpriteSheets.length-1"
+                v-model="spriteSheetIndex"
+                v-if="type === 'sprite'" />
+
+            <CustomInput
+                type="number"
+                id="objectSpriteIndex"
+                label="Sprite index"
+                :numMin="0"
+                :numMax="projectSpriteSheets[spriteSheetIndex].sprites.length-1"
+                v-model="spriteIndex"
+                v-if="type === 'sprite'" />
         </div>
         <div class="modal_footer">
             <button 
@@ -88,6 +117,9 @@
 <script>
 import CustomInputs from '../CustomInputs';
 
+import '../../store/index.js';
+import { mapGetters } from 'vuex';
+
 export default {
     data() {
         return {
@@ -97,7 +129,7 @@ export default {
             types: [
                 { id: 1, text: 'Rectangle', value: 'rectangle', disabled: false },
                 { id: 3, text: 'Text', value: 'text', disabled: false },
-                { id: 2, text: 'Sprite', value: 'sprite', disabled: true }
+                { id: 2, text: 'Sprite', value: 'sprite', disabled: false }
             ],
             coords: [
                 0,
@@ -109,10 +141,15 @@ export default {
             fill: '#ffffff',
 
             color: '#ffffff',
-            text: 'Text'
+            text: 'Text',
+            textSize: 32,
+
+            spriteSheetIndex: 0,
+            spriteIndex: 0
         }
     },
     components: { CustomInput: CustomInputs },
+    computed: mapGetters(['projectSpriteSheets']),
     methods: {
         createObject: function() {
             if(this.name !== '' && this.type !== '' && this.layer !== null && this.coords !== []) {
@@ -129,12 +166,15 @@ export default {
                 }
 
                 else if(this.type === 'text') {
+                    const textCoords = this.coords.splice(1, 2);
+
                     this.$emit('createObject', {
                         name: this.name,
                         type: this.type,
                         settings: {
                             color: this.color,
-                            text: this.text
+                            text: this.text,
+                            size: this.textSize
                         },
                         layer: this.layer,
                         coords: this.coords

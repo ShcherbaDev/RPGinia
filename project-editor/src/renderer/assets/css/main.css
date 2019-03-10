@@ -137,7 +137,7 @@ sup.required {
 }
 
 .input_group select {
-	padding: 9.5px 12px;
+	padding: 9.5px 7px;
 	font-size: 16px;
 	border: 1px solid;
 	border-radius: 5px;
@@ -151,7 +151,7 @@ sup.required {
 
 .custom_file_input .result_field > p#filePath {
 	border-radius: 5px 0 0 5px;
-	padding: 11px 9px;
+	padding: 11px 12px;
 	border: 1px solid;
 }
 

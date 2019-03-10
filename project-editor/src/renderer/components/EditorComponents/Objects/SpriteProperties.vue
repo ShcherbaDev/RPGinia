@@ -1,6 +1,6 @@
 <template>     
     <div class="object_settings">
-        <p>{{ spriteSheets }}</p>
+        <p>{{ projectSpriteSheets }}</p>
         <h1>{{ object.settings.name }}</h1>
         <CustomInput
             type="text"
@@ -50,9 +50,9 @@
             type="number"
             id="objectSpriteSheetIndex"
             label="Sprite sheet index:"
-            v-if="spriteSheets.length > 0"
+            v-if="projectSpriteSheets.length > 0"
             :numMin="0"
-            :numMax="spriteSheets.length-1"
+            :numMax="projectSpriteSheets.length-1"
             :value="object.settings.settings.spriteSheetIndex"
             @input="setObjectProperty({id: object.$id, property: 'settings', propertySetting: 'spriteSheetIndex', newPropertyValue: $event})" />
 
@@ -61,7 +61,7 @@
             id="objectSpriteIndex"
             label="Sprite index:"
             :numMin="0"
-            :numMax="spriteSheets[object.settings.settings.spriteSheetIndex].sprites.length-1"
+            :numMax="projectSpriteSheets[object.settings.settings.spriteSheetIndex].sprites.length-1"
             :value="object.settings.settings.spriteIndex"
             @input="setObjectProperty({id: object.$id, property: 'settings', propertySetting: 'spriteIndex', newPropertyValue: $event})" />
 
@@ -69,9 +69,9 @@
             type="number"
             id="objectFrameIndex"
             label="Frame index:"
-            v-if="spriteSheets[object.settings.settings.spriteSheetIndex].sprites[object.settings.settings.spriteIndex].frames"
+            v-if="projectSpriteSheets[object.settings.settings.spriteSheetIndex].sprites[object.settings.settings.spriteIndex].frames"
             :numMin="0"
-            :numMax="spriteSheets[object.settings.settings.spriteSheetIndex].sprites[object.settings.settings.spriteIndex].frames.length-1"
+            :numMax="projectSpriteSheets[object.settings.settings.spriteSheetIndex].sprites[object.settings.settings.spriteIndex].frames.length-1"
             :value="object.settings.settings.frameIndex"
             @input="setObjectProperty({id: object.$id, property: 'settings', propertySetting: 'frameIndex', newPropertyValue: $event})" />
     </div>
@@ -85,7 +85,7 @@ import { mapGetters, mapActions } from 'vuex';
 
 export default {
     components: { CustomInput: CustomInputs },
-    computed: mapGetters(['projectObjects', 'selectedObjects']),
+    computed: mapGetters(['projectObjects', 'selectedObjects', 'projectSpriteSheets']),
     methods: {
         ...mapActions(['setObjectProperty']),
 
@@ -93,12 +93,8 @@ export default {
             return convertColorNameToHex(color);
         }
     },
-    created: function() {
-        console.log(this.spriteSheets[this.object.settings.settings.spriteSheetIndex].sprites[this.object.settings.settings.spriteIndex])
-    },
     props: {
-        object: Object,
-        spriteSheets: [Object, Array]
+        object: Object
     }
 }
 </script>

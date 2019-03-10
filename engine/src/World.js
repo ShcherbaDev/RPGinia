@@ -12,8 +12,9 @@ class World {
 	/**
 	 * @constructor
 	 * @param {Boolean} [debugModeEnabled=false] - Show objects borders.
+	 * @param {Boolean} [loadLevelsControllers=true] - Load levels controllers.
 	 */
-	constructor(debugModeEnabled = false) {
+	constructor(debugModeEnabled = false, loadLevelsControllers = true) {
 		/**
 		 * Levels array
 		 * @private
@@ -32,7 +33,17 @@ class World {
 		 */
 		this._previousLevelId = null;
 
+		/**
+		 * Should playground draw objects borders boolean.
+		 * @private
+		 */
 		this._debugMode = debugModeEnabled;
+
+		/**
+		 * Should world load levels controllers.
+		 * @private
+		 */
+		this._loadControllers = loadLevelsControllers;
 
 		this._app = null;
 		this._loaders = null;
@@ -173,7 +184,7 @@ class World {
 			this._camera.y = 0;
 		}
 
-		if(levelList[this._currentLevelId].data.settings.controllerPath) {
+		if(levelList[this._currentLevelId].data.settings.controllerPath && this._loadControllers) {
 			this._doController();
 		}
 	}
@@ -200,9 +211,7 @@ class World {
 					&& object.coords[0] + object.coords[2] >= padding 
 					&& object.coords[1] + object.coords[3] >= padding;
 			}
-		}
-
-		else return false;
+		} else return false;
 	}
 
 	/**

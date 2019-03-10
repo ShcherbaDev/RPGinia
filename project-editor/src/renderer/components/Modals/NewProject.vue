@@ -14,6 +14,14 @@
                 v-model="projType"
                 :options="projectTypes" />
 
+            <CustomInput 
+                type="color"
+                id="projectBackground"
+                label="Background color:"
+                :value="backgroundColor"
+                @change="backgroundColor = $event"
+                v-if="projType === 'level'" />
+
             <CustomInput
                 type="file"
                 chooseFileTitle="Choose a file path:"
@@ -75,20 +83,19 @@ export default {
             filePath: '',
             appPath: '',
             includeSpriteSheet: false,
-            spriteSheetPath: ''
+            spriteSheetPath: '',
+            backgroundColor: '#000000'
         }
     },
     methods: {
         validateForm: function() {
             const name = this.projName;
             const type = this.projType;
-            const filePath = this.filePath;
-            const appPath = this.appPath;
-            const spriteSheetPath = this.spriteSheetPath;
+            const { backgroundColor, filePath, appPath, spriteSheetPath } = this;
 
             if(name !== '' && type !== '' && filePath !== '' && appPath !== '') {
                 this.$router.push('editor');
-                this.$emit('createProject', { name, type, filePath, appPath, spriteSheetPath });
+                this.$emit('createProject', { name, type, backgroundColor, filePath, appPath, spriteSheetPath });
             }
             else console.error('Form is not valid!');
         }

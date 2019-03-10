@@ -20,7 +20,7 @@ export default function initPlayground(data, projStore) {
             document.querySelector('.canvas_container').clientHeight
         ]
     );
-    world = new app.World();
+    world = new app.World(false, false);
     cam = new app.Camera();
     load = new app.Loaders();
 
@@ -35,16 +35,18 @@ export default function initPlayground(data, projStore) {
         ];
     }
 
+    const loadedLevel = load.jsonFile('level', data.path.replace(data.appPath, ''));
+
     // Initialize the playground's world
     world.initialize({
         app: app,
         camera: cam,
-        levels: load.jsonFile('level', data.path.replace(data.appPath, '')),
+        levels: loadedLevel,
         loaders: load
     });
 
     store.dispatch('setUpProjectStore', world.currentLevel)
-    
+
     app.canvas.onmousemove = e => { 
         // If alt key and left mouse button are pressed - move camera
         if(e.altKey && e.buttons === 1) 
@@ -53,14 +55,14 @@ export default function initPlayground(data, projStore) {
 
     // Select object in playground
     app.canvas.onclick = e => {
-        if(!e.altKey)
+        if(!e.altKey) 
             selectObjects(e, store, cam);
     }
 
     // Create object
     ipcRenderer.on('createObject', (e, object) => {
-        let obj = world.createElement(object);
-        store.dispatch('addObject', world.getElementByName(obj.name));
+        world.createElement(object);
+        store.dispatch('addObject');
     });
 
     loop = () => {
