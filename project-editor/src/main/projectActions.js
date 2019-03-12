@@ -9,7 +9,6 @@ export function createProject(window) {
         let data = {};
 
         let { filePath, appPath, spriteSheetPath, type, name, backgroundColor } = arg;
-        console.log(arg, backgroundColor);
         filePath = filePath.replace(/\\\\/g, '\\');
         appPath = appPath.replace(/\\\\/g, '\\');
         spriteSheetPath = spriteSheetPath.replace(/\\\\/g, '\\').replace(appPath, '');
@@ -154,9 +153,8 @@ export function saveProject(window) {
     window.webContents.send('getProjectData');
     ipcMain.once('getProjectDataResponse', (e, obj) => {
         const store = obj.store;
-
-        let projData = Object.assign({}, obj.projectData);
-
+        let projData = obj.projectData;
+        
         get('projectData', (error, data) => {
             if(error) throw error;
 

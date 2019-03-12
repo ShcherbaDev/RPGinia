@@ -2,7 +2,7 @@ const state = {
     type: '',
     settings: {},
     spriteSheets: [],
-    layers: [],
+    appPath: '',
     objects: [],
     selectedObjects: []
 }
@@ -11,6 +11,7 @@ const getters = {
     projectType: state => state.type,
     projectSettings: state => state.settings,
     projectSpriteSheets: state => state.spriteSheets,
+    projectAppPath: state => state.appPath,
     projectObjects: state => state.objects,
     selectedObjects: state => state.selectedObjects
 }
@@ -20,7 +21,7 @@ const mutations = {
         state.type = '';
         state.settings = {};
         state.spriteSheets = [];
-        state.layers = [];
+        state.appPath = '';
         state.objects = [];
         state.selectedObjects = [];
     },
@@ -29,19 +30,19 @@ const mutations = {
         state.type = '';
         state.settings = {};
         state.spriteSheets = [];
-        state.layers = [];
+        state.appPath = '';
         state.objects = [];
         state.selectedObjects = [];
 
-        const projectType = projData.type;
-        const projectData = projData.data;
+        const projectData = projData.data.data;
+        const projectType = projData.data.type;
 
         state.type = projectType;
         state.settings = projectData.settings;
 
         if(projectType === 'level') {
-            if(projectData.spriteSheets)
-                state.spriteSheets = projectData.spriteSheets
+            state.appPath = projData.appPath;
+            if(projectData.spriteSheets) state.spriteSheets = projectData.spriteSheets
 
             for(let i in projectData.elements)
                 projectData.elements[i].$id = parseInt(i)+1;
@@ -103,8 +104,8 @@ const actions = {
         commit('clearSelectedObjects');
     },
 
-    addObject({ commit }, newObject) {
-        commit('addObject', newObject);
+    addObject({ commit }) {
+        commit('addObject');
     },
 
     deleteObject({ commit }, objectIndex) {

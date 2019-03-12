@@ -2,15 +2,13 @@ import { ipcRenderer } from 'electron';
 import RPGinia from '../../../../../engine/src/RPGinia';
 import selectObjects from './selectObjects';
 
-// import '../../store/modules/ProjectData';
-
 let engine, app, world, cam, load, loop;
 let store, storeGetters;
 
-// const appURL = process.env.NODE_ENV === 'development' ? `http://localhost:9080` : `file:///${__dirname}/`;
-
 export default function initPlayground(data, projStore) {
-    // console.log(data);
+    store = projStore;
+    storeGetters = store.getters;
+
     engine = new RPGinia(data.appPath);
     app = new engine.App(
         'RPGinia project editor playground', 
@@ -23,9 +21,6 @@ export default function initPlayground(data, projStore) {
     world = new app.World(false, false);
     cam = new app.Camera();
     load = new app.Loaders();
-
-    store = projStore;
-    storeGetters = store.getters;
 
     // On app resizing
     document.body.onresize = () => {
@@ -45,7 +40,8 @@ export default function initPlayground(data, projStore) {
         loaders: load
     });
 
-    store.dispatch('setUpProjectStore', world.currentLevel)
+    // Settings up project store
+    store.dispatch('setUpProjectStore', { appPath: data.appPath, data: world.currentLevel });
 
     app.canvas.onmousemove = e => { 
         // If alt key and left mouse button are pressed - move camera
@@ -54,10 +50,10 @@ export default function initPlayground(data, projStore) {
     }
 
     // Select object in playground
-    app.canvas.onclick = e => {
+    app.canvas.addEventListener('click', e => {
         if(!e.altKey) 
             selectObjects(e, store, cam);
-    }
+    });
 
     // Create object
     ipcRenderer.on('createObject', (e, object) => {

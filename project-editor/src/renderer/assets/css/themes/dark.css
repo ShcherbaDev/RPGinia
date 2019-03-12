@@ -27,6 +27,10 @@ button {
     border-right-color: #555;
 }
 
+canvas {
+    border-color: #999;
+}
+
 /* Object items */
 .obj_list_item > .name {
     color: #eee;
@@ -47,10 +51,6 @@ button {
 .obj_list_item:hover > .type,
 .obj_list_item.selected > .type {
     color: #999;
-}
-
-.block.playground .canvas_container > canvas {
-    border-color: #999;
 }
 
 /* Scrollbar */

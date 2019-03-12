@@ -1,6 +1,7 @@
 <template>
     <div class="modal_content">
         <div class="modal_body">
+            <!-- Main settings -->
             <CustomInput 
                 type="text" 
                 id="objectName" 
@@ -89,7 +90,7 @@
             <CustomInput
                 type="number"
                 id="objectSpriteSheetIndex"
-                label="Sprite sheet index"
+                label="Sprite sheet index:"
                 :numMin="0"
                 :numMax="projectSpriteSheets.length-1"
                 v-model="spriteSheetIndex"
@@ -98,11 +99,22 @@
             <CustomInput
                 type="number"
                 id="objectSpriteIndex"
-                label="Sprite index"
+                label="Sprite index:"
                 :numMin="0"
                 :numMax="projectSpriteSheets[spriteSheetIndex].sprites.length-1"
                 v-model="spriteIndex"
                 v-if="type === 'sprite'" />
+
+            <CustomInput
+                type="number"
+                id="objectFrameIndex"
+                label="Frame index:"
+                :numMin="0"
+                :numMax="projectSpriteSheets[spriteSheetIndex].sprites[spriteIndex].frames.length-1"
+                v-model="frameIndex"
+                v-if="type === 'sprite' && projectSpriteSheets[spriteSheetIndex].sprites[spriteIndex].frames" />
+        
+            <SpritePreview v-if="type === 'sprite'" />
         </div>
         <div class="modal_footer">
             <button 
@@ -116,6 +128,7 @@
 </template>
 <script>
 import CustomInputs from '../CustomInputs';
+import SpritePreview from '../SpritePreview';
 
 import '../../store/index.js';
 import { mapGetters } from 'vuex';
@@ -148,7 +161,7 @@ export default {
             spriteIndex: 0
         }
     },
-    components: { CustomInput: CustomInputs },
+    components: { SpritePreview, CustomInput: CustomInputs },
     computed: mapGetters(['projectSpriteSheets']),
     methods: {
         createObject: function() {

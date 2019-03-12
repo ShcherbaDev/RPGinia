@@ -8,17 +8,17 @@
                 @add="createObject"
                 @delete="deleteObject"
             >
-                <p class="error_text" v-if="projectObjects.length === 0">
-                    Object list is empty!
-                </p>
-
-                <ul v-else>
+                <ul v-if="projectObjects.length > 0">
                     <ObjectListItem v-for="obj in projectObjects" 
                                     :key="obj.$id"
                                     :name="obj.settings.name" 
                                     :type="obj.settings.type"
                                     :id="obj.$id" />
                 </ul>
+
+                <p class="error_text" v-else>
+                    Object list is empty!
+                </p>
             </Block>
             <Block className="object" title="Object properties">
                 <p class="error_text" v-if="selectedObjects.length === 0">Object not selected.</p>
@@ -80,7 +80,7 @@ export default {
         }
     },
     created: function() {
-        // Actions on setting up project
+        // Actions on setting up 
         ipcRenderer.on('setUpProject', (e, data) => {
             // If the click was not on the list of objects - deselect all objects
             document.querySelector('.block.object_list > .content').addEventListener('click', e => {

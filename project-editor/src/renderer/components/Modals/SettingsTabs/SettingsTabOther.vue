@@ -1,6 +1,6 @@
 <template>
     <div>
         <h1>Other</h1>
-        <p>Стас, да ты заебал со своим арбузом!</p>
+        <h2>Other settings tab</h2>
     </div>
 </template>

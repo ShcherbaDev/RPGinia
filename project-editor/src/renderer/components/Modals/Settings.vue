@@ -33,7 +33,7 @@ export default {
             selectedTab: 'main',
             sections: [
                 {
-                    name: 'asdasd',
+                    name: 'Test tab group 1',
                     class: 'main',
                     id: 1,
                     tabs: [
@@ -50,7 +50,7 @@ export default {
                     ]
                 },
                 {
-                    name: 'Other fff',
+                    name: 'Test tab group 2',
                     class: 'other',
                     id: 2,
                     tabs: [
