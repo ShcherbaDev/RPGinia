@@ -5,7 +5,7 @@ const state = {
     appPath: '',
     objects: [],
     selectedObjects: []
-}
+};
 
 const getters = {
     projectType: state => state.type,
@@ -14,7 +14,7 @@ const getters = {
     projectAppPath: state => state.appPath,
     projectObjects: state => state.objects,
     selectedObjects: state => state.selectedObjects
-}
+};
 
 const mutations = {
     clearProjectStore(state) {
@@ -81,7 +81,7 @@ const mutations = {
         else
             state.objects[state.objects.findIndex(item => item.$id === args.id)].settings[args.property] = args.newPropertyValue;
     }
-}
+};
 
 const actions = {
     clearProjectStore({ commit }) {
@@ -115,6 +115,6 @@ const actions = {
     setObjectProperty({ commit }, args) {
         commit('setObjectProperty', args);
     }
-}
+};
 
 export default { state, getters, mutations, actions }

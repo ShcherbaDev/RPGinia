@@ -4,8 +4,9 @@
             <Block 
                 className="object_list" 
                 title="Object list" 
-                titleAddButton titleDeleteButton 
-                @add="createObject"
+                titleAddButton 
+                titleDeleteButton 
+                @add="openCreateObjectModal"
                 @delete="deleteObject"
             >
                 <ul v-if="projectObjects.length > 0">
@@ -40,13 +41,12 @@ import ObjectListItem from './EditorComponents/ObjectListItem';
 import ObjectProperties from './EditorComponents/ObjectProperties';
 import Playground from './EditorComponents/Playground';
 
-import { mapGetters, mapActions } from 'vuex';
-
 import '../store/index.js';
+import { mapGetters, mapActions } from 'vuex';
 
 import { ipcRenderer } from 'electron';
 
-import initPlayground from '../assets/js/canvas';
+import initPlayground from '../assets/js/playgroundCanvas';
 import selectObjects from '../assets/js/selectObjects';
 import initClipboardActions from '../assets/js/clipboard';
 
@@ -58,7 +58,7 @@ export default {
     methods: {
         ...mapActions(['addObject', 'clearProjectStore', 'clearSelectedObjects']),
 
-        createObject: function() {
+        openCreateObjectModal: function() {
             ipcRenderer.send('requestModalOpen', 'createObject');
         },
 
@@ -92,7 +92,7 @@ export default {
             initPlayground(data, this.$store);
         });
 
-        // Get data of project
+        // Get project data
         ipcRenderer.on('getProjectData', e => {
             e.sender.send('getProjectDataResponse', {
                 projectData: this.getProjectData,

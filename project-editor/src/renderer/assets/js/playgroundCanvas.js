@@ -23,12 +23,14 @@ export default function initPlayground(data, projStore) {
     load = new app.Loaders();
 
     // On app resizing
-    document.body.onresize = () => {
-        app.sizes = [
-            document.querySelector('.canvas_container').clientWidth,
-            document.querySelector('.canvas_container').clientHeight
-        ];
-    }
+    if(storeGetters['AppData/playgroundSizes'].length === 0) {
+        document.body.onresize = () => {
+            app.sizes = [
+                document.querySelector('.canvas_container').clientWidth,
+                document.querySelector('.canvas_container').clientHeight
+            ];
+        }
+    } else app.sizes = storeGetters['AppData/playgroundSizes'];
 
     const loadedLevel = load.jsonFile('level', data.path.replace(data.appPath, ''));
 

@@ -1,11 +1,13 @@
+let componentData;
+let storeGetters;
+let previewContainer;
+
 let cnv;
 let ctx;
 let sprite;
 let draw;
-let storeGetters;
-let spriteSheetCoords;
-let previewContainer;
-let componentData;
+let currentSprite;
+let spriteSheetCoords; 
 
 export default function initPreviewCanvas(comp) { 
     componentData = comp.$parent;
@@ -20,16 +22,14 @@ export default function initPreviewCanvas(comp) {
     // Creating image
     sprite = new Image();
 
-    console.log(componentData, storeGetters);
-
     // Drawing
     draw = () => {
         sprite.src = `${storeGetters.projectAppPath}/${storeGetters.projectSpriteSheets[componentData.spriteSheetIndex].file}`;
 
+        currentSprite = storeGetters.projectSpriteSheets[componentData.spriteSheetIndex].sprites[componentData.spriteIndex];
+
         spriteSheetCoords = 
-            storeGetters.projectSpriteSheets[componentData.spriteSheetIndex].sprites[componentData.spriteIndex].rect ? 
-                storeGetters.projectSpriteSheets[componentData.spriteSheetIndex].sprites[componentData.spriteIndex].rect : 
-                storeGetters.projectSpriteSheets[componentData.spriteSheetIndex].sprites[componentData.spriteIndex].frames[componentData.frameIndex].rect
+            currentSprite.rect ? currentSprite.rect : currentSprite.frames[componentData.frameIndex].rect
 
         cnv.width = componentData.coords[2];
         cnv.height = componentData.coords[3];
