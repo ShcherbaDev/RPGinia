@@ -29,10 +29,12 @@ export default function initPreviewCanvas(comp) {
         currentSprite = storeGetters.projectSpriteSheets[componentData.spriteSheetIndex].sprites[componentData.spriteIndex];
 
         spriteSheetCoords = 
-            currentSprite.rect ? currentSprite.rect : currentSprite.frames[componentData.frameIndex].rect
+            currentSprite.rect ? currentSprite.rect : currentSprite.frames[componentData.frameIndex].rect;
 
         cnv.width = componentData.coords[2];
         cnv.height = componentData.coords[3];
+
+        ctx.imageSmoothingEnabled = false;
 
         // Draw background
         ctx.fillStyle = '#000000';

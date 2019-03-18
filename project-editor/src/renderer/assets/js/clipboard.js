@@ -20,8 +20,15 @@ export default function initClipboardActions(store, document) {
 
     document.addEventListener('paste', e => {
         const id = parseInt(e.clipboardData.getData('text/plain'));
-        const obj = Object.assign(getters.projectObjects[getters.projectObjects.findIndex(item => item.$id === id)]);
+        const clonedObj = 
+            JSON.parse(
+                JSON.stringify(
+                    getters.projectObjects[getters.projectObjects.findIndex(item => item.$id === id)].settings
+                )
+            );
 
-        ipcRenderer.send('createObjectRequest', obj.settings);
+        clonedObj.coords[0] += clonedObj.coords[2];
+
+        ipcRenderer.send('createObjectRequest', clonedObj);
     });
 }

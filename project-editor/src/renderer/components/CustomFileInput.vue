@@ -32,11 +32,7 @@ export default {
     },
     methods: {
         requestChoosingFile: function() {
-            const title = this.title;
-            const method = this.method;
-            const isOpenDirectory = this.isOpenDirectory;
-            const extension = this.extension;
-            const extensionLabel = this.extensionLabel;
+            const { title, method, isOpenDirectory, extension, extensionLabel } = this;
 
             const filePath = ipcRenderer.sendSync('requestChooseFile', { title, method, name: extensionLabel, isOpenDirectory, extensions: [extension] });
             document.querySelector(`.custom_file_input#${this.id} p#filePath`).innerHTML = filePath.replace(/\\\\/g, '\\');

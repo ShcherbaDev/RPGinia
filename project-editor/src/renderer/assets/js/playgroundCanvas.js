@@ -9,7 +9,7 @@ export default function initPlayground(data, projStore) {
     store = projStore;
     storeGetters = store.getters;
 
-    engine = new RPGinia(data.appPath);
+    engine = new RPGinia(`file://${data.appPath}`);
     app = new engine.App(
         'RPGinia project editor playground', 
         document.querySelector('canvas#playground'), 
@@ -47,8 +47,10 @@ export default function initPlayground(data, projStore) {
 
     app.canvas.onmousemove = e => { 
         // If alt key and left mouse button are pressed - move camera
-        if(e.altKey && e.buttons === 1) 
+        if(e.altKey && e.buttons === 1) {
             cam.move(e.movementX, e.movementY);
+            app.canvas.style.cursor = '-webkit-grabbing';
+        } else app.canvas.style.cursor = 'default';
     }
 
     // Select object in playground

@@ -26,7 +26,7 @@
             </div>
         </div>
         <div class="modal_footer">
-            <button class="btn btn_big btn_green" id="save" @click="save">Save</button>
+            <button class="btn" id="save" @click="save">Save</button>
         </div>
     </div>
 </template>

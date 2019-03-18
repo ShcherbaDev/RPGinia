@@ -22,14 +22,6 @@
                 @change="backgroundColor = $event"
                 v-if="projType === 'level'" />
 
-            <CustomInput
-                type="file"
-                chooseFileTitle="Choose a file path:"
-                fileMethod="save"
-                id="savingDirectory"
-                label="Saving directory:"
-                v-model="filePath" />
-
             <CustomInput 
                 type="file"
                 chooseFileTitle="Choose a path to your RPGinia app"
@@ -38,6 +30,14 @@
                 id="appDir"
                 label="RPGinia app path:"
                 v-model="appPath" />
+
+            <CustomInput
+                type="file"
+                chooseFileTitle="Choose a file path:"
+                fileMethod="save"
+                id="savingDirectory"
+                label="Saving directory:"
+                v-model="filePath" />
 
             <!-- Sprite sheet -->
             <CustomInput 
@@ -57,8 +57,8 @@
                 v-if="includeSpriteSheet" />
         </div>
         <div class="modal_footer">
-            <button class="btn btn_big btn_green" id="createProject" v-if="projName !== '' && projType !== '' && filePath !== '' && appPath !== ''" @click="validateForm()">Create</button>
-            <button class="btn btn_big btn_red" id="createProject" disabled v-else>Form is not valid</button>
+            <button class="btn" v-if="projName && projType && projDir" @click="validateForm">Create</button>
+            <button class="btn" disabled v-else>Form is not valid</button>
         </div>
     </div>
 </template>
@@ -76,12 +76,10 @@ export default {
             projName: '',
             projType: 'level',
             projectTypes: [
-                { id: 1, text: 'Level', value: 'level', disabled: false },
-                { id: 2, text: 'Sprite sheet', value: 'spriteSheet', disabled: true },
-                { id: 3, text: 'Language', value: 'language', disabled: true }
+                { id: 1, text: 'Level', value: 'level', disabled: false }
             ],
-            filePath: '',
             appPath: '',
+            filePath: '',
             includeSpriteSheet: false,
             spriteSheetPath: '',
             backgroundColor: '#000000'
@@ -91,11 +89,11 @@ export default {
         validateForm: function() {
             const name = this.projName;
             const type = this.projType;
-            const { backgroundColor, filePath, appPath, spriteSheetPath } = this;
+            const { backgroundColor, appPath, filePath, spriteSheetPath } = this;
 
-            if(name !== '' && type !== '' && filePath !== '' && appPath !== '') {
+            if(name !== '' && type !== '' && appPath !== '' && filePath !== '') {
                 this.$router.push('editor');
-                this.$emit('createProject', { name, type, backgroundColor, filePath, appPath, spriteSheetPath });
+                this.$emit('createProject', { name, type, backgroundColor, appPath, filePath, spriteSheetPath });
             }
             else console.error('Form is not valid!');
         }

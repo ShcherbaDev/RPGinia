@@ -7,8 +7,7 @@
                 titleAddButton 
                 titleDeleteButton 
                 @add="openCreateObjectModal"
-                @delete="deleteObject"
-            >
+                @delete="deleteObject">
                 <ul v-if="projectObjects.length > 0">
                     <ObjectListItem v-for="obj in projectObjects" 
                                     :key="obj.$id"
@@ -18,11 +17,11 @@
                 </ul>
 
                 <p class="error_text" v-else>
-                    Object list is empty!
+                    Object list<br/>is empty!
                 </p>
             </Block>
             <Block className="object" title="Object properties">
-                <p class="error_text" v-if="selectedObjects.length === 0">Object not selected.</p>
+                <p class="error_text" v-if="selectedObjects.length === 0">No one object<br/>wasn't selected</p>
                 <ObjectProperties v-for="objId in selectedObjects"
                                   :key="objId"
                                   :object="projectObjects[projectObjects.findIndex(item => item.$id === objId)]"
@@ -56,15 +55,16 @@ export default {
         Block, ObjectListItem, ObjectProperties, Playground
     },
     methods: {
-        ...mapActions(['addObject', 'clearProjectStore', 'clearSelectedObjects']),
+        ...mapActions(['clearSelectedObjects']),
 
         openCreateObjectModal: function() {
             ipcRenderer.send('requestModalOpen', 'createObject');
         },
 
         deleteObject: function() {
-            for(let selectedObjectId of this.selectedObjects)
-                this.$store.dispatch('deleteObject', this.projectObjects.findIndex(item => item.$id === selectedObjectId))
+            for(let selectedObjectId of this.selectedObjects) {
+                this.$store.dispatch('deleteObject', this.projectObjects.findIndex(item => item.$id === selectedObjectId));
+            }
         }
     },
     computed: {
@@ -84,8 +84,9 @@ export default {
         ipcRenderer.on('setUpProject', (e, data) => {
             // If the click was not on the list of objects - deselect all objects
             document.querySelector('.block.object_list > .content').addEventListener('click', e => {
-                if(this.selectedObjects.length > 0 && e.path.findIndex(item => item.tagName === 'UL') === -1)
+                if(this.selectedObjects.length > 0 && e.path.findIndex(item => item.tagName === 'UL') === -1) {
                     this.clearSelectedObjects();
+                }
             });
 
             // Initialize playground - connect engine and draw objects

@@ -1,5 +1,5 @@
 <template>
-    <div class="input_group">
+    <div class="input_group" :class="{ row: type === 'color' || type === 'checkbox' }">
         <label :for="id">{{ label }}</label>
         
         <!-- Text -->

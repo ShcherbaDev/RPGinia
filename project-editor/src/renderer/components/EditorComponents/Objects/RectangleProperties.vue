@@ -60,7 +60,7 @@ export default {
         ...mapActions(['setObjectProperty']),
 
         parseToHex: function(color) { 
-            return convertColorNameToHex(color) 
+            return convertColorNameToHex(color);
         }
     },
     props: {

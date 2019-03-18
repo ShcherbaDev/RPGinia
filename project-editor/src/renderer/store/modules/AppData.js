@@ -2,11 +2,11 @@ const namespaced = true;
 
 const state = {
     playgroundSizes: []
-}
+};
 
 const getters = {
     playgroundSizes: state => state.playgroundSizes
-}
+};
 
 const mutations = {
     setDataToDefault(state) {
@@ -16,7 +16,7 @@ const mutations = {
     setPlaygroundSizes(state, newSizes) {
         state.playgroundSizes = newSizes;
     } 
-}
+};
 
 const actions = {
     setDataToDefault({ commit }) {
@@ -26,6 +26,6 @@ const actions = {
     setPlaygroundSizes({ commit }, newSizes) {
         commit('clearProjectStore', newSizes);
     }
-}
+};
 
 export default { namespaced, state, getters, mutations, actions }

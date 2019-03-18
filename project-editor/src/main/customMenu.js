@@ -82,7 +82,21 @@ const menuTemplate = [
     },
     {
         label: 'Help',
-        click() { require('electron').shell.openExternal('https://shcherbadev.github.io/rpginia/docs/api') }
+        submenu: [
+            {
+                label: 'RPGinia API documentation',
+                click() { require('electron').shell.openExternal('https://shcherbadev.github.io/rpginia/docs/api') }
+            },
+            {
+                label: 'RPGinia project editor documentation',
+                click() { require('electron').shell.openExternal('https://shcherbadev.github.io/rpginia/docs/index.html') }
+            },
+            { type: 'separator' },
+            {
+                label: 'Project\'s github',
+                click() { require('electron').shell.openExternal('https://github.com/ShcherbaDev/RPGinia') }
+            }
+        ]
     }
 ]
 

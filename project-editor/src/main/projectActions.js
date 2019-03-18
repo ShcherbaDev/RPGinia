@@ -1,5 +1,5 @@
 import { writeFileSync, existsSync, readFile } from 'fs';
-import { ipcMain, dialog, app } from 'electron';
+import { ipcMain, dialog } from 'electron';
 import { get, has, set } from 'electron-json-storage';
 import config from './config';
 
@@ -87,7 +87,7 @@ export function openProject(window, startFromDialog = false) {
 
                     window.reload();
                 });
-            } else app.quit();
+            } else return false;
         }
 
         else return false;
@@ -136,7 +136,7 @@ export function openProject(window, startFromDialog = false) {
                                         path,
                                         data: projectData 
                                     });
-                                } else app.quit();
+                                } window.webContents.send('projectNotExist');
                             }
                         });
                     }

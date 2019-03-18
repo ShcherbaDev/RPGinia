@@ -2,6 +2,7 @@
     <div class="modal_content">
         <div class="modal_body">
             <!-- Main settings -->
+            <h2>Main settings:</h2>
             <CustomInput 
                 type="text" 
                 id="objectName" 
@@ -93,7 +94,8 @@
                 label="Sprite sheet index:"
                 :numMin="0"
                 :numMax="projectSpriteSheets.length-1"
-                v-model="spriteSheetIndex"
+                :value="spriteSheetIndex"
+                @input="setSpriteSheetIndex"
                 v-if="type === 'sprite'" />
 
             <CustomInput
@@ -102,7 +104,8 @@
                 label="Sprite index:"
                 :numMin="0"
                 :numMax="projectSpriteSheets[spriteSheetIndex].sprites.length-1"
-                v-model="spriteIndex"
+                :value="spriteIndex"
+                @input="setSpriteIndex"
                 v-if="type === 'sprite'" />
 
             <CustomInput
@@ -114,15 +117,15 @@
                 v-model="frameIndex"
                 v-if="type === 'sprite' && projectSpriteSheets[spriteSheetIndex].sprites[spriteIndex].frames" />
         
-            <SpritePreview v-if="type === 'sprite'" />
+            <h2 v-if="type === 'sprite'">Preview:</h2>
+            <SpritePreview v-if="type === 'sprite'"></SpritePreview>
         </div>
         <div class="modal_footer">
             <button 
-                class="btn btn_big btn_green" 
-                id="createObject" 
-                v-if="name && type && layer && coords"
+                class="btn"
+                v-if="name && type && layer && coords && fill"
                 @click="createObject">Create</button>
-            <button class="btn btn_big btn_red" id="createObject" v-else disabled>Form is not valid</button>
+            <button class="btn" v-else disabled>Form is not valid</button>
         </div>
     </div>
 </template>
@@ -142,7 +145,7 @@ export default {
             types: [
                 { id: 1, text: 'Rectangle', value: 'rectangle', disabled: false },
                 { id: 3, text: 'Text', value: 'text', disabled: false },
-                { id: 2, text: 'Sprite', value: 'sprite', disabled: false }
+                { id: 2, text: 'Sprite', value: 'sprite', disabled: this.projectSpriteSheets !== undefined }
             ],
             coords: [
                 0,
@@ -158,7 +161,8 @@ export default {
             textSize: 32,
 
             spriteSheetIndex: 0,
-            spriteIndex: 0
+            spriteIndex: 0,
+            frameIndex: 0
         }
     },
     components: { SpritePreview, CustomInput: CustomInputs },
@@ -195,6 +199,17 @@ export default {
                 }
             }
             else console.error('Form is not valid!');
+        },
+
+        setSpriteSheetIndex: function(event) {
+            this.spriteSheetIndex = event;
+            this.spriteIndex = 0;
+            this.frameIndex = 0;
+        },
+
+        setSpriteIndex: function(event) { 
+            this.spriteIndex = event;
+            this.frameIndex = 0;
         }
     }
 }

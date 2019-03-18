@@ -7,11 +7,25 @@ a {
 }
 
 p.error_text {
-    color: #eee;
+    color: #aaa;
+}
+
+h1 {
+    color: #fff;
+}
+
+h2 {
+    color: #fff;
+    border-top-color: #666;
 }
 
 button {
     color: #fff;
+}
+
+button.btn {
+    border-color: #777;
+    background-color: #555;
 }
 
 .title {
@@ -87,8 +101,14 @@ canvas {
     color: #fff;
 }
 
-.input_group input[type="text"] {
+.input_group input[type="text"],
+.input_group input[type="number"] {
     color: #ddd;
+    background-color: #555;
+    border-color: #777;
+}
+
+.input_group input[type="color"] {
     background-color: #555;
     border-color: #777;
 }
