@@ -36,7 +36,7 @@
                 chooseFileTitle="Choose a file path:"
                 fileMethod="save"
                 id="savingDirectory"
-                label="Saving directory:"
+                label="Saving path:"
                 v-model="filePath" />
 
             <!-- Sprite sheet -->
@@ -57,7 +57,7 @@
                 v-if="includeSpriteSheet" />
         </div>
         <div class="modal_footer">
-            <button class="btn" v-if="projName && projType && projDir" @click="validateForm">Create</button>
+            <button class="btn" v-if="projName && projType && projDir" @click="createProject">Create</button>
             <button class="btn" disabled v-else>Form is not valid</button>
         </div>
     </div>
@@ -70,8 +70,7 @@ import CustomInputs from '../CustomInputs';
 import CustomFileInput from '../CustomFileInput';
 
 export default {
-    components: { CustomInput: CustomInputs, CustomFileInput },
-    data: function() {
+    data() {
         return {
             projName: '',
             projType: 'level',
@@ -85,8 +84,9 @@ export default {
             backgroundColor: '#000000'
         }
     },
+    components: { CustomInput: CustomInputs, CustomFileInput },
     methods: {
-        validateForm: function() {
+        createProject() {
             const name = this.projName;
             const type = this.projType;
             const { backgroundColor, appPath, filePath, spriteSheetPath } = this;

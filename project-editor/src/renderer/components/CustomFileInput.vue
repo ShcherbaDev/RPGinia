@@ -31,7 +31,7 @@ export default {
         }
     },
     methods: {
-        requestChoosingFile: function() {
+        requestChoosingFile() {
             const { title, method, isOpenDirectory, extension, extensionLabel } = this;
 
             const filePath = ipcRenderer.sendSync('requestChooseFile', { title, method, name: extensionLabel, isOpenDirectory, extensions: [extension] });

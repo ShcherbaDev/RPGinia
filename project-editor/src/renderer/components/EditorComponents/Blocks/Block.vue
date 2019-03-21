@@ -1,5 +1,5 @@
 <template>
-    <div :class="'block ' + className">
+    <div class="block" :class="className">
         <BlockTitle :title="title"
                     :addButton="titleAddButton" 
                     :deleteButton="titleDeleteButton"

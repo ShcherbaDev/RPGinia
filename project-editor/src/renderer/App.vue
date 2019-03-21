@@ -14,6 +14,11 @@
 		<Settings 
 			v-else-if="modalInfo.type === 'settings'" />
 
+		<RepeatObject 
+			v-else-if="modalInfo.type === 'repeatObject'"
+			:objectId="modalInfo.arg"
+			@repeatObject="repeatObject" />
+
 		<div v-else>...</div>
     </Modal>
   </div>
@@ -24,18 +29,20 @@ import Modal from './components/Modal';
 import NewProject from './components/Modals/NewProject';
 import NewObject from './components/Modals/NewObject';
 import Settings from './components/Modals/Settings';
+import RepeatObject from './components/Modals/RepeatObject';
 
 import { ipcRenderer } from 'electron';
 
 export default {
 	name: 'project-editor',
-	components: { Modal, NewProject, NewObject, Settings },
+	components: { Modal, NewProject, NewObject, Settings, RepeatObject },
 	data: function() {
 		return {
 			modalInfo: {
 				title: '',
 				type: '',
-				isOpened: false
+				isOpened: false,
+				arg: null
 			}
 		}
 	},
@@ -46,8 +53,12 @@ export default {
 		},
 
 		createObject: function(arg) {
-			ipcRenderer.send('closeModal');
 			ipcRenderer.send('createObjectRequest', arg);
+			this.setDataToDefault();
+		},
+
+		repeatObject: function(arg) {
+			ipcRenderer.send('repeatObjectRequest', arg);
 			this.setDataToDefault();
 		},
 
@@ -55,11 +66,12 @@ export default {
 			this.modalInfo.type = '';
 			this.modalInfo.title = '';
 			this.modalInfo.isOpened = false;
+			this.modalInfo.arg = null;
 		}
 	},
 	created: function() {
 		this.setDataToDefault();
-		ipcRenderer.on('openModal', (e, type) => {
+		ipcRenderer.on('openModal', (e, type, arg) => {
 			if(type === 'createProject') {
 				this.modalInfo.type = 'createProject';
 				this.modalInfo.title = 'Create new project';
@@ -73,6 +85,12 @@ export default {
 			if(type === 'settings') {
 				this.modalInfo.type = 'settings';
 				this.modalInfo.title = 'Settings';
+			}
+
+			if(type === 'repeatObject') {
+				this.modalInfo.type = 'repeatObject';
+				this.modalInfo.title = 'Repeat object';
+				this.modalInfo.arg = arg;
 			}
 
 			this.modalInfo.isOpened = true;

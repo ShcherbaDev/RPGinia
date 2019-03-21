@@ -56,12 +56,13 @@ export default {
     },
     methods: {
         ...mapActions(['clearSelectedObjects']),
+        ...mapActions('AppData', ['setUpAppData']),
 
-        openCreateObjectModal: function() {
+        openCreateObjectModal() {
             ipcRenderer.send('requestModalOpen', 'createObject');
         },
 
-        deleteObject: function() {
+        deleteObject() {
             for(let selectedObjectId of this.selectedObjects) {
                 this.$store.dispatch('deleteObject', this.projectObjects.findIndex(item => item.$id === selectedObjectId));
             }
@@ -70,7 +71,7 @@ export default {
     computed: {
         ...mapGetters(['projectSettings', 'projectObjects', 'selectedObjects']),
 
-        getProjectData: function() {
+        getProjectData() {
             if(this.$store.getters.projectType === 'level') {
                 return {
                     settings: this.$store.getters.projectSettings,
@@ -79,7 +80,8 @@ export default {
             }
         }
     },
-    created: function() {
+    
+    created() {
         // Actions on setting up 
         ipcRenderer.on('setUpProject', (e, data) => {
             // If the click was not on the list of objects - deselect all objects
@@ -89,7 +91,10 @@ export default {
                 }
             });
 
-            // Initialize playground - connect engine and draw objects
+            // Initializing app data
+            this.setUpAppData(data.appData);
+
+            // Initialize playground - connecting engine, initializing project store and drawing objects
             initPlayground(data, this.$store);
         });
 

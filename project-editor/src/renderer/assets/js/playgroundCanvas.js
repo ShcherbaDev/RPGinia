@@ -22,16 +22,6 @@ export default function initPlayground(data, projStore) {
     cam = new app.Camera();
     load = new app.Loaders();
 
-    // On app resizing
-    if(storeGetters['AppData/playgroundSizes'].length === 0) {
-        document.body.onresize = () => {
-            app.sizes = [
-                document.querySelector('.canvas_container').clientWidth,
-                document.querySelector('.canvas_container').clientHeight
-            ];
-        }
-    } else app.sizes = storeGetters['AppData/playgroundSizes'];
-
     const loadedLevel = load.jsonFile('level', data.path.replace(data.appPath, ''));
 
     // Initialize the playground's world
@@ -65,8 +55,43 @@ export default function initPlayground(data, projStore) {
         store.dispatch('addObject');
     });
 
+    ipcRenderer.on('repeatObject', (e, arg) => {
+        let { repeatedObject, repeatByRow, repeatByColumn, horizontalInterval, verticalInterval } = arg;
+
+        for(let i = 1; i <= repeatByRow; i++) {
+            let settings = JSON.parse(JSON.stringify(repeatedObject._settings));
+            settings.name = `${settings.name} (Repeated - ${i})`;
+            settings.coords[1] += i * verticalInterval;
+            world.createElement(settings);
+            store.dispatch('addObject');
+        }
+
+        for(let i = 1; i <= repeatByColumn; i++) {
+            let settings = JSON.parse(JSON.stringify(repeatedObject._settings));
+            settings.name = `${settings.name} (Repeated - ${i})`;
+            settings.coords[0] += i * horizontalInterval;
+            world.createElement(settings);
+            store.dispatch('addObject');
+        }
+    });
+
     loop = () => {
         app.clearPlayground();
+
+        // App window resizing
+        if(
+            storeGetters['AppData/autoPlaygroundSizesEnabled']
+            || (
+                !storeGetters['AppData/autoPlaygroundSizesEnabled']
+                && storeGetters['AppData/playgroundSizes'][0] === 0 
+                || storeGetters['AppData/playgroundSizes'][1] === 0
+               )
+        ) {
+            app.sizes = [
+                document.querySelector('.canvas_container').clientWidth,
+                document.querySelector('.canvas_container').clientHeight
+            ];
+        } else app.sizes = storeGetters['AppData/playgroundSizes'];
 
         // Draw objects
         world.draw();

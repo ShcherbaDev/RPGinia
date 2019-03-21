@@ -7,7 +7,7 @@
 import initPreviewCanvas from '../assets/js/spritePreview';
 
 export default {
-    mounted: function() {
+    mounted() {
         initPreviewCanvas(this);
     }
 }

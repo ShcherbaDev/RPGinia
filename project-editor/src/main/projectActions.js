@@ -13,6 +13,7 @@ export function createProject(window) {
         appPath = appPath.replace(/\\\\/g, '\\');
         spriteSheetPath = spriteSheetPath.replace(/\\\\/g, '\\').replace(appPath, '');
 
+        createAppDataFile();
         set('projectData', {
             path: filePath,
             appPath,
@@ -33,12 +34,7 @@ export function createProject(window) {
 
         window.setTitle(`${name} - ${config.appName}`);
 
-        e.sender.send('setUpProject', { 
-            type, 
-            appPath,
-            path: filePath,
-            data 
-        });
+        setUpProject(window, { type, appPath, path, projectData });
 
         window.reload();
     });
@@ -112,12 +108,9 @@ export function openProject(window, startFromDialog = false) {
                             if(appPath) {
                                 window.setTitle(`${projectData.settings.name} - ${config.appName}`);
 
-                                window.webContents.send('setUpProject', { 
-                                    type, 
-                                    appPath, 
-                                    path,
-                                    data: projectData 
-                                });
+                                createAppDataFile();
+
+                                setUpProject(window, { type, appPath, path, projectData });
                             }
 
                             else {
@@ -126,16 +119,12 @@ export function openProject(window, startFromDialog = false) {
                                 if(appPathDialog) {
                                     const appPath = appPathDialog[0];
 
+                                    createAppDataFile();
                                     set('projectData', { path, appPath, type });
                                     
                                     window.setTitle(`${projectData.settings.name} - ${config.appName}`);
 
-                                    window.webContents.send('setUpProject', { 
-                                        type, 
-                                        appPath,
-                                        path,
-                                        data: projectData 
-                                    });
+                                    setUpProject(window, { type, appPath, path, projectData });
                                 } window.webContents.send('projectNotExist');
                             }
                         });
@@ -178,5 +167,36 @@ function openAppPathDialog(window) {
     return dialog.showOpenDialog(window, {
         title: 'Choose a path to your RPGinia app',
         properties: ['openDirectory']
+    });
+}
+
+function createAppDataFile() {
+    has('appData', (err, hasKey) => {
+        if(err) throw err;
+
+        if(!hasKey) {
+            set('appData', {
+                playground: {
+                    sizes: [0, 0],
+                    autoSizesEnabled: true
+                }
+            });
+        }
+    });
+}
+
+function setUpProject(window, obj) {
+    const { type, appPath, path, projectData } = obj;
+
+    get('appData', (err, data) => {
+        if(err) throw err;
+
+        window.webContents.send('setUpProject', { 
+            type, 
+            appPath,
+            appData: data,
+            path,
+            data: projectData 
+        });
     });
 }

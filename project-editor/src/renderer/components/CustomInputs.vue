@@ -7,6 +7,7 @@
             :type="type" 
             :id="id" 
             :value="value" 
+            :disabled="disabled"
             @input="$emit('input', $event.target.value)"
             v-if="type === 'text'">
 
@@ -15,6 +16,7 @@
             :type="type" 
             :id="id"
             :checked="isChecked"
+            :disabled="disabled"
             @change="$emit('change', $event.target.checked)"
             v-else-if="type === 'checkbox'">
 
@@ -27,6 +29,7 @@
             :value="value" 
             :min="numMin"
             :max="numMax"
+            :disabled="disabled"
             @input="$emit('input', parseInt($event.target.value))"
             v-else-if="type === 'number'">
 
@@ -35,6 +38,7 @@
             :type="type" 
             :id="id" 
             :value="value"
+            :disabled="disabled"
             @change="$emit('change', $event.target.value)"
             v-else-if="type === 'color'">
 
@@ -78,6 +82,8 @@ export default {
         },
         value: [String, Number],
         label: String,
+
+        disabled: Boolean,
 
         isChecked: Boolean,
 

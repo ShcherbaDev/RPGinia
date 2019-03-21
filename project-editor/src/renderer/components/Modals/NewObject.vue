@@ -168,7 +168,7 @@ export default {
     components: { SpritePreview, CustomInput: CustomInputs },
     computed: mapGetters(['projectSpriteSheets']),
     methods: {
-        createObject: function() {
+        createObject() {
             if(this.name !== '' && this.type !== '' && this.layer !== null && this.coords !== []) {
                 if(this.type === 'rectangle') {
                     this.$emit('createObject', {
@@ -201,13 +201,13 @@ export default {
             else console.error('Form is not valid!');
         },
 
-        setSpriteSheetIndex: function(event) {
+        setSpriteSheetIndex(event) {
             this.spriteSheetIndex = event;
             this.spriteIndex = 0;
             this.frameIndex = 0;
         },
 
-        setSpriteIndex: function(event) { 
+        setSpriteIndex(event) { 
             this.spriteIndex = event;
             this.frameIndex = 0;
         }

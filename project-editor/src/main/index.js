@@ -1,5 +1,5 @@
 import { app, BrowserWindow, ipcMain, dialog, Menu } from 'electron';
-import { setDataPath } from 'electron-json-storage';
+import { setDataPath, get, set } from 'electron-json-storage';
 import menuTemplate from './customMenu';
 import * as projectActions from './projectActions';
 import config from './config';
@@ -63,9 +63,7 @@ function createWindow() {
         }
 
         else if(method === 'open') {
-            let settings = {
-                title: title
-            };
+            let settings = { title };
 
             if(isOpenDirectory) settings.properties = ['openDirectory'];
             else settings.filters = [ { name, extensions } ];
@@ -83,10 +81,27 @@ function createWindow() {
     ipcMain.on('openProject', e => projectActions.openProject(mainWindow, true));
 
     // Open modal window
-    ipcMain.on('requestModalOpen', (e, type) => e.sender.send('openModal', type));
+    ipcMain.on('requestModalOpen', (e, type, arg) => e.sender.send('openModal', type, arg));
 
     // Create new object
     ipcMain.on('createObjectRequest', (e, obj) => e.sender.send('createObject', obj));
+
+    // Repeat object
+    ipcMain.on('repeatObjectRequest', (e, arg) => e.sender.send('repeatObject', arg));
+
+    // Save app data
+    ipcMain.on('saveNewAppData', (e, arg) => {
+        get('appData', (err, data) => {
+            if(err) throw data;
+
+            set('appData', {
+                playground: {
+                    sizes: arg['AppData/playgroundSizes'],
+                    autoSizesEnabled: arg['AppData/autoPlaygroundSizesEnabled']
+                }
+            });
+        });
+    });
 }
 
 app.on('ready', createWindow);

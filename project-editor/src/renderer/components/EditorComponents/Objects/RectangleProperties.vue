@@ -44,11 +44,16 @@
             label="Fill:"
             :value="parseToHex(object.settings.settings.fill)"
             @change="setObjectProperty({ id: object.$id, property: 'settings', propertySetting: 'fill', newPropertyValue: $event })" />
+        
+        <div class="button_group">
+            <button class="btn" @click="openRepeatModal">Repeat</button>
+        </div>
     </div>
 </template>
 <script>
 import CustomInputs from '../../CustomInputs';
 import convertColorNameToHex from '../../../assets/js/convertColorNameToHex';
+import { ipcRenderer } from 'electron';
 
 import '../../../store/index.js';
 import { mapGetters, mapActions } from 'vuex';
@@ -59,8 +64,12 @@ export default {
     methods: {
         ...mapActions(['setObjectProperty']),
 
-        parseToHex: function(color) { 
+        parseToHex(color) { 
             return convertColorNameToHex(color);
+        },
+
+        openRepeatModal() {
+            ipcRenderer.send('requestModalOpen', 'repeatObject', this.object.$id);
         }
     },
     props: {

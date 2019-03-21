@@ -49,7 +49,7 @@
             type="color"
             id="objectColor"
             label="Color:"
-            :value="object.settings.settings.color"
+            :value="parseToHex(object.settings.settings.color)"
             @change="setObjectProperty({ id: object.$id, property: 'settings', propertySetting: 'color', newPropertyValue: $event })" />
 
         <CustomInput
@@ -59,10 +59,16 @@
             :value="object.settings.settings.size"
             :numMin="0"
             @input="setObjectProperty({ id: object.$id, property: 'settings', propertySetting: 'size', newPropertyValue: $event })" />
+
+        <div class="button_group">
+            <button class="btn" @click="openRepeatModal">Repeat</button>
+        </div>
     </div>
 </template>
 <script>
 import CustomInputs from '../../CustomInputs';
+import convertColorNameToHex from '../../../assets/js/convertColorNameToHex';
+import { ipcRenderer } from 'electron';
 
 import '../../../store/index.js';
 import { mapGetters, mapActions } from 'vuex';
@@ -70,7 +76,17 @@ import { mapGetters, mapActions } from 'vuex';
 export default {
     components: { CustomInput: CustomInputs },
     computed: mapGetters(['projectObjects', 'selectedObjects']),
-    methods: mapActions(['setObjectProperty']),
+    methods: {
+        ...mapActions(['setObjectProperty']),
+        
+        parseToHex(color) { 
+            return convertColorNameToHex(color);
+        },
+
+        openRepeatModal() {
+            ipcRenderer.send('requestModalOpen', 'repeatObject', this.object.$id);
+        }
+    },
     props: {
         object: Object
     }

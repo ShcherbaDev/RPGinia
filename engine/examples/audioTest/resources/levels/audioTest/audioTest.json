@@ -78,20 +78,20 @@
         },
         {
             "coords": [
-                382,
+                123,
                 290,
-                112,
+                80,
                 32
             ],
             "isVisible": true,
             "layer": 2,
-            "name": "soundtrackSnowdin",
+            "name": "soundtrackRuins",
             "settings": {
                 "color": "#ffffff",
                 "font": "8bitoperator",
                 "horizontalAlign": "center",
                 "size": 32,
-                "text": "Snowdin"
+                "text": "Ruins"
             },
             "type": "text"
         },
@@ -111,6 +111,44 @@
                 "horizontalAlign": "center",
                 "size": 32,
                 "text": "Snowy"
+            },
+            "type": "text"
+        },
+        {
+            "coords": [
+                382,
+                290,
+                112,
+                32
+            ],
+            "isVisible": true,
+            "layer": 2,
+            "name": "soundtrackSnowdin",
+            "settings": {
+                "color": "#ffffff",
+                "font": "8bitoperator",
+                "horizontalAlign": "center",
+                "size": 32,
+                "text": "Snowdin"
+            },
+            "type": "text"
+        },
+        {
+            "coords": [
+                554,
+                290,
+                176,
+                32
+            ],
+            "isVisible": true,
+            "layer": 2,
+            "name": "soundtrackBonetrousle",
+            "settings": {
+                "color": "#ffffff",
+                "font": "8bitoperator",
+                "horizontalAlign": "center",
+                "size": 32,
+                "text": "Bonetrousle"
             },
             "type": "text"
         },
@@ -168,44 +206,6 @@
                 "horizontalAlign": "left",
                 "size": 32,
                 "text": "Gaster's theme"
-            },
-            "type": "text"
-        },
-        {
-            "coords": [
-                123,
-                290,
-                80,
-                32
-            ],
-            "isVisible": true,
-            "layer": 2,
-            "name": "soundtrackRuins",
-            "settings": {
-                "color": "#ffffff",
-                "font": "8bitoperator",
-                "horizontalAlign": "center",
-                "size": 32,
-                "text": "Ruins"
-            },
-            "type": "text"
-        },
-        {
-            "coords": [
-                554,
-                290,
-                176,
-                32
-            ],
-            "isVisible": true,
-            "layer": 2,
-            "name": "soundtrackBonetrousle",
-            "settings": {
-                "color": "#ffffff",
-                "font": "8bitoperator",
-                "horizontalAlign": "center",
-                "size": 32,
-                "text": "Bonetrousle"
             },
             "type": "text"
         }

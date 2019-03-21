@@ -22,7 +22,7 @@
             <div class="tab_content">
                 <PlaygroundSettings v-if="selectedTab === 'playground'" />
                 
-                <p v-else>There is no content for this tab...</p>
+                <p class="error_text" v-else>There is no content for this tab...</p>
             </div>
         </div>
         <div class="modal_footer">
@@ -33,8 +33,10 @@
 <script>
 import PlaygroundSettings from './SettingsTabs/PlaygroundSettings';
 
+import { ipcRenderer } from 'electron';
+
 export default {
-    data: function() {
+    data() {
         return {
             selectedTab: 'playground',
             sections: [
@@ -60,8 +62,15 @@ export default {
     },
     components: { PlaygroundSettings },
     methods: {
-        save: function(e) {
-            console.log(e)
+        save(e) {
+            if(this.selectedTab === 'playground') {
+                const { playgroundWidth, playgroundHeight, playgroundAutoResizingEnabled } = this.$children[0];
+
+                this.$store.commit('AppData/setPlaygroundSizes', [playgroundWidth, playgroundHeight]);
+                this.$store.commit('AppData/setAutoPlaygroundResizing', playgroundAutoResizingEnabled);
+                
+                ipcRenderer.send('saveNewAppData', this.$store.getters);
+            }
         }
     }
 }

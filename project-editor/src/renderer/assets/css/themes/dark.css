@@ -113,6 +113,13 @@ canvas {
     border-color: #777;
 }
 
+.input_group input[type="text"]:disabled,
+.input_group input[type="number"]:disabled,
+.input_group input[type="color"]:disabled {
+    background-color: rgba(0, 0, 0, .2);
+    color: #888;
+}
+
 /* Inputs - select */
 .input_group select {
     color: #ddd;

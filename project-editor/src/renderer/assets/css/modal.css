@@ -39,18 +39,49 @@
 }
 
 .modal_body {
+    padding: 15px;
     max-height: 435px;
     overflow-y: auto;
 }
 
 .modal_body, .modal_footer {
-    border-top: 1px solid;
+    border-top: 1px solid #ddd;
 }
 
 .modal_footer {
     padding: 10px 15px;
 }
 
+/* Settings modal styles */
+.modal_body.modal_settings > .sidebar {
+	padding: 10px;
+}
+
+.modal_body.modal_settings > .sidebar h1.section_title {
+	padding-bottom: 10px;
+	padding-left: 5px;
+	margin-bottom: 10px;
+	border-bottom: 1px solid #555;
+}
+
+.modal_body.modal_settings > .sidebar ul.section_tab_list li a {
+	display: block;
+	padding: 8px 10px;
+	color: #fff;
+	text-decoration: none;
+}
+
+.modal_body.modal_settings > .sidebar ul.section_tab_list li a.selected {
+	background-color: rgba(255, 255, 255, .1);
+}
+
+.modal_body.modal_settings > .sidebar ul.section_tab_list li a:hover {
+	background-color: rgba(255, 255, 255, .2);
+}
+
+.modal_body.modal_settings > .tab_content {
+	padding: 10px;
+}
 
 /* Container sizes */
 @media screen and (max-width: 960px) {
