@@ -97,6 +97,21 @@ p.error_text {
 	text-align: center;
 }
 
+/* Disable text selecting */
+.title p,
+p.error_text,
+label,
+h1, h2 {
+	user-select: none;
+	cursor: default;
+}
+
+.obj_list_item > .name,
+.obj_list_item > .type, 
+button {
+	user-select: none;
+}
+
 /* Properties block styles */
 .properties {
 	border-right: 1px solid;
@@ -123,6 +138,9 @@ p.error_text {
 
 .obj_list_item > .name {
 	padding-left: 7px;
+	white-space: nowrap;
+	overflow: hidden;
+	text-overflow: ellipsis;
 }
 
 .obj_list_item > .type {

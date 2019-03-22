@@ -28,9 +28,9 @@
     </div>
 </template>
 <script>
-import CustomInputs from '../../CustomInputs';
+import CustomInputs from '../../../CustomInputs';
 
-import '../../../store/index.js';
+import '../../../../store/index.js';
 import { mapGetters } from 'vuex';
 
 export default {
@@ -43,9 +43,7 @@ export default {
     },
 
     components: { CustomInput: CustomInputs },
-    computed: {
-        ...mapGetters('AppData', ['playgroundSizes', 'autoPlaygroundSizesEnabled'])
-    },
+    computed: mapGetters('AppData', ['playgroundSizes', 'autoPlaygroundSizesEnabled']),
     mounted() {
         this.playgroundWidth = this.playgroundSizes[0];
         this.playgroundHeight = this.playgroundSizes[1];

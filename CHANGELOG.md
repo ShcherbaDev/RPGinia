@@ -6,10 +6,13 @@
 * Fixed a bug in file choosing, where in the dialog box when clicking on "cancel" app did not respond to clicks.
 * Fixed file input text sizes.
 * On clicking on not object list - deselecting all objects.
-* Editor is not adding objects borders coordinates and their central points when saving.
+* Editor is not adding objects borders coordinates and their central points anymore when saving.
+* If the name of the object does not fit into the block, then three points are put.
 * Added text and sprite object types support.
 * Added dark theme modals and inputs.
 * Added "RPGinia app path" field.
+* Added settings modal window.
+* Disabled text selection for useless texts.
 
 Documentation for editor is avaiable now! Click [here](https://shcherbadev.github.io/rpginia/docs/index.html) to see! (Ukrainian and russian only)
 

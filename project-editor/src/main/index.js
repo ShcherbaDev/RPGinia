@@ -102,6 +102,25 @@ function createWindow() {
             });
         });
     });
+
+    // Save project data
+    ipcMain.on('saveNewProjectData', (e, arg) => {
+        projectActions.saveProject(mainWindow);
+
+        get('projectData', (err, data) => {
+            if(err) throw err;
+
+            const { path, type } = data;
+
+            set('projectData', {
+                path,
+                appPath: arg.projectAppPath.replace(/\\\\/g, '\\'),
+                type
+            });
+        });
+
+        mainWindow.reload();
+    });
 }
 
 app.on('ready', createWindow);

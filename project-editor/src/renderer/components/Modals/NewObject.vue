@@ -197,6 +197,25 @@ export default {
                         coords: this.coords
                     });
                 }
+
+                else if(this.type === 'sprite') {
+                    let objSettings = {
+                        name: this.name,
+                        type: this.type,
+                        settings: {
+                            spriteSheetIndex: this.spriteSheetIndex,
+                            spriteIndex: this.spriteIndex
+                        },
+                        layer: this.layer,
+                        coords: this.coords
+                    }
+
+                    if(this.projectSpriteSheets[this.spriteSheetIndex].sprites[this.spriteIndex].frames) {
+                        objSettings.settings.frameIndex = this.frameIndex;
+                    }
+
+                    this.$emit('createObject', objSettings);
+                }
             }
             else console.error('Form is not valid!');
         },

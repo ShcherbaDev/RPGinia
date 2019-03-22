@@ -93,18 +93,21 @@ export function openProject(window, startFromDialog = false) {
         has('projectData', (err, hasKey) => {
             if(err) throw err;
             
+            // If has found projectData.json
             if(hasKey) {
-                get('projectData', (error, data) => {
+                get('projectData', (error, configData) => {
                     if(error) throw error;
                     
-                    let { path, appPath, type } = data;
-                    
-                    if(existsSync(path)) {
+                    // If the file is exist
+                    if(existsSync(configData.path)) {
+                        let { path, appPath, type } = configData;
+
                         readFile(path, 'utf8', (loadFileErr, fileData) => {
                             if(loadFileErr) throw loadFileErr;
 
                             const projectData = JSON.parse(fileData);
 
+                            // If have RPGinia app path - open project
                             if(appPath) {
                                 window.setTitle(`${projectData.settings.name} - ${config.appName}`);
 
@@ -113,9 +116,11 @@ export function openProject(window, startFromDialog = false) {
                                 setUpProject(window, { type, appPath, path, projectData });
                             }
 
+                            // Request RPGinia app path
                             else {
                                 const appPathDialog = openAppPathDialog(window);
 
+                                // If it was mentioned - open project
                                 if(appPathDialog) {
                                     const appPath = appPathDialog[0];
 
@@ -125,15 +130,17 @@ export function openProject(window, startFromDialog = false) {
                                     window.setTitle(`${projectData.settings.name} - ${config.appName}`);
 
                                     setUpProject(window, { type, appPath, path, projectData });
-                                } window.webContents.send('projectNotExist');
+                                } 
+
+                                // If it wasn't mentioned.
+                                else window.webContents.send('projectNotExist');
                             }
                         });
                     }
-                    else window.webContents.send('projectNotExist');
+                    else window.webContents.send('projectNotExist'); // If the file is not exist
                 });
             }
-
-            else window.webContents.send('projectNotExist');
+            else window.webContents.send('projectNotExist'); // If wasn't found projectData.json
         });
     }
 }

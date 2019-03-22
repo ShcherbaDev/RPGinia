@@ -50,6 +50,14 @@ const mutations = {
         state.objects = projectType === 'level' ? projectData.elements : [];
     },
 
+    setProjectSetting(state, args) {
+        state.settings[args.settingName] = args.newValue;
+    },
+
+    setProjectAppPath(state, newValue) {
+        state.appPath = newValue;
+    },
+
     selectObject(state, id) {
         state.selectedObjects.push(id);
     },
@@ -90,6 +98,14 @@ const actions = {
 
     setUpProjectStore({ commit }, projData) {
         commit('setUpProjectStore', projData);
+    },
+
+    setProjectSetting({ commit }, args) {
+        commit('setProjectSetting', args);
+    },
+
+    setProjectAppPath({ commit }, newValue) {
+        commit('setProjectAppPath', newValue);
     },
 
     selectObject({ commit }, id) {
