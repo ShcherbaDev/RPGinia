@@ -41,6 +41,23 @@ export default function initPlayground(data, projStore) {
             cam.move(e.movementX, e.movementY);
             app.canvas.style.cursor = '-webkit-grabbing';
         } else app.canvas.style.cursor = 'default';
+
+        if(
+            !e.altKey 
+            && e.buttons === 1 
+            && world.currentLevel.data.elements.findIndex(
+                    item => {
+                        return e.offsetX >= item.settings.coords[0] + cam.x
+                            && e.offsetX <= item.settings.coords[0] + item.settings.coords[2] + cam.x
+                            && e.offsetY >= item.settings.coords[1] + cam.y
+                            && e.offsetY <= item.settings.coords[1] + item.settings.coords[3] + cam.y;
+                    }
+                ) !== -1
+            && storeGetters.selectedObjects.length > 0
+        ) {
+            world.currentLevel.data.elements[world.currentLevel.data.elements.findIndex(item => item.$id === storeGetters.selectedObjects[0])].settings.coords[0] += e.movementX
+            world.currentLevel.data.elements[world.currentLevel.data.elements.findIndex(item => item.$id === storeGetters.selectedObjects[0])].settings.coords[1] += e.movementY
+        }
     }
 
     // Select object in playground
@@ -51,47 +68,73 @@ export default function initPlayground(data, projStore) {
 
     // Create object
     ipcRenderer.on('createObject', (e, object) => {
-        world.createElement(object);
-        store.dispatch('addObject');
+        world.currentLevel.data.elements.push(
+            settings.type !== 'sprite' ?
+            world._prepareObject(object) :
+            world._prepareObject(object, storeGetters.spriteSheets)
+        );
+
+        store.commit('addObject');
+
+        world._sortElements();
     });
 
-    ipcRenderer.on('repeatObject', (e, arg) => {
-        let { repeatedObject, repeatByRow, repeatByColumn, horizontalInterval, verticalInterval } = arg;
+    // App window resizing
+    if(
+        storeGetters['AppData/autoPlaygroundSizesEnabled']
+        || (
+            !storeGetters['AppData/autoPlaygroundSizesEnabled']
+            && storeGetters['AppData/playgroundSizes'][0] === 0 
+            || storeGetters['AppData/playgroundSizes'][1] === 0
+           )
+    ) {
+        app.sizes = [
+            document.querySelector('.canvas_container').clientWidth,
+            document.querySelector('.canvas_container').clientHeight
+        ];
+    } else app.sizes = storeGetters['AppData/playgroundSizes'];
 
-        for(let i = 1; i <= repeatByRow; i++) {
-            let settings = JSON.parse(JSON.stringify(repeatedObject._settings));
-            settings.name = `${settings.name} (Repeated - ${i})`;
-            settings.coords[1] += i * verticalInterval;
-            world.createElement(settings);
-            store.dispatch('addObject');
-        }
+    // Sort objects
+    ipcRenderer.on('sortObjectsByLayers', e => {
+        world._sortElements();
+    });
+
+    // Repeat object
+    ipcRenderer.on('repeatObject', (e, arg) => {
+        let { repeatedObject, repeatByColumn, repeatByRow, horizontalInterval, verticalInterval } = arg;
 
         for(let i = 1; i <= repeatByColumn; i++) {
             let settings = JSON.parse(JSON.stringify(repeatedObject._settings));
             settings.name = `${settings.name} (Repeated - ${i})`;
             settings.coords[0] += i * horizontalInterval;
-            world.createElement(settings);
-            store.dispatch('addObject');
+
+            world.currentLevel.data.elements.push(
+                settings.type !== 'sprite' ?
+                world._prepareObject(settings) :
+                world._prepareObject(settings, storeGetters.spriteSheets)
+            );
+
+            store.commit('addObject');
         }
+
+        for(let i = 1; i <= repeatByRow; i++) {
+            let settings = JSON.parse(JSON.stringify(repeatedObject._settings));
+            settings.name = `${settings.name} (Repeated - ${i})`;
+            settings.coords[1] += i * verticalInterval;
+
+            world.currentLevel.data.elements.push(
+                settings.type !== 'sprite' ?
+                world._prepareObject(settings) :
+                world._prepareObject(settings, storeGetters.spriteSheets)
+            );
+
+            store.commit('addObject');
+        }
+        world._sortElements();
     });
 
     loop = () => {
         app.clearPlayground();
-
-        // App window resizing
-        if(
-            storeGetters['AppData/autoPlaygroundSizesEnabled']
-            || (
-                !storeGetters['AppData/autoPlaygroundSizesEnabled']
-                && storeGetters['AppData/playgroundSizes'][0] === 0 
-                || storeGetters['AppData/playgroundSizes'][1] === 0
-               )
-        ) {
-            app.sizes = [
-                document.querySelector('.canvas_container').clientWidth,
-                document.querySelector('.canvas_container').clientHeight
-            ];
-        } else app.sizes = storeGetters['AppData/playgroundSizes'];
 
         // Draw objects
         world.draw();

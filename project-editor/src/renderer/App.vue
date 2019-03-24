@@ -2,7 +2,7 @@
   <div id="app">
     <router-view></router-view>
 
-    <Modal :title="modalInfo.title" v-if="modalInfo.isOpened" @close="modalInfo.isOpened = false">
+    <Modal :title="modalInfo.title" v-if="modalInfo.isOpened" @close="closeModal">
     	<NewProject 
 			v-if="modalInfo.type === 'createProject'" 
 			@createProject="createProject" />
@@ -67,6 +67,11 @@ export default {
 			this.modalInfo.title = '';
 			this.modalInfo.isOpened = false;
 			this.modalInfo.arg = null;
+		},
+
+		closeModal: function() {
+			this.modalInfo.isOpened = false;
+			console.log(this);
 		}
 	},
 	created: function() {

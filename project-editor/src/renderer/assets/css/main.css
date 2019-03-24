@@ -106,6 +106,7 @@ h1, h2 {
 	cursor: default;
 }
 
+.obj_list_item > .icon,
 .obj_list_item > .name,
 .obj_list_item > .type, 
 button {

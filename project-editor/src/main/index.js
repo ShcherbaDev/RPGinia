@@ -13,7 +13,6 @@ if(process.env.NODE_ENV !== 'development') {
 }
 
 let mainWindow;
-// const winURL = process.env.NODE_ENV === 'development' ? `http://localhost:9080` : `file:///${__dirname}/index.html`;
 
 function createWindow() {
     // Initial window options
@@ -86,11 +85,20 @@ function createWindow() {
     // Create new object
     ipcMain.on('createObjectRequest', (e, obj) => e.sender.send('createObject', obj));
 
+    // Sprite preview events
+    ipcMain.on('requestSetSpritePreviewToActive', e => e.sender.send('setSpritePreviewToActive'));
+    ipcMain.on('requestSetSpritePreviewToNotActive', e => e.sender.send('setSpritePreviewToNotActive'));
+
+    // Sort objects request
+    ipcMain.on('sortObjectsByLayersRequest', e => e.sender.send('sortObjectsByLayers'));
+
     // Repeat object
     ipcMain.on('repeatObjectRequest', (e, arg) => e.sender.send('repeatObject', arg));
 
     // Save app data
     ipcMain.on('saveNewAppData', (e, arg) => {
+        projectActions.saveProject(mainWindow);
+
         get('appData', (err, data) => {
             if(err) throw data;
 
@@ -101,6 +109,8 @@ function createWindow() {
                 }
             });
         });
+
+        mainWindow.reload();
     });
 
     // Save project data

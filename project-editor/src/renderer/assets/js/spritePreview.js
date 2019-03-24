@@ -1,3 +1,5 @@
+import { ipcRenderer } from 'electron';
+
 let componentData;
 let storeGetters;
 let previewContainer;
@@ -7,7 +9,9 @@ let ctx;
 let sprite;
 let draw;
 let currentSprite;
-let spriteSheetCoords; 
+let spriteSheetCoords;
+
+let isActive = false;
 
 export default function initPreviewCanvas(comp) { 
     componentData = comp.$parent;
@@ -22,36 +26,48 @@ export default function initPreviewCanvas(comp) {
     // Creating image
     sprite = new Image();
 
+    ipcRenderer.on('setSpritePreviewToActive', e => {
+        isActive = true;
+        draw();
+    });
+
+    ipcRenderer.on('setSpritePreviewToNotActive', e => {
+        isActive = false;
+    });
+
     // Drawing
     draw = () => {
-        sprite.src = `${storeGetters.projectAppPath}/${storeGetters.projectSpriteSheets[componentData.spriteSheetIndex].file}`;
+        if(isActive) {
+            sprite.src = `${storeGetters.projectAppPath}/${storeGetters.projectSpriteSheets[componentData.spriteSheetIndex].file}`;
 
-        currentSprite = storeGetters.projectSpriteSheets[componentData.spriteSheetIndex].sprites[componentData.spriteIndex];
+            currentSprite = storeGetters.projectSpriteSheets[componentData.spriteSheetIndex].sprites[componentData.spriteIndex];
 
-        spriteSheetCoords = 
-            currentSprite.rect ? currentSprite.rect : currentSprite.frames[componentData.frameIndex].rect;
+            spriteSheetCoords = 
+                currentSprite.rect ? currentSprite.rect : currentSprite.frames[componentData.frameIndex].rect;
 
-        cnv.width = componentData.coords[2];
-        cnv.height = componentData.coords[3];
+            cnv.width = componentData.coords[2];
+            cnv.height = componentData.coords[3];
 
-        ctx.imageSmoothingEnabled = false;
+            ctx.imageSmoothingEnabled = false;
 
-        // Draw background
-        ctx.fillStyle = '#000000';
-        ctx.fillRect(0, 0, cnv.width, cnv.height);
+            // Draw background
+            ctx.fillStyle = '#000000';
+            ctx.fillRect(0, 0, cnv.width, cnv.height);
 
-        // Draw sprite
-        ctx.drawImage(
-            sprite,
+            // Draw sprite
+            ctx.drawImage(
+                sprite,
 
-            spriteSheetCoords[0], spriteSheetCoords[1],
-            spriteSheetCoords[2], spriteSheetCoords[3],
+                spriteSheetCoords[0], spriteSheetCoords[1],
+                spriteSheetCoords[2], spriteSheetCoords[3],
 
-            0, 0,
-            cnv.width, cnv.height
-        );
-        
+                0, 0,
+                cnv.width, cnv.height
+            );
+        }
+        else {
+            cancelAnimationFrame(draw);
+        }
         requestAnimationFrame(draw);
     };
-    draw();
 }

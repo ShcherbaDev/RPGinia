@@ -8,6 +8,13 @@
             :value="object.settings.name"
             @input="setObjectProperty({ id: object.$id, property: 'name', newPropertyValue: $event })" />
 
+        <CustomInput
+            type="number"
+            id="objectLayer"
+            label="Layer:"
+            :value="object.settings.layer"
+            @input="setLayer" />
+
         <h2>Coordinations:</h2>
         <CustomInput
             type="number"
@@ -66,6 +73,11 @@ export default {
 
         parseToHex(color) { 
             return convertColorNameToHex(color);
+        },
+
+        setLayer(e) {
+            this.setObjectProperty({ id: this.object.$id, property: 'layer', newPropertyValue: e });
+            ipcRenderer.send('sortObjectsByLayersRequest');
         },
 
         openRepeatModal() {

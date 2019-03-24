@@ -117,7 +117,7 @@
                 v-model="frameIndex"
                 v-if="type === 'sprite' && projectSpriteSheets[spriteSheetIndex].sprites[spriteIndex].frames" />
         
-            <h2 v-if="type === 'sprite'">Preview:</h2>
+            <h2 v-if="type === 'sprite'">Preview: <small>({{ projectSpriteSheets[spriteSheetIndex].sprites[spriteIndex].name }})</small></h2>
             <SpritePreview v-if="type === 'sprite'"></SpritePreview>
         </div>
         <div class="modal_footer">
