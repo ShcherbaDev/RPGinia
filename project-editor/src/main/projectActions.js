@@ -34,8 +34,6 @@ export function createProject(window) {
 
         window.setTitle(`${name} - ${config.appName}`);
 
-        setUpProject(window, { type, appPath, path, projectData });
-
         window.reload();
     });
 }

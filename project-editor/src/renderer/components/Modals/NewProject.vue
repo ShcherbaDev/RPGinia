@@ -57,7 +57,7 @@
                 v-if="includeSpriteSheet" />
         </div>
         <div class="modal_footer">
-            <button class="btn" v-if="projName && projType && projDir" @click="createProject">Create</button>
+            <button class="btn" v-if="projName && projType && appPath && filePath" @click="createProject">Create</button>
             <button class="btn" disabled v-else>Form is not valid</button>
         </div>
     </div>
