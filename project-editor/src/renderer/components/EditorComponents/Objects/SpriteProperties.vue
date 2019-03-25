@@ -74,6 +74,13 @@
             :value="object.settings.settings.frameIndex"
             @input="setObjectProperty({ id: object.$id, property: 'settings', propertySetting: 'frameIndex', newPropertyValue: $event })" />
 
+        <CustomInput 
+            type="checkbox"
+            id="objectVisibility"
+            label="Is visible:"
+            :isChecked="object.settings.isVisible"
+            @change="setObjectProperty({ id: object.$id, property: 'isVisible', newPropertyValue: $event })" />
+
         <div class="button_group">
             <button class="btn" @click="openRepeatModal">Repeat</button>
         </div>

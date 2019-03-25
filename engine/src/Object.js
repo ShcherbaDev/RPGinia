@@ -78,10 +78,10 @@ class Object {
         }
         
         // Setting up a 'layer' property to default value, if it's not defined.
-		if(!this._settings.layer) this._settings.layer = 1;
+		if(this._settings.layer === undefined) this._settings.layer = 1;
 
         // Setting up a 'isVisible' property to default value, if it's not defined.
-        if(!this._settings.isVisible) this._settings.isVisible = true;
+        if(this._settings.isVisible === undefined) this._settings.isVisible = true;
     }
 
     /**

@@ -1,4 +1,5 @@
 import { app, BrowserWindow, ipcMain, dialog, Menu } from 'electron';
+import { autoUpdater } from 'electron-updater';
 import { setDataPath, get, set } from 'electron-json-storage';
 import menuTemplate from './customMenu';
 import * as projectActions from './projectActions';

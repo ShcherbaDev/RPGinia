@@ -6,13 +6,7 @@ let engine, app, world, cam, load, loop;
 let store, storeGetters;
 
 function isAutoResizingEnabled() {
-    return storeGetters['AppData/autoPlaygroundSizesEnabled']
-            || 
-            (
-                !storeGetters['AppData/autoPlaygroundSizesEnabled']
-                && storeGetters['AppData/playgroundSizes'][0] === 0 
-                || storeGetters['AppData/playgroundSizes'][1] === 0
-            );
+    return storeGetters['AppData/autoPlaygroundSizesEnabled'];
 }
 
 export default function initPlayground(data, projStore) {
@@ -23,10 +17,10 @@ export default function initPlayground(data, projStore) {
     app = new engine.App(
         'RPGinia project editor playground', 
         document.querySelector('canvas#playground'), 
-        isAutoResizingEnabled() ? [
+        isAutoResizingEnabled() ? [ // If auto resizing is enabled - set sizes from canvas container width and height.
             document.querySelector('.canvas_container').clientWidth,
             document.querySelector('.canvas_container').clientHeight
-        ] : storeGetters['AppData/playgroundSizes']
+        ] : storeGetters['AppData/playgroundSizes'] // Else - get fixed value from store.
     );
     world = new app.World(false, false);
     cam = new app.Camera();
@@ -79,7 +73,7 @@ export default function initPlayground(data, projStore) {
     // Create object
     ipcRenderer.on('createObject', (e, object) => {
         world.currentLevel.data.elements.push(
-            settings.type !== 'sprite' ?
+            object.type !== 'sprite' ?
             world._prepareObject(object) :
             world._prepareObject(object, storeGetters.spriteSheets)
         );
@@ -90,19 +84,14 @@ export default function initPlayground(data, projStore) {
     });
 
     // App window resizing
-    // if(
-    //     storeGetters['AppData/autoPlaygroundSizesEnabled']
-    //     || (
-    //         !storeGetters['AppData/autoPlaygroundSizesEnabled']
-    //         && storeGetters['AppData/playgroundSizes'][0] === 0 
-    //         || storeGetters['AppData/playgroundSizes'][1] === 0
-    //        )
-    // ) {
-    //     app.sizes = [
-    //         document.querySelector('.canvas_container').clientWidth,
-    //         document.querySelector('.canvas_container').clientHeight
-    //     ];
-    // } else app.sizes = storeGetters['AppData/playgroundSizes'];
+    window.addEventListener('resize', e => {
+        if(isAutoResizingEnabled()) {
+            app.sizes = [
+                document.querySelector('.canvas_container').clientWidth,
+                document.querySelector('.canvas_container').clientHeight
+            ];
+        }
+    });
 
     // Sort objects
     ipcRenderer.on('sortObjectsByLayers', e => {
