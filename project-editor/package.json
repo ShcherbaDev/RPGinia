@@ -1,8 +1,11 @@
 {
   "name": "rpginia-project-editor",
   "version": "0.1.3",
-  "author": "shcherbaDev <andrey_shcherba@ukr.net>",
-  "description": "RPGinia project editor for creating levels, languages and sprite sheets for RPGinia project.",
+  "author": {
+    "name": "Andrey Shcherbakov",
+    "email": "andrey.shcherbakov05@gmail.com"
+  },
+  "description": "RPGinia project editor for creating levels for your RPGinia project.",
   "license": "MIT",
   "main": "./dist/electron/main.js",
   "scripts": {
@@ -21,7 +24,8 @@
   },
   "build": {
     "productName": "RPGinia project editor",
-    "appId": "com.example.yourapp",
+    "appId": "ShcherbaDev.RPGinia.ProjectEditor",
+    "copyright": "Copyright © 2019 ${author}",
     "directories": {
       "output": "build"
     },
@@ -43,11 +47,8 @@
         }
       ]
     },
-    "mac": {
-      "icon": "build/icons/icon.icns"
-    },
     "win": {
-      "icon": "build/icons/icon.ico",
+      "icon": "static/images/icon.ico",
       "target": [
         {
           "target": "nsis",
@@ -57,9 +58,6 @@
           ]
         }
       ]
-    },
-    "linux": {
-      "icon": "build/icons"
     }
   },
   "dependencies": {
