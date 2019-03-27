@@ -1,6 +1,6 @@
 # rpginia-project-editor
 
-> RPGinia project editor for creating levels, languages and sprite sheets for RPGinia project.
+> RPGinia project editor for creating levels, languages and sprite sheets for your RPGinia application.
 
 #### Build Setup
 
@@ -8,16 +8,11 @@
 # install dependencies
 npm install
 
-# serve with hot reload at localhost:9080
+# serve with hot reload
 npm run dev
 
-# build electron application for production
+# build for production
 npm run build
-
-# run unit & end-to-end tests
-npm test
-
-
 ```
 
 ---
