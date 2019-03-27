@@ -5,13 +5,15 @@ import config from './config';
 
 export function createProject(window) {
     window.webContents.send('openModal', 'createProject');
-    ipcMain.once('closeModal', (e, arg) => {
+    ipcMain.once('createProjectRequest', (e, arg) => {
         let data = {};
 
-        let { filePath, appPath, spriteSheetPath, type, name, backgroundColor } = arg;
+        let { filePath, appPath, spriteSheetPath, controllerPath, type, name, backgroundColor } = arg;
+        
         filePath = filePath.replace(/\\\\/g, '\\');
         appPath = appPath.replace(/\\\\/g, '\\');
         spriteSheetPath = spriteSheetPath.replace(/\\\\/g, '\\').replace(appPath, '');
+        controllerPath = controllerPath.replace(/\\\\/g, '\\').replace(appPath, '');
 
         createAppDataFile();
         set('projectData', {
@@ -28,6 +30,7 @@ export function createProject(window) {
             data.elements = [];
 
             if(spriteSheetPath !== '') data.settings.spriteSheetPath = spriteSheetPath;
+            if(controllerPath !== '') data.settings.controllerPath = controllerPath;
 
             writeFileSync(filePath, JSON.stringify(data, null, 2));
         }
@@ -63,7 +66,7 @@ export function openProject(window, startFromDialog = false) {
                     let projType = '';
                     let projData = JSON.parse(data);
 
-                    // Checking project type 
+                    // Check project type 
                     if(projData.elements) projType = 'level'; // If project have elements 
 
                     else {

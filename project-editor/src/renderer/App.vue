@@ -48,7 +48,7 @@ export default {
 	},
 	methods: {
 		createProject: function(arg) {
-			ipcRenderer.send('closeModal', arg);
+			ipcRenderer.send('createProjectRequest', arg);
 			this.setDataToDefault();
 		},
 

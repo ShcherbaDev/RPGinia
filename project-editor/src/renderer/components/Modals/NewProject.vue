@@ -45,7 +45,7 @@
                 id="includeSpriteSheetCheckbox"
                 label="Include sprite sheet:"
                 :isChecked="includeSpriteSheet"
-                @change="includeSpriteSheet = $event" />
+                @change="setSpriteSheetPathEnabled" />
 
             <CustomInput
                 type="file"
@@ -55,9 +55,31 @@
                 label="Path to sprite sheet:"
                 v-model="spriteSheetPath"
                 v-if="includeSpriteSheet" />
+
+            <!-- Controller -->
+            <CustomInput
+                type="checkbox"
+                id="includeControllerCheckbox"
+                label="Include level controller:"
+                :isChecked="includeController"
+                @change="setControllerPathEnabled" />
+
+            <CustomInput
+                type="file"
+                chooseFileTitle="Select a level controller"
+                fileMethod="open"
+                id="controllerPath"
+                label="Path to level controller:"
+                fileExtension="js"
+                fileExtensionLabel="JS file"
+                v-model="controllerPath"
+                v-if="includeController" />
         </div>
         <div class="modal_footer">
-            <button class="btn" v-if="projName && projType && appPath && filePath" @click="createProject">Create</button>
+            <button 
+                class="btn" 
+                v-if="projName && projType && appPath && filePath"
+                @click="createProject">Create</button>
             <button class="btn" disabled v-else>Form is not valid</button>
         </div>
     </div>
@@ -67,7 +89,6 @@
 import { ipcRenderer } from 'electron';
 
 import CustomInputs from '../CustomInputs';
-import CustomFileInput from '../CustomFileInput';
 
 export default {
     data() {
@@ -81,19 +102,37 @@ export default {
             filePath: '',
             includeSpriteSheet: false,
             spriteSheetPath: '',
+            includeController: false,
+            controllerPath: '',
             backgroundColor: '#000000'
         }
     },
-    components: { CustomInput: CustomInputs, CustomFileInput },
+    components: { CustomInput: CustomInputs },
     methods: {
+        setSpriteSheetPathEnabled(isTurnedOn) {
+            this.includeSpriteSheet = isTurnedOn;
+
+            if(!isTurnedOn) {
+                this.spriteSheetPath = '';
+            }
+        },
+
+        setControllerPathEnabled(isTurnedOn) {
+            this.includeController = isTurnedOn;
+
+            if(!isTurnedOn) {
+                this.controllerPath = '';
+            }
+        },
+
         createProject() {
             const name = this.projName;
             const type = this.projType;
-            const { backgroundColor, appPath, filePath, spriteSheetPath } = this;
+            const { backgroundColor, appPath, filePath, spriteSheetPath, controllerPath } = this;
 
             if(name !== '' && type !== '' && appPath !== '' && filePath !== '') {
                 this.$router.push('editor');
-                this.$emit('createProject', { name, type, backgroundColor, appPath, filePath, spriteSheetPath });
+                this.$emit('createProject', { name, type, backgroundColor, appPath, filePath, spriteSheetPath, controllerPath });
             }
             else console.error('Form is not valid!');
         }

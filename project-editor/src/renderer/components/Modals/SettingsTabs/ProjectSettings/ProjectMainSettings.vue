@@ -24,13 +24,13 @@
             :value="projBackground"
             @change="projBackground = $event" />
 
-
+        <!-- Sprite sheet settings -->
         <CustomInput 
             type="checkbox"
             id="includeSpriteSheetCheckbox"
             label="Include sprite sheet:"
             :isChecked="includeSpriteSheet"
-            @change="includeSpriteSheet = $event" />
+            @change="setSpriteSheetPathEnabled" />
 
         <CustomInput
             type="file"
@@ -40,6 +40,25 @@
             label="Path to sprite sheet:"
             v-model="projSpriteSheetPath"
             v-if="includeSpriteSheet" />
+
+        <!-- Controller settings -->
+        <CustomInput
+            type="checkbox"
+            id="includeControllerCheckbox"
+            label="Include level controller:"
+            :isChecked="includeController"
+            @change="setControllerPathEnabled" />
+
+        <CustomInput
+            type="file"
+            chooseFileTitle="Select a level controller"
+            fileMethod="open"
+            id="controllerPath"
+            label="Path to level controller:"
+            fileExtension="js"
+            fileExtensionLabel="JS file"
+            v-model="projControllerPath"
+            v-if="includeController" />
     </div>
 </template>
 <script>
@@ -54,13 +73,34 @@ export default {
             projName: '',
             projBackground: '',
             projAppPath: '',
+
             includeSpriteSheet: false,
-            projSpriteSheetPath: ''
+            projSpriteSheetPath: '',
+
+            includeController: false,
+            projControllerPath: ''
         }
     },
 
     components: { CustomInput: CustomInputs },
     computed: mapGetters(['projectSettings', 'projectAppPath']),
+    methods: {
+        setSpriteSheetPathEnabled(isTurnedOn) {
+            this.includeSpriteSheet = isTurnedOn;
+
+            if(!isTurnedOn) {
+                this.projSpriteSheetPath = '';
+            }
+        },
+
+        setControllerPathEnabled(isTurnedOn) {
+            this.includeController = isTurnedOn;
+
+            if(!isTurnedOn) {
+                this.projControllerPath = '';
+            }
+        }
+    },
     mounted() {
         this.projName = this.projectSettings.name;
         this.projBackground = this.projectSettings.background;
@@ -68,6 +108,9 @@ export default {
 
         this.includeSpriteSheet = this.projectSettings.spriteSheetPath !== undefined;
         this.projSpriteSheetPath = this.projectSettings.spriteSheetPath || '';
+
+        this.includeController = this.projectSettings.controllerPath !== undefined;
+        this.projControllerPath = this.projectSettings.controllerPath || '';
     }
 }
 </script>

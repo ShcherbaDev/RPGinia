@@ -20,8 +20,6 @@
             @change="$emit('change', $event.target.checked)"
             v-else-if="type === 'checkbox'">
 
-        <!-- Radio is not supported yet -->
-
         <!-- Number -->
         <input 
             :type="type" 
@@ -61,6 +59,8 @@
             :title="chooseFileTitle"
             :method="fileMethod"
             :isOpenDirectory="isOpenDirectory"
+            :extension="fileExtension"
+            :extensionLabel="fileExtensionLabel"
             @input="$emit('input', $event)"
             v-else-if="type === 'file'" />
     </div>
@@ -94,7 +94,9 @@ export default {
 
         chooseFileTitle: String,
         fileMethod: String,
-        isOpenDirectory: Boolean
+        isOpenDirectory: Boolean,
+        fileExtension: String,
+        fileExtensionLabel: String
     }
 }
 </script>
