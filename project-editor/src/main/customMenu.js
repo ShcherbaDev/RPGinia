@@ -1,6 +1,9 @@
 import { BrowserWindow } from 'electron';
 import * as projectActions from './projectActions';
 
+const getCurrentWindow = BrowserWindow.getFocusedWindow;
+const openWebPage = require('electron').shell.openExternal;
+
 const menuTemplate = [
     {
         label: 'File',
@@ -9,14 +12,14 @@ const menuTemplate = [
                 label: 'New project',
                 accelerator: 'CommandOrControl+N',
                 click() {
-                    projectActions.createProject(BrowserWindow.getFocusedWindow());
+                    projectActions.createProject(getCurrentWindow);
                 }
             },
             {
                 label: 'Open project',
                 accelerator: 'CommandOrControl+O',
                 click() {
-                    projectActions.openProject(BrowserWindow.getFocusedWindow(), true)
+                    projectActions.openProject(getCurrentWindow, true)
                 }
             },
             { type: 'separator' },
@@ -24,14 +27,14 @@ const menuTemplate = [
                 label: 'Save',
                 accelerator: 'CommandOrControl+S',
                 click() {
-                    projectActions.saveProject(BrowserWindow.getFocusedWindow());
+                    projectActions.saveProject(getCurrentWindow);
                 }
             },
             { type: 'separator' },
             {
                 label: 'Settings',
                 click() {
-                    BrowserWindow.getFocusedWindow().send('openModal', 'settings');
+                    getCurrentWindow().webContents.send('openModal', 'settings');
                 }
             },
             { type: 'separator' },
@@ -45,21 +48,21 @@ const menuTemplate = [
                 label: 'Copy',
                 accelerator: 'CommandOrControl+C',
                 click() {
-                    BrowserWindow.getFocusedWindow().send('copySelectedObjects');
+                    getCurrentWindow().webContents.send('copySelectedObjects');
                 }
             },
             { 
                 label: 'Paste',
                 accelerator: 'CommandOrControl+V',
                 click() {
-                    BrowserWindow.getFocusedWindow().send('pasteSelectedObjects');
+                    getCurrentWindow().webContents.send('pasteSelectedObjects');
                 }
             },
             { 
                 label: 'Delete',
                 accelerator: 'Delete',
                 click() {
-                    BrowserWindow.getFocusedWindow().webContents.send('deleteObject');
+                    getCurrentWindow().webContents.send('deleteObject');
                 }
             }
         ]
@@ -85,16 +88,16 @@ const menuTemplate = [
         submenu: [
             {
                 label: 'RPGinia API documentation',
-                click() { require('electron').shell.openExternal('https://shcherbadev.github.io/rpginia/docs/api') }
+                click() { openWebPage('https://shcherbadev.github.io/rpginia/docs/api') }
             },
             {
                 label: 'RPGinia project editor documentation',
-                click() { require('electron').shell.openExternal('https://shcherbadev.github.io/rpginia/docs/index.html') }
+                click() { getCurrentWindow().webContents.send('openModal', 'documentation') }
             },
             { type: 'separator' },
             {
                 label: 'Project\'s github',
-                click() { require('electron').shell.openExternal('https://github.com/ShcherbaDev/RPGinia') }
+                click() { openWebPage('https://github.com/ShcherbaDev/RPGinia') }
             }
         ]
     }

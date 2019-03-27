@@ -1,5 +1,5 @@
 <template>
-    <div>
+    <div class="modal_content">
         <div class="modal_body">
             <CustomInput 
                 type="text"

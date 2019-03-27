@@ -1,7 +1,8 @@
 .modal_body.modal_settings {
     display: grid;
 	grid-template-columns: 20% 1fr;
-    min-height: 470px;
+	min-height: 470px;
+	padding: 0;
 }
 
 .modal_settings > .sidebar {

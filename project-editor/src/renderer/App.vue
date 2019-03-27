@@ -19,7 +19,14 @@
 			:objectId="modalInfo.arg"
 			@repeatObject="repeatObject" />
 
-		<div v-else>...</div>
+		<Documentation
+			v-else-if="modalInfo.type = 'documentation'" />
+
+		<div class="modal_content" v-else>
+			<div class="modal_body">
+				<p class="error_text">Content for this modal window is not exist!</p>
+			</div>
+		</div>
     </Modal>
   </div>
 </template>
@@ -30,12 +37,13 @@ import NewProject from './components/Modals/NewProject';
 import NewObject from './components/Modals/NewObject';
 import Settings from './components/Modals/Settings';
 import RepeatObject from './components/Modals/RepeatObject';
+import Documentation from './components/Modals/Documentation';
 
 import { ipcRenderer } from 'electron';
 
 export default {
 	name: 'project-editor',
-	components: { Modal, NewProject, NewObject, Settings, RepeatObject },
+	components: { Modal, NewProject, NewObject, Settings, RepeatObject, Documentation },
 	data: function() {
 		return {
 			modalInfo: {
@@ -91,6 +99,11 @@ export default {
 				this.modalInfo.type = 'repeatObject';
 				this.modalInfo.title = 'Repeat object';
 				this.modalInfo.arg = arg;
+			}
+
+			if(type === 'documentation') {
+				this.modalInfo.type = 'documentation';
+				this.modalInfo.title = 'RPGinia project editor documentation';
 			}
 
 			this.modalInfo.isOpened = true;

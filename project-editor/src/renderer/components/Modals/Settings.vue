@@ -1,6 +1,6 @@
 <template>
-    <div>
-        <div class="modal_body modal_settings" style="padding: 0">
+    <div class="modal_content">
+        <div class="modal_body modal_settings">
             <div class="sidebar">
                 <div 
                     class="section" 
