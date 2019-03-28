@@ -12,14 +12,14 @@ const menuTemplate = [
                 label: 'New project',
                 accelerator: 'CommandOrControl+N',
                 click() {
-                    projectActions.createProject(getCurrentWindow);
+                    projectActions.createProject(getCurrentWindow());
                 }
             },
             {
                 label: 'Open project',
                 accelerator: 'CommandOrControl+O',
                 click() {
-                    projectActions.openProject(getCurrentWindow, true)
+                    projectActions.openProject(getCurrentWindow(), true)
                 }
             },
             { type: 'separator' },
@@ -27,7 +27,7 @@ const menuTemplate = [
                 label: 'Save',
                 accelerator: 'CommandOrControl+S',
                 click() {
-                    projectActions.saveProject(getCurrentWindow);
+                    projectActions.saveProject(getCurrentWindow());
                 }
             },
             { type: 'separator' },
