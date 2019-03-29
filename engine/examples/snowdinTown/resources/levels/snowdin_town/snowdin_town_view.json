@@ -34,22 +34,6 @@
         },
         {
             "coords": [
-                3433,
-                143,
-                1117,
-                315
-            ],
-            "isVisible": true,
-            "layer": -4,
-            "name": "Snow bg",
-            "settings": {
-                "spriteIndex": 1,
-                "spriteSheetIndex": 0
-            },
-            "type": "sprite"
-        },
-        {
-            "coords": [
                 4177,
                 -38,
                 182,
@@ -74,22 +58,6 @@
             "isVisible": true,
             "layer": -4,
             "name": "Tree (Repeated - 1) (Repeated - 1) (Repeated - 1) (Repeated - 1) (Repeated - 9) (Repeated - 1) (Repeated - 1) (Repeated - 5) (Repeated - 6) (Repeated - 1)",
-            "settings": {
-                "spriteIndex": 45,
-                "spriteSheetIndex": 0
-            },
-            "type": "sprite"
-        },
-        {
-            "coords": [
-                4477,
-                -38,
-                182,
-                107
-            ],
-            "isVisible": true,
-            "layer": -4,
-            "name": "Tree (Repeated - 1) (Repeated - 1) (Repeated - 1) (Repeated - 1) (Repeated - 9) (Repeated - 1) (Repeated - 1) (Repeated - 5) (Repeated - 6) (Repeated - 2)",
             "settings": {
                 "spriteIndex": 45,
                 "spriteSheetIndex": 0
@@ -194,14 +162,30 @@
         },
         {
             "coords": [
-                1305,
-                -34,
+                3433,
+                143,
+                1117,
+                315
+            ],
+            "isVisible": true,
+            "layer": -4,
+            "name": "Snow bg",
+            "settings": {
+                "spriteIndex": 1,
+                "spriteSheetIndex": 0
+            },
+            "type": "sprite"
+        },
+        {
+            "coords": [
+                4477,
+                -38,
                 182,
                 107
             ],
             "isVisible": true,
-            "layer": -3,
-            "name": "Tree (Repeated - 1) (Repeated - 1) (Repeated - 1) (Repeated - 1) (Repeated - 5)",
+            "layer": -4,
+            "name": "Tree (Repeated - 1) (Repeated - 1) (Repeated - 1) (Repeated - 1) (Repeated - 9) (Repeated - 1) (Repeated - 1) (Repeated - 5) (Repeated - 6) (Repeated - 2)",
             "settings": {
                 "spriteIndex": 45,
                 "spriteSheetIndex": 0
@@ -210,14 +194,14 @@
         },
         {
             "coords": [
-                1903,
-                -34,
+                3277,
+                -38,
                 182,
                 107
             ],
             "isVisible": true,
             "layer": -3,
-            "name": "Tree (Repeated - 1) (Repeated - 1) (Repeated - 1) (Repeated - 1) (Repeated - 9)",
+            "name": "Tree (Repeated - 1) (Repeated - 1) (Repeated - 1) (Repeated - 1) (Repeated - 9) (Repeated - 1) (Repeated - 1) (Repeated - 5)",
             "settings": {
                 "spriteIndex": 45,
                 "spriteSheetIndex": 0
@@ -234,22 +218,6 @@
             "isVisible": true,
             "layer": -3,
             "name": "Tree (Repeated - 1) (Repeated - 1) (Repeated - 1) (Repeated - 1) (Repeated - 9) (Repeated - 1) (Repeated - 1) (Repeated - 5) (Repeated - 2)",
-            "settings": {
-                "spriteIndex": 45,
-                "spriteSheetIndex": 0
-            },
-            "type": "sprite"
-        },
-        {
-            "coords": [
-                1153,
-                -34,
-                182,
-                107
-            ],
-            "isVisible": true,
-            "layer": -3,
-            "name": "Tree (Repeated - 1) (Repeated - 1) (Repeated - 1) (Repeated - 1) (Repeated - 4)",
             "settings": {
                 "spriteIndex": 45,
                 "spriteSheetIndex": 0
@@ -322,14 +290,14 @@
         },
         {
             "coords": [
-                2203,
+                1903,
                 -34,
                 182,
                 107
             ],
-            "isVisible": false,
+            "isVisible": true,
             "layer": -3,
-            "name": "Tree (Repeated - 1) (Repeated - 1) (Repeated - 1) (Repeated - 1) (Repeated - 9) (Repeated - 2)",
+            "name": "Tree (Repeated - 1) (Repeated - 1) (Repeated - 1) (Repeated - 1) (Repeated - 9)",
             "settings": {
                 "spriteIndex": 45,
                 "spriteSheetIndex": 0
@@ -402,14 +370,14 @@
         },
         {
             "coords": [
-                3277,
-                -38,
+                1153,
+                -34,
                 182,
                 107
             ],
             "isVisible": true,
             "layer": -3,
-            "name": "Tree (Repeated - 1) (Repeated - 1) (Repeated - 1) (Repeated - 1) (Repeated - 9) (Repeated - 1) (Repeated - 1) (Repeated - 5)",
+            "name": "Tree (Repeated - 1) (Repeated - 1) (Repeated - 1) (Repeated - 1) (Repeated - 4)",
             "settings": {
                 "spriteIndex": 45,
                 "spriteSheetIndex": 0
@@ -546,14 +514,30 @@
         },
         {
             "coords": [
-                508,
-                0,
+                1305,
+                -34,
                 182,
                 107
             ],
             "isVisible": true,
-            "layer": -2,
-            "name": "Tree (Repeated - 1) (Repeated - 1) (Repeated - 1)",
+            "layer": -3,
+            "name": "Tree (Repeated - 1) (Repeated - 1) (Repeated - 1) (Repeated - 1) (Repeated - 5)",
+            "settings": {
+                "spriteIndex": 45,
+                "spriteSheetIndex": 0
+            },
+            "type": "sprite"
+        },
+        {
+            "coords": [
+                2203,
+                -34,
+                182,
+                107
+            ],
+            "isVisible": false,
+            "layer": -3,
+            "name": "Tree (Repeated - 1) (Repeated - 1) (Repeated - 1) (Repeated - 1) (Repeated - 9) (Repeated - 2)",
             "settings": {
                 "spriteIndex": 45,
                 "spriteSheetIndex": 0
@@ -626,14 +610,14 @@
         },
         {
             "coords": [
-                4386,
-                64,
+                508,
+                0,
                 182,
                 107
             ],
             "isVisible": true,
             "layer": -2,
-            "name": "Tree (Repeated - 1) (Repeated - 1) (Repeated - 1) (Repeated - 1) (Repeated - 9) (Repeated - 1) (Repeated - 1) (Repeated - 6) (Repeated - 4)",
+            "name": "Tree (Repeated - 1) (Repeated - 1) (Repeated - 1)",
             "settings": {
                 "spriteIndex": 45,
                 "spriteSheetIndex": 0
@@ -770,6 +754,22 @@
         },
         {
             "coords": [
+                4386,
+                64,
+                182,
+                107
+            ],
+            "isVisible": true,
+            "layer": -2,
+            "name": "Tree (Repeated - 1) (Repeated - 1) (Repeated - 1) (Repeated - 1) (Repeated - 9) (Repeated - 1) (Repeated - 1) (Repeated - 6) (Repeated - 4)",
+            "settings": {
+                "spriteIndex": 45,
+                "spriteSheetIndex": 0
+            },
+            "type": "sprite"
+        },
+        {
+            "coords": [
                 3694,
                 68,
                 182,
@@ -780,22 +780,6 @@
             "name": "Tree (Repeated - 1) (Repeated - 1) (Repeated - 1) (Repeated - 1) (Repeated - 9) (Repeated - 1) (Repeated - 1) (Repeated - 6) (Repeated - 1)",
             "settings": {
                 "spriteIndex": 45,
-                "spriteSheetIndex": 0
-            },
-            "type": "sprite"
-        },
-        {
-            "coords": [
-                4215,
-                63,
-                96,
-                107
-            ],
-            "isVisible": true,
-            "layer": -1,
-            "name": "Tree (Repeated - 1) (Repeated - 1) (Repeated - 1) (Repeated - 1) (Repeated - 9) (Repeated - 1) (Repeated - 1) (Repeated - 6)",
-            "settings": {
-                "spriteIndex": 44,
                 "spriteSheetIndex": 0
             },
             "type": "sprite"
@@ -930,16 +914,32 @@
         },
         {
             "coords": [
-                858,
-                62,
-                182,
+                4215,
+                63,
+                96,
                 107
             ],
             "isVisible": true,
-            "layer": 0,
-            "name": "Tree (Repeated - 1) (Repeated - 3)",
+            "layer": -1,
+            "name": "Tree (Repeated - 1) (Repeated - 1) (Repeated - 1) (Repeated - 1) (Repeated - 9) (Repeated - 1) (Repeated - 1) (Repeated - 6)",
             "settings": {
-                "spriteIndex": 45,
+                "spriteIndex": 44,
+                "spriteSheetIndex": 0
+            },
+            "type": "sprite"
+        },
+        {
+            "coords": [
+                1202,
+                155,
+                40,
+                40
+            ],
+            "isVisible": true,
+            "layer": 0,
+            "name": "Unnamed object (Repeated - 2) (Repeated - 6) (Repeated - 7) (Repeated - 3)",
+            "settings": {
+                "spriteIndex": 16,
                 "spriteSheetIndex": 0
             },
             "type": "sprite"
@@ -962,22 +962,6 @@
         },
         {
             "coords": [
-                4232,
-                103,
-                182,
-                107
-            ],
-            "isVisible": true,
-            "layer": 0,
-            "name": "Tree (Repeated - 1) (Repeated - 1) (Repeated - 1) (Repeated - 1) (Repeated - 9) (Repeated - 1) (Repeated - 1) (Repeated - 6) (Repeated - 3)",
-            "settings": {
-                "spriteIndex": 45,
-                "spriteSheetIndex": 0
-            },
-            "type": "sprite"
-        },
-        {
-            "coords": [
                 360,
                 185,
                 300,
@@ -994,14 +978,14 @@
         },
         {
             "coords": [
-                708,
+                858,
                 62,
                 182,
                 107
             ],
             "isVisible": true,
             "layer": 0,
-            "name": "Tree (Repeated - 1) (Repeated - 2)",
+            "name": "Tree (Repeated - 1) (Repeated - 3)",
             "settings": {
                 "spriteIndex": 45,
                 "spriteSheetIndex": 0
@@ -1074,16 +1058,16 @@
         },
         {
             "coords": [
-                1202,
-                155,
-                40,
-                40
+                4232,
+                103,
+                182,
+                107
             ],
             "isVisible": true,
             "layer": 0,
-            "name": "Unnamed object (Repeated - 2) (Repeated - 6) (Repeated - 7) (Repeated - 3)",
+            "name": "Tree (Repeated - 1) (Repeated - 1) (Repeated - 1) (Repeated - 1) (Repeated - 9) (Repeated - 1) (Repeated - 1) (Repeated - 6) (Repeated - 3)",
             "settings": {
-                "spriteIndex": 16,
+                "spriteIndex": 45,
                 "spriteSheetIndex": 0
             },
             "type": "sprite"
@@ -1194,6 +1178,22 @@
             "isVisible": true,
             "layer": 0,
             "name": "Tree (Repeated - 1)",
+            "settings": {
+                "spriteIndex": 45,
+                "spriteSheetIndex": 0
+            },
+            "type": "sprite"
+        },
+        {
+            "coords": [
+                708,
+                62,
+                182,
+                107
+            ],
+            "isVisible": true,
+            "layer": 0,
+            "name": "Tree (Repeated - 1) (Repeated - 2)",
             "settings": {
                 "spriteIndex": 45,
                 "spriteSheetIndex": 0
@@ -2738,6 +2738,22 @@
         },
         {
             "coords": [
+                692,
+                52,
+                500,
+                253
+            ],
+            "isVisible": true,
+            "layer": 2,
+            "name": "Hotel-shop",
+            "settings": {
+                "spriteIndex": 23,
+                "spriteSheetIndex": 0
+            },
+            "type": "sprite"
+        },
+        {
+            "coords": [
                 2442,
                 351,
                 40,
@@ -2748,38 +2764,6 @@
             "name": "Unnamed object",
             "settings": {
                 "spriteIndex": 14,
-                "spriteSheetIndex": 0
-            },
-            "type": "sprite"
-        },
-        {
-            "coords": [
-                2521,
-                151,
-                40,
-                40
-            ],
-            "isVisible": true,
-            "layer": 2,
-            "name": "Unnamed object (Repeated - 1) (Repeated - 3)",
-            "settings": {
-                "spriteIndex": 16,
-                "spriteSheetIndex": 0
-            },
-            "type": "sprite"
-        },
-        {
-            "coords": [
-                1439,
-                124,
-                28,
-                42
-            ],
-            "isVisible": true,
-            "layer": 2,
-            "name": "Mail box 1",
-            "settings": {
-                "spriteIndex": 50,
                 "spriteSheetIndex": 0
             },
             "type": "sprite"
@@ -3026,16 +3010,16 @@
         },
         {
             "coords": [
-                692,
-                52,
-                500,
-                253
+                1439,
+                124,
+                28,
+                42
             ],
             "isVisible": true,
             "layer": 2,
-            "name": "Hotel-shop",
+            "name": "Mail box 1",
             "settings": {
-                "spriteIndex": 23,
+                "spriteIndex": 50,
                 "spriteSheetIndex": 0
             },
             "type": "sprite"
@@ -3276,6 +3260,22 @@
             "name": "Unnamed object",
             "settings": {
                 "spriteIndex": 15,
+                "spriteSheetIndex": 0
+            },
+            "type": "sprite"
+        },
+        {
+            "coords": [
+                2521,
+                151,
+                40,
+                40
+            ],
+            "isVisible": true,
+            "layer": 2,
+            "name": "Unnamed object (Repeated - 1) (Repeated - 3)",
+            "settings": {
+                "spriteIndex": 16,
                 "spriteSheetIndex": 0
             },
             "type": "sprite"
@@ -3698,6 +3698,22 @@
         },
         {
             "coords": [
+                3724,
+                439,
+                207,
+                130
+            ],
+            "isVisible": true,
+            "layer": 6,
+            "name": "Unnamed object (Repeated - 1) (Repeated - 3) (Repeated - 17)",
+            "settings": {
+                "spriteIndex": 45,
+                "spriteSheetIndex": 0
+            },
+            "type": "sprite"
+        },
+        {
+            "coords": [
                 398,
                 435,
                 207,
@@ -3706,38 +3722,6 @@
             "isVisible": true,
             "layer": 6,
             "name": "Unnamed object (Repeated - 1) (Repeated - 1)",
-            "settings": {
-                "spriteIndex": 45,
-                "spriteSheetIndex": 0
-            },
-            "type": "sprite"
-        },
-        {
-            "coords": [
-                924,
-                439,
-                207,
-                130
-            ],
-            "isVisible": true,
-            "layer": 6,
-            "name": "Unnamed object (Repeated - 1) (Repeated - 3) (Repeated - 1)",
-            "settings": {
-                "spriteIndex": 45,
-                "spriteSheetIndex": 0
-            },
-            "type": "sprite"
-        },
-        {
-            "coords": [
-                1799,
-                439,
-                207,
-                130
-            ],
-            "isVisible": true,
-            "layer": 6,
-            "name": "Unnamed object (Repeated - 1) (Repeated - 3) (Repeated - 6)",
             "settings": {
                 "spriteIndex": 45,
                 "spriteSheetIndex": 0
@@ -3906,14 +3890,14 @@
         },
         {
             "coords": [
-                3724,
+                1799,
                 439,
                 207,
                 130
             ],
             "isVisible": true,
             "layer": 6,
-            "name": "Unnamed object (Repeated - 1) (Repeated - 3) (Repeated - 17)",
+            "name": "Unnamed object (Repeated - 1) (Repeated - 3) (Repeated - 6)",
             "settings": {
                 "spriteIndex": 45,
                 "spriteSheetIndex": 0
@@ -4098,14 +4082,30 @@
         },
         {
             "coords": [
-                2498,
+                924,
+                439,
+                207,
+                130
+            ],
+            "isVisible": true,
+            "layer": 6,
+            "name": "Unnamed object (Repeated - 1) (Repeated - 3) (Repeated - 1)",
+            "settings": {
+                "spriteIndex": 45,
+                "spriteSheetIndex": 0
+            },
+            "type": "sprite"
+        },
+        {
+            "coords": [
+                223,
                 484,
                 207,
                 130
             ],
             "isVisible": true,
             "layer": 7,
-            "name": "Unnamed object (Repeated - 1) (Repeated - 1) (Repeated - 13)",
+            "name": "Unnamed object (Repeated - 1) (Repeated - 1)",
             "settings": {
                 "spriteIndex": 45,
                 "spriteSheetIndex": 0
@@ -4482,14 +4482,14 @@
         },
         {
             "coords": [
-                223,
+                2498,
                 484,
                 207,
                 130
             ],
             "isVisible": true,
             "layer": 7,
-            "name": "Unnamed object (Repeated - 1) (Repeated - 1)",
+            "name": "Unnamed object (Repeated - 1) (Repeated - 1) (Repeated - 13)",
             "settings": {
                 "spriteIndex": 45,
                 "spriteSheetIndex": 0
@@ -4499,8 +4499,8 @@
     ],
     "settings": {
         "background": "#000000",
+        "controllerPath": "\\resources\\levels\\snowdin_town\\snowdin_town_controller.js",
         "name": "Snowdin town",
-        "spriteSheetPath": "\\resources\\sprites\\spriteSheet.json",
-        "controllerPath": "\\resources\\levels\\snowdin_town\\snowdin_town_controller.js"
+        "spriteSheetPath": "\\resources\\sprites\\spriteSheet.json"
     }
 }

@@ -12,7 +12,7 @@
 * Added dark theme modals and inputs.
 * Added "RPGinia app path" field.
 * Added settings modal window.
-* Added documentation into modal window. Content tooks from [https://shcherbadev.github.io/rpginia/docs](https://shcherbadev.github.io/rpginia/docs/).
+* Added documentation into modal window. Content takes from [https://shcherbadev.github.io/rpginia/docs](https://shcherbadev.github.io/rpginia/docs/).
 
 Documentation for editor is avaiable now! Click [here](https://shcherbadev.github.io/rpginia/docs/index.html) to see (Ukrainian and russian only)!
 
@@ -23,7 +23,7 @@ Documentation for editor is avaiable now! Click [here](https://shcherbadev.githu
 * The default value for sprite setting `interval` was set to 60ms.
 * Was added a new sprite setting `isPlaying` for play or stop animation when necessary.
 * Was added argument `loadLevelsControllers` for `World` class.
-* Fixed a bug when creating an object with the substitution of default values ​​instead of existing.
+* Fixed a bug when creating an object with the substitution of default values instead of existing.
 * API documentation was updated.
 
 ## v0.1.2
