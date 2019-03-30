@@ -1,5 +1,5 @@
 import { app, BrowserWindow, ipcMain, dialog, Menu } from 'electron';
-import { setDataPath } from 'electron-json-storage';
+import { setDataPath, get, set } from 'electron-json-storage';
 import menuTemplate from './customMenu';
 import * as projectActions from './projectActions';
 import config from './config';
@@ -13,13 +13,15 @@ if(process.env.NODE_ENV !== 'development') {
 }
 
 let mainWindow;
-const winURL = process.env.NODE_ENV === 'development' ? `http://localhost:9080` : `file:///${__dirname}/index.html`;
 
 function createWindow() {
     // Initial window options
     mainWindow = new BrowserWindow({
         minWidth: 1095,
-        minHeight: 650
+        minHeight: 650,
+        webPreferences: {
+            webSecurity: false
+        }
     });
     mainWindow.loadURL(config.appPath);
     mainWindow.maximize();
@@ -43,20 +45,32 @@ function createWindow() {
     // ipcMain events
     // Event for custom file input
     ipcMain.on('requestChooseFile', (e, arg) => {
-        const { name, extensions } = arg;
+        const { title, method, name, isOpenDirectory, extensions } = arg;
+        
+        if(method === 'save') {
+            dialog.showSaveDialog({
+                title: title,
+                filters: [
+                    { name, extensions }
+                ]
+            }, path => {
+                if(path) {
+                    path = path.replace(/\\/g, '\\\\');
+                    e.returnValue = path;
+                } else e.returnValue = '';
+            });
+        }
 
-        dialog.showSaveDialog({
-            title: 'Choose project path',
-            filters: [
-                { name, extensions }
-            ]
-        }, filePath => {
-            if(filePath) {
-                filePath = filePath.replace(/\\/g, '\\\\');
-                e.returnValue = filePath;
-            }
-            else e.returnValue = 'File is not choosed';
-        });
+        else if(method === 'open') {
+            let settings = { title };
+
+            if(isOpenDirectory) settings.properties = ['openDirectory'];
+            else settings.filters = [ { name, extensions } ];
+
+            dialog.showOpenDialog(mainWindow, settings, path => {
+                e.returnValue = path ? path[0].replace(/\\/g, '\\\\') : '';
+            });
+        }
     });
 
     // Create new project
@@ -66,21 +80,69 @@ function createWindow() {
     ipcMain.on('openProject', e => projectActions.openProject(mainWindow, true));
 
     // Open modal window
-    ipcMain.on('requestModalOpen', (e, type) => e.sender.send('openModal', type));
+    ipcMain.on('requestModalOpen', (e, type, arg) => e.sender.send('openModal', type, arg));
 
     // Create new object
     ipcMain.on('createObjectRequest', (e, obj) => e.sender.send('createObject', obj));
 
-    // Delete object
-    ipcMain.on('requestDeleteObject', (e, index) => e.sender.send('deleteObject', index));
+    // Sprite preview events
+    ipcMain.on('requestSetSpritePreviewToActive', e => e.sender.send('setSpritePreviewToActive'));
+    ipcMain.on('requestSetSpritePreviewToNotActive', e => e.sender.send('setSpritePreviewToNotActive'));
+
+    // Sort objects request
+    ipcMain.on('sortObjectsByLayersRequest', e => e.sender.send('sortObjectsByLayers'));
+
+    // Repeat object
+    ipcMain.on('repeatObjectRequest', (e, arg) => e.sender.send('repeatObject', arg));
+
+    // Save app data
+    ipcMain.on('saveNewAppData', (e, arg) => {
+        projectActions.saveProject(mainWindow);
+
+        get('appData', (err, data) => {
+            if(err) throw data;
+
+            set('appData', {
+                playground: {
+                    sizes: arg['AppData/playgroundSizes'],
+                    autoSizesEnabled: arg['AppData/autoPlaygroundSizesEnabled']
+                }
+            });
+        });
+
+        mainWindow.reload();
+    });
+
+    // Save project data
+    ipcMain.on('saveNewProjectData', (e, arg) => {
+        projectActions.saveProject(mainWindow);
+
+        get('projectData', (err, data) => {
+            if(err) throw err;
+
+            const { path, type } = data;
+
+            set('projectData', {
+                path,
+                appPath: arg.projectAppPath.replace(/\\\\/g, '\\'),
+                type
+            });
+        });
+
+        mainWindow.reload();
+    });
 }
 
 app.on('ready', createWindow);
 
 app.on('window-all-closed', () => {
-    if(process.platform !== 'darwin') app.quit();
+    if(process.platform !== 'darwin') {
+        app.quit();
+    }
 });
 
 app.on('activate', () => {
-    if(mainWindow === null) createWindow();
+    if(mainWindow === null) {
+        createWindow();
+    }
 });

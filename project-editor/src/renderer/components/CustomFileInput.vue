@@ -1,7 +1,8 @@
 <template>
     <div class="custom_file_input" :id="id">
         <div class="result_field">
-            <p id="filePath">File path is not choosed</p>
+            <p id="filePath" v-if="!isOpenDirectory">File is not choosed</p>
+            <p id="filePath" v-else>Directory is not choosed</p>
         </div>
         <div class="choose_btn">
             <a href="#" class="choose_btn" :id="`chooseBtn ${id}_btn`" @click="requestChoosingFile">Choose</a>
@@ -13,6 +14,8 @@ import { ipcRenderer } from 'electron';
 
 export default {
     props: {
+        title: String,
+        method: String,
         id: String,
         extensionLabel: {
             type: String,
@@ -21,14 +24,17 @@ export default {
         extension: {
             type: String,
             default: 'json'
+        },
+        isOpenDirectory: {
+            type: Boolean,
+            default: 'false'
         }
     },
     methods: {
-        requestChoosingFile: function() {
-            const extension = this.extension;
-            const extensionLabel = this.extensionLabel;
+        requestChoosingFile() {
+            const { title, method, isOpenDirectory, extension, extensionLabel } = this;
 
-            const filePath = ipcRenderer.sendSync('requestChooseFile', { name: extensionLabel, extensions: [extension] });
+            const filePath = ipcRenderer.sendSync('requestChooseFile', { title, method, name: extensionLabel, isOpenDirectory, extensions: [extension] });
             document.querySelector(`.custom_file_input#${this.id} p#filePath`).innerHTML = filePath.replace(/\\\\/g, '\\');
             this.$emit('input', filePath);
         }

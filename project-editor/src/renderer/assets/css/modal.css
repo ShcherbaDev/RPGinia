@@ -39,7 +39,8 @@
 }
 
 .modal_body {
-    max-height: 420px;
+    padding: 15px;
+    max-height: 435px;
     overflow-y: auto;
 }
 
@@ -51,15 +52,14 @@
     padding: 10px 15px;
 }
 
-
 /* Container sizes */
-@media screen and (max-width: 960px) {
+@media screen and (max-width: 1370px) {
     .modal_container {
         width: 95%;
     }
 }
 
-@media screen and (min-width: 960px) {
+@media screen and (min-width: 1370px) {
     .modal_container {
         width: 70%;
     }

@@ -1,5 +1,5 @@
 <template>
-    <div>
+    <div class="modal_content">
         <div class="modal_body">
             <CustomInput 
                 type="text"
@@ -14,15 +14,73 @@
                 v-model="projType"
                 :options="projectTypes" />
 
+            <CustomInput 
+                type="color"
+                id="projectBackground"
+                label="Background color:"
+                :value="backgroundColor"
+                @change="backgroundColor = $event"
+                v-if="projType === 'level'" />
+
+            <CustomInput 
+                type="file"
+                chooseFileTitle="Choose a path to your RPGinia app"
+                fileMethod="open"
+                :isOpenDirectory="true"
+                id="appDir"
+                label="RPGinia app path:"
+                v-model="appPath" />
+
             <CustomInput
                 type="file"
+                chooseFileTitle="Choose a file path:"
+                fileMethod="save"
                 id="savingDirectory"
-                label="Saving directory:"
-                v-model="projDir" />
+                label="Saving path:"
+                v-model="filePath" />
+
+            <!-- Sprite sheet -->
+            <CustomInput 
+                type="checkbox"
+                id="includeSpriteSheetCheckbox"
+                label="Include sprite sheet:"
+                :isChecked="includeSpriteSheet"
+                @change="setSpriteSheetPathEnabled" />
+
+            <CustomInput
+                type="file"
+                chooseFileTitle="Select an existing sprite sheet"
+                fileMethod="open"
+                id="spriteSheetPath"
+                label="Path to sprite sheet:"
+                v-model="spriteSheetPath"
+                v-if="includeSpriteSheet" />
+
+            <!-- Controller -->
+            <CustomInput
+                type="checkbox"
+                id="includeControllerCheckbox"
+                label="Include level controller:"
+                :isChecked="includeController"
+                @change="setControllerPathEnabled" />
+
+            <CustomInput
+                type="file"
+                chooseFileTitle="Select a level controller"
+                fileMethod="open"
+                id="controllerPath"
+                label="Path to level controller:"
+                fileExtension="js"
+                fileExtensionLabel="JS file"
+                v-model="controllerPath"
+                v-if="includeController" />
         </div>
         <div class="modal_footer">
-            <button class="btn btn_big btn_green" id="createProject" v-if="projName && projType && projDir" @click="validateForm()">Create</button>
-            <button class="btn btn_big btn_red" id="createProject" disabled v-else>Form is not valid</button>
+            <button 
+                class="btn" 
+                v-if="projName && projType && appPath && filePath"
+                @click="createProject">Create</button>
+            <button class="btn" disabled v-else>Form is not valid</button>
         </div>
     </div>
 </template>
@@ -31,31 +89,50 @@
 import { ipcRenderer } from 'electron';
 
 import CustomInputs from '../CustomInputs';
-import CustomFileInput from '../CustomFileInput';
 
 export default {
-    components: { CustomInput: CustomInputs, CustomFileInput },
-    data: function() {
+    data() {
         return {
             projName: '',
             projType: 'level',
-            projDir: '',
             projectTypes: [
-                { id: 1, text: 'Level', value: 'level', disabled: false },
-                { id: 2, text: 'Sprite sheet', value: 'spriteSheet', disabled: true },
-                { id: 3, text: 'Language', value: 'language', disabled: true }
-            ]
+                { id: 1, text: 'Level', value: 'level', disabled: false }
+            ],
+            appPath: '',
+            filePath: '',
+            includeSpriteSheet: false,
+            spriteSheetPath: '',
+            includeController: false,
+            controllerPath: '',
+            backgroundColor: '#000000'
         }
     },
+    components: { CustomInput: CustomInputs },
     methods: {
-        validateForm: function() {
+        setSpriteSheetPathEnabled(isTurnedOn) {
+            this.includeSpriteSheet = isTurnedOn;
+
+            if(!isTurnedOn) {
+                this.spriteSheetPath = '';
+            }
+        },
+
+        setControllerPathEnabled(isTurnedOn) {
+            this.includeController = isTurnedOn;
+
+            if(!isTurnedOn) {
+                this.controllerPath = '';
+            }
+        },
+
+        createProject() {
             const name = this.projName;
             const type = this.projType;
-            const dir = this.projDir;
+            const { backgroundColor, appPath, filePath, spriteSheetPath, controllerPath } = this;
 
-            if(name && type && dir) {
+            if(name !== '' && type !== '' && appPath !== '' && filePath !== '') {
                 this.$router.push('editor');
-                this.$emit('createProject', { name, type, dir });
+                this.$emit('createProject', { name, type, backgroundColor, appPath, filePath, spriteSheetPath, controllerPath });
             }
             else console.error('Form is not valid!');
         }

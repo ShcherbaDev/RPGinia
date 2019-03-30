@@ -7,11 +7,25 @@ a {
 }
 
 p.error_text {
-    color: #eee;
+    color: #aaa;
+}
+
+h1 {
+    color: #fff;
+}
+
+h2 {
+    color: #fff;
+    border-top-color: #666;
 }
 
 button {
     color: #fff;
+}
+
+button.btn {
+    border-color: #777;
+    background-color: #555;
 }
 
 .title {
@@ -25,6 +39,10 @@ button {
 
 .properties {
     border-right-color: #555;
+}
+
+canvas {
+    border-color: #999;
 }
 
 /* Object items */
@@ -49,10 +67,6 @@ button {
     color: #999;
 }
 
-.block.playground .canvas_container > canvas {
-    border-color: #999;
-}
-
 /* Scrollbar */
 ::-webkit-scrollbar-track {
 	background: #555; 
@@ -64,4 +78,69 @@ button {
 
 ::-webkit-scrollbar-thumb:hover {
 	background: #777; 
+}
+
+/* Modals */
+.modal_mask .modal_header,
+.modal_mask .modal_footer {
+    color: #fff;
+    background-color: #2d2d2d;
+}
+
+.modal_mask .modal_body {
+    background-color: #444;
+}
+
+.modal_mask .modal_body,
+.modal_mask .modal_footer {
+    border-color: #555;
+}
+
+/* Inputs */
+.input_group label {
+    color: #fff;
+}
+
+.input_group input[type="text"],
+.input_group input[type="number"] {
+    color: #ddd;
+    background-color: #555;
+    border-color: #777;
+}
+
+.input_group input[type="color"] {
+    background-color: #555;
+    border-color: #777;
+}
+
+.input_group input[type="text"]:disabled,
+.input_group input[type="number"]:disabled,
+.input_group input[type="color"]:disabled {
+    background-color: rgba(0, 0, 0, .2);
+    color: #888;
+}
+
+/* Inputs - select */
+.input_group select {
+    color: #ddd;
+    background-color: #555;
+    border-color: #777;
+}
+
+select > option:disabled {
+    color: #aaa;
+}
+
+/* Inputs - file */
+.custom_file_input .result_field > p#filePath {
+    color: #ddd;
+    background-color: #555;
+    border-color: #777;
+}
+
+.custom_file_input .choose_btn > a {
+    background-color: #666;
+    border-color: #777;
+    color: #eee;
+    text-decoration: none;
 }

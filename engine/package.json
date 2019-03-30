@@ -1,6 +1,6 @@
 {
   "name": "rpginia",
-  "version": "0.1.0",
+  "version": "0.1.3",
   "description": "Engine directory",
   "main": "index.js",
   "directories": {
@@ -8,11 +8,12 @@
   },
   "scripts": {
     "start": "serve .",
+    "generate-docs": "jsdoc src src/ObjectTypes -R ../README.md -t ./node_modules/minami -d ../../../shcherbadev.github.io/rpginia/docs/api/v0.1.3",
     "test": "mocha tests/test.js"
   },
   "repository": {
     "type": "git",
-    "url": "git+https://github.com/ShcherbaDev/rpginia-new.git"
+    "url": "git+https://github.com/ShcherbaDev/rpginia.git"
   },
   "author": "Andrey Shcherbakov",
   "license": "MIT",

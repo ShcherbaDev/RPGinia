@@ -1,5 +1,31 @@
 # RPGinia change log
 
+## v0.1.3
+### Editor changes:
+* Fixed bug with throwing an error on object creating.
+* Fixed a bug in file choosing, where in the dialog box when clicking on "cancel" app did not respond to clicks.
+* Fixed file input text sizes.
+* On clicking on not object list - deselecting all objects.
+* Editor is not adding objects borders coordinates and their central points anymore when saving.
+* If the name of the object does not fit into the block, then three points are put.
+* Added text and sprite object types support.
+* Added dark theme modals and inputs.
+* Added "RPGinia app path" field.
+* Added settings modal window.
+* Added documentation into modal window. Content takes from [https://shcherbadev.github.io/rpginia/docs](https://shcherbadev.github.io/rpginia/docs/).
+
+Documentation for editor is avaiable now! Click [here](https://shcherbadev.github.io/rpginia/docs/index.html) to see (Ukrainian and russian only)!
+
+### Engine changes:
+* You can't now change text align.
+* Sprite setting `currentFrame` was renamed to `frameIndex`.
+* Sprite setting `isRepeat` was renamed to `isRepeating`.
+* The default value for sprite setting `interval` was set to 60ms.
+* Was added a new sprite setting `isPlaying` for play or stop animation when necessary.
+* Was added argument `loadLevelsControllers` for `World` class.
+* Fixed a bug when creating an object with the substitution of default values instead of existing.
+* API documentation was updated.
+
 ## v0.1.2
 ### Editor changes:
 * The packager to `.exe` was changed from `electron-packager` to `electron-builder`.

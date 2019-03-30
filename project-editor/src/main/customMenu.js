@@ -1,6 +1,8 @@
 import { BrowserWindow } from 'electron';
 import * as projectActions from './projectActions';
-import * as clipboard from '../renderer/assets/js/clipboard';
+
+const getCurrentWindow = BrowserWindow.getFocusedWindow;
+const openWebPage = require('electron').shell.openExternal;
 
 const menuTemplate = [
     {
@@ -10,14 +12,14 @@ const menuTemplate = [
                 label: 'New project',
                 accelerator: 'CommandOrControl+N',
                 click() {
-                    projectActions.createProject(BrowserWindow.getFocusedWindow());
+                    projectActions.createProject(getCurrentWindow());
                 }
             },
             {
                 label: 'Open project',
                 accelerator: 'CommandOrControl+O',
                 click() {
-                    projectActions.openProject(BrowserWindow.getFocusedWindow(), true)
+                    projectActions.openProject(getCurrentWindow(), true)
                 }
             },
             { type: 'separator' },
@@ -25,7 +27,14 @@ const menuTemplate = [
                 label: 'Save',
                 accelerator: 'CommandOrControl+S',
                 click() {
-                    projectActions.saveProject(BrowserWindow.getFocusedWindow());
+                    projectActions.saveProject(getCurrentWindow());
+                }
+            },
+            { type: 'separator' },
+            {
+                label: 'Settings',
+                click() {
+                    getCurrentWindow().webContents.send('openModal', 'settings');
                 }
             },
             { type: 'separator' },
@@ -35,22 +44,27 @@ const menuTemplate = [
     {
         label: 'Edit',
         submenu: [
-            { role: 'cut', enabled: false },
             { 
                 label: 'Copy',
                 accelerator: 'CommandOrControl+C',
                 click() {
-                    clipboard.copy(BrowserWindow.getFocusedWindow());
+                    getCurrentWindow().webContents.send('copySelectedObjects');
                 }
             },
             { 
                 label: 'Paste',
                 accelerator: 'CommandOrControl+V',
                 click() {
-                    clipboard.paste(BrowserWindow.getFocusedWindow())
-                } 
+                    getCurrentWindow().webContents.send('pasteSelectedObjects');
+                }
             },
-            { role: 'delete', enabled: false }
+            { 
+                label: 'Delete',
+                accelerator: 'Delete',
+                click() {
+                    getCurrentWindow().webContents.send('deleteObject');
+                }
+            }
         ]
     },
     {
@@ -71,7 +85,21 @@ const menuTemplate = [
     },
     {
         label: 'Help',
-        click() { require('electron').shell.openExternal('https://shcherbadev.github.io/rpginia/docs/api') }
+        submenu: [
+            {
+                label: 'RPGinia API documentation',
+                click() { openWebPage('https://shcherbadev.github.io/rpginia/docs/api') }
+            },
+            {
+                label: 'RPGinia project editor documentation',
+                click() { getCurrentWindow().webContents.send('openModal', 'documentation') }
+            },
+            { type: 'separator' },
+            {
+                label: 'Project\'s github',
+                click() { openWebPage('https://github.com/ShcherbaDev/RPGinia') }
+            }
+        ]
     }
 ]
 

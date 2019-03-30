@@ -3,10 +3,30 @@
     <router-view></router-view>
 
     <Modal :title="modalInfo.title" v-if="modalInfo.isOpened" @close="modalInfo.isOpened = false">
-    	<NewProject v-if="modalInfo.type === 'createProject'" @createProject="createProject"></NewProject>
-		<NewObject v-else-if="modalInfo.type === 'createObject'" @createObject="createObject"></NewObject>
+    	<NewProject 
+			v-if="modalInfo.type === 'createProject'" 
+			@createProject="createProject" />
 
-		<div v-else>...</div>
+		<NewObject 
+			v-else-if="modalInfo.type === 'createObject'" 
+			@createObject="createObject" />
+
+		<Settings 
+			v-else-if="modalInfo.type === 'settings'" />
+
+		<RepeatObject 
+			v-else-if="modalInfo.type === 'repeatObject'"
+			:objectId="modalInfo.arg"
+			@repeatObject="repeatObject" />
+
+		<Documentation
+			v-else-if="modalInfo.type = 'documentation'" />
+
+		<div class="modal_content" v-else>
+			<div class="modal_body">
+				<p class="error_text">Content for this modal window is not exist!</p>
+			</div>
+		</div>
     </Modal>
   </div>
 </template>
@@ -15,30 +35,38 @@
 import Modal from './components/Modal';
 import NewProject from './components/Modals/NewProject';
 import NewObject from './components/Modals/NewObject';
+import Settings from './components/Modals/Settings';
+import RepeatObject from './components/Modals/RepeatObject';
+import Documentation from './components/Modals/Documentation';
 
 import { ipcRenderer } from 'electron';
 
 export default {
-	name: "project-editor",
-	components: { Modal, NewProject, NewObject },
+	name: 'project-editor',
+	components: { Modal, NewProject, NewObject, Settings, RepeatObject, Documentation },
 	data: function() {
 		return {
 			modalInfo: {
 				title: '',
 				type: '',
-				isOpened: false
+				isOpened: false,
+				arg: null
 			}
 		}
 	},
 	methods: {
 		createProject: function(arg) {
-			ipcRenderer.send('closeModal', arg);
+			ipcRenderer.send('createProjectRequest', arg);
 			this.setDataToDefault();
 		},
 
 		createObject: function(arg) {
-			ipcRenderer.send('closeModal');
 			ipcRenderer.send('createObjectRequest', arg);
+			this.setDataToDefault();
+		},
+
+		repeatObject: function(arg) {
+			ipcRenderer.send('repeatObjectRequest', arg);
 			this.setDataToDefault();
 		},
 
@@ -46,22 +74,39 @@ export default {
 			this.modalInfo.type = '';
 			this.modalInfo.title = '';
 			this.modalInfo.isOpened = false;
+			this.modalInfo.arg = null;
 		}
 	},
 	created: function() {
 		this.setDataToDefault();
-		ipcRenderer.on('openModal', (e, type) => {
+		ipcRenderer.on('openModal', (e, type, arg) => {
 			if(type === 'createProject') {
 				this.modalInfo.type = 'createProject';
 				this.modalInfo.title = 'Create new project';
-				this.modalInfo.isOpened = true;
 			}
 
 			if(type === 'createObject') {
 				this.modalInfo.type = 'createObject';
 				this.modalInfo.title = 'Create new object';
-				this.modalInfo.isOpened = true;
 			}
+
+			if(type === 'settings') {
+				this.modalInfo.type = 'settings';
+				this.modalInfo.title = 'Settings';
+			}
+
+			if(type === 'repeatObject') {
+				this.modalInfo.type = 'repeatObject';
+				this.modalInfo.title = 'Repeat object';
+				this.modalInfo.arg = arg;
+			}
+
+			if(type === 'documentation') {
+				this.modalInfo.type = 'documentation';
+				this.modalInfo.title = 'RPGinia project editor documentation';
+			}
+
+			this.modalInfo.isOpened = true;
 		});
 	}
 };

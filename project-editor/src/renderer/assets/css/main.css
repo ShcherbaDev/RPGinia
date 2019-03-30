@@ -13,6 +13,20 @@ html, body, .editor {
 	height: 100vh;
 }
 
+h2 {
+	margin-top: 10px;
+    margin-bottom: 2px;
+	padding-top: 8px;
+	border-top: 1px solid;
+	color: #fff;
+}
+
+h2:first-child {
+    border-top: 0;
+    margin-top: 0;
+    padding-top: 0;
+}
+
 a {
 	text-decoration: none;
 }
@@ -23,8 +37,18 @@ a:hover {
 
 button {
 	padding: 0;
-	font-size: 20px;
+	font-size: 18px;
 	cursor: pointer;
+}
+
+button:disabled {
+	cursor: not-allowed;
+}
+
+button.btn {
+	border: 1px solid;
+	padding: 4px 10px;
+	border-radius: 2px;
 }
 
 button.btn_transparent {
@@ -54,8 +78,39 @@ button.btn_transparent {
 	overflow-y: auto;
 }
 
-sup.required {
-	color: red;
+canvas {
+	border: 1px dashed;
+}
+
+.button_group {
+	margin-top: 10px;
+}
+
+p.error_text {
+	display: flex;
+    height: 100%;
+    align-items: center;
+	justify-content: center;
+	flex-direction: column;
+	font-size: 26px;
+	font-family: '8bitoperator';
+	text-align: center;
+}
+
+/* Disable text selecting */
+.title p,
+p.error_text,
+label,
+h1, h2 {
+	user-select: none;
+	cursor: default;
+}
+
+.obj_list_item > .icon,
+.obj_list_item > .name,
+.obj_list_item > .type, 
+button {
+	user-select: none;
 }
 
 /* Properties block styles */
@@ -84,6 +139,9 @@ sup.required {
 
 .obj_list_item > .name {
 	padding-left: 7px;
+	white-space: nowrap;
+	overflow: hidden;
+	text-overflow: ellipsis;
 }
 
 .obj_list_item > .type {
@@ -100,19 +158,6 @@ sup.required {
 	height: 100%;
 }
 
-.block.playground .canvas_container > canvas {
-	border: 1px dashed;
-}
-
-/* Modal main styles */
-.modal_body {
-	padding: 15px;
-}
-
-.modal_body, .modal_footer {
-	border-top: 1px solid #ddd;
-}
-
 /* Forms */
 .input_group:first-child {
 	margin-top: 0;
@@ -120,20 +165,53 @@ sup.required {
 
 .input_group {
 	display: flex;
-	flex-direction: column;
 	margin-top: 10px;
+}
+
+.input_group:not(.row) {
+	flex-direction: column;
+}
+
+.input_group.row {
+	flex-direction: row;
 }
 
 .input_group label {
 	font-size: 22px;
-	margin-bottom: 5px;
+	margin-bottom: 6px;
 }
 
-.input_group input[type="text"] {
+.input_group.row input {
+	margin-left: 8px;
+}
+
+.input_group.row input[type="checkbox"] {
+	height: 26px;
+}
+
+.input_group input[type="text"],
+.input_group input[type="number"] {
 	padding: 10px 12px;
-	border-radius: 5px;
-	border: 1px solid #ccc;
+	border-radius: 2px;
+	border: 1px solid;
 	font-size: 16px;
+	height: 40px;
+}
+
+.input_group input[type="color"] {
+	padding: 0 3px;
+	min-width: 100px;
+	border-radius: 2px;
+	border: 1px solid;
+	height: 28px;
+}
+
+.input_group select {
+	padding: 9.5px 7px;
+	font-size: 16px;
+	border: 1px solid;
+	border-radius: 5px;
+	height: 40px;
 }
 
 /* Custom file input */
@@ -144,8 +222,11 @@ sup.required {
 
 .custom_file_input .result_field > p#filePath {
 	border-radius: 5px 0 0 5px;
-	padding: 14px 16px;
-	background-color: #aaa;
+	padding: 11px 12px;
+	border: 1px solid;
+	height: 40px;
+	white-space: pre;
+	overflow: hidden;
 }
 
 .custom_file_input .choose_btn > a {
@@ -153,17 +234,7 @@ sup.required {
 	justify-content: center;
 	height: 100%;
 	align-items: center;
-	background-color: #aaa;
-	border-left: 1px solid #ccc;
-	border-radius: 0 6px 6px 0;
-}
-
-.bottom_right_button {
 	border: 1px solid;
-	border-radius: 5px;
-	font-size: 16px;
-	position: absolute;
-	bottom: 20px;
-	right: 20px;
-	padding: 10px 20px;
+	border-left: 0;
+	border-radius: 0 5px 5px 0;
 }

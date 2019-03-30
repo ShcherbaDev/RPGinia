@@ -1,5 +1,5 @@
 <template>
-    <div class="input_group">
+    <div class="input_group" :class="{ row: type === 'color' || type === 'checkbox' }">
         <label :for="id">{{ label }}</label>
         
         <!-- Text -->
@@ -7,6 +7,7 @@
             :type="type" 
             :id="id" 
             :value="value" 
+            :disabled="disabled"
             @input="$emit('input', $event.target.value)"
             v-if="type === 'text'">
 
@@ -14,17 +15,19 @@
         <input 
             :type="type" 
             :id="id"
-            :value="id"
+            :checked="isChecked"
+            :disabled="disabled"
             @change="$emit('change', $event.target.checked)"
             v-else-if="type === 'checkbox'">
-
-        <!-- Radio is not supported yet -->
 
         <!-- Number -->
         <input 
             :type="type" 
             :id="id" 
             :value="value" 
+            :min="numMin"
+            :max="numMax"
+            :disabled="disabled"
             @input="$emit('input', parseInt($event.target.value))"
             v-else-if="type === 'number'">
 
@@ -33,6 +36,7 @@
             :type="type" 
             :id="id" 
             :value="value"
+            :disabled="disabled"
             @change="$emit('change', $event.target.value)"
             v-else-if="type === 'color'">
 
@@ -52,6 +56,11 @@
         <!-- File -->
         <CustomFileInput 
             :id="id"
+            :title="chooseFileTitle"
+            :method="fileMethod"
+            :isOpenDirectory="isOpenDirectory"
+            :extension="fileExtension"
+            :extensionLabel="fileExtensionLabel"
             @input="$emit('input', $event)"
             v-else-if="type === 'file'" />
     </div>
@@ -71,10 +80,23 @@ export default {
             type: String,
             default: 'text'
         },
-        value: [String, Number, Boolean],
+        value: [String, Number],
         label: String,
 
-        options: Array
+        disabled: Boolean,
+
+        isChecked: Boolean,
+
+        options: Array,
+
+        numMin: Number,
+        numMax: Number,
+
+        chooseFileTitle: String,
+        fileMethod: String,
+        isOpenDirectory: Boolean,
+        fileExtension: String,
+        fileExtensionLabel: String
     }
 }
 </script>

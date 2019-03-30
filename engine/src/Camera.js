@@ -33,15 +33,6 @@ class Camera {
     move(x, y) {
         this._x += x;
         this._y += y;
-
-        // const levelElements = this._world.currentLevel.data.elements;
-        // for(let i in levelElements) {
-        //     levelElements[i].settings.coords[0] += x;
-        //     levelElements[i].settings.coords[1] += y;
-
-        //     levelElements[i].settings.borderCoords[0] += x;
-        //     levelElements[i].settings.borderCoords[1] += y;
-        // }
     }
     
     /**
@@ -65,10 +56,30 @@ class Camera {
 	 */
     get degree() { return this._rotateDeg }
 
+    /** 
+	 * Get camera X position.
+	 * @readonly
+	 * @type {Number}
+	 */
     get x() { return this._x }
+
+    /** 
+	 * Get camera Y position.
+	 * @readonly
+	 * @type {Number}
+	 */
     get y() { return this._y }
 
+    /**
+	 * Set new X position to camera.
+	 * @param {Number} newX - new X coordinate.
+	 */
     set x(newX) { this._x = newX }
+
+    /**
+	 * Set new Y position to camera.
+	 * @param {Number} newY - new Y coordinate.
+	 */
     set y(newY) { this._y = newY }
 }
 

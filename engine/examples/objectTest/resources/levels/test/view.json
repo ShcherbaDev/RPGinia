@@ -1,6 +1,7 @@
 {
     "settings": {
         "name": "Object class test",
+        "spriteSheetPath": "/resources/sprites/spriteSheets.json",
         "background": "#000"
     },
     "elements": [   

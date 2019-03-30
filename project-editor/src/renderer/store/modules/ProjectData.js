@@ -1,23 +1,27 @@
 const state = {
     type: '',
     settings: {},
-    layers: [],
+    spriteSheets: [],
+    appPath: '',
     objects: [],
     selectedObjects: []
-}
+};
 
 const getters = {
     projectType: state => state.type,
     projectSettings: state => state.settings,
+    projectSpriteSheets: state => state.spriteSheets,
+    projectAppPath: state => state.appPath,
     projectObjects: state => state.objects,
     selectedObjects: state => state.selectedObjects
-}
+};
 
 const mutations = {
     clearProjectStore(state) {
         state.type = '';
         state.settings = {};
-        state.layers = [];
+        state.spriteSheets = [];
+        state.appPath = '';
         state.objects = [];
         state.selectedObjects = [];
     },
@@ -25,21 +29,33 @@ const mutations = {
     setUpProjectStore(state, projData) {
         state.type = '';
         state.settings = {};
-        state.layers = [];
+        state.spriteSheets = [];
+        state.appPath = '';
         state.objects = [];
         state.selectedObjects = [];
 
-        const projectType = projData.type;
-        const projectData = projData.data;
+        const projectData = projData.data.data;
+        const projectType = projData.data.type;
 
         state.type = projectType;
         state.settings = projectData.settings;
 
         if(projectType === 'level') {
+            state.appPath = projData.appPath;
+            if(projectData.spriteSheets) state.spriteSheets = projectData.spriteSheets
+
             for(let i in projectData.elements)
                 projectData.elements[i].$id = parseInt(i)+1;
         }
         state.objects = projectType === 'level' ? projectData.elements : [];
+    },
+
+    setProjectSetting(state, args) {
+        state.settings[args.settingName] = args.newValue;
+    },
+
+    setProjectAppPath(state, newValue) {
+        state.appPath = newValue;
     },
 
     selectObject(state, id) {
@@ -54,9 +70,8 @@ const mutations = {
         state.selectedObjects = [];
     },
 
-    addObject(state, obj) {
-        state.objects[state.objects.length-1].$id = state.objects.length; 
-        state.selectedObjects.push(state.objects[state.objects.length-1].$id);
+    addObject(state) {
+        state.objects[state.objects.length-1].$id = state.objects.length;
     },
 
     deleteObject(state, objectIndex) {
@@ -69,15 +84,12 @@ const mutations = {
     },
 
     setObjectProperty(state, args) {
-        if(!args.newPropertyValue)
-            args.newPropertyValue = 'Unknown value';
-
         if(args.propertySetting)
             state.objects[state.objects.findIndex(item => item.$id === args.id)].settings[args.property][args.propertySetting] = args.newPropertyValue;
         else
             state.objects[state.objects.findIndex(item => item.$id === args.id)].settings[args.property] = args.newPropertyValue;
     }
-}
+};
 
 const actions = {
     clearProjectStore({ commit }) {
@@ -86,6 +98,14 @@ const actions = {
 
     setUpProjectStore({ commit }, projData) {
         commit('setUpProjectStore', projData);
+    },
+
+    setProjectSetting({ commit }, args) {
+        commit('setProjectSetting', args);
+    },
+
+    setProjectAppPath({ commit }, newValue) {
+        commit('setProjectAppPath', newValue);
     },
 
     selectObject({ commit }, id) {
@@ -100,8 +120,8 @@ const actions = {
         commit('clearSelectedObjects');
     },
 
-    addObject({ commit }, newObject) {
-        commit('addObject', newObject);
+    addObject({ commit }) {
+        commit('addObject');
     },
 
     deleteObject({ commit }, objectIndex) {
@@ -111,6 +131,6 @@ const actions = {
     setObjectProperty({ commit }, args) {
         commit('setObjectProperty', args);
     }
-}
+};
 
 export default { state, getters, mutations, actions }

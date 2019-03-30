@@ -1,6 +1,8 @@
 <template>
     <div class="modal_content">
         <div class="modal_body">
+            <!-- Main settings -->
+            <h2>Main settings:</h2>
             <CustomInput 
                 type="text" 
                 id="objectName" 
@@ -38,6 +40,7 @@
                 type="number" 
                 id="objectWidth" 
                 label="Width:"
+                :numMin="0"
                 v-model="coords[2]"
                 v-if="type !== 'text'" />
 
@@ -45,10 +48,12 @@
                 type="number" 
                 id="objectHeight" 
                 label="Height:"
+                :numMin="0"
                 v-model="coords[3]"
                 v-if="type !== 'text'" />
 
             <h2>Other settings:</h2>
+            <!-- Settings for rectangles -->
             <CustomInput 
                 type="color" 
                 id="objectFill" 
@@ -56,19 +61,80 @@
                 :value="fill" 
                 @change="fill = $event"
                 v-if="type === 'rectangle'" />
+
+            <!-- Settings for texts -->
+            <CustomInput 
+                type="text" 
+                id="objectText" 
+                label="Object text:"
+                :value="text" 
+                @input="text = $event"
+                v-if="type === 'text'" />
+
+            <CustomInput 
+                type="color" 
+                id="objectColor" 
+                label="Object color:"
+                :value="color" 
+                @change="color = $event"
+                v-if="type === 'text'" />
+
+            <CustomInput
+                type="number"
+                id="objectSize"
+                label="Size:"
+                :numMin="0"
+                v-model="textSize"
+                v-if="type === 'text'" />
+
+            <!-- Settings for sprites -->
+            <CustomInput
+                type="number"
+                id="objectSpriteSheetIndex"
+                label="Sprite sheet index:"
+                :numMin="0"
+                :numMax="projectSpriteSheets.length-1"
+                :value="spriteSheetIndex"
+                @input="setSpriteSheetIndex"
+                v-if="type === 'sprite'" />
+
+            <CustomInput
+                type="number"
+                id="objectSpriteIndex"
+                label="Sprite index:"
+                :numMin="0"
+                :numMax="projectSpriteSheets[spriteSheetIndex].sprites.length-1"
+                :value="spriteIndex"
+                @input="setSpriteIndex"
+                v-if="type === 'sprite'" />
+
+            <CustomInput
+                type="number"
+                id="objectFrameIndex"
+                label="Frame index:"
+                :numMin="0"
+                :numMax="projectSpriteSheets[spriteSheetIndex].sprites[spriteIndex].frames.length-1"
+                v-model="frameIndex"
+                v-if="type === 'sprite' && projectSpriteSheets[spriteSheetIndex].sprites[spriteIndex].frames" />
+        
+            <h2 v-if="type === 'sprite'">Preview: <small>({{ projectSpriteSheets[spriteSheetIndex].sprites[spriteIndex].name }})</small></h2>
+            <SpritePreview v-if="type === 'sprite'"></SpritePreview>
         </div>
         <div class="modal_footer">
             <button 
-                class="btn btn_big btn_green" 
-                id="createObject" 
+                class="btn"
                 v-if="name && type && layer && coords && fill"
                 @click="createObject">Create</button>
-            <button class="btn btn_big btn_red" id="createObject" v-else disabled>Form is not valid</button>
+            <button class="btn" v-else disabled>Form is not valid</button>
         </div>
     </div>
 </template>
 <script>
 import CustomInputs from '../CustomInputs';
+import SpritePreview from '../SpritePreview';
+
+import '../../store/index.js';
+import { mapGetters } from 'vuex';
 
 export default {
     data() {
@@ -78,8 +144,8 @@ export default {
             layer: 1,
             types: [
                 { id: 1, text: 'Rectangle', value: 'rectangle', disabled: false },
-                { id: 2, text: 'Sprite', value: 'sprite', disabled: false },
-                { id: 3, text: 'Text', value: 'text', disabled: true }
+                { id: 3, text: 'Text', value: 'text', disabled: false },
+                { id: 2, text: 'Sprite', value: 'sprite', disabled: this.projectSpriteSheets !== undefined }
             ],
             coords: [
                 0,
@@ -88,24 +154,81 @@ export default {
                 32
             ],
 
-            fill: '#ffffff'
+            fill: '#ffffff',
+
+            color: '#ffffff',
+            text: 'Text',
+            textSize: 32,
+
+            spriteSheetIndex: 0,
+            spriteIndex: 0,
+            frameIndex: 0
         }
     },
-    components: { CustomInput: CustomInputs },
+    components: { SpritePreview, CustomInput: CustomInputs },
+    computed: mapGetters(['projectSpriteSheets']),
     methods: {
-        createObject: function() {
-            if(this.name && this.type && this.layer && this.coords && this.fill) {
-                this.$emit('createObject', {
-                    name: this.name,
-                    type: this.type,
-                    settings: {
-                        fill: this.fill
-                    },
-                    layer: this.layer,
-                    coords: this.coords
-                });
+        createObject() {
+            if(this.name !== '' && this.type !== '' && this.layer !== null && this.coords !== []) {
+                if(this.type === 'rectangle') {
+                    this.$emit('createObject', {
+                        name: this.name,
+                        type: this.type,
+                        settings: {
+                            fill: this.fill
+                        },
+                        layer: this.layer,
+                        coords: this.coords
+                    });
+                }
+
+                else if(this.type === 'text') {
+                    const textCoords = this.coords.splice(1, 2);
+
+                    this.$emit('createObject', {
+                        name: this.name,
+                        type: this.type,
+                        settings: {
+                            color: this.color,
+                            text: this.text,
+                            size: this.textSize
+                        },
+                        layer: this.layer,
+                        coords: this.coords
+                    });
+                }
+
+                else if(this.type === 'sprite') {
+                    let objSettings = {
+                        name: this.name,
+                        type: this.type,
+                        settings: {
+                            spriteSheetIndex: this.spriteSheetIndex,
+                            spriteIndex: this.spriteIndex
+                        },
+                        layer: this.layer,
+                        coords: this.coords
+                    }
+
+                    if(this.projectSpriteSheets[this.spriteSheetIndex].sprites[this.spriteIndex].frames) {
+                        objSettings.settings.frameIndex = this.frameIndex;
+                    }
+
+                    this.$emit('createObject', objSettings);
+                }
             }
             else console.error('Form is not valid!');
+        },
+
+        setSpriteSheetIndex(event) {
+            this.spriteSheetIndex = event;
+            this.spriteIndex = 0;
+            this.frameIndex = 0;
+        },
+
+        setSpriteIndex(event) { 
+            this.spriteIndex = event;
+            this.frameIndex = 0;
         }
     }
 }
