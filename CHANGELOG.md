@@ -1,5 +1,9 @@
 # RPGinia change log
 
+## v0.1.31
+### Editor changes:
+* Changed way to setting up sprite.
+
 ## v0.1.3
 ### Editor changes:
 * Fixed bug with throwing an error on object creating.
