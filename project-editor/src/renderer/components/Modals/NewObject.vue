@@ -88,37 +88,9 @@
                 v-if="type === 'text'" />
 
             <!-- Settings for sprites -->
-            <CustomInput
-                type="number"
-                id="objectSpriteSheetIndex"
-                label="Sprite sheet index:"
-                :numMin="0"
-                :numMax="projectSpriteSheets.length-1"
-                :value="spriteSheetIndex"
-                @input="setSpriteSheetIndex"
+            <SelectSprite
+                :spriteSheets="projectSpriteSheets"
                 v-if="type === 'sprite'" />
-
-            <CustomInput
-                type="number"
-                id="objectSpriteIndex"
-                label="Sprite index:"
-                :numMin="0"
-                :numMax="projectSpriteSheets[spriteSheetIndex].sprites.length-1"
-                :value="spriteIndex"
-                @input="setSpriteIndex"
-                v-if="type === 'sprite'" />
-
-            <CustomInput
-                type="number"
-                id="objectFrameIndex"
-                label="Frame index:"
-                :numMin="0"
-                :numMax="projectSpriteSheets[spriteSheetIndex].sprites[spriteIndex].frames.length-1"
-                v-model="frameIndex"
-                v-if="type === 'sprite' && projectSpriteSheets[spriteSheetIndex].sprites[spriteIndex].frames" />
-        
-            <h2 v-if="type === 'sprite'">Preview: <small>({{ projectSpriteSheets[spriteSheetIndex].sprites[spriteIndex].name }})</small></h2>
-            <SpritePreview v-if="type === 'sprite'"></SpritePreview>
         </div>
         <div class="modal_footer">
             <button 
@@ -131,7 +103,7 @@
 </template>
 <script>
 import CustomInputs from '../CustomInputs';
-import SpritePreview from '../SpritePreview';
+import SelectSprite from '../EditorComponents/SelectSprite';
 
 import '../../store/index.js';
 import { mapGetters } from 'vuex';
@@ -165,7 +137,7 @@ export default {
             frameIndex: 0
         }
     },
-    components: { SpritePreview, CustomInput: CustomInputs },
+    components: { SelectSprite, CustomInput: CustomInputs },
     computed: mapGetters(['projectSpriteSheets']),
     methods: {
         createObject() {

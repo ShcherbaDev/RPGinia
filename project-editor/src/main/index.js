@@ -85,10 +85,6 @@ function createWindow() {
     // Create new object
     ipcMain.on('createObjectRequest', (e, obj) => e.sender.send('createObject', obj));
 
-    // Sprite preview events
-    ipcMain.on('requestSetSpritePreviewToActive', e => e.sender.send('setSpritePreviewToActive'));
-    ipcMain.on('requestSetSpritePreviewToNotActive', e => e.sender.send('setSpritePreviewToNotActive'));
-
     // Sort objects request
     ipcMain.on('sortObjectsByLayersRequest', e => e.sender.send('sortObjectsByLayers'));
 
