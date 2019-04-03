@@ -115,4 +115,3 @@ export default {
 <style src="./assets/css/main.css"></style>
 <style src="./assets/css/fonts.css"></style>
 <style src="./assets/css/themes/dark.css"></style>
-<style src="./assets/css/scrollbar.css"></style>

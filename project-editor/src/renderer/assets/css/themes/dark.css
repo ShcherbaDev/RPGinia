@@ -80,6 +80,10 @@ canvas {
 	background: #777; 
 }
 
+::-webkit-scrollbar-corner {
+	background-color: #555;
+}
+
 /* Modals */
 .modal_mask .modal_header,
 .modal_mask .modal_footer {

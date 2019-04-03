@@ -52,7 +52,8 @@
                 v-model="coords[3]"
                 v-if="type !== 'text'" />
 
-            <h2>Other settings:</h2>
+            <h2 v-if="type !== 'sprite'">Other settings:</h2>
+            <h2 v-else>Select sprite:</h2>
             <!-- Settings for rectangles -->
             <CustomInput 
                 type="color" 
