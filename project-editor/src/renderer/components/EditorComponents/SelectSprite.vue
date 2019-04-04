@@ -2,25 +2,26 @@
 	<div class="sprite_select">
 		<div class="sprite_sheet_list">
 			<div
-				v-for="spriteSheet in spriteSheets"
-				:key="spriteSheet.file"
+				v-for="(spriteSheet, spriteSheetIndex) in spriteSheets"
+				:key="`${spriteSheet.file}/${spriteSheetIndex}`"
 				class="sprite_sheet"
 				:id="spriteSheet.file">
 				
 				<h2 class="sprite_sheet_path">{{ spriteSheet.file }}</h2>
 				<div class="sprite_list">
 					<div 
-						v-for="sprite in spriteFilteredList(spriteSheet.sprites)"
-						:key="sprite.name"
+						v-for="(sprite, spriteIndex) in spriteFilteredList(spriteSheet.sprites)"
+						:key="`${spriteSheet.file}/${spriteSheetIndex}/${spriteIndex}`"
 						class="sprite"
-						:class="sprite.name || spriteSheet.file">
+						:id="sprite.name"
+						:class="{ selected: selectedSpriteSheet === spriteSheetIndex && selectedSprite === spriteIndex }"
+						@click="selectSprite(spriteSheetIndex, spriteIndex)">
 
 						<div class="sprite_preview_container">
 							<div 
 								class="sprite_preview"
 								:style="spriteStyles(spriteSheet.file, sprite.rect || sprite.frames[0].rect)"></div> 
 						</div>
-
 						<p class="sprite_name">{{ sprite.name }}</p>
 					
 					</div>
@@ -41,7 +42,9 @@
 	export default {
 		data() {
 			return {
-				spriteSearch: ''
+				spriteSearch: '',
+				selectedSpriteSheet: 0,
+				selectedSprite: 0
 			}
 		},
 		computed: mapGetters(['projectAppPath']),
@@ -63,6 +66,12 @@
 				return spritesInSpriteSheet.filter(sprite => {
 			    	return sprite.name.toLowerCase().includes(this.spriteSearch.toLowerCase())
 				});
+			},
+
+			selectSprite(spriteSheetIndex, spriteIndex) {
+				this.selectedSpriteSheet = spriteSheetIndex;
+				this.selectedSprite = spriteIndex;
+				this.$emit('select', { spriteSheetIndex, spriteIndex });
 			}
 		}
 	}
@@ -104,6 +113,8 @@
 		height: 100%; 
 		display: grid; 
 		grid-template-rows: 90% 10%;
+		cursor: pointer;
+		user-select: none;
 	}
 
 	.sprite > .sprite_preview_container {
@@ -116,6 +127,10 @@
 		background: blue;
 		padding: 4px 8px;
 		border-radius: 0 0 2px 2px;
+	}
+
+	.sprite.selected > p.sprite_name {
+		background-color: red;
 	}
 
 	.sprite_preview_container > .sprite_preview {

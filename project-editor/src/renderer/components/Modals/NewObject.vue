@@ -91,7 +91,8 @@
             <!-- Settings for sprites -->
             <SelectSprite
                 :spriteSheets="projectSpriteSheets"
-                v-if="type === 'sprite'" />
+                v-if="type === 'sprite'"
+                @select="setSprite" />
         </div>
         <div class="modal_footer">
             <button 
@@ -193,15 +194,9 @@ export default {
             else console.error('Form is not valid!');
         },
 
-        setSpriteSheetIndex(event) {
-            this.spriteSheetIndex = event;
-            this.spriteIndex = 0;
-            this.frameIndex = 0;
-        },
-
-        setSpriteIndex(event) { 
-            this.spriteIndex = event;
-            this.frameIndex = 0;
+        setSprite(event) {
+            this.spriteSheetIndex = event.spriteSheetIndex;
+            this.spriteIndex = event.spriteIndex;
         }
     }
 }

@@ -56,7 +56,7 @@ export default {
     },
     methods: {
         ...mapActions(['clearSelectedObjects']),
-        ...mapActions('AppData', ['setUpAppData']),
+        ...mapActions('EditorData', ['setUpEditorData']),
 
         openCreateObjectModal() {
             ipcRenderer.send('requestModalOpen', 'createObject');
@@ -92,7 +92,7 @@ export default {
             });
 
             // Initializing app data
-            this.setUpAppData(data.appData);
+            this.setUpEditorData(data.editorData);
 
             // Initialize playground - connecting engine, initializing project store and drawing objects
             initPlayground(data, this.$store);
@@ -106,7 +106,7 @@ export default {
             });
         });
 
-        // 'addObject' event is on renderer/assets/canvas.js
+        // 'addObject' event is on renderer/assets/playgroundCanvas.js
 
         // Delete object
         ipcRenderer.on('deleteObject', e => this.deleteObject());

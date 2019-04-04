@@ -15,7 +15,7 @@ export function createProject(window) {
         spriteSheetPath = spriteSheetPath.replace(/\\\\/g, '\\').replace(appPath, '');
         controllerPath = controllerPath.replace(/\\\\/g, '\\').replace(appPath, '');
 
-        createAppDataFile();
+        createEditorDataFile();
         set('projectData', {
             path: filePath,
             appPath,
@@ -43,20 +43,20 @@ export function createProject(window) {
 
 export function openProject(window, startFromDialog = false) {
     if(startFromDialog) {
-        const openProjectDialog = dialog.showOpenDialog(window, {
-            title: 'Open project',
-            filters: [
-                {
-                    name: '.JSON file',
-                    extensions: ['json']
-                }
-            ]
-        });
+        const appPathDialog = openAppPathDialog(window);
 
-        if(openProjectDialog) {
-            const appPathDialog = openAppPathDialog(window);
+        if(appPathDialog) {
+            const openProjectDialog = dialog.showOpenDialog(window, {
+                title: 'Open project',
+                filters: [
+                    {
+                        name: '.JSON file',
+                        extensions: ['json']
+                    }
+                ]
+            });
 
-            if(appPathDialog) {
+            if(openProjectDialog) {
                 const projectFilePath = openProjectDialog[0];
                 const appPath = appPathDialog[0];
 
@@ -84,10 +84,16 @@ export function openProject(window, startFromDialog = false) {
 
                     window.reload();
                 });
-            } else return false;
+            }
+
+            else {
+                return false;
+            }
         }
 
-        else return false;
+        else {
+            return false;
+        }
     }
 
     else {
@@ -112,7 +118,7 @@ export function openProject(window, startFromDialog = false) {
                             if(appPath) {
                                 window.setTitle(`${projectData.settings.name} - ${config.appName}`);
 
-                                createAppDataFile();
+                                createEditorDataFile();
 
                                 setUpProject(window, { type, appPath, path, projectData });
                             }
@@ -125,11 +131,11 @@ export function openProject(window, startFromDialog = false) {
                                 if(appPathDialog) {
                                     const appPath = appPathDialog[0];
 
-                                    createAppDataFile();
+                                    createEditorDataFile();
                                     set('projectData', { path, appPath, type });
                                     
                                     window.setTitle(`${projectData.settings.name} - ${config.appName}`);
-
+                                    
                                     setUpProject(window, { type, appPath, path, projectData });
                                 } 
 
@@ -178,17 +184,21 @@ function openAppPathDialog(window) {
     });
 }
 
-function createAppDataFile() {
-    has('appData', (err, hasKey) => {
+function createEditorDataFile() {
+    has('editorData', (err, hasKey) => {
         if(err) throw err;
 
         if(!hasKey) {
-            set('appData', {
+            set('editorData', {
                 playground: {
                     sizes: [0, 0],
                     autoSizesEnabled: true
                 }
             });
+            return;
+        }
+        else {
+            return;
         }
     });
 }
@@ -196,13 +206,13 @@ function createAppDataFile() {
 function setUpProject(window, obj) {
     const { type, appPath, path, projectData } = obj;
 
-    get('appData', (err, data) => {
+    get('editorData', (err, editorData) => {
         if(err) throw err;
 
         window.webContents.send('setUpProject', { 
             type, 
             appPath,
-            appData: data,
+            editorData,
             path,
             data: projectData 
         });

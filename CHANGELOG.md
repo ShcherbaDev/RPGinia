@@ -3,6 +3,7 @@
 ## v0.1.31
 ### Editor changes:
 * Changed way to setting up sprite.
+* Configuration file `appData.json` was renamed to `editorData.json`.
 
 ## v0.1.3
 ### Editor changes:

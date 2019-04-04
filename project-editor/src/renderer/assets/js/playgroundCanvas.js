@@ -6,7 +6,7 @@ let engine, app, world, cam, load, loop;
 let store, storeGetters;
 
 function isAutoResizingEnabled() {
-    return storeGetters['AppData/autoPlaygroundSizesEnabled'];
+    return storeGetters['EditorData/autoPlaygroundSizesEnabled'];
 }
 
 export default function initPlayground(data, projStore) {
@@ -20,7 +20,7 @@ export default function initPlayground(data, projStore) {
         isAutoResizingEnabled() ? [ // If auto resizing is enabled - set sizes from canvas container width and height.
             document.querySelector('.canvas_container').clientWidth,
             document.querySelector('.canvas_container').clientHeight
-        ] : storeGetters['AppData/playgroundSizes'] // Else - get fixed value from store.
+        ] : storeGetters['EditorData/playgroundSizes'] // Else - get fixed value from store.
     );
     world = new app.World(false, false);
     cam = new app.Camera();

@@ -75,10 +75,10 @@ export default {
             if(this.selectedTab === 'appPlayground') {
                 const { playgroundWidth, playgroundHeight, playgroundAutoResizingEnabled } = this.$children[0];
 
-                this.$store.commit('AppData/setPlaygroundSizes', [playgroundWidth, playgroundHeight]);
-                this.$store.commit('AppData/setAutoPlaygroundResizing', playgroundAutoResizingEnabled);
+                this.$store.commit('EditorData/setPlaygroundSizes', [playgroundWidth, playgroundHeight]);
+                this.$store.commit('EditorData/setAutoPlaygroundResizing', playgroundAutoResizingEnabled);
                 
-                ipcRenderer.send('saveNewAppData', this.$store.getters);
+                ipcRenderer.send('saveNewEditorData', this.$store.getters);
             }
 
             if(this.selectedTab === 'projectMain') {

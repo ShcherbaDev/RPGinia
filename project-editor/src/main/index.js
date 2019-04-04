@@ -33,7 +33,7 @@ function createWindow() {
     Menu.setApplicationMenu(menu);
 
     // Setting up path for saving project data (In Temp)
-    setDataPath(config.appDataPath);
+    setDataPath(config.editorDataPath);
 
     mainWindow.webContents.on('did-finish-load', () => {
         // Try to open existing project
@@ -92,16 +92,16 @@ function createWindow() {
     ipcMain.on('repeatObjectRequest', (e, arg) => e.sender.send('repeatObject', arg));
 
     // Save app data
-    ipcMain.on('saveNewAppData', (e, arg) => {
+    ipcMain.on('saveNewEditorData', (e, arg) => {
         projectActions.saveProject(mainWindow);
 
-        get('appData', (err, data) => {
+        get('editorData', (err, data) => {
             if(err) throw data;
 
-            set('appData', {
+            set('editorData', {
                 playground: {
-                    sizes: arg['AppData/playgroundSizes'],
-                    autoSizesEnabled: arg['AppData/autoPlaygroundSizesEnabled']
+                    sizes: arg['EditorData/playgroundSizes'],
+                    autoSizesEnabled: arg['EditorData/autoPlaygroundSizesEnabled']
                 }
             });
         });

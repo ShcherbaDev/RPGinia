@@ -16,8 +16,8 @@ const mutations = {
         state.autoPlaygroundSizesEnabled = true;
     },
 
-    setUpAppData(state, appData) {
-        const { sizes, autoSizesEnabled } = appData.playground;
+    setUpEditorData(state, editorData) {
+        const { sizes, autoSizesEnabled } = editorData.playground;
 
         state.playgroundSizes = sizes;
         state.autoPlaygroundSizesEnabled = autoSizesEnabled;
@@ -37,8 +37,8 @@ const actions = {
         commit('setDataToDefault');
     },
 
-    setUpAppData({ commit }, appData) {
-        commit('setUpAppData', appData);
+    setUpEditorData({ commit }, editorData) {
+        commit('setUpEditorData', editorData);
     },
 
     setPlaygroundSizes({ commit }, newSizes) {
