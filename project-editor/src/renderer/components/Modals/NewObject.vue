@@ -44,6 +44,8 @@
                 v-model="coords[2]"
                 v-if="type !== 'text'" />
 
+            <button class="btn" style="margin-top: 10px;" v-if="type === 'sprite'" @click="setOriginalSizes('width')">Set to original sprite width</button>
+
             <CustomInput 
                 type="number" 
                 id="objectHeight" 
@@ -51,6 +53,8 @@
                 :numMin="0"
                 v-model="coords[3]"
                 v-if="type !== 'text'" />
+
+            <button class="btn" style="margin-top: 10px;" v-if="type === 'sprite'" @click="setOriginalSizes('height')">Set to original sprite height</button>
 
             <h2 v-if="type !== 'sprite'">Other settings:</h2>
             <h2 v-else>Select sprite:</h2>
@@ -197,6 +201,26 @@ export default {
         setSprite(event) {
             this.spriteSheetIndex = event.spriteSheetIndex;
             this.spriteIndex = event.spriteIndex;
+        },
+
+        setOriginalSizes(type) {
+            if(type === 'width') {
+                this.coords[2] = 
+                    this.projectSpriteSheets[this.spriteSheetIndex].sprites[this.spriteIndex].rect ?
+                    this.projectSpriteSheets[this.spriteSheetIndex].sprites[this.spriteIndex].rect[2]
+                    : this.projectSpriteSheets[this.spriteSheetIndex].sprites[this.spriteIndex].frames[this.frameIndex].rect[2];
+
+                document.querySelector('.modal_container input#objectWidth').value = this.coords[2];
+            }
+
+            else if(type === 'height') {
+                this.coords[3] = 
+                    this.projectSpriteSheets[this.spriteSheetIndex].sprites[this.spriteIndex].rect ?
+                    this.projectSpriteSheets[this.spriteSheetIndex].sprites[this.spriteIndex].rect[3]
+                    : this.projectSpriteSheets[this.spriteSheetIndex].sprites[this.spriteIndex].frames[this.frameIndex].rect[3];
+
+                document.querySelector('.modal_container input#objectHeight').value = this.coords[3];
+            }
         }
     }
 }

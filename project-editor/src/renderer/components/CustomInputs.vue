@@ -50,7 +50,7 @@
                 v-for="option in options" 
                 :key="option.id"
                 :value="option.value" 
-                :disabled="option.disabled">{{ option.text }}</option>
+                :disabled="option.disabled">{{ option.text || option.value }}</option>
         </select>
 
         <!-- File -->

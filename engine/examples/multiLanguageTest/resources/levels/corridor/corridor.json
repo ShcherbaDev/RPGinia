@@ -28,7 +28,7 @@
             "name": "Save point",
             "settings": {
                 "frameFrom": 0,
-                "frameIndex": 0,
+                "frameIndex": 1,
                 "frameTo": 1,
                 "interval": 500,
                 "isPlaying": true,

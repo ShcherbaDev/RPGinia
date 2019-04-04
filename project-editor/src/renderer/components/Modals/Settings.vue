@@ -108,4 +108,59 @@ export default {
 }
 </script>
 
-<style src="../../assets/css/settings.css"></style>
+<style>
+    .modal_body.modal_settings {
+        display: grid;
+        grid-template-columns: 20% 1fr;
+        min-height: 470px;
+        padding: 0;
+    }
+
+    .modal_settings > .sidebar {
+        padding: 10px;
+        background-color: #2d2d2d;
+    }
+
+    .modal_body.modal_settings > .sidebar h1.section_title {
+        padding-bottom: 10px;
+        padding-left: 5px;
+        margin-bottom: 10px;
+        border-bottom: 1px solid #555;
+    }
+
+    .modal_body.modal_settings > .sidebar > .section:not(:first-child) h1.section_title {
+        margin-top: 10px;
+    }
+
+    .modal_body.modal_settings > .sidebar ul.section_tab_list li a {
+        display: block;
+        padding: 8px 10px;
+        color: #fff;
+        text-decoration: none;
+    }
+
+    .modal_body.modal_settings > .sidebar ul.section_tab_list li a.selected {
+        background-color: rgba(255, 255, 255, .1);
+    }
+
+    .modal_body.modal_settings > .sidebar ul.section_tab_list li a:hover {
+        background-color: rgba(255, 255, 255, .2);
+    }
+
+    .modal_body.modal_settings > .tab_content {
+        padding: 10px;
+    }
+
+    /* Container sizes */
+    @media screen and (max-width: 1370px) {
+        .modal_body.modal_settings {
+            grid-template-columns: 1fr 70%;
+        }
+    }
+
+    @media screen and (min-width: 1370px) {
+        .modal_body.modal_settings {
+            grid-template-columns: 20% 1fr;
+        }
+    }
+</style>
