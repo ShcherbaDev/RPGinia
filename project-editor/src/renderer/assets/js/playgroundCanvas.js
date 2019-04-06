@@ -93,6 +93,17 @@ export default function initPlayground(data, projStore) {
         requiredSprite.settings.settings.spriteSheetIndex = spriteSheetIndex;
         requiredSprite.settings.settings.spriteIndex = spriteIndex;
 
+        if(
+            requiredSprite._spriteSheets[spriteSheetIndex].sprites[spriteIndex].frames
+            && requiredSprite.settings.settings.frameIndex === undefined
+        ) {
+            requiredSprite.settings.settings.frameIndex = 0;
+        }
+
+        else {
+            delete requiredSprite.settings.settings.frameIndex;
+        }
+
         requiredSprite.settings.image.src = `file://${requiredSprite._appPath.replace('file://', '').replace(/\\/g, '/')}/${requiredSprite._spriteSheets[spriteSheetIndex].file}`;
     });
 

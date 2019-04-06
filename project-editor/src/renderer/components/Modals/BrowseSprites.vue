@@ -27,8 +27,7 @@ export default {
         }
     },
     props: { 
-        spriteId: Number,
-        spriteSheets: Array
+        spriteId: Number
     },
     components: { SelectSprite },
     computed: mapGetters(['projectSpriteSheets']),
@@ -42,9 +41,12 @@ export default {
 
         selectSprite() {
             const { spriteId, spriteSheetIndex, spriteIndex } = this;
-            
+
             this.$emit('setNewSprite', { spriteId, spriteSheetIndex, spriteIndex });
         }
+    },  
+    created() {
+        // console.log(this.spriteId, this.projectSpriteSheets)
     }
 }
 </script>

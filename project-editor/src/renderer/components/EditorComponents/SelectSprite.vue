@@ -10,22 +10,22 @@
 				<h2 class="sprite_sheet_path">{{ spriteSheet.file }}</h2>
 				<div class="sprite_list">
 					<div 
-						v-for="(sprite, spriteIndex) in spriteFilteredList(spriteSheet.sprites)"
+						v-for="(sprite, spriteIndex) in spriteFilteredList(spriteSheetIndex)"
 						:key="`${spriteSheet.file}/${spriteSheetIndex}/${spriteIndex}`"
 						class="sprite"
 						:id="sprite.name"
-						:class="{ selected: isSpriteSelected(spriteSheetIndex, spriteIndex) }"
-						@click="selectSprite(spriteSheetIndex, spriteIndex)">
+						:class="{ selected: isSpriteSelected(sprite.spriteSheetIndex, sprite.id) }"
+						@click="selectSprite(sprite)">
 
 						<div class="sprite_preview_container">
-							<div 
+							<div
 								class="sprite_preview"
-								:style="spriteStyles(spriteSheet.file, sprite.rect || sprite.frames[0].rect)"></div> 
+								:style="spriteStyles(spriteSheet.file, sprite.rect || sprite.frames[0].rect)"></div>
 						</div>
 
 						<p class="sprite_name">{{ sprite.name }}</p>
 
-						<div class="selected_sprite_background" v-if="isSpriteSelected(spriteSheetIndex, spriteIndex)"></div>
+						<div class="selected_sprite_background" v-if="isSpriteSelected(sprite.spriteSheetIndex, sprite.id)"></div>
 					</div>
 				</div>
 
@@ -39,12 +39,6 @@
 				id="spriteName"
 				label="Sprite name:"
 				v-model="spriteSearch" />
-
-			<CustomInput
-				type="select"
-				label="Sprite sheet:"
-				:options="spriteSheetPathsList"
-				@change="selectSpriteSheet" />
 		</div>
 	</div>
 </template>
@@ -60,7 +54,6 @@
 				spriteSearch: '',
 				selectedSpriteSheet: 0,
 				selectedSprite: 0,
-				selectedSpriteFrame: 0,
 				spriteList: [],
 				spriteSheetPathsList: []
 			}
@@ -81,27 +74,22 @@
 				}
 			},
 
-			spriteFilteredList(spritesInSpriteSheet) {
-				return spritesInSpriteSheet.filter(sprite => {
-					return sprite.name.toLowerCase().includes(this.spriteSearch.toLowerCase())
+			spriteFilteredList(spriteSheetIndex) {
+				return this.spriteList.filter(sprite => {	
+					return sprite.spriteSheetIndex === spriteSheetIndex && sprite.name.toLowerCase().includes(this.spriteSearch.toLowerCase());
 				});
 			},
 
-			selectSprite(spriteSheetIndex, spriteIndex) {
+			selectSprite(sprite) {
+				const { spriteSheetIndex, id } = sprite;
+				
 				this.selectedSpriteSheet = spriteSheetIndex;
-				this.selectedSprite = spriteIndex;
+				this.selectedSprite = id;
 
-				this.$emit('select', { spriteSheetIndex, spriteIndex });
-			},
-
-			selectSpriteSheet(path) {
-				this.selectedSprite = 0;
-				this.selectedSpriteFrame = 0;
-				this.selectedSpriteSheet = this.getSpriteSheetByPath(path);
-			},
-
-			getSpriteSheetByPath(pathToSpriteSheet) {
-				return this.spriteSheets.findIndex(item => item.file === pathToSpriteSheet);
+				this.$emit('select', { 
+					spriteSheetIndex: this.selectedSpriteSheet, 
+					spriteIndex: this.selectedSprite 
+				});
 			},
 
 			isSpriteSelected(spriteSheetIndex, spriteIndex) {
