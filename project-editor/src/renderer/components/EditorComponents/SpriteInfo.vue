@@ -1,7 +1,7 @@
 <template>
     <div class="browse_sprite">
         <div class="sprite_name">
-            <p>{{ object.settings.name }}</p>
+            <p>{{ getOriginalName() }}</p>
         </div>
         <div class="sprite_preview">
             <div class="sprite_image_container">
@@ -59,7 +59,16 @@ export default {
 
             return projectSpriteSheets[spriteSheetIndex].sprites[spriteIndex].rect 
                 ? projectSpriteSheets[spriteSheetIndex].sprites[spriteIndex].rect
-                : projectSpriteSheets[spriteSheetIndex].sprites[spriteIndex].frames[0].rect
+                : projectSpriteSheets[spriteSheetIndex].sprites[spriteIndex].frames[0].rect;
+        },
+
+        getOriginalName() {
+            const { object, projectSpriteSheets } = this;
+
+            const objectIndexes = object.settings.settings;
+            const { spriteSheetIndex, spriteIndex } = objectIndexes;
+
+            return projectSpriteSheets[spriteSheetIndex].sprites[spriteIndex].name;
         },
 
         browseSprites() {
@@ -73,14 +82,26 @@ export default {
     .browse_sprite {
         display: grid;
         grid-template-areas: "name name" "preview buttons"; 
-        grid-template-rows: 50px 1fr;
+        grid-template-rows: 32px 1fr;
         grid-template-columns: 150px 1fr;
-        max-width: 400px;
-        background-color: green;
+        max-width: 375px;
+        background-color: #333;
+        border: 1px solid #666;
+        border-radius: 2px;
+        padding: 10px;
+        overflow: auto;
     }
 
     .browse_sprite > .sprite_name {
         grid-area: name;
+    }
+
+    .sprite_name > p {
+        width: 100%;
+        font-size: 22px;
+        white-space: nowrap;
+		overflow: hidden;
+		text-overflow: ellipsis;
     }
 
     .browse_sprite > .sprite_preview {
@@ -91,9 +112,20 @@ export default {
         overflow: auto;
         width: 100%;
         height: 150px;
+        background-color: #000;
     }
 
     .browse_sprite > .sprite_select_buttons {
         grid-area: buttons;
+        padding-left: 15px;
+    }
+
+    .sprite_select_buttons > div {
+        margin-bottom: 10px;
+        
+    }
+
+    .sprite_select_buttons h3 {
+        margin-bottom: 5px;
     }
 </style>

@@ -100,7 +100,10 @@ export default function initPlayground(data, projStore) {
             requiredSprite.settings.settings.frameIndex = 0;
         }
 
-        else {
+        else if(
+            requiredSprite._spriteSheets[spriteSheetIndex].sprites[spriteIndex].frames === undefined
+            && requiredSprite.settings.settings.frameIndex
+        ) {
             delete requiredSprite.settings.settings.frameIndex;
         }
 

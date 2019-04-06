@@ -3,7 +3,7 @@
         <div class="modal_body">
             <SelectSprite
                 :spriteSheets="projectSpriteSheets"
-                componentWidth="100%"
+                :style="{ width: '100%' }"
                 @select="setNewValues" />
         </div>
         <div class="modal_footer">
@@ -44,9 +44,6 @@ export default {
 
             this.$emit('setNewSprite', { spriteId, spriteSheetIndex, spriteIndex });
         }
-    },  
-    created() {
-        // console.log(this.spriteId, this.projectSpriteSheets)
     }
 }
 </script>

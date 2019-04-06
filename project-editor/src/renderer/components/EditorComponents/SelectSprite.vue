@@ -1,5 +1,5 @@
 <template>
-	<div class="sprite_select" :style="{ width: componentWidth || '93.43%' }">
+	<div class="sprite_select">
 		<div class="sprite_sheet_list">
 			<div
 				v-for="(spriteSheet, spriteSheetIndex) in spriteSheets"
@@ -61,8 +61,7 @@
 		computed: mapGetters(['projectAppPath']),
 		components: { CustomInput: CustomInputs },
 		props: {
-			spriteSheets: Array,
-			componentWidth: String
+			spriteSheets: Array
 		},
 		methods: {
 			spriteStyles(file, spriteCoordinations) {
@@ -131,6 +130,7 @@
 
 <style>
 	.sprite_select {
+		width: 93.43%;
 		position: relative;
 	}
 

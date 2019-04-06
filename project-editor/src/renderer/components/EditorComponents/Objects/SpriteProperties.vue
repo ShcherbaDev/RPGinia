@@ -47,28 +47,7 @@
         <button class="btn" style="margin-top: 10px;" @click="setObjectProperty({ id: object.$id, property: 'coords', propertySetting: '3', newPropertyValue: setOriginalSizes('height') })">Set to original sprite height</button>
 
         <h2>Other settings:</h2>
-
-
-        <!-- <CustomInput
-            type="number"
-            id="objectSpriteSheetIndex"
-            label="Sprite sheet index:"
-            v-if="projectSpriteSheets.length > 0"
-            :numMin="0"
-            :numMax="projectSpriteSheets.length-1"
-            :value="object.settings.settings.spriteSheetIndex"
-            @input="setObjectProperty({ id: object.$id, property: 'settings', propertySetting: 'spriteSheetIndex', newPropertyValue: $event })" />
-
-        <CustomInput
-            type="number"
-            id="objectSpriteIndex"
-            label="Sprite index:"
-            :numMin="0"
-            :numMax="projectSpriteSheets[object.settings.settings.spriteSheetIndex].sprites.length-1"
-            :value="object.settings.settings.spriteIndex"
-            @input="setObjectProperty({ id: object.$id, property: 'settings', propertySetting: 'spriteIndex', newPropertyValue: $event })" /> -->
-
-        <ViewSprite :object="object" />
+        <SpriteInfo :object="object" />
 
         <CustomInput
             type="number"
@@ -92,7 +71,7 @@
 </template>
 <script>
 import CustomInputs from '../../CustomInputs';
-import ViewSprite from '../ViewSprite';
+import SpriteInfo from '../SpriteInfo';
 
 import convertColorNameToHex from '../../../assets/js/convertColorNameToHex';
 import * as originalSpriteSizes from '../../../assets/js/setOriginalSpriteSizes';
@@ -102,7 +81,7 @@ import '../../../store/index.js';
 import { mapGetters, mapActions } from 'vuex';
 
 export default {
-    components: { ViewSprite, CustomInput: CustomInputs },
+    components: { SpriteInfo, CustomInput: CustomInputs },
     computed: mapGetters(['projectObjects', 'selectedObjects', 'projectSpriteSheets']),
     methods: {
         ...mapActions(['setObjectProperty']),
