@@ -91,6 +91,9 @@ function createWindow() {
     // Repeat object
     ipcMain.on('repeatObjectRequest', (e, arg) => e.sender.send('repeatObject', arg));
 
+    // Set sprite to other
+    ipcMain.on('setNewSpriteRequest', (e, arg) => e.sender.send('setSprite', arg));
+
     // Save app data
     ipcMain.on('saveNewEditorData', (e, arg) => {
         projectActions.saveProject(mainWindow);

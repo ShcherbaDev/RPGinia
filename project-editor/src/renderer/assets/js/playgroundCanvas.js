@@ -83,6 +83,19 @@ export default function initPlayground(data, projStore) {
         world._sortElements();
     });
 
+    // Set sprite to another
+    ipcRenderer.on('setSprite', (e, arg) => {
+        const { spriteId, spriteIndex, spriteSheetIndex } = arg;
+
+        const elementsInLevel = world.currentLevel.data.elements;
+        const requiredSprite = elementsInLevel[elementsInLevel.findIndex(item => item.$id === spriteId)];
+
+        requiredSprite.settings.settings.spriteSheetIndex = spriteSheetIndex;
+        requiredSprite.settings.settings.spriteIndex = spriteIndex;
+
+        requiredSprite.settings.image.src = `file://${requiredSprite._appPath.replace('file://', '').replace(/\\/g, '/')}/${requiredSprite._spriteSheets[spriteSheetIndex].file}`;
+    });
+
     // App window resizing
     window.addEventListener('resize', e => {
         if(isAutoResizingEnabled()) {

@@ -2,7 +2,7 @@
   <div id="app">
     <router-view></router-view>
 
-    <Modal :title="modalInfo.title" v-if="modalInfo.isOpened" @close="modalInfo.isOpened = false">
+    <Modal :title="modalInfo.title" v-if="modalInfo.isOpened" @close="setDataToDefault">
     	<NewProject 
 			v-if="modalInfo.type === 'createProject'" 
 			@createProject="createProject" />
@@ -20,7 +20,12 @@
 			@repeatObject="repeatObject" />
 
 		<Documentation
-			v-else-if="modalInfo.type = 'documentation'" />
+			v-else-if="modalInfo.type === 'documentation'" />
+
+		<BrowseSprites
+			v-else-if="modalInfo.type === 'browseSprites'"
+			:spriteId="modalInfo.arg.$id"
+			@setNewSprite="setNewSprite" />
 
 		<div class="modal_content" v-else>
 			<div class="modal_body">
@@ -38,12 +43,13 @@ import NewObject from './components/Modals/NewObject';
 import Settings from './components/Modals/Settings';
 import RepeatObject from './components/Modals/RepeatObject';
 import Documentation from './components/Modals/Documentation';
+import BrowseSprites from './components/Modals/BrowseSprites';
 
 import { ipcRenderer } from 'electron';
 
 export default {
 	name: 'project-editor',
-	components: { Modal, NewProject, NewObject, Settings, RepeatObject, Documentation },
+	components: { Modal, NewProject, NewObject, Settings, RepeatObject, Documentation, BrowseSprites },
 	data: function() {
 		return {
 			modalInfo: {
@@ -70,6 +76,11 @@ export default {
 			this.setDataToDefault();
 		},
 
+		setNewSprite: function(arg) {
+			ipcRenderer.send('setNewSpriteRequest', arg);
+			this.setDataToDefault();
+		},
+
 		setDataToDefault: function() {
 			this.modalInfo.type = '';
 			this.modalInfo.title = '';
@@ -81,29 +92,35 @@ export default {
 		this.setDataToDefault();
 		ipcRenderer.on('openModal', (e, type, arg) => {
 			if(type === 'createProject') {
-				this.modalInfo.type = 'createProject';
+				this.modalInfo.type = type;
 				this.modalInfo.title = 'Create new project';
 			}
 
 			if(type === 'createObject') {
-				this.modalInfo.type = 'createObject';
+				this.modalInfo.type = type;
 				this.modalInfo.title = 'Create new object';
 			}
 
 			if(type === 'settings') {
-				this.modalInfo.type = 'settings';
+				this.modalInfo.type = type;
 				this.modalInfo.title = 'Settings';
 			}
 
 			if(type === 'repeatObject') {
-				this.modalInfo.type = 'repeatObject';
+				this.modalInfo.type = type;
 				this.modalInfo.title = 'Repeat object';
 				this.modalInfo.arg = arg;
 			}
 
 			if(type === 'documentation') {
-				this.modalInfo.type = 'documentation';
+				this.modalInfo.type = type;
 				this.modalInfo.title = 'RPGinia project editor documentation';
+			}
+
+			if(type === 'browseSprites') {
+				this.modalInfo.type = type;
+				this.modalInfo.title = 'Browse sprites';
+				this.modalInfo.arg = arg;
 			}
 
 			this.modalInfo.isOpened = true;

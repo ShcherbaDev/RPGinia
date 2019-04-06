@@ -1,5 +1,5 @@
 <template>
-	<div class="sprite_select">
+	<div class="sprite_select" :style="{ width: componentWidth || '93.43%' }">
 		<div class="sprite_sheet_list">
 			<div
 				v-for="(spriteSheet, spriteSheetIndex) in spriteSheets"
@@ -68,12 +68,12 @@
 		computed: mapGetters(['projectAppPath']),
 		components: { CustomInput: CustomInputs },
 		props: {
-			spriteSheets: Array
+			spriteSheets: Array,
+			componentWidth: String
 		},
 		methods: {
 			spriteStyles(file, spriteCoordinations) {
 				return {
-					display: 'inline-block',
 					backgroundImage: `url("file://${this.projectAppPath.replace(/\\/g, '/')}/${file}")`,
 					backgroundPosition: `-${spriteCoordinations[0]}px -${spriteCoordinations[1]}px`,
 					width: `${spriteCoordinations[2]}px`,
@@ -83,7 +83,7 @@
 
 			spriteFilteredList(spritesInSpriteSheet) {
 				return spritesInSpriteSheet.filter(sprite => {
-			    	return sprite.name.toLowerCase().includes(this.spriteSearch.toLowerCase())
+					return sprite.name.toLowerCase().includes(this.spriteSearch.toLowerCase())
 				});
 			},
 
@@ -144,7 +144,6 @@
 <style>
 	.sprite_select {
 		position: relative;
-		width: 93.43%;
 	}
 
 	.sprite_sheet_list {

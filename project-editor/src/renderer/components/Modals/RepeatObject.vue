@@ -20,7 +20,6 @@
                 type="number"
                 id="horizontalInterval"
                 label="Horizontal interval"
-                :numMin="0"
                 v-model="horizontalInterval"
                 v-if="repeatByColumn > 0" />
 
@@ -28,7 +27,6 @@
                 type="number"
                 id="repeatByRow"
                 label="Vertical interval:"
-                :numMin="0"
                 v-model="verticalInterval"
                 v-if="repeatByRow > 0" />
         </div>
@@ -61,6 +59,7 @@ export default {
         repeatObject() {
             const { projectObjects, objectId, repeatByColumn, repeatByRow, horizontalInterval, verticalInterval } = this;
             const repeatedObject = projectObjects[projectObjects.findIndex(item => item.$id === objectId)];
+            
             this.$emit('repeatObject', { repeatedObject, repeatByColumn, repeatByRow, horizontalInterval, verticalInterval });
         }
     },

@@ -43,7 +43,6 @@
                 :numMin="0"
                 v-model="coords[2]"
                 v-if="type !== 'text'" />
-
             <button class="btn" style="margin-top: 10px;" v-if="type === 'sprite'" @click="setOriginalSizes('width')">Set to original sprite width</button>
 
             <CustomInput 
@@ -53,7 +52,6 @@
                 :numMin="0"
                 v-model="coords[3]"
                 v-if="type !== 'text'" />
-
             <button class="btn" style="margin-top: 10px;" v-if="type === 'sprite'" @click="setOriginalSizes('height')">Set to original sprite height</button>
 
             <h2 v-if="type !== 'sprite'">Other settings:</h2>
@@ -110,6 +108,8 @@
 <script>
 import CustomInputs from '../CustomInputs';
 import SelectSprite from '../EditorComponents/SelectSprite';
+
+import * as originalSpriteSizes from '../../assets/js/setOriginalSpriteSizes';
 
 import '../../store/index.js';
 import { mapGetters } from 'vuex';
@@ -204,20 +204,16 @@ export default {
         },
 
         setOriginalSizes(type) {
+            const { spriteSheetIndex, spriteIndex, frameIndex, projectSpriteSheets } = this;
+
             if(type === 'width') {
-                this.coords[2] = 
-                    this.projectSpriteSheets[this.spriteSheetIndex].sprites[this.spriteIndex].rect ?
-                    this.projectSpriteSheets[this.spriteSheetIndex].sprites[this.spriteIndex].rect[2]
-                    : this.projectSpriteSheets[this.spriteSheetIndex].sprites[this.spriteIndex].frames[this.frameIndex].rect[2];
+                this.coords[2] = originalSpriteSizes.setOriginalWidth(spriteSheetIndex, spriteIndex, frameIndex, projectSpriteSheets); 
 
                 document.querySelector('.modal_container input#objectWidth').value = this.coords[2];
             }
 
             else if(type === 'height') {
-                this.coords[3] = 
-                    this.projectSpriteSheets[this.spriteSheetIndex].sprites[this.spriteIndex].rect ?
-                    this.projectSpriteSheets[this.spriteSheetIndex].sprites[this.spriteIndex].rect[3]
-                    : this.projectSpriteSheets[this.spriteSheetIndex].sprites[this.spriteIndex].frames[this.frameIndex].rect[3];
+                this.coords[3] = originalSpriteSizes.setOriginalHeight(spriteSheetIndex, spriteIndex, frameIndex, projectSpriteSheets);
 
                 document.querySelector('.modal_container input#objectHeight').value = this.coords[3];
             }
