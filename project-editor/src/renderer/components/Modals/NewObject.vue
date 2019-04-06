@@ -40,7 +40,7 @@
                 type="number" 
                 id="objectWidth" 
                 label="Width:"
-                :numMin="0"
+                :num-min="0"
                 v-model="coords[2]"
                 v-if="type !== 'text'" />
             <button class="btn" style="margin-top: 10px;" v-if="type === 'sprite'" @click="setOriginalSizes('width')">Set to original sprite width</button>
@@ -49,7 +49,7 @@
                 type="number" 
                 id="objectHeight" 
                 label="Height:"
-                :numMin="0"
+                :num-min="0"
                 v-model="coords[3]"
                 v-if="type !== 'text'" />
             <button class="btn" style="margin-top: 10px;" v-if="type === 'sprite'" @click="setOriginalSizes('height')">Set to original sprite height</button>
@@ -86,13 +86,13 @@
                 type="number"
                 id="objectSize"
                 label="Size:"
-                :numMin="0"
+                :num-min="0"
                 v-model="textSize"
                 v-if="type === 'text'" />
 
             <!-- Settings for sprites -->
             <SelectSprite
-                :spriteSheets="projectSpriteSheets"
+                :sprite-sheets="projectSpriteSheets"
                 v-if="type === 'sprite'"
                 @select="setSprite" />
         </div>

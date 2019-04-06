@@ -89,22 +89,18 @@ export default function initPlayground(data, projStore) {
 
         const elementsInLevel = world.currentLevel.data.elements;
         const requiredSprite = elementsInLevel[elementsInLevel.findIndex(item => item.$id === spriteId)];
+        const spriteIndexes = requiredSprite.settings.settings;
+        const framesInSprite = requiredSprite._spriteSheets[spriteSheetIndex].sprites[spriteIndex].frames;
 
-        requiredSprite.settings.settings.spriteSheetIndex = spriteSheetIndex;
-        requiredSprite.settings.settings.spriteIndex = spriteIndex;
+        spriteIndexes.spriteSheetIndex = spriteSheetIndex;
+        spriteIndexes.spriteIndex = spriteIndex;
 
-        if(
-            requiredSprite._spriteSheets[spriteSheetIndex].sprites[spriteIndex].frames
-            && requiredSprite.settings.settings.frameIndex === undefined
-        ) {
-            requiredSprite.settings.settings.frameIndex = 0;
+        if(framesInSprite && spriteIndexes.frameIndex === undefined) {
+            spriteIndexes.frameIndex = 0;
         }
 
-        else if(
-            requiredSprite._spriteSheets[spriteSheetIndex].sprites[spriteIndex].frames === undefined
-            && requiredSprite.settings.settings.frameIndex
-        ) {
-            delete requiredSprite.settings.settings.frameIndex;
+        else if(framesInSprite === undefined && spriteIndexes.frameIndex) {
+            delete spriteIndexes.frameIndex;
         }
 
         requiredSprite.settings.image.src = `file://${requiredSprite._appPath.replace('file://', '').replace(/\\/g, '/')}/${requiredSprite._spriteSheets[spriteSheetIndex].file}`;

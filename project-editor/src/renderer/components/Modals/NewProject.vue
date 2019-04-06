@@ -24,17 +24,17 @@
 
             <CustomInput 
                 type="file"
-                chooseFileTitle="Choose a path to your RPGinia app"
-                fileMethod="open"
-                :isOpenDirectory="true"
+                choose-file-title="Choose a path to your RPGinia app"
+                file-method="open"
+                :is-open-directory="true"
                 id="appDir"
                 label="RPGinia app path:"
                 v-model="appPath" />
 
             <CustomInput
                 type="file"
-                chooseFileTitle="Choose a file path:"
-                fileMethod="save"
+                choose-file-title="Choose a file path:"
+                file-method="save"
                 id="savingDirectory"
                 label="Saving path:"
                 v-model="filePath" />
@@ -44,13 +44,13 @@
                 type="checkbox"
                 id="includeSpriteSheetCheckbox"
                 label="Include sprite sheet:"
-                :isChecked="includeSpriteSheet"
+                :is-checked="includeSpriteSheet"
                 @change="setSpriteSheetPathEnabled" />
 
             <CustomInput
                 type="file"
-                chooseFileTitle="Select an existing sprite sheet"
-                fileMethod="open"
+                choose-file-title="Select an existing sprite sheet"
+                file-method="open"
                 id="spriteSheetPath"
                 label="Path to sprite sheet:"
                 v-model="spriteSheetPath"
@@ -61,17 +61,17 @@
                 type="checkbox"
                 id="includeControllerCheckbox"
                 label="Include level controller:"
-                :isChecked="includeController"
+                :is-checked="includeController"
                 @change="setControllerPathEnabled" />
 
             <CustomInput
                 type="file"
-                chooseFileTitle="Select a level controller"
-                fileMethod="open"
+                choose-file-title="Select a level controller"
+                file-method="open"
                 id="controllerPath"
                 label="Path to level controller:"
-                fileExtension="js"
-                fileExtensionLabel="JS file"
+                file-extension="js"
+                file-extension-label="JS file"
                 v-model="controllerPath"
                 v-if="includeController" />
         </div>

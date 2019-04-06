@@ -7,7 +7,7 @@
             type="number"
             id="playgroundWidth"
             label="Width:"
-            :numMin="0"
+            :num-min="0"
             v-model="playgroundWidth"
             :disabled="playgroundAutoResizingEnabled" />
 
@@ -15,7 +15,7 @@
             type="number"
             id="playgroundHeight"
             label="Height:"
-            :numMin="0"
+            :num-min="0"
             v-model="playgroundHeight"
             :disabled="playgroundAutoResizingEnabled" />
 
@@ -23,7 +23,7 @@
             type="checkbox"
             id="autoPlaygroundResizing"
             label="Auto resizing:"
-            :isChecked="playgroundAutoResizingEnabled"
+            :ischecked="playgroundAutoResizingEnabled"
             @change="playgroundAutoResizingEnabled = $event" />
     </div>
 </template>

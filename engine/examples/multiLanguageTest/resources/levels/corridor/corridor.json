@@ -33,7 +33,6 @@
                 "interval": 500,
                 "isPlaying": true,
                 "isRepeating": true,
-                "spriteAnimation": 4,
                 "spriteIndex": 2,
                 "spriteSheetIndex": 1
             },

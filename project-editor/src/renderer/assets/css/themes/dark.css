@@ -6,17 +6,25 @@ a {
     color: #4988DB;
 }
 
+p {
+    color: #fff;
+}
+
 p.error_text {
     color: #aaa;
 }
 
-h1 {
+h1, h3 {
     color: #fff;
 }
 
 h2 {
     color: #fff;
     border-top-color: #666;
+}
+
+hr {
+    border-color: #666;
 }
 
 button {
@@ -26,6 +34,10 @@ button {
 button.btn {
     border-color: #777;
     background-color: #555;
+}
+
+button.btn:disabled {
+    background-color: #444;
 }
 
 .title {

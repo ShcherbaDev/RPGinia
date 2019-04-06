@@ -84,7 +84,7 @@ export default {
         grid-template-areas: "name name" "preview buttons"; 
         grid-template-rows: 32px 1fr;
         grid-template-columns: 150px 1fr;
-        max-width: 375px;
+        max-width: 404px;
         background-color: #333;
         border: 1px solid #666;
         border-radius: 2px;

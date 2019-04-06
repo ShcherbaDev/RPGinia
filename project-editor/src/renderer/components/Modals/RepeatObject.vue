@@ -5,14 +5,14 @@
                 type="number"
                 id="repeatByColumn"
                 label="Repeat by column:"
-                :numMin="0"
+                :num-min="0"
                 v-model="repeatByColumn" />
 
             <CustomInput
                 type="number"
                 id="repeatByRow"
                 label="Repeat by row:"
-                :numMin="0"
+                :num-min="0"
                 v-model="repeatByRow" />
 
             <h2 v-if="repeatByColumn > 0 || repeatByRow > 0">Intervals:</h2>

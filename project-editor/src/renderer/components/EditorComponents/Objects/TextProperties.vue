@@ -71,7 +71,7 @@
             type="checkbox"
             id="objectVisibility"
             label="Is visible:"
-            :isChecked="object.settings.isVisible"
+            :is-checked="object.settings.isVisible"
             @change="setObjectProperty({ id: object.$id, property: 'isVisible', newPropertyValue: $event })" />
 
         <div class="button_group">

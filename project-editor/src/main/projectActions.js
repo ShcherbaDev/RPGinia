@@ -167,9 +167,12 @@ export function saveProject(window) {
 
                     if(projData.elements[i].borderCoords) delete projData.elements[i].borderCoords;
                     if(projData.elements[i].centralPointCoords) delete projData.elements[i].centralPointCoords;
-                    if(projData.elements[i].image) delete projData.elements[i].image;
-                    if(projData.elements[i].isLoaded) delete projData.elements[i].isLoaded;
-                    if(projData.elements[i].spriteAnimation) delete projData.elements[i].spriteAnimation;
+                    
+                    if(projData.elements[i].type === 'sprite') {
+                        if(projData.elements[i].image) delete projData.elements[i].image;
+                        if(projData.elements[i].isLoaded) delete projData.elements[i].isLoaded;
+                        if(projData.elements[i].settings.spriteAnimation) delete projData.elements[i].settings.spriteAnimation;
+                    }
                 }
             }
             writeFileSync(data.path.replace(/\\/g, '\\\\'), JSON.stringify(projData, null, 4));

@@ -58,9 +58,9 @@
             :id="id"
             :title="chooseFileTitle"
             :method="fileMethod"
-            :isOpenDirectory="isOpenDirectory"
+            :is-open-directory="isOpenDirectory"
             :extension="fileExtension"
-            :extensionLabel="fileExtensionLabel"
+            :extension-label="fileExtensionLabel"
             @input="$emit('input', $event)"
             v-else-if="type === 'file'" />
     </div>

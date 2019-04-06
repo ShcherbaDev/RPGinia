@@ -47,23 +47,64 @@
         <button class="btn" style="margin-top: 10px;" @click="setObjectProperty({ id: object.$id, property: 'coords', propertySetting: '3', newPropertyValue: setOriginalSizes('height') })">Set to original sprite height</button>
 
         <h2>Other settings:</h2>
+
+        <h3>Select sprite:</h3>
         <SpriteInfo :object="object" />
 
-        <CustomInput
-            type="number"
-            id="objectFrameIndex"
-            label="Frame index:"
-            v-if="projectSpriteSheets[object.settings.settings.spriteSheetIndex].sprites[object.settings.settings.spriteIndex].frames"
-            :numMin="0"
-            :numMax="projectSpriteSheets[object.settings.settings.spriteSheetIndex].sprites[object.settings.settings.spriteIndex].frames.length-1"
-            :value="object.settings.settings.frameIndex"
-            @input="setObjectProperty({ id: object.$id, property: 'settings', propertySetting: 'frameIndex', newPropertyValue: $event })" />
+        <div class="animation_settings">
+            <h3 style="margin-bottom: 5px;">Animation settings:</h3>
+            {{ object.settings.settings }}
+
+            <CustomInput
+                type="number"
+                id="objectAnimationFrameFrom"
+                label="Start frame:"
+                :num-min="0"
+                :num-max="projectSpriteSheets[object.settings.settings.spriteSheetIndex].sprites[object.settings.settings.spriteIndex].frames.length-1"
+                :value="object.settings.settings.frameFrom"
+                @input="setObjectProperty({ id: object.$id, property: 'settings', propertySetting: 'frameFrom', newPropertyValue: $event })" />
+
+            <CustomInput
+                type="number"
+                id="objectAnimationFrameTo"
+                label="Final frame:"
+                :num-min="object.settings.settings.frameFrom"
+                :num-max="projectSpriteSheets[object.settings.settings.spriteSheetIndex].sprites[object.settings.settings.spriteIndex].frames.length-1"
+                :value="object.settings.settings.frameTo"
+                @input="setObjectProperty({ id: object.$id, property: 'settings', propertySetting: 'frameTo', newPropertyValue: $event })" />
+        
+            <p style="margin-top: 5px">Current frame: {{ object.settings.settings.frameIndex }}</p>
+
+            <CustomInput
+                type="number"
+                id="objectAnimationInterval"
+                label="Interval:"
+                :num-min="10"
+                :value="object.settings.settings.interval"
+                @input="setObjectProperty({ id: object.$id, property: 'settings', propertySetting: 'interval', newPropertyValue: $event })" />
+        
+            <CustomInput 
+                type="checkbox"
+                id="objectAnimationRepeating"
+                label="Is animation repeating:"
+                :is-checked="object.settings.settings.isRepeating"
+                @change="setObjectProperty({ id: object.$id, property: 'settings', propertySetting: 'isRepeating', newPropertyValue: $event })" />
+
+            <CustomInput 
+                type="checkbox"
+                id="objectAnimationPlaying"
+                label="Is animation playing:"
+                :is-checked="object.settings.settings.isPlaying"
+                @change="setObjectProperty({ id: object.$id, property: 'settings', propertySetting: 'isPlaying', newPropertyValue: $event })" />
+        </div>
+
+        <hr>
 
         <CustomInput 
             type="checkbox"
             id="objectVisibility"
             label="Is visible:"
-            :isChecked="object.settings.isVisible"
+            :is-checked="object.settings.isVisible"
             @change="setObjectProperty({ id: object.$id, property: 'isVisible', newPropertyValue: $event })" />
 
         <button class="btn" @click="openRepeatModal">Repeat</button>

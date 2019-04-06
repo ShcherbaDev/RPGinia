@@ -2,7 +2,7 @@
     <div class="modal_content">
         <div class="modal_body">
             <SelectSprite
-                :spriteSheets="projectSpriteSheets"
+                :sprite-sheets="projectSpriteSheets"
                 :style="{ width: '100%' }"
                 @select="setNewValues" />
         </div>

@@ -1,8 +1,8 @@
 <template>
     <div class="block" :class="className">
         <BlockTitle :title="title"
-                    :addButton="titleAddButton" 
-                    :deleteButton="titleDeleteButton"
+                    :add-button="titleAddButton" 
+                    :delete-button="titleDeleteButton"
                     @add="$emit('add')"
                     @delete="$emit('delete')" />
         <div class="content">

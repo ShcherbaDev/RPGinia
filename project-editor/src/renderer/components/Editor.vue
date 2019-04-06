@@ -2,10 +2,10 @@
     <div class="editor">
         <div class="block properties">
             <Block 
-                className="object_list" 
+                class-name="object_list" 
                 title="Object list" 
-                titleAddButton 
-                titleDeleteButton 
+                title-add-button 
+                title-delete-button 
                 @add="openCreateObjectModal"
                 @delete="deleteObject">
                 <ul v-if="projectObjects.length > 0">
@@ -20,7 +20,7 @@
                     Object list<br/>is empty!
                 </p>
             </Block>
-            <Block className="object" title="Object properties">
+            <Block class-name="object" title="Object properties">
                 <p class="error_text" v-if="selectedObjects.length === 0">No one object<br/>wasn't selected</p>
                 <ObjectProperties v-for="objId in selectedObjects"
                                   :key="objId"
