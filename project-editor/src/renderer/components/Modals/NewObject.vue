@@ -7,7 +7,8 @@
                 type="text" 
                 id="objectName" 
                 label="Object name:" 
-                v-model="name" />
+                v-model="name" 
+            />
 
             <CustomInput 
                 type="select" 
@@ -15,26 +16,30 @@
                 label="Object type:" 
                 :options="types" 
                 :value="type" 
-                @change="type = $event" />
+                @change="type = $event" 
+            />
 
             <CustomInput 
                 type="number" 
                 id="objectLayer" 
                 label="Object layer:"
-                v-model="layer" />
+                v-model="layer" 
+            />
 
             <h2>Coordinations:</h2>
             <CustomInput 
                 type="number" 
                 id="objectX" 
                 label="X:"
-                v-model="coords[0]" />
+                v-model="coords[0]" 
+            />
 
             <CustomInput 
                 type="number" 
                 id="objectY" 
                 label="Y:"
-                v-model="coords[1]" />
+                v-model="coords[1]" 
+            />
 
             <CustomInput 
                 type="number" 
@@ -42,8 +47,14 @@
                 label="Width:"
                 :num-min="0"
                 v-model="coords[2]"
-                v-if="type !== 'text'" />
-            <button class="btn" style="margin-top: 10px;" v-if="type === 'sprite'" @click="setOriginalSizes('width')">Set to original sprite width</button>
+                v-if="type !== 'text'" 
+            />
+            <button 
+                class="btn" 
+                style="margin-top: 10px;" 
+                v-if="type === 'sprite'" 
+                @click="setOriginalSizes('width')"
+            >Set to original sprite width</button>
 
             <CustomInput 
                 type="number" 
@@ -51,11 +62,18 @@
                 label="Height:"
                 :num-min="0"
                 v-model="coords[3]"
-                v-if="type !== 'text'" />
-            <button class="btn" style="margin-top: 10px;" v-if="type === 'sprite'" @click="setOriginalSizes('height')">Set to original sprite height</button>
+                v-if="type !== 'text'" 
+            />
+            <button 
+                class="btn" 
+                style="margin-top: 10px;" 
+                v-if="type === 'sprite'" 
+                @click="setOriginalSizes('height')"
+            >Set to original sprite height</button>
 
             <h2 v-if="type !== 'sprite'">Other settings:</h2>
             <h2 v-else>Select sprite:</h2>
+
             <!-- Settings for rectangles -->
             <CustomInput 
                 type="color" 
@@ -63,7 +81,8 @@
                 label="Object fill:"
                 :value="fill" 
                 @change="fill = $event"
-                v-if="type === 'rectangle'" />
+                v-if="type === 'rectangle'" 
+            />
 
             <!-- Settings for texts -->
             <CustomInput 
@@ -72,7 +91,8 @@
                 label="Object text:"
                 :value="text" 
                 @input="text = $event"
-                v-if="type === 'text'" />
+                v-if="type === 'text'" 
+            />
 
             <CustomInput 
                 type="color" 
@@ -80,7 +100,8 @@
                 label="Object color:"
                 :value="color" 
                 @change="color = $event"
-                v-if="type === 'text'" />
+                v-if="type === 'text'" 
+            />
 
             <CustomInput
                 type="number"
@@ -88,20 +109,27 @@
                 label="Size:"
                 :num-min="0"
                 v-model="textSize"
-                v-if="type === 'text'" />
+                v-if="type === 'text'" 
+            />
 
             <!-- Settings for sprites -->
             <SelectSprite
                 :sprite-sheets="projectSpriteSheets"
                 v-if="type === 'sprite'"
-                @select="setSprite" />
+                @select="setSprite" 
+            />
         </div>
         <div class="modal_footer">
             <button 
                 class="btn"
                 v-if="name && type && layer && coords && fill"
-                @click="createObject">Create</button>
-            <button class="btn" v-else disabled>Form is not valid</button>
+                @click="createObject"
+            >Create</button>
+            <button 
+                class="btn" 
+                v-else 
+                disabled
+            >Form is not valid</button>
         </div>
     </div>
 </template>
@@ -147,45 +175,47 @@ export default {
     computed: mapGetters(['projectSpriteSheets']),
     methods: {
         createObject() {
-            if(this.name !== '' && this.type !== '' && this.layer !== null && this.coords !== []) {
-                if(this.type === 'rectangle') {
+            const { name, type, layer, coords } = this;
+
+            if(name !== '' && type !== '' && layer !== null && coords !== []) {
+                if(type === 'rectangle') {
                     this.$emit('createObject', {
-                        name: this.name,
-                        type: this.type,
+                        name,
+                        type,
                         settings: {
                             fill: this.fill
                         },
-                        layer: this.layer,
-                        coords: this.coords
+                        layer,
+                        coords
                     });
                 }
 
-                else if(this.type === 'text') {
-                    const textCoords = this.coords.splice(1, 2);
+                else if(type === 'text') {
+                    const textCoords = coords.splice(1, 2);
 
                     this.$emit('createObject', {
-                        name: this.name,
-                        type: this.type,
+                        name,
+                        type,
                         settings: {
                             color: this.color,
                             text: this.text,
                             size: this.textSize
                         },
-                        layer: this.layer,
-                        coords: this.coords
+                        layer,
+                        coords
                     });
                 }
 
-                else if(this.type === 'sprite') {
+                else if(type === 'sprite') {
                     let objSettings = {
-                        name: this.name,
-                        type: this.type,
+                        name,
+                        type,
                         settings: {
                             spriteSheetIndex: this.spriteSheetIndex,
                             spriteIndex: this.spriteIndex
                         },
-                        layer: this.layer,
-                        coords: this.coords
+                        layer,
+                        coords
                     }
 
                     if(this.projectSpriteSheets[this.spriteSheetIndex].sprites[this.spriteIndex].frames) {
@@ -199,23 +229,25 @@ export default {
         },
 
         setSprite(event) {
-            this.spriteSheetIndex = event.spriteSheetIndex;
-            this.spriteIndex = event.spriteIndex;
+            const { spriteSheetIndex, spriteIndex } = event;
+
+            this.spriteSheetIndex = spriteSheetIndex;
+            this.spriteIndex = spriteIndex;
         },
 
         setOriginalSizes(type) {
             const { spriteSheetIndex, spriteIndex, frameIndex, projectSpriteSheets } = this;
 
             if(type === 'width') {
-                this.coords[2] = originalSpriteSizes.setOriginalWidth(spriteSheetIndex, spriteIndex, frameIndex, projectSpriteSheets); 
+                coords[2] = originalSpriteSizes.setOriginalWidth(spriteSheetIndex, spriteIndex, frameIndex, projectSpriteSheets); 
 
-                document.querySelector('.modal_container input#objectWidth').value = this.coords[2];
+                document.querySelector('.modal_container input#objectWidth').value = coords[2];
             }
 
             else if(type === 'height') {
-                this.coords[3] = originalSpriteSizes.setOriginalHeight(spriteSheetIndex, spriteIndex, frameIndex, projectSpriteSheets);
+                coords[3] = originalSpriteSizes.setOriginalHeight(spriteSheetIndex, spriteIndex, frameIndex, projectSpriteSheets);
 
-                document.querySelector('.modal_container input#objectHeight').value = this.coords[3];
+                document.querySelector('.modal_container input#objectHeight').value = coords[3];
             }
         }
     }

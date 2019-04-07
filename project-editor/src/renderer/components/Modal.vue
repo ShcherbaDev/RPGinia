@@ -3,7 +3,14 @@
         <div class="modal_container">
             <div class="modal_header">
                 <span class="modal_title">{{ title }}</span>
-                <button v-if="showExitBtn" class="btn_transparent" id="exit_btn" @click="$emit('close')">x</button>
+                <button 
+                    v-if="showExitBtn" 
+                    class="btn_transparent" 
+                    id="exit_btn" 
+                    @click="$emit('close')"
+                >
+                    x
+                </button>
             </div>
             <slot>
                 <div class="modal_body">Body</div>

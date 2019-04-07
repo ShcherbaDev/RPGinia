@@ -1,13 +1,16 @@
-import { ipcRenderer } from 'electron';
 import RPGinia from '../../../../../engine/src/RPGinia';
+import { ipcRenderer } from 'electron';
 import selectObjects from './selectObjects';
 
-let engine, app, world, cam, load, loop;
-let store, storeGetters;
+let engine;
+let app;
+let world;
+let cam;
+let load;
+let loop;
 
-function isAutoResizingEnabled() {
-    return storeGetters['EditorData/autoPlaygroundSizesEnabled'];
-}
+let store;
+let storeGetters;
 
 export default function initPlayground(data, projStore) {
     store = projStore;
@@ -17,10 +20,10 @@ export default function initPlayground(data, projStore) {
     app = new engine.App(
         'RPGinia project editor playground', 
         document.querySelector('canvas#playground'), 
-        isAutoResizingEnabled() ? [ // If auto resizing is enabled - set sizes from canvas container width and height.
+        isAutoResizingEnabled() ? [ // If auto resizing is enabled - set sizes from canvas container width and height
             document.querySelector('.canvas_container').clientWidth,
             document.querySelector('.canvas_container').clientHeight
-        ] : storeGetters['EditorData/playgroundSizes'] // Else - get fixed value from store.
+        ] : storeGetters['EditorData/playgroundSizes'] // Else - get fixed value from store
     );
     world = new app.World(false, false);
     cam = new app.Camera();
@@ -36,46 +39,64 @@ export default function initPlayground(data, projStore) {
         loaders: load
     });
 
-    // Settings up project store
+    // Set up project store
     store.dispatch('setUpProjectStore', { appPath: data.appPath, data: world.currentLevel });
 
-    app.canvas.onmousemove = e => { 
-        // If alt key and left mouse button are pressed - move camera
-        if(e.altKey && e.buttons === 1) {
-            cam.move(e.movementX, e.movementY);
-            app.canvas.style.cursor = '-webkit-grabbing';
-        } else app.canvas.style.cursor = 'default';
+    // Mouse movement event
+    app.canvas.addEventListener('mousemove', e => {
+        const elementsInLevel = world.currentLevel.data.elements;
+        const index = elementsInLevel.findIndex(item => item.$id === storeGetters.selectedObjects[0]);
+        const necessaryElement = elementsInLevel[index];
+        const { altKey, buttons, offsetX, offsetY, movementX, movementY } = e;
 
+        // If alt key and left mouse button are pressed - move camera and set cursor
+        if(altKey && buttons === 1) {
+            cam.move(movementX, movementY);
+            app.canvas.style.cursor = '-webkit-grabbing';
+        } 
+
+        else {
+            app.canvas.style.cursor = 'default';
+        }
+
+        /**
+         * If alt key isn't pressed
+         * but pressed left mouse button is pressed
+         * and mouse coordinates are on the object - move object
+         */
         if(
-            !e.altKey 
-            && e.buttons === 1 
-            && world.currentLevel.data.elements.findIndex(
+            !altKey 
+            && buttons === 1
+            && elementsInLevel.findIndex(
                     item => {
-                        return e.offsetX >= item.settings.coords[0] + cam.x
-                            && e.offsetX <= item.settings.coords[0] + item.settings.coords[2] + cam.x
-                            && e.offsetY >= item.settings.coords[1] + cam.y
-                            && e.offsetY <= item.settings.coords[1] + item.settings.coords[3] + cam.y;
+                        const objectCoordinations = item.settings.coords;
+
+                        return offsetX >= objectCoordinations[0] + cam.x
+                            && offsetX <= objectCoordinations[0] + objectCoordinations[2] + cam.x
+                            && offsetY >= objectCoordinations[1] + cam.y
+                            && offsetY <= objectCoordinations[1] + objectCoordinations[3] + cam.y;
                     }
                 ) !== -1
             && storeGetters.selectedObjects.length > 0
         ) {
-            world.currentLevel.data.elements[world.currentLevel.data.elements.findIndex(item => item.$id === storeGetters.selectedObjects[0])].settings.coords[0] += e.movementX
-            world.currentLevel.data.elements[world.currentLevel.data.elements.findIndex(item => item.$id === storeGetters.selectedObjects[0])].settings.coords[1] += e.movementY
+            necessaryElement.settings.coords[0] += movementX;
+            necessaryElement.settings.coords[1] += movementY;
         }
-    }
+    });
 
     // Select object in playground
     app.canvas.addEventListener('click', e => {
-        if(!e.altKey) 
+        if(!e.altKey) {
             selectObjects(e, store, cam);
+        }
     });
 
     // Create object
     ipcRenderer.on('createObject', (e, object) => {
         world.currentLevel.data.elements.push(
-            object.type !== 'sprite' ?
-            world._prepareObject(object) :
-            world._prepareObject(object, storeGetters.spriteSheets)
+            object.type !== 'sprite' 
+            ? world._prepareObject(object) 
+            : world._prepareObject(object, storeGetters.spriteSheets)
         );
 
         store.commit('addObject');
@@ -106,62 +127,70 @@ export default function initPlayground(data, projStore) {
         requiredSprite.settings.image.src = `file://${requiredSprite._appPath.replace('file://', '').replace(/\\/g, '/')}/${requiredSprite._spriteSheets[spriteSheetIndex].file}`;
     });
 
-    // App window resizing
+    // App window resizing event
     window.addEventListener('resize', e => {
+        const { clientWidth, clientHeight } = document.querySelector('.canvas_container');
+
         if(isAutoResizingEnabled()) {
-            app.sizes = [
-                document.querySelector('.canvas_container').clientWidth,
-                document.querySelector('.canvas_container').clientHeight
-            ];
+            app.sizes = [clientWidth, clientHeight];
         }
     });
 
-    // Sort objects
+    // Sort objects by layer
     ipcRenderer.on('sortObjectsByLayers', e => {
         world._sortElements();
     });
 
-    // Repeat object
+    // Repeat object event
     ipcRenderer.on('repeatObject', (e, arg) => {
         let { repeatedObject, repeatByColumn, repeatByRow, horizontalInterval, verticalInterval } = arg;
 
+        // Repeat by horizontal
         for(let i = 1; i <= repeatByColumn; i++) {
+            // Method of cloning original object - parsing object as string
             let settings = JSON.parse(JSON.stringify(repeatedObject._settings));
+
+            // Set new settings for clone object
             settings.name = `${settings.name} (Repeated - ${i})`;
-            settings.coords[0] += i * horizontalInterval;
+            settings.coords[0] = settings.coords[0] + horizontalInterval * i;
 
+            // Adding clone object to a playground and store
             world.currentLevel.data.elements.push(
-                settings.type !== 'sprite' ?
-                world._prepareObject(settings) :
-                world._prepareObject(settings, storeGetters.spriteSheets)
+                settings.type !== 'sprite'
+                ? world._prepareObject(settings)
+                : world._prepareObject(settings, storeGetters.spriteSheets)
             );
-
             store.commit('addObject');
         }
 
+        // Repeat by vertical
         for(let i = 1; i <= repeatByRow; i++) {
+            // Method of cloning original object - parsing object as string
             let settings = JSON.parse(JSON.stringify(repeatedObject._settings));
+
+            // Set new settings for clone object
             settings.name = `${settings.name} (Repeated - ${i})`;
-            settings.coords[1] += i * verticalInterval;
+            settings.coords[1] = settings.coords[1] + verticalInterval * i;
 
+            // Adding clone object to a playground and store
             world.currentLevel.data.elements.push(
-                settings.type !== 'sprite' ?
-                world._prepareObject(settings) :
-                world._prepareObject(settings, storeGetters.spriteSheets)
+                settings.type !== 'sprite'
+                ? world._prepareObject(settings)
+                : world._prepareObject(settings, storeGetters.spriteSheets)
             );
-
             store.commit('addObject');
         }
+
+        // Sort objects by their layer
         world._sortElements();
     });
 
+    // Defining loop for drawing objects in the playground
     loop = () => {
         app.clearPlayground();
-
-        // Draw objects
         world.draw();
 
-        // Draw objects outlines
+        // Draw borders of objects
         for(let selectedId of storeGetters.selectedObjects) {
             const selectedObject = storeGetters.projectObjects[storeGetters.projectObjects.findIndex(item => item.$id === selectedId)];
 
@@ -186,4 +215,9 @@ export default function initPlayground(data, projStore) {
         requestAnimationFrame(loop);
     }
     loop();
+}
+
+// The function of checking the possibility of changing the size of the playground
+function isAutoResizingEnabled() {
+    return storeGetters['EditorData/autoPlaygroundSizesEnabled'];
 }

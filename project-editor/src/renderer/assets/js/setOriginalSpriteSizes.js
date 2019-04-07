@@ -1,3 +1,11 @@
+/**
+ * The purpose of these two functions is returning 
+ * the original sizes of the sprite from their sprite sheets.
+ * 
+ * If sprite contains frames - return original sizes 
+ * of this frame from sprite sheet.
+ */
+
 export function setOriginalWidth(spriteSheetIndex, spriteIndex, frameIndex, spriteSheets) {
     const spriteInSpriteSheet = spriteSheets[spriteSheetIndex].sprites[spriteIndex];
     

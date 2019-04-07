@@ -6,7 +6,8 @@
             type="text"
             id="projectName"
             label="Name:"
-            v-model="projName" />
+            v-model="projName" 
+        />
 
         <CustomInput 
             type="file"
@@ -15,14 +16,16 @@
             :is-open-directory="true"
             id="projectAppPath"
             label="RPGinia app path:"
-            v-model="projAppPath" />
+            v-model="projAppPath" 
+        />
 
         <CustomInput 
             type="color"
             id="projectBackground"
             label="Background color:"
             :value="projBackground"
-            @change="projBackground = $event" />
+            @change="projBackground = $event" 
+        />
 
         <!-- Sprite sheet settings -->
         <CustomInput 
@@ -30,7 +33,8 @@
             id="includeSpriteSheetCheckbox"
             label="Include sprite sheet:"
             :is-checked="includeSpriteSheet"
-            @change="setSpriteSheetPathEnabled" />
+            @change="setSpriteSheetPathEnabled" 
+        />
 
         <CustomInput
             type="file"
@@ -39,7 +43,8 @@
             id="spriteSheetPath"
             label="Path to sprite sheet:"
             v-model="projSpriteSheetPath"
-            v-if="includeSpriteSheet" />
+            v-if="includeSpriteSheet" 
+        />
 
         <!-- Controller settings -->
         <CustomInput
@@ -47,7 +52,8 @@
             id="includeControllerCheckbox"
             label="Include level controller:"
             :is-checked="includeController"
-            @change="setControllerPathEnabled" />
+            @change="setControllerPathEnabled" 
+        />
 
         <CustomInput
             type="file"
@@ -58,7 +64,8 @@
             file-extension="js"
             file-extension-label="JS file"
             v-model="projControllerPath"
-            v-if="includeController" />
+            v-if="includeController" 
+        />
     </div>
 </template>
 <script>

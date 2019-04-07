@@ -7,7 +7,8 @@
             <div class="sprite_image_container">
                 <div 
                     class="sprite_image"
-                    :style="spriteStyles()"></div>
+                    :style="spriteStyles()"
+                ></div>
             </div>
         </div>
         <div class="sprite_select_buttons">
@@ -37,11 +38,9 @@ export default {
 
             const objectIndexes = object.settings.settings;
             const { spriteSheetIndex, spriteIndex, frameIndex } = objectIndexes;
+            const spritesInSpriteSheet = projectSpriteSheets[spriteSheetIndex].sprites[spriteIndex];
             
-            const spriteInSpriteSheetCoords = 
-                projectSpriteSheets[spriteSheetIndex].sprites[spriteIndex].rect 
-                ? projectSpriteSheets[spriteSheetIndex].sprites[spriteIndex].rect
-                : projectSpriteSheets[spriteSheetIndex].sprites[spriteIndex].frames[0].rect;
+            const spriteInSpriteSheetCoords = spritesInSpriteSheet.rect || spritesInSpriteSheet.frames[0].rect;
 
             return {
                 backgroundImage: `url("file://${projectAppPath.replace(/\\/g, '/')}/${projectSpriteSheets[spriteSheetIndex].file}")`,
@@ -56,10 +55,9 @@ export default {
 
             const objectIndexes = object.settings.settings;
             const { spriteSheetIndex, spriteIndex, frameIndex } = objectIndexes;
+            const spritesInSpriteSheet = projectSpriteSheets[spriteSheetIndex].sprites[spriteIndex];
 
-            return projectSpriteSheets[spriteSheetIndex].sprites[spriteIndex].rect 
-                ? projectSpriteSheets[spriteSheetIndex].sprites[spriteIndex].rect
-                : projectSpriteSheets[spriteSheetIndex].sprites[spriteIndex].frames[0].rect;
+            return spritesInSpriteSheet.rect || spritesInSpriteSheet.frames[0].rect;
         },
 
         getOriginalName() {

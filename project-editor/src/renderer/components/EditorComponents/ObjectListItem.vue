@@ -1,11 +1,33 @@
 <template>
-    <li class="obj_list_item" :class="{ selected: isObjectSelected() }" @click="select">
+    <li 
+        class="obj_list_item" 
+        :class="{ selected: isObjectSelected() }" 
+        @click="select"
+    >
         <div class="icon">
-            <img src="static/images/rectangleIcon.png" alt="Rectangle icon" v-if="type === 'rectangle'">
-            <img src="static/images/textIcon.png" alt="Text icon" v-else-if="type === 'text'">
-            <img src="static/images/spriteIcon.png" alt="Text icon" v-else-if="type === 'sprite'">
+            <img 
+                src="static/images/rectangleIcon.png" 
+                alt="Rectangle icon" 
+                v-if="type === 'rectangle'"
+            >
 
-            <img src="static/images/missingObjectIcon.png" alt="Undefined object type icon" v-else>
+            <img 
+                src="static/images/textIcon.png" 
+                alt="Text icon" 
+                v-else-if="type === 'text'"
+            >
+
+            <img 
+                src="static/images/spriteIcon.png" 
+                alt="Text icon" 
+                v-else-if="type === 'sprite'"
+            >
+
+            <img 
+                src="static/images/missingObjectIcon.png" 
+                alt="Undefined object type icon"
+                v-else
+            >
         </div>
         <div class="name">{{ name }}</div>
         <div class="type">

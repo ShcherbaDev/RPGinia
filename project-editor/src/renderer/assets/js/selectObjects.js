@@ -8,6 +8,7 @@ export default function selectObjects(e, store, camera) {
     let maxObjLayer;
     let selectedObject;
 
+    // Defining a clicked object
     for(let i in objectList) {
         const objectCoords = objectList[i].settings.coords;
 
@@ -28,6 +29,10 @@ export default function selectObjects(e, store, camera) {
         }
     }
 
+    /**
+     * If selectedObject is defined but it wasn't found 
+     * in selectedObjects array - select it and deselect others
+     */
     if(selectedObject !== undefined && selectedObjects.indexOf(selectedObject.$id) === -1) {
         for(let j in selectedObjects) {
             store.dispatch('unselectObject', {
@@ -39,6 +44,7 @@ export default function selectObjects(e, store, camera) {
         return;
     }
 
+    // Else - deselect all objects in selectedObjects array
     else {
         selectedObject = undefined;
         for(let j in selectedObjects) {

@@ -7,25 +7,38 @@
                 title-add-button 
                 title-delete-button 
                 @add="openCreateObjectModal"
-                @delete="deleteObject">
-                <ul v-if="projectObjects.length > 0">
-                    <ObjectListItem v-for="obj in projectObjects" 
-                                    :key="obj.$id"
-                                    :name="obj.settings.name" 
-                                    :type="obj.settings.type"
-                                    :id="obj.$id" />
+                @delete="deleteObject"
+            >
+                <ul  v-if="projectObjects.length > 0">
+                    <ObjectListItem 
+                        v-for="obj in projectObjects" 
+                        :key="obj.$id"
+                        :name="obj.settings.name" 
+                        :type="obj.settings.type"
+                        :id="obj.$id" 
+                    />
                 </ul>
 
-                <p class="error_text" v-else>
+                <p 
+                    class="error_text" 
+                    v-else
+                >
                     Object list<br/>is empty!
                 </p>
             </Block>
             <Block class-name="object" title="Object properties">
-                <p class="error_text" v-if="selectedObjects.length === 0">No one object<br/>wasn't selected</p>
-                <ObjectProperties v-for="objId in selectedObjects"
-                                  :key="objId"
-                                  :object="projectObjects[projectObjects.findIndex(item => item.$id === objId)]"
-                                  v-else />
+                <p 
+                    class="error_text" 
+                    v-if="selectedObjects.length === 0"
+                >
+                    No one object<br/>wasn't selected
+                </p>
+                <ObjectProperties 
+                    v-for="objId in selectedObjects"
+                    :key="objId"
+                    :object="projectObjects[projectObjects.findIndex(item => item.$id === objId)]"
+                    v-else 
+                />
             </Block>
         </div>
 

@@ -5,14 +5,16 @@
                 type="text"
                 id="projectName"
                 label="Project name:"
-                v-model="projName" />
+                v-model="projName" 
+            />
 
             <CustomInput 
                 type="select"
                 id="projectType"
                 label="Project type:"
                 v-model="projType"
-                :options="projectTypes" />
+                :options="projectTypes" 
+            />
 
             <CustomInput 
                 type="color"
@@ -20,7 +22,8 @@
                 label="Background color:"
                 :value="backgroundColor"
                 @change="backgroundColor = $event"
-                v-if="projType === 'level'" />
+                v-if="projType === 'level'" 
+            />
 
             <CustomInput 
                 type="file"
@@ -29,7 +32,8 @@
                 :is-open-directory="true"
                 id="appDir"
                 label="RPGinia app path:"
-                v-model="appPath" />
+                v-model="appPath" 
+            />
 
             <CustomInput
                 type="file"
@@ -37,7 +41,8 @@
                 file-method="save"
                 id="savingDirectory"
                 label="Saving path:"
-                v-model="filePath" />
+                v-model="filePath" 
+            />
 
             <!-- Sprite sheet -->
             <CustomInput 
@@ -45,7 +50,8 @@
                 id="includeSpriteSheetCheckbox"
                 label="Include sprite sheet:"
                 :is-checked="includeSpriteSheet"
-                @change="setSpriteSheetPathEnabled" />
+                @change="setSpriteSheetPathEnabled" 
+            />
 
             <CustomInput
                 type="file"
@@ -54,7 +60,8 @@
                 id="spriteSheetPath"
                 label="Path to sprite sheet:"
                 v-model="spriteSheetPath"
-                v-if="includeSpriteSheet" />
+                v-if="includeSpriteSheet" 
+            />
 
             <!-- Controller -->
             <CustomInput
@@ -62,7 +69,8 @@
                 id="includeControllerCheckbox"
                 label="Include level controller:"
                 :is-checked="includeController"
-                @change="setControllerPathEnabled" />
+                @change="setControllerPathEnabled" 
+            />
 
             <CustomInput
                 type="file"
@@ -73,14 +81,19 @@
                 file-extension="js"
                 file-extension-label="JS file"
                 v-model="controllerPath"
-                v-if="includeController" />
+                v-if="includeController" 
+            />
         </div>
         <div class="modal_footer">
             <button 
                 class="btn" 
                 v-if="projName && projType && appPath && filePath"
-                @click="createProject">Create</button>
-            <button class="btn" disabled v-else>Form is not valid</button>
+                @click="createProject"
+            >Create</button>
+            <button 
+                class="btn" 
+                disabled v-else
+            >Form is not valid</button>
         </div>
     </div>
 </template>

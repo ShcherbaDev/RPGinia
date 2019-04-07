@@ -5,7 +5,8 @@
 				v-for="(spriteSheet, spriteSheetIndex) in spriteSheets"
 				:key="`${spriteSheet.file}/${spriteSheetIndex}`"
 				class="sprite_sheet"
-				:id="spriteSheet.file">
+				:id="spriteSheet.file"
+			>
 
 				<h2 class="sprite_sheet_path">{{ spriteSheet.file }}</h2>
 				<div class="sprite_list">
@@ -15,17 +16,22 @@
 						class="sprite"
 						:id="sprite.name"
 						:class="{ selected: isSpriteSelected(sprite.spriteSheetIndex, sprite.id) }"
-						@click="selectSprite(sprite)">
+						@click="selectSprite(sprite)"
+					>
 
 						<div class="sprite_preview_container">
 							<div
 								class="sprite_preview"
-								:style="spriteStyles(spriteSheet.file, sprite.rect || sprite.frames[0].rect)"></div>
+								:style="spriteStyles(spriteSheet.file, sprite.rect || sprite.frames[0].rect)"
+							></div>
 						</div>
 
 						<p class="sprite_name">{{ sprite.name }}</p>
 
-						<div class="selected_sprite_background" v-if="isSpriteSelected(sprite.spriteSheetIndex, sprite.id)"></div>
+						<div 
+							class="selected_sprite_background" 
+							v-if="isSpriteSelected(sprite.spriteSheetIndex, sprite.id)"
+						></div>
 					</div>
 				</div>
 

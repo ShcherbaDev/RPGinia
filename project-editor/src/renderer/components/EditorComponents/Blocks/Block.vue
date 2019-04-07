@@ -1,10 +1,15 @@
 <template>
-    <div class="block" :class="className">
-        <BlockTitle :title="title"
-                    :add-button="titleAddButton" 
-                    :delete-button="titleDeleteButton"
-                    @add="$emit('add')"
-                    @delete="$emit('delete')" />
+    <div 
+        class="block" 
+        :class="className"
+    >
+        <BlockTitle 
+            :title="title"
+            :add-button="titleAddButton" 
+            :delete-button="titleDeleteButton"
+            @add="$emit('add')"
+            @delete="$emit('delete')" 
+        />
         <div class="content">
             <slot></slot>
         </div>

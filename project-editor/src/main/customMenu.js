@@ -1,7 +1,10 @@
 import { BrowserWindow } from 'electron';
 import * as projectActions from './projectActions';
 
+// Shortcut of function for returning opened at the moment window
 const getCurrentWindow = BrowserWindow.getFocusedWindow;
+
+// Shortcut of function for opening website in browser
 const openWebPage = require('electron').shell.openExternal;
 
 const menuTemplate = [
@@ -71,14 +74,13 @@ const menuTemplate = [
         label: 'Window',
         submenu: [
             { role: 'minimize' },
+            { role: 'close' }
         ]
     },
     {
         label: 'View',
         submenu: [
             { role: 'reload' },
-            { role: 'forcereload' },
-            { role: 'toggledevtools' },
             { type: 'separator' },
             { role: 'togglefullscreen' }
         ]

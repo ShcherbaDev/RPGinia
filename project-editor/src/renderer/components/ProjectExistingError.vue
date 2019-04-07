@@ -7,9 +7,21 @@
             <div class="description">
                 <p>
                     You can 
-                    <a href="#" id="createProject" @click="createProject">create new</a> 
+                    <a 
+                        href="#" 
+                        id="createProject" 
+                        @click="createProject"
+                    >
+                        create new
+                    </a> 
                     or 
-                    <a href="#" id="openProject" @click="openProject">open existing</a>
+                    <a 
+                        href="#" 
+                        id="openProject" 
+                        @click="openProject"
+                    >
+                        open existing
+                    </a>
                     project
                 </p>
             </div>

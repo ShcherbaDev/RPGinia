@@ -4,10 +4,14 @@
             <SelectSprite
                 :sprite-sheets="projectSpriteSheets"
                 :style="{ width: '100%' }"
-                @select="setNewValues" />
+                @select="setNewValues" 
+            />
         </div>
         <div class="modal_footer">
-            <button class="btn" @click="selectSprite">Select</button>
+            <button 
+                class="btn" 
+                @click="selectSprite"
+            >Select</button>
         </div>
     </div>
 </template>

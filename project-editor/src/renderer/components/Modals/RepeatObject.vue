@@ -6,14 +6,16 @@
                 id="repeatByColumn"
                 label="Repeat by column:"
                 :num-min="0"
-                v-model="repeatByColumn" />
+                v-model="repeatByColumn" 
+            />
 
             <CustomInput
                 type="number"
                 id="repeatByRow"
                 label="Repeat by row:"
                 :num-min="0"
-                v-model="repeatByRow" />
+                v-model="repeatByRow" 
+            />
 
             <h2 v-if="repeatByColumn > 0 || repeatByRow > 0">Intervals:</h2>
             <CustomInput
@@ -21,17 +23,22 @@
                 id="horizontalInterval"
                 label="Horizontal interval"
                 v-model="horizontalInterval"
-                v-if="repeatByColumn > 0" />
+                v-if="repeatByColumn > 0" 
+            />
 
             <CustomInput
                 type="number"
                 id="repeatByRow"
                 label="Vertical interval:"
                 v-model="verticalInterval"
-                v-if="repeatByRow > 0" />
+                v-if="repeatByRow > 0" 
+            />
         </div>
         <div class="modal_footer">
-            <button class="btn" @click="repeatObject">Repeat</button>
+            <button 
+                class="btn" 
+                @click="repeatObject"
+            >Repeat</button>
         </div>
     </div>
 </template>

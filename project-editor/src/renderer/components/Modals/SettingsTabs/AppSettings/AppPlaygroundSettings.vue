@@ -9,7 +9,8 @@
             label="Width:"
             :num-min="0"
             v-model="playgroundWidth"
-            :disabled="playgroundAutoResizingEnabled" />
+            :disabled="playgroundAutoResizingEnabled" 
+        />
 
         <CustomInput
             type="number"
@@ -17,14 +18,16 @@
             label="Height:"
             :num-min="0"
             v-model="playgroundHeight"
-            :disabled="playgroundAutoResizingEnabled" />
+            :disabled="playgroundAutoResizingEnabled" 
+        />
 
         <CustomInput 
             type="checkbox"
             id="autoPlaygroundResizing"
             label="Auto resizing:"
-            :ischecked="playgroundAutoResizingEnabled"
-            @change="playgroundAutoResizingEnabled = $event" />
+            :is-checked="playgroundAutoResizingEnabled"
+            @change="playgroundAutoResizingEnabled = $event" 
+        />
     </div>
 </template>
 <script>

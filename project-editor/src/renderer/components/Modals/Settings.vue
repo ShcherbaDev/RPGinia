@@ -10,11 +10,15 @@
                 >
                     <h1 class="section_title">{{ section.name }}</h1>
                     <ul class="section_tab_list">
-                        <li v-for="tab in section.tabs" :key="tab.id">
+                        <li 
+                            v-for="tab in section.tabs"
+                            :key="tab.id"
+                        >
                             <a 
                                 href="#" 
                                 @click="selectedTab = tab.value" 
-                                :class="{ selected: selectedTab === tab.value }">{{ tab.name }}</a>
+                                :class="{ selected: selectedTab === tab.value }"
+                            >{{ tab.name }}</a>
                         </li>
                     </ul>
                 </div>
@@ -27,7 +31,11 @@
             </div>
         </div>
         <div class="modal_footer">
-            <button class="btn" id="save" @click="save">Save</button>
+            <button 
+                class="btn" 
+                id="save" 
+                @click="save"
+            >Save</button>
         </div>
     </div>
 </template>

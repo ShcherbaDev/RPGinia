@@ -3,6 +3,7 @@ import { ipcMain, dialog } from 'electron';
 import { get, has, set } from 'electron-json-storage';
 import config from './config';
 
+// Function for creating new project
 export function createProject(window) {
     window.webContents.send('openModal', 'createProject');
     ipcMain.once('createProjectRequest', (e, arg) => {
@@ -15,6 +16,7 @@ export function createProject(window) {
         spriteSheetPath = spriteSheetPath.replace(/\\\\/g, '\\').replace(appPath, '');
         controllerPath = controllerPath.replace(/\\\\/g, '\\').replace(appPath, '');
 
+        // Set up necessary data
         createEditorDataFile();
         set('projectData', {
             path: filePath,
@@ -22,6 +24,7 @@ export function createProject(window) {
             type
         });
 
+        // Set up settings for level
         if(type === 'level') {
             data.settings = {
                 name,
@@ -35,16 +38,21 @@ export function createProject(window) {
             writeFileSync(filePath, JSON.stringify(data, null, 2));
         }
 
+        // Set up editor title
         window.setTitle(`${name} - ${config.appName}`);
 
+        // Reload editor to avoid errors
         window.reload();
     });
 }
 
+// Function for opening existing project
 export function openProject(window, startFromDialog = false) {
+    // If the user has self-activated the function 
     if(startFromDialog) {
         const appPathDialog = openAppPathDialog(window);
 
+        // If user has selected path to his app
         if(appPathDialog) {
             const openProjectDialog = dialog.showOpenDialog(window, {
                 title: 'Open project',
@@ -56,6 +64,7 @@ export function openProject(window, startFromDialog = false) {
                 ]
             });
 
+            // If user has selected level path
             if(openProjectDialog) {
                 const projectFilePath = openProjectDialog[0];
                 const appPath = appPathDialog[0];
@@ -63,25 +72,25 @@ export function openProject(window, startFromDialog = false) {
                 readFile(projectFilePath, 'utf8', (error, data) => {
                     if(error) throw error;
 
-                    let projType = '';
-                    let projData = JSON.parse(data);
+                    let projectType = '';
+                    let projectData = JSON.parse(data);
 
                     // Check project type 
-                    if(projData.elements) projType = 'level'; // If project have elements 
+                    if(projectData.elements) projectType = 'level'; // If project have elements 
 
                     else {
                         dialog.showErrorBox('Project type error', 'The program can\'t define the type of project');
                         return false;
                     }
 
-                    window.setTitle(`${projData.settings && projData.settings.name ? projData.settings.name : projectFilePath} - ${config.appName}`);
+                    window.setTitle(`${projectData.settings.name} - ${config.appName}`);
 
+                    // Set project data and reload editor to avoid errors
                     set('projectData', {
                         path: projectFilePath,
                         appPath,
-                        type: projType
+                        type: projectType
                     });
-
                     window.reload();
                 });
             }
@@ -117,9 +126,9 @@ export function openProject(window, startFromDialog = false) {
                             // If have RPGinia app path - open project
                             if(appPath) {
                                 window.setTitle(`${projectData.settings.name} - ${config.appName}`);
-
+                                
+                                // Set up necessary data
                                 createEditorDataFile();
-
                                 setUpProject(window, { type, appPath, path, projectData });
                             }
 
@@ -127,7 +136,7 @@ export function openProject(window, startFromDialog = false) {
                             else {
                                 const appPathDialog = openAppPathDialog(window);
 
-                                // If it was mentioned - open project
+                                // If was selected RPGinia app path - open project
                                 if(appPathDialog) {
                                     const appPath = appPathDialog[0];
 
@@ -135,7 +144,6 @@ export function openProject(window, startFromDialog = false) {
                                     set('projectData', { path, appPath, type });
                                     
                                     window.setTitle(`${projectData.settings.name} - ${config.appName}`);
-                                    
                                     setUpProject(window, { type, appPath, path, projectData });
                                 } 
 
@@ -152,7 +160,12 @@ export function openProject(window, startFromDialog = false) {
     }
 }
 
+// Function for saving project
 export function saveProject(window) {
+    /**
+     * Gets project data from store.
+     * When gets answer - saves project.
+     */
     window.webContents.send('getProjectData');
     ipcMain.once('getProjectDataResponse', (e, obj) => {
         const store = obj.store;
@@ -165,6 +178,7 @@ export function saveProject(window) {
                 for(let i in store.projectObjects) {
                     projData.elements[i] = store.projectObjects[i]._settings;
 
+                    // Do not write data which are used while engine is working
                     if(projData.elements[i].borderCoords) delete projData.elements[i].borderCoords;
                     if(projData.elements[i].centralPointCoords) delete projData.elements[i].centralPointCoords;
                     
@@ -175,11 +189,14 @@ export function saveProject(window) {
                     }
                 }
             }
+
+            // Write changes into project
             writeFileSync(data.path.replace(/\\/g, '\\\\'), JSON.stringify(projData, null, 4));
         });
     });
 }
 
+// Function for opening dialog for selecting RPGinia app path
 function openAppPathDialog(window) {
     return dialog.showOpenDialog(window, {
         title: 'Choose a path to your RPGinia app',
@@ -187,6 +204,7 @@ function openAppPathDialog(window) {
     });
 }
 
+// Function for writing default editor settings, if they are not exist.
 function createEditorDataFile() {
     has('editorData', (err, hasKey) => {
         if(err) throw err;
@@ -206,6 +224,11 @@ function createEditorDataFile() {
     });
 }
 
+/**
+ * Function for opening level in editor.
+ * Data are sent to the renderer processes. 
+ * There they are processed and displayed in the right format.
+ */
 function setUpProject(window, obj) {
     const { type, appPath, path, projectData } = obj;
 
