@@ -23,6 +23,8 @@ Your local server has been started. To view the content, enter in the browser th
 ## Notes
 Engine API is located [here](https://shcherbadev.github.io/rpginia/docs/api/index.html).
 
+Project editor is located [here](https://github.com/ShcherbaDev/RPGinia/blob/master/project-editor).
+
 Change log is located [here](https://github.com/ShcherbaDev/RPGinia/blob/master/CHANGELOG.md).
 
 
@@ -54,6 +56,8 @@ npm install
 ## Заметки
 API движка находится [тут](https://shcherbadev.github.io/rpginia/docs/api/index.html).
 
+Редактор проектов находится [тут](https://github.com/ShcherbaDev/RPGinia/blob/master/project-editor).
+
 Список изменений находится [тут](https://github.com/ShcherbaDev/RPGinia/blob/master/CHANGELOG.md)
 
 
@@ -79,5 +83,7 @@ npm install
 
 ## Нотатки
 API двигуна знаходиться [тут](https://shcherbadev.github.io/rpginia/docs/api/index.html).
+
+Редактор проектів знаходиться [тут](https://github.com/ShcherbaDev/RPGinia/blob/master/project-editor).
 
 Список смін знаходиться [тут](https://github.com/ShcherbaDev/RPGinia/blob/master/CHANGELOG.md).

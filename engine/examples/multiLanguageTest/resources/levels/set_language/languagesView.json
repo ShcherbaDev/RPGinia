@@ -1,92 +1,135 @@
 {
-    "settings": {
-        "name": "Choose the language",
-        "background": "#000000",
-        "controllerPath": "/resources/levels/set_language/languagesController.js",
-        "spriteSheetPath": "/resources/sprites/spriteSheets.json"
-    },
     "elements": [
         {
+            "coords": [
+                214,
+                160,
+                390,
+                38
+            ],
+            "isVisible": true,
+            "layer": 1,
             "name": "Select language request",
-            "type": "text",
             "settings": {
-                "text": "Choose your language:",
-                "font": "8bitoperator",
-                "size": 38,
                 "color": "#ffffff",
+                "font": "8bitoperator",
                 "horizontalAlign": "center",
+                "size": 38,
+                "text": "Choose your language:",
                 "verticalAlign": "middle"
             },
-            "coords": [400, 160]
+            "type": "text"
         },
         {
+            "coords": [
+                90,
+                230,
+                180,
+                100
+            ],
+            "isVisible": true,
+            "layer": 2,
             "name": "English",
-            "type": "sprite",
             "settings": {
-                "spriteSheetIndex": 0,
-                "spriteIndex": 0
+                "spriteIndex": 0,
+                "spriteSheetIndex": 0
             },
-            "coords": [90, 230, 180, 100],
-            "layer": 2
+            "type": "sprite"
         },
         {
+            "coords": [
+                310,
+                230,
+                180,
+                100
+            ],
+            "isVisible": true,
+            "layer": 2,
             "name": "Russian",
-            "type": "sprite",
             "settings": {
-                "spriteSheetIndex": 0,
-                "spriteIndex": 1
+                "spriteIndex": 1,
+                "spriteSheetIndex": 0
             },
-            "coords": [310, 230, 180, 100],
-            "layer": 2
+            "type": "sprite"
         },
         {
+            "coords": [
+                530,
+                230,
+                180,
+                100
+            ],
+            "isVisible": true,
+            "layer": 2,
             "name": "Ukrainian",
-            "type": "sprite",
             "settings": {
-                "spriteSheetIndex": 0,
-                "spriteIndex": 2
+                "spriteIndex": 2,
+                "spriteSheetIndex": 0
             },
-            "coords": [530, 230, 180, 100],
-            "layer": 2
+            "type": "sprite"
         },
         {
+            "coords": [
+                128,
+                344,
+                112,
+                32
+            ],
+            "isVisible": true,
+            "layer": 3,
             "name": "English label",
-            "type": "text",
             "settings": {
-                "text": "English",
-                "font": "8bitoperator",
-                "size": 32,
                 "color": "#ffffff",
-                "horizontalAlign": "center"
+                "font": "8bitoperator",
+                "horizontalAlign": "center",
+                "size": 32,
+                "text": "English"
             },
-            "coords": [180, 360],
-            "layer": 3
+            "type": "text"
         },
         {
+            "coords": [
+                348,
+                344,
+                112,
+                32
+            ],
+            "isVisible": true,
+            "layer": 3,
             "name": "Russian label",
-            "type": "text",
             "settings": {
-                "text": "Russian",
-                "font": "8bitoperator",
-                "size": 32,
                 "color": "#ffffff",
-                "horizontalAlign": "center"
+                "font": "8bitoperator",
+                "horizontalAlign": "center",
+                "size": 32,
+                "text": "Russian"
             },
-            "coords": [400, 360],
-            "layer": 3
+            "type": "text"
         },
         {
+            "coords": [
+                553,
+                344,
+                144,
+                32
+            ],
+            "isVisible": true,
+            "layer": 3,
             "name": "Ukrainian label",
-            "type": "text",
             "settings": {
-                "text": "Ukrainian",
-                "font": "8bitoperator",
-                "size": 32,
                 "color": "#ffffff",
-                "horizontalAlign": "center"
+                "font": "8bitoperator",
+                "horizontalAlign": "center",
+                "size": 32,
+                "text": "Ukrainian"
             },
-            "coords": [620, 360],
-            "layer": 3
+            "type": "text"
         }
-    ]
+    ],
+    "settings": {
+        "background": "#000000",
+        "controllerPath": "/resources/levels/set_language/languagesController.js",
+        "name": "Choose the language",
+        "spriteSheetPath": "/resources/sprites/spriteSheets.json"
+    }
 }

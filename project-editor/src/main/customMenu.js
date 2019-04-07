@@ -81,8 +81,9 @@ const menuTemplate = [
         label: 'View',
         submenu: [
             { role: 'reload' },
+            { role: 'togglefullscreen' },
             { type: 'separator' },
-            { role: 'togglefullscreen' }
+            { role: 'toggleDevTools' }
         ]
     },
     {

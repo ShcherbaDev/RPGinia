@@ -1,16 +1,54 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-	<meta charset="UTF-8">
-	<title>RPGinia audio test</title>
-	<link rel="stylesheet" href="./styles.css">
-	<link rel="shortcut icon" href="https://shcherbadev.github.io/images/rpginia_favicon.ico" type="image/x-icon">
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta http-equiv="X-UA-Compatible" content="ie=edge">
+  <title>RPGinia audio test</title>
+  <link rel="stylesheet" href="./resources/css/styles.css">
+  <link rel="shortcut icon" href="https://shcherbadev.github.io/images/rpginia_favicon.ico" type="image/x-icon">
 </head>
 <body>
-	<div class="playground">
-		<canvas id="app"></canvas>
-	</div>
+  <div class="grid">
+    <div class="grid_item canvas_container">
+      <canvas id="game"></canvas>
+    </div>
+    
+    <div class="grid_item controls">
+      <h1>audioTest</h1>
+      <p>Demonstration of audio working.</p>
+	    <p>Font and music were taken from <a href="https://store.steampowered.com/app/391540/Undertale/" target="_blank">Undertale</a>.</p>
 
-	<script src="./script.js" type="module"></script>
+      <hr>
+      
+      <h1>Controls:</h1>
+      <ul>
+        <li>
+          <code>Arrow left</code> - select previous music.
+        </li>
+        <li>
+          <code>Arrow right</code> - select next music.
+        </li>
+        <li>
+          <code>Enter</code> - turn on/off music.
+        </li>
+      </ul>
+	  
+	    <hr>
+
+      <h1>Volume controls:</h1>
+      <div class="button_group">
+        <button id="increaseVolume">+</button>
+        <button id="declineVolume">-</button>
+      </div>
+      <p id="currentVolume"></p>
+    </div>
+  </div>
+
+  <!--
+    For working imports you must 
+    add a "type" attribute with "module" value!
+  -->
+  <script type="module" src="./game.js"></script>
 </body>
 </html>

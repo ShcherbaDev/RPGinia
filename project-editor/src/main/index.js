@@ -33,7 +33,7 @@ function createWindow() {
     Menu.setApplicationMenu(menu);
 
     // Setting up path for saving project data (In Temp)
-    setDataPath(config.editorDataPath);
+    setDataPath(config.appDataPath);
 
     mainWindow.webContents.on('did-finish-load', () => {
         // Try to open existing project

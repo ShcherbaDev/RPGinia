@@ -1,16 +1,44 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-    <meta charset="UTF-8">
-    <title>RPGinia test app</title>
-    <link rel="stylesheet" href="./styles.css">
-    <link rel="shortcut icon" href="https://shcherbadev.github.io/images/rpginia_favicon.ico" type="image/x-icon">
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta http-equiv="X-UA-Compatible" content="ie=edge">
+  <title>RPGinia multi language test</title>
+  <link rel="stylesheet" href="./resources/css/styles.css">
+  <link rel="shortcut icon" href="https://shcherbadev.github.io/images/rpginia_favicon.ico" type="image/x-icon">
 </head>
 <body>
-    <div class="playground">
-		<canvas id="app"></canvas>
+  <div class="grid">
+    <div class="grid_item canvas_container">
+      <canvas id="game"></canvas>
     </div>
     
-	<script src="./game.js" type="module"></script>
+    <div class="grid_item controls">
+      <h1>multiLanguageTest</h1>
+      <p>Demonstration of multi language.</p>
+	    <p>Font and sounds were taken from <a href="https://store.steampowered.com/app/391540/Undertale/" target="_blank">Undertale</a>.</p>
+
+      <hr>
+      
+      <h1>Controls:</h1>
+      <ul>
+        <li>
+          <code>Arrow left</code> - select previous language.
+        </li>
+        <li>
+          <code>Arrow right</code> - select next language.
+        </li>
+        <li>
+          <code>Enter</code> - select selected language.
+        </li>
+      </ul>
+  </div>
+
+  <!--
+    For working imports you must 
+    add a "type" attribute with "module" value!
+  -->
+  <script type="module" src="./game.js"></script>
 </body>
 </html>

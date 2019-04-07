@@ -1,25 +1,38 @@
+// Логічна частина рівня обов'язково повинна бути у функції під назвою controller.
 function controller(api) {
-    const { world, keyboard, camera } = api;
-    const background = world.getElementByName('Main background').settings;
+  const { app, world, keyboard, camera, audio } = api;
+  const background = world.getElementByName('Main background').settings;
 
-    const handleKeyboard = () => {
-        if(keyboard.keys.length > 0) {
-            if(keyboard.isPressed('arrLeft') && camera.x !== 0) {
-                background.coords[0] = background.coords[0] - 1;
-            }
+  const camSpeed = app.getGlobalVariable('cameraSpeed');
+  const minCamX = app.getGlobalVariable('minCameraX');
+  const maxCamX = app.getGlobalVariable('maxCameraX');
 
-            if(api.keyboard.isPressed('arrRight')) {
-                background.coords[0] = background.coords[0] + 1;
-            }
-        }
-        requestAnimationFrame(handleKeyboard);
-    };
+  const backgroundMovementSpeed = camSpeed/20;
 
-    if(world.currentLevelName === 'Snowdin town') {
-        handleKeyboard();
+  const handleKeyboard = () => {
+    if(keyboard.isPressed('arrLeft') && camera.x <= minCamX) {
+      camera.move(camSpeed, 0);
+      background.coords[0] = background.coords[0] + backgroundMovementSpeed;
     }
 
-    else {
-        cancelAnimationFrame(handleKeyboard);
+    if(api.keyboard.isPressed('arrRight') && camera.x >= maxCamX) {
+      camera.move(-camSpeed, 0);
+      background.coords[0] = background.coords[0] - backgroundMovementSpeed;
     }
+
+    requestAnimationFrame(handleKeyboard);
+  }
+
+  if(world.currentLevelName === 'Snowdin town') {
+    // Через 100 мс. - увімкнути фонову музику.
+    setTimeout(() => {
+      audio.play('backgroundMusic');
+    }, 100);
+    handleKeyboard();
+  }
+
+  else {
+    audio.stop('backgroundMusic');
+    cancelAnimationFrame(handleKeyboard);
+  }
 }

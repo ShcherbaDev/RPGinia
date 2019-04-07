@@ -1,6 +1,10 @@
 # RPGinia change log
 
 ## v0.1.31
+### Engine changes:
+* Added description and controls for each example.
+* Delete `objectTest` example.
+
 ### Editor changes:
 * Changed way to setting up sprite.
 * Configuration file `appData.json` was renamed to `editorData.json`.

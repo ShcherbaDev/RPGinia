@@ -2,7 +2,7 @@
     "settings": {
         "name": "Dialog",
         "background": "#000000",
-        "controllerPath": "/resources/levels/dialog/dialogController.js"
+        "controllerPath": "/resources/levels/language_confirmed/languageConfirmedController.js"
     },
     "elements": [
         {

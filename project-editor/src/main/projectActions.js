@@ -17,32 +17,33 @@ export function createProject(window) {
         controllerPath = controllerPath.replace(/\\\\/g, '\\').replace(appPath, '');
 
         // Set up necessary data
-        createEditorDataFile();
-        set('projectData', {
-            path: filePath,
-            appPath,
-            type
+        createEditorDataFile(() => {
+            set('projectData', {
+                path: filePath,
+                appPath,
+                type
+            });
+
+            // Set up settings for level
+            if(type === 'level') {
+                data.settings = {
+                    name,
+                    background: backgroundColor
+                };
+                data.elements = [];
+
+                if(spriteSheetPath !== '') data.settings.spriteSheetPath = spriteSheetPath;
+                if(controllerPath !== '') data.settings.controllerPath = controllerPath;
+
+                writeFileSync(filePath, JSON.stringify(data, null, 2));
+            }
+
+            // Set up editor title
+            window.setTitle(`${name} - ${config.appName}`);
+
+            // Reload editor to avoid errors
+            window.reload();
         });
-
-        // Set up settings for level
-        if(type === 'level') {
-            data.settings = {
-                name,
-                background: backgroundColor
-            };
-            data.elements = [];
-
-            if(spriteSheetPath !== '') data.settings.spriteSheetPath = spriteSheetPath;
-            if(controllerPath !== '') data.settings.controllerPath = controllerPath;
-
-            writeFileSync(filePath, JSON.stringify(data, null, 2));
-        }
-
-        // Set up editor title
-        window.setTitle(`${name} - ${config.appName}`);
-
-        // Reload editor to avoid errors
-        window.reload();
     });
 }
 
@@ -125,11 +126,10 @@ export function openProject(window, startFromDialog = false) {
 
                             // If have RPGinia app path - open project
                             if(appPath) {
-                                window.setTitle(`${projectData.settings.name} - ${config.appName}`);
-                                
-                                // Set up necessary data
-                                createEditorDataFile();
-                                setUpProject(window, { type, appPath, path, projectData });
+                                createEditorDataFile(() => {
+                                    window.setTitle(`${projectData.settings.name} - ${config.appName}`);
+                                    setUpProject(window, { type, appPath, path, projectData });
+                                });
                             }
 
                             // Request RPGinia app path
@@ -140,11 +140,12 @@ export function openProject(window, startFromDialog = false) {
                                 if(appPathDialog) {
                                     const appPath = appPathDialog[0];
 
-                                    createEditorDataFile();
-                                    set('projectData', { path, appPath, type });
+                                    createEditorDataFile(() => {
+                                        set('projectData', { path, appPath, type });
                                     
-                                    window.setTitle(`${projectData.settings.name} - ${config.appName}`);
-                                    setUpProject(window, { type, appPath, path, projectData });
+                                        window.setTitle(`${projectData.settings.name} - ${config.appName}`);
+                                        setUpProject(window, { type, appPath, path, projectData });
+                                    });
                                 } 
 
                                 // If it wasn't mentioned.
@@ -205,7 +206,7 @@ function openAppPathDialog(window) {
 }
 
 // Function for writing default editor settings, if they are not exist.
-function createEditorDataFile() {
+function createEditorDataFile(callback) {
     has('editorData', (err, hasKey) => {
         if(err) throw err;
 
@@ -216,9 +217,12 @@ function createEditorDataFile() {
                     autoSizesEnabled: true
                 }
             });
+
+            callback();
             return;
         }
         else {
+            callback();
             return;
         }
     });
