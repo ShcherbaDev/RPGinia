@@ -21,7 +21,7 @@ To start, in the `engine` directory, enter the command `npm start`. After succes
 Your local server has been started. To view the content, enter in the browser the address from the field `Local`
 
 ## Notes
-Engine API is located [here](https://shcherbadev.github.io/rpginia/docs/api/index.html).
+Engine API documentation is located [here](https://shcherbadev.github.io/rpginia/docs/api/index.html).
 
 Project editor is located [here](https://github.com/ShcherbaDev/RPGinia/blob/master/project-editor).
 
@@ -54,7 +54,7 @@ npm install
 У вас запустится локальный сервер. Для того, чтобы просмотреть содержимое, введите в браузере адрес из поля `Local`
 
 ## Заметки
-API движка находится [тут](https://shcherbadev.github.io/rpginia/docs/api/index.html).
+Документация по API движка находится [тут](https://shcherbadev.github.io/rpginia/docs/api/index.html).
 
 Редактор проектов находится [тут](https://github.com/ShcherbaDev/RPGinia/blob/master/project-editor).
 
@@ -82,7 +82,7 @@ npm install
 У вас запуститься локальний сервер. Для того, щоб продивитися вміст, введіть у браузері адрес з рядка `Local`
 
 ## Нотатки
-API двигуна знаходиться [тут](https://shcherbadev.github.io/rpginia/docs/api/index.html).
+Документація по API двигуна знаходиться [тут](https://shcherbadev.github.io/rpginia/docs/api/index.html).
 
 Редактор проектів знаходиться [тут](https://github.com/ShcherbaDev/RPGinia/blob/master/project-editor).
 
