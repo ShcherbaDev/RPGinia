@@ -27,6 +27,8 @@ Project editor is located [here](https://github.com/ShcherbaDev/RPGinia/blob/mas
 
 Change log is located [here](https://github.com/ShcherbaDev/RPGinia/blob/master/CHANGELOG.md).
 
+I am also developing a separate version for `npm`. `CLI`, local server, tests and other will be included. Who is interested in this you can watch [this repository](https://github.com/ShcherbaDev/rpginia-npm). Engine publications on [`npm` page](https://www.npmjs.com/package/rpginia) won't be released before it's release.
+
 
 # README on other languages:
 * [On russian (На русском)](#readme-on-russian-readme-на-русском-языке)
@@ -58,7 +60,9 @@ npm install
 
 Редактор проектов находится [тут](https://github.com/ShcherbaDev/RPGinia/blob/master/project-editor).
 
-Список изменений находится [тут](https://github.com/ShcherbaDev/RPGinia/blob/master/CHANGELOG.md)
+Список изменений находится [тут](https://github.com/ShcherbaDev/RPGinia/blob/master/CHANGELOG.md).
+
+Также я разрабатываю отдельную версию для `npm`. Туда будет включен `CLI`, локальный сервер, тесты и т.д. Кому интересно, можете зайти на [этот репозиторий](https://github.com/ShcherbaDev/rpginia-npm). Публикации движка на [странице `npm`](https://www.npmjs.com/package/rpginia) не будут выходить до его релиза.
 
 
 # README on ukrainian (README на українській мові)
@@ -87,3 +91,5 @@ npm install
 Редактор проектів знаходиться [тут](https://github.com/ShcherbaDev/RPGinia/blob/master/project-editor).
 
 Список смін знаходиться [тут](https://github.com/ShcherbaDev/RPGinia/blob/master/CHANGELOG.md).
+
+Також я розроблюю окрему версію для `npm`. Туди буде включений `CLI`, локальний сервер, тести тощо. Кому цікаво, можете зайти на [цей репозиторій](https://github.com/ShcherbaDev/rpginia-npm). Публікації движка на [сторінці `npm`](https://www.npmjs.com/package/rpginia) не будуть виходити до його релізу.
