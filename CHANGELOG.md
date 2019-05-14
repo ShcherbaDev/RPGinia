@@ -2,6 +2,8 @@
 
 ## v0.1.4
 ### Engine changes:
+* Added asynchronous file loader.
+* Was introduced new architecture.
 * Default level's background is black (#000000).
 * Added "outline" property for rectangles.
 
