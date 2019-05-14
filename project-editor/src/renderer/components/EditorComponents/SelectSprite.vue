@@ -2,39 +2,34 @@
 	<div class="sprite_select">
 		<div class="sprite_sheet_list">
 			<div
-				v-for="(spriteSheet, spriteSheetIndex) in spriteSheets"
+				v-for="(spriteSheet, spriteSheetIndex) in projectSpriteSheets.data"
 				:key="`${spriteSheet.file}/${spriteSheetIndex}`"
 				class="sprite_sheet"
 				:id="spriteSheet.file"
 			>
-
-				<h2 class="sprite_sheet_path">{{ spriteSheet.file }}</h2>
+				<h2 class="sprite_sheet_path">{{ spriteSheet.file }}</h2> 
 				<div class="sprite_list">
 					<div 
 						v-for="(sprite, spriteIndex) in spriteFilteredList(spriteSheetIndex)"
 						:key="`${spriteSheet.file}/${spriteSheetIndex}/${spriteIndex}`"
 						class="sprite"
 						:id="sprite.name"
-						:class="{ selected: isSpriteSelected(sprite.spriteSheetIndex, sprite.id) }"
+						:class="{ selected: isSpriteSelected(sprite) }"
 						@click="selectSprite(sprite)"
 					>
-
 						<div class="sprite_preview_container">
 							<div
 								class="sprite_preview"
 								:style="spriteStyles(spriteSheet.file, sprite.rect || sprite.frames[0].rect)"
 							></div>
 						</div>
-
 						<p class="sprite_name">{{ sprite.name }}</p>
-
 						<div 
 							class="selected_sprite_background" 
-							v-if="isSpriteSelected(sprite.spriteSheetIndex, sprite.id)"
+							v-if="isSpriteSelected(sprite)"
 						></div>
 					</div>
 				</div>
-
 			</div>
 		</div>
 		<div class="sprite_search_settings">
@@ -58,17 +53,14 @@
 		data() {
 			return {
 				spriteSearch: '',
-				selectedSpriteSheet: 0,
-				selectedSprite: 0,
+				selectedSpriteSheetIndex: 0,
+				selectedSpriteIndex: 0,
 				spriteList: [],
 				spriteSheetPathsList: []
 			}
 		},
-		computed: mapGetters(['projectAppPath']),
+		computed: mapGetters(['projectAppPath', 'projectSpriteSheets']),
 		components: { CustomInput: CustomInputs },
-		props: {
-			spriteSheets: Array
-		},
 		methods: {
 			spriteStyles(file, spriteCoordinations) {
 				return {
@@ -86,50 +78,39 @@
 			},
 
 			selectSprite(sprite) {
-				const { spriteSheetIndex, id } = sprite;
-				
-				this.selectedSpriteSheet = spriteSheetIndex;
-				this.selectedSprite = id;
+				const {spriteSheetIndex, spriteIndex} = sprite;
+				this.selectedSpriteSheetIndex = spriteSheetIndex;
+				this.selectedSpriteIndex = spriteIndex;
 
-				this.$emit('select', { 
-					spriteSheetIndex: this.selectedSpriteSheet, 
-					spriteIndex: this.selectedSprite 
+				this.$emit('select', {
+					spriteSheetIndex: this.selectedSpriteSheetIndex, 
+					spriteIndex: this.selectedSpriteIndex
 				});
 			},
 
-			isSpriteSelected(spriteSheetIndex, spriteIndex) {
-				return this.selectedSpriteSheet === spriteSheetIndex 
-					&& this.selectedSprite === spriteIndex;
+			isSpriteSelected(sprite) {
+				const {spriteSheetIndex, spriteIndex} = sprite;
+
+				return this.selectedSpriteSheetIndex === spriteSheetIndex 
+					&& this.selectedSpriteIndex === spriteIndex;
 			}
 		},
 
 		mounted() {
-			for(let i in this.spriteSheets) {
-				const { file, sprites } = this.spriteSheets[i];
+			console.log(this.projectSpriteSheets)
+			this.projectSpriteSheets.data.forEach((spriteSheet, spriteSheetNum) => {
+				const {file, sprites} = spriteSheet;
 
-				this.spriteSheetPathsList.push({
-					id: parseInt(i),
-					value: file
-				});
-
-				for(let j in sprites) {
+				sprites.forEach((sprite, spriteNum) => {
 					let settings = {
-						name: sprites[j].name,
-						id: parseInt(j),
-						spriteSheetIndex: parseInt(i)
-					};
-
-					if(sprites[j].rect) {
-						settings.rect = sprites[j].rect;
-					}
-
-					else {
-						settings.frames = sprites[j].frames;
+						...sprite,
+						spriteSheetIndex: spriteSheetNum,
+						spriteIndex: spriteNum
 					}
 
 					this.spriteList.push(settings);
-				}
-			}
+				});
+			});
 		}
 	}
 </script>

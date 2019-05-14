@@ -1,5 +1,10 @@
 # RPGinia change log
 
+## v0.1.4
+### Engine changes:
+* Default level's background is black (#000000).
+* Added "outline" property for rectangles.
+
 ## v0.1.31
 ### Engine changes:
 * Added description and controls for each example.

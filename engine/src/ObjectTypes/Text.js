@@ -1,4 +1,4 @@
-import Object from '../Object.js';
+import GameObject from '../GameObject.js';
 
 /**
  * Game object type for creating texts.
@@ -28,8 +28,8 @@ import Object from '../Object.js';
  *  coords: [10, 34]
  * });
  */
-class Text extends Object {
-    /**
+class Text extends GameObject {
+	/**
      * @constructor
      * 
      * @param {Object} settings - object settings.
@@ -46,33 +46,44 @@ class Text extends Object {
      * @param {Number} [settings.layer=1] - object layer.
      * @param {Boolean} [settings.isVisible=true] - show object in the playground.
      */
-    constructor(settings) {
-        super(settings);
-    }
+	constructor(objectManagerClass, settings) {
+		super(objectManagerClass, settings);
+          
+		this._init();
+	}
+     
+	_init() {
+		const textSettings = this._settings.settings;
 
-    /** 
-     * Drawing object on the playground. 
+		if (this._settings.coords[2] === undefined) {
+			this._context.font = `${textSettings.size}px "${textSettings.font}"`;
+			this._settings.coords[2] = this._context.measureText(textSettings.text).width;
+			this._context.font = '24px "Arial"';
+		}
+
+		if (this._settings.coords[3] === undefined) {
+			this._settings.coords[3] = textSettings.size;
+		}
+	}
+
+	/** 
+     * Drawing object on the playground.
      */
-    draw() {
-        if(this._settings.type === 'text') {
-            const textSettings = this._settings.settings;
+	draw() {
+		const objectSettings = this._settings;
+		const textSettings = objectSettings.settings;
 
-            this._context.fillStyle = textSettings.color;
-            this._context.font = `${textSettings.size}px "${textSettings.font}"`;
-            
-            this._context.textAlign = 'left';
-            this._context.textBaseline = 'top';
+		const objectCoords = [
+			objectSettings.coords[0] - this._camera.x,
+			objectSettings.coords[1] - this._camera.y
+		];
 
-            this._context.fillText(textSettings.text, this._settings.coords[0]+this._camera.x, this._settings.coords[1]+this._camera.y)
-        }
-    }
+		this._context.textBaseline = 'top';
+		this._context.fillStyle = textSettings.color;
+		this._context.font = `${textSettings.size}px "${textSettings.font}"`;
 
-    /**
-     * Drawing object borders and their central points. Works only if debug mode in World class is turned on.
-     */
-    drawInDebug() {
-        super.drawInDebug();
-    }
+		this._context.fillText(textSettings.text, ...objectCoords);
+	}
 }
 
 export default Text;

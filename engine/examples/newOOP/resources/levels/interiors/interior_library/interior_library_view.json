@@ -1,0 +1,38 @@
+{
+    "settings": {
+        "name": "Library interior",
+        "spriteSheetName": "townSpriteSheet",
+        "controllerPath": "/resources/levels/interiors/interior_library/interior_library_controller.js"
+    },
+    "elements": [
+        {
+            "name": "Interior",
+            "type": "sprite",
+            "coords": [0, 0, 800, 600],
+            "settings": {
+                "spriteSheetIndex": 0,
+                "spriteIndex": 32
+            }
+        },
+
+        {
+            "name": "test",
+            "type": "sprite",
+            "coords": [100, 43],
+            "settings": {
+                "spriteSheetIndex": 0,
+                "spriteIndex": 61,
+                
+                "isPlaying": true,
+                "isRepeating": true,
+                "interval": 50
+            }
+        },
+
+        {
+            "name": "test_trigger",
+            "type": "trigger",
+            "coords": [105, 400, 55, 110]
+        }
+    ]
+}

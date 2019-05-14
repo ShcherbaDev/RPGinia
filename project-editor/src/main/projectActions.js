@@ -9,11 +9,11 @@ export function createProject(window) {
     ipcMain.once('createProjectRequest', (e, arg) => {
         let data = {};
 
-        let { filePath, appPath, spriteSheetPath, controllerPath, type, name, backgroundColor } = arg;
+        let { filePath, appPath, spriteSheet, controllerPath, type, name, backgroundColor } = arg;
         
         filePath = filePath.replace(/\\\\/g, '\\');
         appPath = appPath.replace(/\\\\/g, '\\');
-        spriteSheetPath = spriteSheetPath.replace(/\\\\/g, '\\').replace(appPath, '');
+        spriteSheet = spriteSheet.replace(/\\\\/g, '\\').replace(appPath, '');
         controllerPath = controllerPath.replace(/\\\\/g, '\\').replace(appPath, '');
 
         // Set up necessary data
@@ -32,7 +32,7 @@ export function createProject(window) {
                 };
                 data.elements = [];
 
-                if(spriteSheetPath !== '') data.settings.spriteSheetPath = spriteSheetPath;
+                if(spriteSheet !== '') data.settings.spriteSheetPath = spriteSheet;
                 if(controllerPath !== '') data.settings.controllerPath = controllerPath;
 
                 writeFileSync(filePath, JSON.stringify(data, null, 2));
@@ -41,7 +41,7 @@ export function createProject(window) {
             // Set up editor title
             window.setTitle(`${name} - ${config.appName}`);
 
-            // Reload editor to avoid errors
+            // Reload editor to call openProject function
             window.reload();
         });
     });
@@ -84,8 +84,6 @@ export function openProject(window, startFromDialog = false) {
                         return false;
                     }
 
-                    window.setTitle(`${projectData.settings.name} - ${config.appName}`);
-
                     // Set project data and reload editor to avoid errors
                     set('projectData', {
                         path: projectFilePath,
@@ -126,9 +124,24 @@ export function openProject(window, startFromDialog = false) {
 
                             // If have RPGinia app path - open project
                             if(appPath) {
+                                let projectObject = { 
+                                    type, appPath, path, projectData, spriteSheetPath: ''
+                                };
+
+                                if (projectData.settings.spriteSheetName !== undefined && projectData.settings.spriteSheetPath === undefined) {
+                                    const requestSpriteSheet = openSpriteSheetDialog(window, projectData.settings.spriteSheetName);
+            
+                                    if (requestSpriteSheet) {
+                                        projectObject.spriteSheetPath = requestSpriteSheet[0];
+                                    }
+                                    else {
+                                        window.webContents.send('projectNotExist');
+                                    }
+                                }
+
                                 createEditorDataFile(() => {
                                     window.setTitle(`${projectData.settings.name} - ${config.appName}`);
-                                    setUpProject(window, { type, appPath, path, projectData });
+                                    setUpProject(window, projectObject);
                                 });
                             }
 
@@ -140,11 +153,26 @@ export function openProject(window, startFromDialog = false) {
                                 if(appPathDialog) {
                                     const appPath = appPathDialog[0];
 
+                                    let projectObject = {
+                                        type, appPath, path, projectData, spriteSheetPath: ''
+                                    }
+
+                                    if (projectData.settings.spriteSheetName !== undefined && projectData.settings.spriteSheetPath === undefined) {
+                                        const requestSpriteSheet = openSpriteSheetDialog(window, projectData.settings.spriteSheetName);
+                
+                                        if (requestSpriteSheet) {
+                                            projectObject.spriteSheetPath = requestSpriteSheet[0];
+                                        }
+                                        else {
+                                            window.webContents.send('projectNotExist');
+                                        }
+                                    }
+
                                     createEditorDataFile(() => {
                                         set('projectData', { path, appPath, type });
                                     
                                         window.setTitle(`${projectData.settings.name} - ${config.appName}`);
-                                        setUpProject(window, { type, appPath, path, projectData });
+                                        setUpProject(window, projectObject);
                                     });
                                 } 
 
@@ -234,7 +262,7 @@ function createEditorDataFile(callback) {
  * There they are processed and displayed in the right format.
  */
 function setUpProject(window, obj) {
-    const { type, appPath, path, projectData } = obj;
+    const { type, appPath, path, projectData, spriteSheetPath } = obj;
 
     get('editorData', (err, editorData) => {
         if(err) throw err;
@@ -244,7 +272,20 @@ function setUpProject(window, obj) {
             appPath,
             editorData,
             path,
+            spriteSheetPath,
             data: projectData 
         });
+    });
+}
+
+function openSpriteSheetDialog(window, spriteSheetName) {
+    return dialog.showOpenDialog(window, {
+        title: `What's the path have the sprite sheet "${spriteSheetName}"?`,
+        filters: [
+            {
+                name: '.JSON file',
+                extensions: ['json']
+            }
+        ]
     });
 }

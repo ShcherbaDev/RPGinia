@@ -13,11 +13,11 @@ export default function selectObjects(e, store, camera) {
         const objectCoords = objectList[i].settings.coords;
 
         if(
-            e.offsetX >= objectCoords[0] + camera.x 
-            && e.offsetX <= objectCoords[0] + objectCoords[2] + camera.x
+            e.offsetX >= objectCoords[0] - camera.x 
+            && e.offsetX <= objectCoords[0] + objectCoords[2] - camera.x
             
-            && e.offsetY >= objectCoords[1] + camera.y
-            && e.offsetY <= objectCoords[1] + objectCoords[3] + camera.y
+            && e.offsetY >= objectCoords[1] - camera.y
+            && e.offsetY <= objectCoords[1] + objectCoords[3] - camera.y
         ) {
             idMapArr.push(objectList[i].$id);
             layerMapArr.push(objectList[i].settings.layer);

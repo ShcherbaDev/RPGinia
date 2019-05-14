@@ -7,7 +7,9 @@ class AudioManager {
 	/**
 	 * @hideconstructor
 	 */
-	constructor() {
+	constructor(rpginiaApp) {
+		this._app = rpginiaApp;
+
 		/**
 		 * The list of audio settings objects.
 		 * @type {Object[]}
@@ -20,7 +22,9 @@ class AudioManager {
 		 * @type {String}
 		 * @private
 		 */
-		this._appPath = this.__proto__.appPath;
+		this._appPath = this._app._appPath;
+
+		this._app._audioManager = this;
 	}
 
 	/**
@@ -37,25 +41,25 @@ class AudioManager {
 	 */
 	add(name, path, volume = 100, isRepeating = false) {
 		this._list.push({
-			name: name,
+			name,
 			path: this._appPath + path,
-			volume: volume/100,
-			isRepeating: isRepeating,
+			volume: volume / 100,
+			isRepeating,
 			audio: new Audio()
 		});
 
-		const lastAudio = this._list[this._list.length-1];
+		const lastAudio = this._list[this._list.length - 1];
 
 		lastAudio.audio.src = lastAudio.path;
 		lastAudio.audio.volume = lastAudio.volume;
 		lastAudio.audio.load();
 
 		// Audio end event
-		if(lastAudio.isRepeating) {
-			lastAudio.audio.addEventListener("ended", () => {
+		if (lastAudio.isRepeating) {
+			lastAudio.audio.addEventListener('ended', () => {
 				lastAudio.audio.currentTime = 0;
 				lastAudio.audio.play();
-			}, false);                                          
+			}, false);
 		}
 
 		return lastAudio;
@@ -100,7 +104,7 @@ class AudioManager {
 	 * @readonly
 	 * @type {Array}
 	 */
-	get list() { return this._list }
+	get list() { return this._list; }
 }
 
 export default AudioManager;

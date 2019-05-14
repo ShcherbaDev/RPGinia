@@ -71,53 +71,55 @@
                 @click="setOriginalSizes('height')"
             >Set to original sprite height</button>
 
-            <h2 v-if="type !== 'sprite'">Other settings:</h2>
-            <h2 v-else>Select sprite:</h2>
+            <div class="other_settings" v-if="type === 'rectangle' || type === 'sprite' || type === 'text'">
+                <h2 v-if="type !== 'sprite'">Other settings:</h2>
+                <h2 v-else>Select sprite:</h2>
 
-            <!-- Settings for rectangles -->
-            <CustomInput 
-                type="color" 
-                id="objectFill" 
-                label="Object fill:"
-                :value="fill" 
-                @change="fill = $event"
-                v-if="type === 'rectangle'" 
-            />
+                <!-- Settings for rectangles -->
+                <CustomInput 
+                    type="color" 
+                    id="objectFill" 
+                    label="Object fill:"
+                    :value="fill" 
+                    @change="fill = $event"
+                    v-if="type === 'rectangle'" 
+                />
 
-            <!-- Settings for texts -->
-            <CustomInput 
-                type="text" 
-                id="objectText" 
-                label="Object text:"
-                :value="text" 
-                @input="text = $event"
-                v-if="type === 'text'" 
-            />
+                <!-- Settings for texts -->
+                <CustomInput 
+                    type="text" 
+                    id="objectText" 
+                    label="Object text:"
+                    :value="text" 
+                    @input="text = $event"
+                    v-if="type === 'text'" 
+                />
 
-            <CustomInput 
-                type="color" 
-                id="objectColor" 
-                label="Object color:"
-                :value="color" 
-                @change="color = $event"
-                v-if="type === 'text'" 
-            />
+                <CustomInput 
+                    type="color" 
+                    id="objectColor" 
+                    label="Object color:"
+                    :value="color" 
+                    @change="color = $event"
+                    v-if="type === 'text'" 
+                />
 
-            <CustomInput
-                type="number"
-                id="objectSize"
-                label="Size:"
-                :num-min="0"
-                v-model="textSize"
-                v-if="type === 'text'" 
-            />
+                <CustomInput
+                    type="number"
+                    id="objectSize"
+                    label="Size:"
+                    :num-min="0"
+                    v-model="textSize"
+                    v-if="type === 'text'" 
+                />
 
-            <!-- Settings for sprites -->
-            <SelectSprite
-                :sprite-sheets="projectSpriteSheets"
-                v-if="type === 'sprite'"
-                @select="setSprite" 
-            />
+                <!-- Settings for sprites -->
+                <SelectSprite
+                    :sprite-sheets="projectSpriteSheets"
+                    v-if="type === 'sprite'"
+                    @select="setSprite" 
+                />
+            </div>
         </div>
         <div class="modal_footer">
             <button 
@@ -150,8 +152,9 @@ export default {
             layer: 1,
             types: [
                 { id: 1, text: 'Rectangle', value: 'rectangle', disabled: false },
-                { id: 3, text: 'Text', value: 'text', disabled: false },
-                { id: 2, text: 'Sprite', value: 'sprite', disabled: this.projectSpriteSheets !== undefined }
+                { id: 2, text: 'Text', value: 'text', disabled: false },
+                { id: 3, text: 'Sprite', value: 'sprite', disabled: this.projectSpriteSheets !== undefined },
+                { id: 4, text: 'Trigger', value: 'trigger', disabled: false }
             ],
             coords: [
                 0,
@@ -224,30 +227,36 @@ export default {
 
                     this.$emit('createObject', objSettings);
                 }
+
+                else if(type === 'trigger') {
+                    this.$emit('createObject', {
+                        name,
+                        type,
+                        coords
+                    });
+                }
             }
             else console.error('Form is not valid!');
         },
 
         setSprite(event) {
-            const { spriteSheetIndex, spriteIndex } = event;
+            const {spriteSheetIndex, spriteIndex} = event;
 
             this.spriteSheetIndex = spriteSheetIndex;
             this.spriteIndex = spriteIndex;
         },
 
         setOriginalSizes(type) {
-            const { spriteSheetIndex, spriteIndex, frameIndex, projectSpriteSheets } = this;
+            const {spriteSheetIndex, spriteIndex, frameIndex, projectSpriteSheets} = this;
 
             if(type === 'width') {
-                coords[2] = originalSpriteSizes.setOriginalWidth(spriteSheetIndex, spriteIndex, frameIndex, projectSpriteSheets); 
-
-                document.querySelector('.modal_container input#objectWidth').value = coords[2];
+                this.coords[2] = originalSpriteSizes.setOriginalWidth(spriteSheetIndex, spriteIndex, frameIndex, projectSpriteSheets); 
+                document.querySelector('.modal_container input#objectWidth').value = this.coords[2];
             }
 
             else if(type === 'height') {
-                coords[3] = originalSpriteSizes.setOriginalHeight(spriteSheetIndex, spriteIndex, frameIndex, projectSpriteSheets);
-
-                document.querySelector('.modal_container input#objectHeight').value = coords[3];
+                this.coords[3] = originalSpriteSizes.setOriginalHeight(spriteSheetIndex, spriteIndex, frameIndex, projectSpriteSheets);
+                document.querySelector('.modal_container input#objectHeight').value = this.coords[3];
             }
         }
     }

@@ -1,16 +1,14 @@
 const state = {
-    type: '',
     settings: {},
-    spriteSheets: [],
+    spriteSheet: [],
     appPath: '',
     objects: [],
     selectedObjects: []
 };
 
 const getters = {
-    projectType: state => state.type,
     projectSettings: state => state.settings,
-    projectSpriteSheets: state => state.spriteSheets,
+    projectSpriteSheets: state => state.spriteSheet,
     projectAppPath: state => state.appPath,
     projectObjects: state => state.objects,
     selectedObjects: state => state.selectedObjects
@@ -18,36 +16,34 @@ const getters = {
 
 const mutations = {
     clearProjectStore(state) {
-        state.type = '';
         state.settings = {};
-        state.spriteSheets = [];
+        state.spriteSheet = [];
         state.appPath = '';
         state.objects = [];
         state.selectedObjects = [];
     },
 
     setUpProjectStore(state, projData) {
-        state.type = '';
         state.settings = {};
-        state.spriteSheets = [];
+        state.spriteSheet = {};
         state.appPath = '';
         state.objects = [];
         state.selectedObjects = [];
 
-        const projectData = projData.data.data;
-        const projectType = projData.data.type;
+        const projectData = projData;
 
-        state.type = projectType;
         state.settings = projectData.settings;
 
-        if(projectType === 'level') {
-            state.appPath = projData.appPath;
-            if(projectData.spriteSheets) state.spriteSheets = projectData.spriteSheets
+        state.appPath = projData.appPath;
 
-            for(let i in projectData.elements)
-                projectData.elements[i].$id = parseInt(i)+1;
+        state.spriteSheet = projectData.spriteSheets[projectData.spriteSheets.findIndex(item => item.name === state.settings.spriteSheetName || item.url.contains(state.settings.spriteSheetPath))];
+        console.log(state.spriteSheet);
+
+        for (let i in projectData.data._objects) {
+            projectData.data._objects[i].$id = parseInt(i)+1;
         }
-        state.objects = projectType === 'level' ? projectData.elements : [];
+
+        state.objects = projectData.data._objects;
     },
 
     setProjectSetting(state, args) {
@@ -84,10 +80,12 @@ const mutations = {
     },
 
     setObjectProperty(state, args) {
-        if(args.propertySetting)
+        if (args.propertySetting) {
             state.objects[state.objects.findIndex(item => item.$id === args.id)].settings[args.property][args.propertySetting] = args.newPropertyValue;
-        else
+        }
+        else {
             state.objects[state.objects.findIndex(item => item.$id === args.id)].settings[args.property] = args.newPropertyValue;
+        }
     }
 };
 

@@ -2,6 +2,43 @@
     "elements": [
         {
             "coords": [
+                32,
+                54,
+                43,
+                22
+            ],
+            "isVisible": true,
+            "layer": 43,
+            "name": "The rectangle",
+            "type": "rectangle",
+            "settings": {
+                "fill": "red",
+                "outline": {
+                    "color": "green",
+                    "width": 4
+                }
+            }
+        },
+
+        {
+            "coords": [
+                174,
+                43
+            ],
+            "isVisible": true,
+            "layer": 999,
+            "name": "The text",
+            "type": "text",
+            "settings": {
+                "font": "Arial",
+                "text": "Hello, world",
+                "color": "#ff00ff",
+                "size": 34
+            }
+        },
+
+        {
+            "coords": [
                 0,
                 0,
                 1000,
@@ -4501,6 +4538,6 @@
         "background": "#000000",
         "controllerPath": "\\resources\\levels\\snowdin_town\\snowdin_town_controller.js",
         "name": "Snowdin town",
-        "spriteSheetPath": "\\resources\\sprites\\spriteSheet.json"
+        "spriteSheetName": "townSpriteSheet"
     }
 }

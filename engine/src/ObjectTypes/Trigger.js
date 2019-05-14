@@ -1,0 +1,72 @@
+import GameObject from '../GameObject.js';
+
+/**
+ * Game object type for creating triggers.
+ * @memberof RPGinia.App.World.Object
+ * @class
+ * 
+ * @example
+ * // Creating a simple rectangle.
+ * const engine = new RPGinia();
+ * const app = new engine.App();
+ * const world = new app.World();
+ * 
+ * world.initialize({
+ *  // Your options here...
+ * });
+ * 
+ * // createElement method from World class can create an object with indicated object type.
+ * world.createElement({
+ *  name: 'Test rectangle',
+ *  type: 'rectangle',
+ *  settings: {
+ *    fill: 'red'
+ *  },
+ *  coords: [10, 34, 56, 21]
+ * });
+ */
+class Trigger extends GameObject {
+	/**
+	* @constructor
+	* 
+	* @param {Object} settings - object settings.
+	* @param {String} settings.name - object name.
+	* 
+	* @param {Number[]} settings.coords - object coordinations. First value - x coord, second value - y coord, third value - width, fourth value - height.
+	* @param {String} settings.type - object type. For this object type it is "rectangle".
+	* @param {Number} [settings.layer=1] - object layer.
+	* @param {Boolean} [settings.isVisible=true] - show object in the playground.
+	*/
+	constructor(objectManagerClass, settings) {
+		super(objectManagerClass, settings);
+	}
+	
+	/**
+	 * Trigger is not drawing on the playground, 
+	 * so for not engine throwing an error about non-existence of 
+	 * draw method I just added a return statement for it.
+	 */
+	draw() {
+		return false;
+	}
+
+	isTouching(touchedObjectName) {
+		const touchedObject = this._objectManager.getObjectByName(touchedObjectName);
+		const touchedObjectCoords = touchedObject.settings.coords;
+
+		const triggerCoords = this._settings.coords;
+
+		if (
+			touchedObjectCoords[0] <= triggerCoords[0] + triggerCoords[2]
+			&& touchedObjectCoords[0] + touchedObjectCoords[2] >= triggerCoords[0]
+
+			&& touchedObjectCoords[1] + touchedObjectCoords[3] >= triggerCoords[1]
+			&& touchedObjectCoords[1] <= triggerCoords[1] + triggerCoords[3]
+		) {
+			return true;
+		}
+		return false;
+	}
+}
+
+export default Trigger;

@@ -59,7 +59,7 @@
                 file-method="open"
                 id="spriteSheetPath"
                 label="Path to sprite sheet:"
-                v-model="spriteSheetPath"
+                v-model="spriteSheet"
                 v-if="includeSpriteSheet" 
             />
 
@@ -114,7 +114,7 @@ export default {
             appPath: '',
             filePath: '',
             includeSpriteSheet: false,
-            spriteSheetPath: '',
+            spriteSheet: '',
             includeController: false,
             controllerPath: '',
             backgroundColor: '#000000'
@@ -126,7 +126,7 @@ export default {
             this.includeSpriteSheet = isTurnedOn;
 
             if(!isTurnedOn) {
-                this.spriteSheetPath = '';
+                this.spriteSheet = '';
             }
         },
 
@@ -141,11 +141,11 @@ export default {
         createProject() {
             const name = this.projName;
             const type = this.projType;
-            const { backgroundColor, appPath, filePath, spriteSheetPath, controllerPath } = this;
+            const { backgroundColor, appPath, filePath, spriteSheet, controllerPath } = this;
 
             if(name !== '' && type !== '' && appPath !== '' && filePath !== '') {
                 this.$router.push('editor');
-                this.$emit('createProject', { name, type, backgroundColor, appPath, filePath, spriteSheetPath, controllerPath });
+                this.$emit('createProject', { name, type, backgroundColor, appPath, filePath, spriteSheet, controllerPath });
             }
             else console.error('Form is not valid!');
         }

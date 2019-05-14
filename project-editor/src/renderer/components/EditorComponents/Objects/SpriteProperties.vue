@@ -46,7 +46,7 @@
             style="margin-top: 10px;" 
             @click="setObjectProperty({ id: object.$id, property: 'coords', propertySetting: '2', newPropertyValue: setOriginalSizes('width') })"
         >
-            Set to original sprite height
+            Set to original sprite width
         </button>
         
         <CustomInput
@@ -67,7 +67,7 @@
         <h2>Other settings:</h2>
 
         <h3>Select sprite:</h3>
-        <SpriteInfo :object="object" />
+        <SpriteInfo :object="object.settings" />
 
         <CustomInput 
             type="checkbox"
@@ -82,10 +82,11 @@
             @click="openRepeatModal"
         >Repeat</button>
 
-        <h2 v-if="projectSpriteSheets[object.settings.settings.spriteSheetIndex].sprites[object.settings.settings.spriteIndex].frames">Animation settings:</h2>
+        {{object.settings}}
+        <h2 v-if="projectSpriteSheets.data[object.settings.settings.spriteSheetIndex].sprites[object.settings.settings.spriteIndex].frames">Animation settings:</h2>
         <div 
             class="animation_settings"
-            v-if="projectSpriteSheets[object.settings.settings.spriteSheetIndex].sprites[object.settings.settings.spriteIndex].frames"
+            v-if="projectSpriteSheets.data[object.settings.settings.spriteSheetIndex].sprites[object.settings.settings.spriteIndex].frames"
             style="margin-top: 10px"
         >
             <CustomInput
@@ -93,7 +94,7 @@
                 id="objectAnimationFrameFrom"
                 label="Start frame:"
                 :num-min="0"
-                :num-max="projectSpriteSheets[object.settings.settings.spriteSheetIndex].sprites[object.settings.settings.spriteIndex].frames.length-1"
+                :num-max="projectSpriteSheets.data[object.settings.settings.spriteSheetIndex].sprites[object.settings.settings.spriteIndex].frames.length-1"
                 :value="object.settings.settings.frameFrom"
                 @input="setObjectProperty({ id: object.$id, property: 'settings', propertySetting: 'frameFrom', newPropertyValue: $event })" 
             />
@@ -103,7 +104,7 @@
                 id="objectAnimationFrameTo"
                 label="Final frame:"
                 :num-min="object.settings.settings.frameFrom"
-                :num-max="projectSpriteSheets[object.settings.settings.spriteSheetIndex].sprites[object.settings.settings.spriteIndex].frames.length-1"
+                :num-max="projectSpriteSheets.data[object.settings.settings.spriteSheetIndex].sprites[object.settings.settings.spriteIndex].frames.length-1"
                 :value="object.settings.settings.frameTo"
                 @input="setObjectProperty({ id: object.$id, property: 'settings', propertySetting: 'frameTo', newPropertyValue: $event })" 
             />
@@ -116,7 +117,7 @@
                 label="Interval:"
                 :num-min="10"
                 :value="object.settings.settings.interval"
-                @input="setObjectProperty({ id: object.$id, property: 'settings', propertySetting: 'interval', newPropertyValue: $event })" 
+                @input="setAnimationInterval" 
             />
         
             <CustomInput 
@@ -147,6 +148,7 @@ import { ipcRenderer } from 'electron';
 
 import '../../../store/index.js';
 import { mapGetters, mapActions } from 'vuex';
+import { setInterval } from 'timers';
 
 export default {
     components: { SpriteInfo, CustomInput: CustomInputs },
@@ -172,17 +174,16 @@ export default {
 
             const spriteSettings = object.settings.settings;
             const { spriteSheetIndex, spriteIndex, frameIndex, frames } = spriteSettings;
+            const currentSprite = projectSpriteSheets.data[spriteSheetIndex].sprites[spriteIndex]; 
 
-            const currentSprite = projectSpriteSheets[spriteSheetIndex].sprites[spriteIndex];
-
-            if(type === 'width') {
+            if (type === 'width') {
                 return originalSpriteSizes.setOriginalWidth(
                     spriteSheetIndex, spriteIndex, frameIndex,
                     projectSpriteSheets
                 );
             }
 
-            else if(type === 'height') {
+            else if (type === 'height') {
                 return originalSpriteSizes.setOriginalHeight(
                     spriteSheetIndex, spriteIndex, frameIndex,
                     projectSpriteSheets
@@ -192,6 +193,14 @@ export default {
             else {
                 console.error('Your size type is not exist!');
             }
+        },
+
+        setAnimationInterval(newValue) {
+            this.setObjectProperty({ id: this.object.$id, property: 'settings', propertySetting: 'interval', newPropertyValue: newValue });
+
+            clearInterval(this.object.settings.settings.spriteAnimation);
+            this.object.settings.settings.spriteAnimation = null;
+            this.object._setUpAnimationInterval();
         }
     },
     props: {

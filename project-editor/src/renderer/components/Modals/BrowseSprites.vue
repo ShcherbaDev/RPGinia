@@ -2,7 +2,6 @@
     <div class="modal_content">
         <div class="modal_body">
             <SelectSprite
-                :sprite-sheets="projectSpriteSheets"
                 :style="{ width: '100%' }"
                 @select="setNewValues" 
             />
@@ -34,7 +33,6 @@ export default {
         spriteId: Number
     },
     components: { SelectSprite },
-    computed: mapGetters(['projectSpriteSheets']),
     methods: {
         setNewValues(event) {
             const { spriteSheetIndex, spriteIndex } = event;
@@ -44,9 +42,9 @@ export default {
         },
 
         selectSprite() {
-            const { spriteId, spriteSheetIndex, spriteIndex } = this;
+            const { spriteSheetIndex, spriteIndex } = this;
 
-            this.$emit('setNewSprite', { spriteId, spriteSheetIndex, spriteIndex });
+            this.$emit('setNewSprite', { spriteSheetIndex, spriteIndex });
         }
     }
 }

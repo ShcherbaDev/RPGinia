@@ -1,4 +1,4 @@
-import Object from '../Object.js';
+import GameObject from '../GameObject.js';
 
 /**
  * Game object type for creating rectangles.
@@ -25,8 +25,8 @@ import Object from '../Object.js';
  *  coords: [10, 34, 56, 21]
  * });
  */
-class Rectangle extends Object {
-    /**
+class Rectangle extends GameObject {
+	/**
      * @constructor
      * 
      * @param {Object} settings - object settings.
@@ -35,39 +35,64 @@ class Rectangle extends Object {
      * @param {Object} settings.settings - object settings for only this type.
      * @param {String} [settings.settings.fill="#000000"] - object filling.
      * 
+     * @param {Object} settings.settings.outline - outline settings.
+     * @param {Number} settings.settings.outline.width - outline width.
+     * @param {String} [settings.settings.outline.color="#ffffff"] - outline color.
+     * 
      * @param {Number[]} settings.coords - object coordinations. First value - x coord, second value - y coord, third value - width, fourth value - height.
      * @param {String} settings.type - object type. For this object type it is "rectangle".
      * @param {Number} [settings.layer=1] - object layer.
      * @param {Boolean} [settings.isVisible=true] - show object in the playground.
      */
-    constructor(settings) {
-        super(settings);
+	constructor(objectManagerClass, settings) {
+		super(objectManagerClass, settings);
 
-        if(!this._settings.settings.fill) this._settings.settings.fill = '#000000';
-    }
+		if (this._settings.settings === undefined || this._settings.settings.fill === undefined) {
+			this._settings.settings.fill = '#000000';
+		}
 
-    /** 
+		if (this._settings.settings.outline && this._settings.settings.outline.color === undefined) {
+			this._settings.settings.outline.color = '#ffffff';
+		}
+	}
+
+	/** 
      * Drawing object on the playground. 
      */
-    draw() {
-        if(this._settings.type === 'rectangle') {
-            const rectSettings = this._settings.settings;
-            
-            this._context.fillStyle = rectSettings.fill;
-            this._context.fillRect(
-                this._settings.coords[0] + this._camera.x, 
-                this._settings.coords[1] + this._camera.y,
-                this._settings.coords[2], this._settings.coords[3],  
-            );
-        }
-    }
+	draw() {
+		const objectSettings = this._settings;
+		const outlineSettings = objectSettings.settings.outline;
 
-    /**
-     * Drawing object borders and their central points. Works only if debug mode in World class is turned on.
-     */
-    drawInDebug() {
-        super.drawInDebug();
-    }
+		const objectCoords = [
+			objectSettings.coords[0] - this._camera.x,
+			objectSettings.coords[1] - this._camera.y,
+			objectSettings.coords[2],
+			objectSettings.coords[3]
+		];
+
+		// Render rectangle's filling
+		this._context.fillStyle = objectSettings.settings.fill;
+		this._context.fillRect(...objectCoords);
+		this._context.fillStyle = '#000000';
+
+		// Render rectangle's outline
+		if (outlineSettings !== undefined) {
+			this._context.lineWidth = outlineSettings.width;
+			this._context.strokeStyle = outlineSettings.color;
+
+			const outlineCoords = [
+				objectCoords[0] - this._context.lineWidth / 2,
+				objectCoords[1] - this._context.lineWidth / 2,
+				objectCoords[2] + this._context.lineWidth,
+				objectCoords[3] + this._context.lineWidth
+			];
+
+			this._context.strokeRect(...outlineCoords);
+               
+			this._context.strokeStyle = '#000000';
+			this._context.lineWidth = 1;
+		}
+	}
 }
 
 export default Rectangle;

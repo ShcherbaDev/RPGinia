@@ -36,14 +36,14 @@ export default {
         spriteStyles() {
             const { projectAppPath, object, projectSpriteSheets } = this;
 
-            const objectIndexes = object.settings.settings;
+            const objectIndexes = object.settings;
             const { spriteSheetIndex, spriteIndex, frameIndex } = objectIndexes;
-            const spritesInSpriteSheet = projectSpriteSheets[spriteSheetIndex].sprites[spriteIndex];
+            const spritesInSpriteSheet = projectSpriteSheets.data[spriteSheetIndex].sprites[spriteIndex];
             
             const spriteInSpriteSheetCoords = spritesInSpriteSheet.rect || spritesInSpriteSheet.frames[0].rect;
 
             return {
-                backgroundImage: `url("file://${projectAppPath.replace(/\\/g, '/')}/${projectSpriteSheets[spriteSheetIndex].file}")`,
+                backgroundImage: `url("file://${projectAppPath.replace(/\\/g, '/')}/${projectSpriteSheets.data[spriteSheetIndex].file}")`,
                 backgroundPosition: `-${spriteInSpriteSheetCoords[0]}px -${spriteInSpriteSheetCoords[1]}px`,
                 width: `${spriteInSpriteSheetCoords[2]}px`,
                 height: `${spriteInSpriteSheetCoords[3]}px`
@@ -53,9 +53,9 @@ export default {
         getOriginalCoords() {
             const { object, projectSpriteSheets } = this;
 
-            const objectIndexes = object.settings.settings;
+            const objectIndexes = object.settings;
             const { spriteSheetIndex, spriteIndex, frameIndex } = objectIndexes;
-            const spritesInSpriteSheet = projectSpriteSheets[spriteSheetIndex].sprites[spriteIndex];
+            const spritesInSpriteSheet = projectSpriteSheets.data[spriteSheetIndex].sprites[spriteIndex];
 
             return spritesInSpriteSheet.rect || spritesInSpriteSheet.frames[0].rect;
         },
@@ -63,10 +63,9 @@ export default {
         getOriginalName() {
             const { object, projectSpriteSheets } = this;
 
-            const objectIndexes = object.settings.settings;
+            const objectIndexes = object.settings;
             const { spriteSheetIndex, spriteIndex } = objectIndexes;
-
-            return projectSpriteSheets[spriteSheetIndex].sprites[spriteIndex].name;
+            return projectSpriteSheets.data[spriteSheetIndex].sprites[spriteIndex].name;
         },
 
         browseSprites() {
