@@ -58,6 +58,7 @@
         <CustomInput
             type="file"
             choose-file-title="Select a level controller"
+            :filePathText="projectSettings.controllerPath"
             file-method="open"
             id="controllerPath"
             label="Path to level controller:"

@@ -23,6 +23,7 @@
                 type="number" 
                 id="objectLayer" 
                 label="Object layer:"
+                v-if="type !== 'trigger'"
                 v-model="layer" 
             />
 
@@ -124,7 +125,7 @@
         <div class="modal_footer">
             <button 
                 class="btn"
-                v-if="name && type && layer && coords && fill"
+                v-if="name && type && layer >= 1 && coords && fill"
                 @click="createObject"
             >Create</button>
             <button 
@@ -221,7 +222,7 @@ export default {
                         coords
                     }
 
-                    if(this.projectSpriteSheets[this.spriteSheetIndex].sprites[this.spriteIndex].frames) {
+                    if(this.projectSpriteSheets.data[this.spriteSheetIndex].sprites[this.spriteIndex].frames) {
                         objSettings.settings.frameIndex = this.frameIndex;
                     }
 

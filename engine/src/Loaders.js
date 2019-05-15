@@ -34,7 +34,7 @@ class Loaders {
 		const {settings, elements} = json;
 		const {name} = settings;
 
-		return settings !== undefined && name !== undefined && elements.length >= 1;
+		return settings !== undefined && name !== undefined && elements.length >= 0;
 	}
 
 	_checkSpriteSheetCondition(json) {

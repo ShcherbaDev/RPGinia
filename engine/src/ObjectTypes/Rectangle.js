@@ -51,7 +51,7 @@ class Rectangle extends GameObject {
 			this._settings.settings.fill = '#000000';
 		}
 
-		if (this._settings.settings.outline && this._settings.settings.outline.color === undefined) {
+		if (this._settings.settings !== undefined && this._settings.settings.outline !== undefined && this._settings.settings.outline.color === undefined) {
 			this._settings.settings.outline.color = '#ffffff';
 		}
 	}

@@ -58,7 +58,6 @@ class Text extends GameObject {
 		if (this._settings.coords[2] === undefined) {
 			this._context.font = `${textSettings.size}px "${textSettings.font}"`;
 			this._settings.coords[2] = this._context.measureText(textSettings.text).width;
-			this._context.font = '24px "Arial"';
 		}
 
 		if (this._settings.coords[3] === undefined) {
@@ -81,6 +80,7 @@ class Text extends GameObject {
 		this._context.textBaseline = 'top';
 		this._context.fillStyle = textSettings.color;
 		this._context.font = `${textSettings.size}px "${textSettings.font}"`;
+		this._context.textAlign = 'left';
 
 		this._context.fillText(textSettings.text, ...objectCoords);
 	}

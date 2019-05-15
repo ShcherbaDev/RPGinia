@@ -129,8 +129,9 @@ class Sprite extends GameObject {
 				this._settings.settings.isRepeating = false;
 			}
 
-			this._setUpAnimationInterval();
+			return this._setUpAnimationInterval();
 		}
+		return false;
 	}
 
 	_setUpAnimationInterval() {
@@ -146,6 +147,8 @@ class Sprite extends GameObject {
 				this._settings.settings.isPlaying = false;
 			}
 		}, this._settings.settings.interval);
+		
+		return this._settings.settings.spriteAnimation;
 	}
 
 	/** 

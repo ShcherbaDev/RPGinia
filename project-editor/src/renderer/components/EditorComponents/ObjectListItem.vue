@@ -24,6 +24,12 @@
             >
 
             <img 
+                src="static/images/triggerIcon.png" 
+                alt="Trigger icon" 
+                v-else-if="type === 'trigger'"
+            >
+
+            <img 
                 src="static/images/missingObjectIcon.png" 
                 alt="Undefined object type icon"
                 v-else

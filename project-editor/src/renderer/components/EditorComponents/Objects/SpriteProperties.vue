@@ -44,7 +44,7 @@
         <button 
             class="btn" 
             style="margin-top: 10px;" 
-            @click="setObjectProperty({ id: object.$id, property: 'coords', propertySetting: '2', newPropertyValue: setOriginalSizes('width') })"
+            @click="setOriginalSizes('width')"
         >
             Set to original sprite width
         </button>
@@ -59,7 +59,7 @@
         <button 
             class="btn" 
             style="margin-top: 10px;" 
-            @click="setObjectProperty({ id: object.$id, property: 'coords', propertySetting: '3', newPropertyValue: setOriginalSizes('height') })"
+            @click="setOriginalSizes('height')"
         >
             Set to original sprite height
         </button>
@@ -82,7 +82,6 @@
             @click="openRepeatModal"
         >Repeat</button>
 
-        {{object.settings}}
         <h2 v-if="projectSpriteSheets.data[object.settings.settings.spriteSheetIndex].sprites[object.settings.settings.spriteIndex].frames">Animation settings:</h2>
         <div 
             class="animation_settings"
@@ -94,7 +93,7 @@
                 id="objectAnimationFrameFrom"
                 label="Start frame:"
                 :num-min="0"
-                :num-max="projectSpriteSheets.data[object.settings.settings.spriteSheetIndex].sprites[object.settings.settings.spriteIndex].frames.length-1"
+                :num-max="object.settings.settings.frameTo-1"
                 :value="object.settings.settings.frameFrom"
                 @input="setObjectProperty({ id: object.$id, property: 'settings', propertySetting: 'frameFrom', newPropertyValue: $event })" 
             />
@@ -108,8 +107,6 @@
                 :value="object.settings.settings.frameTo"
                 @input="setObjectProperty({ id: object.$id, property: 'settings', propertySetting: 'frameTo', newPropertyValue: $event })" 
             />
-        
-            <p style="margin-top: 5px">Current frame: {{ object.settings.settings.frameIndex }}</p>
 
             <CustomInput
                 type="number"
@@ -170,36 +167,41 @@ export default {
         },
 
         setOriginalSizes(type) {
-            const { projectSpriteSheets, object } = this;
+            const { setObjectProperty, projectSpriteSheets, object } = this;
 
             const spriteSettings = object.settings.settings;
             const { spriteSheetIndex, spriteIndex, frameIndex, frames } = spriteSettings;
             const currentSprite = projectSpriteSheets.data[spriteSheetIndex].sprites[spriteIndex]; 
 
+            let originalSizes = null;
+
             if (type === 'width') {
-                return originalSpriteSizes.setOriginalWidth(
+                originalSizes = originalSpriteSizes.setOriginalWidth(
                     spriteSheetIndex, spriteIndex, frameIndex,
                     projectSpriteSheets
                 );
+                document.querySelector('input#objectWidth').value = originalSizes;
             }
-
             else if (type === 'height') {
-                return originalSpriteSizes.setOriginalHeight(
+                originalSizes = originalSpriteSizes.setOriginalHeight(
                     spriteSheetIndex, spriteIndex, frameIndex,
                     projectSpriteSheets
                 );
+                document.querySelector('input#objectHeight').value = originalSizes;
+            }
+            else {
+                console.error('Can\'t find original sizes!');
             }
 
-            else {
-                console.error('Your size type is not exist!');
-            }
+            setObjectProperty({ id: object.$id, property: 'coords', propertySetting: type === 'width' ? '2' : '3', newPropertyValue: originalSizes });
         },
 
-        setAnimationInterval(newValue) {
-            this.setObjectProperty({ id: this.object.$id, property: 'settings', propertySetting: 'interval', newPropertyValue: newValue });
+        setAnimationInterval(e) {
+            this.setObjectProperty({ id: this.object.$id, property: 'settings', propertySetting: 'interval', newPropertyValue: e });
 
             clearInterval(this.object.settings.settings.spriteAnimation);
             this.object.settings.settings.spriteAnimation = null;
+            delete this.object.settings.settings.spriteAnimation;
             this.object._setUpAnimationInterval();
         }
     },

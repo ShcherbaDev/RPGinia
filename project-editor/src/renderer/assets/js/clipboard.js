@@ -1,5 +1,19 @@
 import { ipcRenderer } from 'electron';
 
+function getObjectCount(store, object) {
+    const projectObjects = store.getters.projectObjects;
+
+    let res = 0;
+
+    for(let i in projectObjects) {
+        if(projectObjects[i].settings === object.settings) {
+            res++;
+        }
+    }
+
+    return res;
+}
+
 export default function initClipboardActions(store, document) {
     const getters = store.getters;
 

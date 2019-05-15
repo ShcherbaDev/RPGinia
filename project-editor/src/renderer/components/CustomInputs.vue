@@ -58,6 +58,7 @@
             :id="id"
             :title="chooseFileTitle"
             :method="fileMethod"
+            :file-path-text="filePathText"
             :is-open-directory="isOpenDirectory"
             :extension="fileExtension"
             :extension-label="fileExtensionLabel"
@@ -94,6 +95,7 @@ export default {
 
         chooseFileTitle: String,
         fileMethod: String,
+        filePathText: String,
         isOpenDirectory: Boolean,
         fileExtension: String,
         fileExtensionLabel: String

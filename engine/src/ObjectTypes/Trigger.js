@@ -31,14 +31,13 @@ class Trigger extends GameObject {
 	* 
 	* @param {Object} settings - object settings.
 	* @param {String} settings.name - object name.
-	* 
 	* @param {Number[]} settings.coords - object coordinations. First value - x coord, second value - y coord, third value - width, fourth value - height.
-	* @param {String} settings.type - object type. For this object type it is "rectangle".
-	* @param {Number} [settings.layer=1] - object layer.
-	* @param {Boolean} [settings.isVisible=true] - show object in the playground.
+	* @param {String} settings.type - object type. For this object type it is "trigger".
 	*/
 	constructor(objectManagerClass, settings) {
 		super(objectManagerClass, settings);
+
+		this._settings.layer = 1001;
 	}
 	
 	/**

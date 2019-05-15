@@ -80,7 +80,7 @@ class ObjectManager {
 	addObject(settings) {
 		const {type} = settings;
 		const createdObject = this._createObjectFromType(type, settings);
-
+		this._objects.push(createdObject);
 		this._objects = this._sortObjectsByLayer();
 
 		return createdObject;

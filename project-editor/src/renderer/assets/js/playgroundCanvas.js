@@ -8,6 +8,8 @@ let cam = null;
 let load = null;
 let loop = null;
 
+let editorLevel = null;
+
 let store = null;
 let storeGetters = null;
 
@@ -32,9 +34,9 @@ export default async function initPlayground(data, projStore) {
     world = new RPGinia.World(app, false);
     cam = world.camera;
 
-    const editorLevel = await load.loadLevel(path.replace(appPath, ''));
+    editorLevel = await load.loadLevel(path.replace(appPath, ''));
 
-    if (editorLevel.data.settings.spriteSheetPath === undefined && editorLevel.data.settings.spriteSheetName !== undefined ) {
+    if (editorLevel.data.settings.spriteSheetPath === undefined && editorLevel.data.settings.spriteSheetName !== undefined) {
         await load.loadSpriteSheet(editorLevel.data.settings.spriteSheetName, data.spriteSheetPath.replace(data.appPath, ''));
     }
 
@@ -99,15 +101,9 @@ export default async function initPlayground(data, projStore) {
     });
 
     // Create object
-    ipcRenderer.on('createObject', async (e, object) => {
-        // world.currentLevel.data.elements.push(
-        //     object.type !== 'sprite' 
-        //     ? world._prepareObject(object) 
-        //     : world._prepareObject(object, storeGetters.spriteSheets)
-        // );
-
-        await world.addObjectInCurrentLevel(object);
-        store.commit('addObject');
+    ipcRenderer.on('createObject', async (e, obj) => {
+        await world.addObjectInCurrentLevel(obj);
+        store.commit('addObject', obj);
     });
 
     // Set sprite to another
@@ -125,12 +121,17 @@ export default async function initPlayground(data, projStore) {
         spriteIndexes.spriteSheetIndex = spriteSheetIndex;
         spriteIndexes.spriteIndex = spriteIndex;
 
-        if (framesInSprite && spriteIndexes.spriteAnimation === undefined) {
+        if (framesInSprite !== undefined && spriteIndexes.spriteAnimation === undefined) {
             requiredSprite._setUpSettingsForAnimatedSprite();
         }
-
-        else if (framesInSprite === undefined && spriteIndexes.frameIndex) {
-            delete requiredSprite.settings.settings.spriteAnimation;
+        if (framesInSprite === undefined && spriteIndexes.spriteAnimation !== undefined) {
+            delete spriteIndexes.frameIndex;
+            delete spriteIndexes.frameFrom;
+            delete spriteIndexes.frameTo;
+            delete spriteIndexes.interval;
+            delete spriteIndexes.isPlaying;
+            delete spriteIndexes.isRepeating;
+            delete spriteIndexes.spriteAnimation;
         }
 
         requiredSprite.settings.image.src = `file://${requiredSprite._appPath.replace('file://', '').replace(/\\/g, '/')}/${requiredSprite._currentSpriteSheet.file}`;
@@ -147,51 +148,43 @@ export default async function initPlayground(data, projStore) {
 
     // Sort objects by layer
     ipcRenderer.on('sortObjectsByLayers', e => {
-        world._sortElements();
+        world.sortObjectsByLayer();
     });
 
     // Repeat object event
-    ipcRenderer.on('repeatObject', (e, arg) => {
-        // let { repeatedObject, repeatByColumn, repeatByRow, horizontalInterval, verticalInterval } = arg;
+    ipcRenderer.on('repeatObject', async (e, arg) => {
+        let { repeatedObject, repeatByColumn, repeatByRow, horizontalInterval, verticalInterval } = arg;
 
-        // // Repeat by horizontal
-        // for(let i = 1; i <= repeatByColumn; i++) {
-        //     // Method of cloning original object - parsing object as string
-        //     let settings = JSON.parse(JSON.stringify(repeatedObject._settings));
+        // Repeat by horizontal
+        for(let i = 1; i <= repeatByColumn; i++) {
+            // Method of cloning original object - parsing object as string
+            let settings = JSON.parse(JSON.stringify(repeatedObject._settings));
 
-        //     // Set new settings for clone object
-        //     settings.name = `${settings.name} (Repeated - ${i})`;
-        //     settings.coords[0] = settings.coords[0] + horizontalInterval * i;
+            // Set new settings for clone object
+            settings.name = `${settings.name} (Repeated - ${i})`;
+            settings.coords[0] = settings.coords[0] + horizontalInterval * i;
 
-        //     // Adding clone object to a playground and store
-        //     world.currentLevel.data.elements.push(
-        //         settings.type !== 'sprite'
-        //         ? world._prepareObject(settings)
-        //         : world._prepareObject(settings, storeGetters.spriteSheets)
-        //     );
-        //     store.commit('addObject');
-        // }
+            // Adding cloned object to a playground and store
+            await world.addObjectInCurrentLevel(settings);
+            store.commit('addObject', settings);
+        }
 
-        // // Repeat by vertical
-        // for(let i = 1; i <= repeatByRow; i++) {
-        //     // Method of cloning original object - parsing object as string
-        //     let settings = JSON.parse(JSON.stringify(repeatedObject._settings));
+        // Repeat by vertical
+        for(let i = 1; i <= repeatByRow; i++) {
+            // Method of cloning original object - parsing object as string
+            let settings = JSON.parse(JSON.stringify(repeatedObject._settings));
 
-        //     // Set new settings for clone object
-        //     settings.name = `${settings.name} (Repeated - ${i})`;
-        //     settings.coords[1] = settings.coords[1] + verticalInterval * i;
+            // Set new settings for clone object
+            settings.name = `${settings.name} (Repeated - ${i})`;
+            settings.coords[1] = settings.coords[1] + verticalInterval * i;
 
-        //     // Adding clone object to a playground and store
-        //     world.currentLevel.data.elements.push(
-        //         settings.type !== 'sprite'
-        //         ? world._prepareObject(settings)
-        //         : world._prepareObject(settings, storeGetters.spriteSheets)
-        //     );
-        //     store.commit('addObject');
-        // }
+            // Adding cloned object to a playground and store
+            await world.addObjectInCurrentLevel(settings);
+            store.commit('addObject', settings);
+        }
 
-        // // Sort objects by their layer
-        // world._sortElements();
+        // Sort objects by their layer
+        world.sortObjectsByLayer();
     });
 
     // Defining loop for drawing objects in the playground
@@ -200,8 +193,42 @@ export default async function initPlayground(data, projStore) {
 
         await world.render();
 
+        // Draw camera position
+        app.context.textBaseline = 'top';
+        app.context.textAlign = 'right';
+		app.context.fillStyle = '#ffffff';
+        app.context.font = `14px "Arial"`;
+
+        app.context.shadowColor = '#000000';
+        app.context.shadowOffsetY = 1;
+        app.context.shadowBlur = 1;
+
+        app.context.fillText(`Camera position: (${world.camera.x}; ${world.camera.y})`, app.canvas.width-10, 10);
+
+        app.context.shadowOffsetX = 0;
+        app.context.shadowOffsetY = 0;
+        app.context.shadowBlur = 0;
+
+        app.context.textAlign = 'left';
+
+        // Draw triggers
+        storeGetters.projectObjects.forEach(objectListItem => {
+            if (objectListItem.settings.type === 'trigger') {
+                app.context.fillStyle = 'rgba(240, 130, 5, .7)';
+                
+                app.context.fillRect(
+                    objectListItem.settings.coords[0]-cam.x,
+                    objectListItem.settings.coords[1]-cam.y,
+                    objectListItem.settings.coords[2],
+                    objectListItem.settings.coords[3]
+                );
+
+                app.context.fillStyle = '#000000';
+            }
+        });
+
         // Draw borders of objects
-        for(let selectedId of storeGetters.selectedObjects) {
+        storeGetters.selectedObjects.forEach(selectedId => {
             const selectedObject = storeGetters.projectObjects[storeGetters.projectObjects.findIndex(item => item.$id === selectedId)];
 
             app.context.strokeStyle = '#ffffff';
@@ -220,7 +247,7 @@ export default async function initPlayground(data, projStore) {
             app.context.setLineDash([]);
             app.context.lineWidth = 1;
             app.context.strokeStyle = '#000000';
-        }
+        });
 
         requestAnimationFrame(loop);
     }

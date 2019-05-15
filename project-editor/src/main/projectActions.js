@@ -89,8 +89,11 @@ export function openProject(window, startFromDialog = false) {
                         path: projectFilePath,
                         appPath,
                         type: projectType
+                    }, (err) => {
+                        if(err) throw err;
+
+                        window.reload();
                     });
-                    window.reload();
                 });
             }
 
@@ -140,6 +143,8 @@ export function openProject(window, startFromDialog = false) {
                                 }
 
                                 createEditorDataFile(() => {
+                                    set('projectData', { path, appPath, type });
+
                                     window.setTitle(`${projectData.settings.name} - ${config.appName}`);
                                     setUpProject(window, projectObject);
                                 });
@@ -167,7 +172,7 @@ export function openProject(window, startFromDialog = false) {
                                             window.webContents.send('projectNotExist');
                                         }
                                     }
-
+                                    
                                     createEditorDataFile(() => {
                                         set('projectData', { path, appPath, type });
                                     
@@ -195,34 +200,49 @@ export function saveProject(window) {
      * Gets project data from store.
      * When gets answer - saves project.
      */
-    window.webContents.send('getProjectData');
-    ipcMain.once('getProjectDataResponse', (e, obj) => {
-        const store = obj.store;
-        let projData = obj.projectData;
+    window.webContents.send('saveProjectFromRenderer', { getConfigData: get, writeFileFunction: writeFileSync });
+    // ipcMain.once('getProjectDataResponse', (e, obj) => {
+    //     const store = obj.store;
+    //     const projData = obj.projectData;
         
-        get('projectData', (error, data) => {
-            if(error) throw error;
+    //     // get('projectData', (error, data) => {
+    //         // if(error) throw error;
 
-            if(data.type === 'level') {
-                for(let i in store.projectObjects) {
-                    projData.elements[i] = store.projectObjects[i]._settings;
+    //         // console.log(store);
+    //         // readFile(data.path.replace(/\\/g, '\\\\'), 'utf8', (err, projJson) => {
+    //             console.log(obj)
+    //         // });
 
-                    // Do not write data which are used while engine is working
-                    if(projData.elements[i].borderCoords) delete projData.elements[i].borderCoords;
-                    if(projData.elements[i].centralPointCoords) delete projData.elements[i].centralPointCoords;
-                    
-                    if(projData.elements[i].type === 'sprite') {
-                        if(projData.elements[i].image) delete projData.elements[i].image;
-                        if(projData.elements[i].isLoaded) delete projData.elements[i].isLoaded;
-                        if(projData.elements[i].settings.spriteAnimation) delete projData.elements[i].settings.spriteAnimation;
-                    }
-                }
-            }
+    //         // console.log(projData.findIndex())
 
-            // Write changes into project
-            writeFileSync(data.path.replace(/\\/g, '\\\\'), JSON.stringify(projData, null, 4));
-        });
-    });
+    //         // for(let i in projData.elements) {
+    //         //     projData.elements[i] = projData.elements[i]._settings;
+
+    //         //     if(projData.elements[i].type === 'sprite') {
+    //         //         if(projData.elements[i].image !== undefined) delete projData.elements[i].image;
+    //         //         if(projData.elements[i].isSpriteLoaded !== undefined) delete projData.elements[i].isSpriteLoaded;
+    //         //         if(projData.elements[i].settings.spriteAnimation !== undefined) {
+    //         //             delete projData.elements[i].settings.spriteAnimation;
+    //         //             delete projData.elements[i].settings.frameIndex;
+    //         //         }
+    //         //     }
+    //         //     else if(projData.elements[i].type === 'trigger') {
+    //         //         if(projData.elements[i].layer !== undefined) delete projData.elements[i].layer;
+    //         //         if(projData.elements[i].isVisible !== undefined) delete projData.elements[i].isVisible;
+    //         //     }
+    //         // }
+
+    //         // if(projData.settings.spriteSheetName === '' && projData.settings.spriteSheetPath !== '') {
+    //         //     delete projData.settings.spriteSheetName;
+    //         // }
+    //         // else if(projData.settings.spriteSheetName !== '' && projData.settings.spriteSheetPath === '') {
+    //         //     delete projData.settings.spriteSheetPath;
+    //         // }
+
+    //         // Write changes into project
+    //         // writeFileSync(data.path.replace(/\\/g, '\\\\'), JSON.stringify(projData, null, 4));
+    //     // });
+    // });
 }
 
 // Function for opening dialog for selecting RPGinia app path

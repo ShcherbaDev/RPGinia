@@ -9,14 +9,6 @@
             @input="setObjectProperty({ id: object.$id, property: 'name', newPropertyValue: $event })" 
         />
 
-        <CustomInput
-            type="number"
-            id="objectLayer"
-            label="Layer:"
-            :value="object.settings.layer"
-            @input="setLayer" 
-        />
-
         <h2>Coordinations:</h2>
         <CustomInput
             type="number"
@@ -49,45 +41,6 @@
             :value="object.settings.coords[3]"
             @input="setObjectProperty({ id: object.$id, property: 'coords', propertySetting: '3', newPropertyValue: $event })" 
         />
-
-        <h2>Other settings:</h2>
-        <CustomInput 
-            type="color"
-            id="objectFill"
-            label="Fill:"
-            :value="parseToHex(object.settings.settings.fill)"
-            @change="setObjectProperty({ id: object.$id, property: 'settings', propertySetting: 'fill', newPropertyValue: $event })" 
-        />
-
-        <CustomInput 
-            type="number"
-            id="objectOutlineWidth"
-            label="Outline width:"
-            :value="object.settings.settings.outline.width"
-            :num-min="0"
-            @input="setObjectProperty({ id: object.$id, property: 'settings', propertySetting: 'outline', propertySettingOption: 'width', newPropertyValue: $event })" 
-        />
-
-        <CustomInput 
-            type="color"
-            id="objectOutlineColor"
-            label="Outline color:"
-            :value="parseToHex(object.settings.settings.outline.color)"
-            @change="setObjectProperty({ id: object.$id, property: 'settings', propertySetting: 'outline', propertySettingOption: 'color', newPropertyValue: $event })" 
-        />
-        
-        <CustomInput 
-            type="checkbox"
-            id="objectVisibility"
-            label="Is visible:"
-            :is-checked="object.settings.isVisible"
-            @change="setObjectProperty({ id: object.$id, property: 'isVisible', newPropertyValue: $event })" 
-        />
-
-        <button 
-            class="btn" 
-            @click="openRepeatModal"
-        >Repeat</button>
     </div>
 </template>
 <script>
@@ -106,11 +59,6 @@ export default {
 
         parseToHex(color) { 
             return convertColorNameToHex(color);
-        },
-
-        setLayer(e) {
-            this.setObjectProperty({ id: this.object.$id, property: 'layer', newPropertyValue: e });
-            ipcRenderer.send('sortObjectsByLayersRequest');
         },
 
         openRepeatModal() {

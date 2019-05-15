@@ -1,7 +1,8 @@
 <template>
     <div class="custom_file_input" :id="id">
         <div class="result_field">
-            <p id="filePath" v-if="!isOpenDirectory">File is not choosed</p>
+            <p id="filePath" v-if="filePathText !== undefined">{{ filePathText }}</p>
+            <p id="filePath" v-else-if="filePathText === undefined && !isOpenDirectory">File is not choosed</p>
             <p id="filePath" v-else>Directory is not choosed</p>
         </div>
         <div class="choose_btn">
@@ -17,6 +18,7 @@ export default {
         title: String,
         method: String,
         id: String,
+        filePathText: String,
         extensionLabel: {
             type: String,
             default: 'JSON file'

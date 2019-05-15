@@ -97,7 +97,6 @@
 		},
 
 		mounted() {
-			console.log(this.projectSpriteSheets)
 			this.projectSpriteSheets.data.forEach((spriteSheet, spriteSheetNum) => {
 				const {file, sprites} = spriteSheet;
 

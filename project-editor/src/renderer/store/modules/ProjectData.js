@@ -36,8 +36,7 @@ const mutations = {
 
         state.appPath = projData.appPath;
 
-        state.spriteSheet = projectData.spriteSheets[projectData.spriteSheets.findIndex(item => item.name === state.settings.spriteSheetName || item.url.contains(state.settings.spriteSheetPath))];
-        console.log(state.spriteSheet);
+        state.spriteSheet = projectData.spriteSheets[projectData.spriteSheets.findIndex(item => item.name === state.settings.spriteSheetName || item.url.indexOf(state.settings.spriteSheetPath.replace(/\\/g, '/')) !== -1)];
 
         for (let i in projectData.data._objects) {
             projectData.data._objects[i].$id = parseInt(i)+1;
@@ -66,8 +65,8 @@ const mutations = {
         state.selectedObjects = [];
     },
 
-    addObject(state) {
-        state.objects[state.objects.length-1].$id = state.objects.length;
+    addObject(state, obj) {
+        state.objects[state.objects.findIndex(item => item.settings === obj)].$id = state.objects.length;
     },
 
     deleteObject(state, objectIndex) {
@@ -80,8 +79,13 @@ const mutations = {
     },
 
     setObjectProperty(state, args) {
-        if (args.propertySetting) {
-            state.objects[state.objects.findIndex(item => item.$id === args.id)].settings[args.property][args.propertySetting] = args.newPropertyValue;
+        if (args.propertySetting !== undefined) {
+            if (args.propertySettingOption !== undefined) {
+                state.objects[state.objects.findIndex(item => item.$id === args.id)].settings[args.property][args.propertySetting][args.propertySettingOption] = args.newPropertyValue;
+            } 
+            else {
+                state.objects[state.objects.findIndex(item => item.$id === args.id)].settings[args.property][args.propertySetting] = args.newPropertyValue;
+            }
         }
         else {
             state.objects[state.objects.findIndex(item => item.$id === args.id)].settings[args.property] = args.newPropertyValue;
@@ -118,8 +122,8 @@ const actions = {
         commit('clearSelectedObjects');
     },
 
-    addObject({ commit }) {
-        commit('addObject');
+    addObject({ commit }, obj) {
+        commit('addObject', obj);
     },
 
     deleteObject({ commit }, objectIndex) {

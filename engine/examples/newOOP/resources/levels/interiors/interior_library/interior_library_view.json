@@ -1,38 +1,57 @@
 {
     "settings": {
+        "background": "#d1ce49",
+        "controllerPath": "/resources/levels/interiors/interior_library/interior_library_controller.js",
         "name": "Library interior",
-        "spriteSheetName": "townSpriteSheet",
-        "controllerPath": "/resources/levels/interiors/interior_library/interior_library_controller.js"
+        "spriteSheetName": "townSpriteSheet"
     },
     "elements": [
         {
+            "coords": [
+                0,
+                0,
+                800,
+                600
+            ],
+            "isVisible": true,
+            "layer": 1,
             "name": "Interior",
-            "type": "sprite",
-            "coords": [0, 0, 800, 600],
             "settings": {
-                "spriteSheetIndex": 0,
-                "spriteIndex": 32
-            }
+                "spriteIndex": 32,
+                "spriteSheetIndex": 0
+            },
+            "type": "sprite"
         },
-
         {
+            "coords": [
+                107,
+                311,
+                104,
+                31
+            ],
+            "isVisible": true,
+            "layer": 1,
             "name": "test",
-            "type": "sprite",
-            "coords": [100, 43],
             "settings": {
-                "spriteSheetIndex": 0,
                 "spriteIndex": 61,
-                
+                "spriteSheetIndex": 0,
                 "isPlaying": true,
-                "isRepeating": true,
-                "interval": 50
-            }
+                "interval": 64,
+                "frameFrom": 0,
+                "frameTo": 11,
+                "isRepeating": true
+            },
+            "type": "sprite"
         },
-
         {
+            "coords": [
+                107,
+                396,
+                42,
+                75
+            ],
             "name": "test_trigger",
-            "type": "trigger",
-            "coords": [105, 400, 55, 110]
+            "type": "trigger"
         }
     ]
 }

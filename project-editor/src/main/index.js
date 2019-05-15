@@ -116,17 +116,17 @@ function createWindow() {
     ipcMain.on('saveNewProjectData', (e, arg) => {
         projectActions.saveProject(mainWindow);
 
-        get('projectData', (err, data) => {
-            if(err) throw err;
+        // get('projectData', (err, data) => {
+        //     if(err) throw err;
 
-            const { path, type } = data;
+        //     const { path, type } = data;
 
-            set('projectData', {
-                path,
-                appPath: arg.projectAppPath.replace(/\\\\/g, '\\'),
-                type
-            });
-        });
+        //     set('projectData', {
+        //         path,
+        //         appPath: arg.projectAppPath.replace(/\\\\/g, '\\'),
+        //         type
+        //     });
+        // });
 
         mainWindow.reload();
     });

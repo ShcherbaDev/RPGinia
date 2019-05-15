@@ -58,6 +58,12 @@ import { mapGetters, mapActions } from 'vuex';
 
 import { ipcRenderer } from 'electron';
 
+import * as config from '../../main/config.js';
+import { has, get, setDataPath } from 'electron-json-storage';
+import { writeFileSync } from 'fs';
+
+import {cloneDeep} from 'lodash';
+
 import initPlayground from '../assets/js/playgroundCanvas';
 import selectObjects from '../assets/js/selectObjects';
 import initClipboardActions from '../assets/js/clipboard';
@@ -84,17 +90,17 @@ export default {
     computed: {
         ...mapGetters(['projectSettings', 'projectObjects', 'selectedObjects']),
 
-        getProjectData() {
-            if(this.$store.getters.projectType === 'level') {
-                return {
-                    settings: this.$store.getters.projectSettings,
-                    elements: this.$store.getters.projectObjects
-                };
-            }
+        getProjectDataFunc() {
+            return {
+                settings: this.$store.getters.projectSettings,
+                elements: this.$store.getters.projectObjects
+            };
         }
     },
     
     created() {
+        setDataPath(config.default.appDataPath);
+
         // Actions on setting up 
         ipcRenderer.on('setUpProject', (e, data) => {
             // If the click was not on the list of objects - deselect all objects
@@ -112,10 +118,48 @@ export default {
         });
 
         // Get project data
-        ipcRenderer.on('getProjectData', e => {
-            e.sender.send('getProjectDataResponse', {
-                projectData: this.getProjectData,
-                store: this.$store.getters
+        ipcRenderer.on('saveProjectFromRenderer', (e, data) => {
+            const projElements = cloneDeep(this.$store.getters.projectObjects);
+            const projSettings = cloneDeep(this.$store.getters.projectSettings);
+
+            let resultProjectData = {
+                settings: projSettings,
+                elements: projElements
+            };
+
+            has('projectData', (err, hasProjectData) => {
+                if(hasProjectData) {
+                    get('projectData', (error, projectData) => {
+                        if(error) throw error;
+
+                        for(let i in projElements) {
+                            projElements[i] = projElements[i]._settings;
+
+                            if(projElements[i].type === 'sprite') {
+                                if(projElements[i].image !== undefined) delete projElements[i].image;
+                                if(projElements[i].isSpriteLoaded !== undefined) delete projElements[i].isSpriteLoaded;
+                                if(projElements[i].settings.spriteAnimation !== undefined) {
+                                    delete projElements[i].settings.spriteAnimation;
+                                    delete projElements[i].settings.frameIndex;
+                                }
+                            }
+                            else if(projElements[i].type === 'trigger') {
+                                if(projElements[i].layer !== undefined) delete projElements[i].layer;
+                                if(projElements[i].isVisible !== undefined) delete projElements[i].isVisible;
+                            }
+                        }
+
+                        if(projSettings.spriteSheetName === '' && projSettings.spriteSheetPath !== '') {
+                            delete projSettings.spriteSheetName;
+                        }
+                        else if(projSettings.spriteSheetName !== '' && projSettings.spriteSheetPath === '') {
+                            delete projSettings.spriteSheetPath;
+                        }
+                        
+                        // Write changes into project
+                        writeFileSync(projectData.path.replace(/\\/g, '\\\\'), JSON.stringify(resultProjectData, null, 4));
+                    });
+                }
             });
         });
 
