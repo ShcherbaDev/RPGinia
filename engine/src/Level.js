@@ -1,6 +1,18 @@
 import ObjectManager from './ObjectManager.js';
 
+/**
+ * Level's class
+ * @memberof RPGinia.World.LevelManager
+ * @private
+ * @class
+ */
 class Level {
+	/**
+	 * @constructor
+	 * @async
+	 * @param {object} worldClass - World class. 
+	 * @param {object} levelJsonObject - JSON object of level. 
+	 */
 	constructor(worldClass, levelJsonObject) {
 		return (async () => {
 			const {settings, elements} = levelJsonObject;
@@ -31,6 +43,12 @@ class Level {
 		})();
 	}
 
+	/**
+	 * Find sprite sheet by name.
+	 * @private
+	 * @returns {object} Found sprite sheet.
+	 * @throws {Error} If didn't find a searched sprite sheet.
+	 */
 	_findSpriteSheetByName() {
 		const indexOfRequiredSpriteSheet = this._world._loaders.spriteSheets.findIndex(spriteSheet => spriteSheet.name === this._spriteSheetName);
 
@@ -41,10 +59,16 @@ class Level {
 		throw new Error(`Can't find sprite sheet with name "${this._spriteSheetName}"`);
 	}
 
+	/**
+	 * Define sprite sheet by it's path.
+	 * @private
+	 * @async
+	 * @returns {object} Searched sprite sheet.
+	 */
 	async _defineSpriteSheetByPath() {
 		const indexOfRequiredSpriteSheet = this._world._loaders.spriteSheets.findIndex(spriteSheet => spriteSheet.url === this._appPath + this._spriteSheetPath);
 
-		// If can found a require sprite sheet.
+		// If can found a required sprite sheet.
 		if (indexOfRequiredSpriteSheet !== -1) {
 			return this._world._loaders.spriteSheets[indexOfRequiredSpriteSheet];
 		}
@@ -53,6 +77,13 @@ class Level {
 		return newSpriteSheet;
 	}
 
+	/**
+	 * Load level's controller.
+	 * @private
+	 * @async
+	 * @param {string} controllerPath - Path to controller.
+	 * @returns {function} Loaded controller function.
+	 */
 	async _defineController(controllerPath) {
 		const defineFile = await fetch(`${this._appPath}${controllerPath}`);
 		const response = await defineFile.text();
@@ -61,10 +92,20 @@ class Level {
 		return parseLevelControllerFunction(`(${response})`);
 	}
 
+	/**
+	 * Find a game object by name.
+	 * @param {string} objectName - The name of a searched game object.
+	 * @returns {object} Searched game object.
+	 */
 	getObjectByName(objectName) {
 		return this._objects[this._objects.findIndex(item => item.settings.name === objectName)];
 	}
 
+	/**
+	 * Get game objects by layer.
+	 * @param {number} layerNumber - The number of a searched layer.
+	 * @returns {object[]} Game objects array which were in searched layer.
+	 */
 	getObjectsFromLayer(layerNumber) {
 		const resultArr = [];
 
@@ -77,6 +118,11 @@ class Level {
 		return resultArr;
 	}
 
+	/**
+	 * Get the level's name.
+	 * @readonly
+	 * @type {string}
+	 */
 	get name() { return this._name; }
 }
 

@@ -1,18 +1,20 @@
 /**
  * Class for creating game objects. The game objects are inherit from it.
- * @memberof RPGinia.App.World
+ * @memberof RPGinia.World
+ * @private
  * @class
  */
 class GameObject {
 	/**
      * @constructor
-     * @param {Object} settings - game object settings.
+	 * @param {object} objectManagerClass - ObjectManager class.
+     * @param {object} settings - Game object settings.
      */
 	constructor(objectManagerClass, settings) {
 		/**
          * World class.
          * @private
-         * @type {Object}
+         * @type {object}
          */
 		this._objectManager = objectManagerClass;
 
@@ -30,14 +32,14 @@ class GameObject {
 
 		/** 
 		 * App path from the prototype given from App class.
-		 * @type {String}
+		 * @type {string}
 		 * @private
 		 */
 		this._appPath = this._app._appPath;
 
 		/** 
          * Get a context object for drawing.
-         * @type {Object}
+         * @type {object}
          * @private
          */
 		this._context = this._app._context;
@@ -53,6 +55,11 @@ class GameObject {
 		}
 	}
 
+	/**
+	 * Get settings object.
+	 * @readonly
+	 * @type {object}
+	 */
 	get settings() { return this._settings; }
 }
 

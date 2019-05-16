@@ -2,21 +2,16 @@ import GameObject from '../GameObject.js';
 
 /**
  * Game object type for creating texts.
- * @memberof RPGinia.App.World.Object
+ * @memberof RPGinia.World.GameObject
  * @class
  * 
  * @example
  * // Creating a simple text.
- * const engine = new RPGinia();
- * const app = new engine.App();
- * const world = new app.World();
- * 
- * world.initialize({
- *  // Your options here...
- * });
+ * const app = new RPGinia();
+ * const world = new RPGinia.World(app);
  * 
  * // createElement method from World class can create an object with indicated object type.
- * world.createElement({
+ * await world.addObjectInCurrentLevel({
  *  name: 'Test text',
  *  type: 'text',
  *  settings: {
@@ -51,7 +46,10 @@ class Text extends GameObject {
           
 		this._init();
 	}
-     
+	
+	/**
+	 * @private
+	 */
 	_init() {
 		const textSettings = this._settings.settings;
 

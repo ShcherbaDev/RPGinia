@@ -1,7 +1,17 @@
 import Level from './Level.js';
 import Renderer from './Renderer.js';
 
+/**
+ * Class for changing levels.
+ * @memberof RPGinia.World
+ * @private
+ * @class
+ */
 class LevelManager {
+	/**
+	 * @constructor
+	 * @param {object} worldClass - World class. 
+	 */
 	constructor(worldClass) {
 		this._world = worldClass;
 
@@ -14,6 +24,11 @@ class LevelManager {
 		this._levelList = [];
 	}
 
+	/**
+	 * Method for applying additional options for on changing level.
+	 * @private
+	 * @param {object} options - Additional options.
+	 */
 	_applyAdditionalOptions(options = {}) {
 		let {cameraPosition} = options;
 
@@ -25,6 +40,11 @@ class LevelManager {
 		this._world._camera._y = cameraPosition[1];
 	}
 
+	/**
+	 * Do level's logic part.
+	 * @private
+	 * @param {object} levelContent - Level's object. 
+	 */
 	_doController(levelContent) {
 		if (levelContent._controller !== undefined) {
 			levelContent._controller({
@@ -37,6 +57,12 @@ class LevelManager {
 		}
 	}
 
+	/**
+	 * Method for changing level.
+	 * @private
+	 * @param {object} levelContent - Level's object. 
+	 * @param {object} additionalOptions - Additional options.
+	 */
 	_doLevel(levelContent, additionalOptions) {
 		const newLevel = levelContent;
 		const additionalOptionsForNewLevel = additionalOptions;
@@ -59,7 +85,8 @@ class LevelManager {
 
 	/**
 	 * Changes level to another.
-	 * @param {object|string} levelObjOrName - Level object from loaders or existing level's name.
+	 * @async
+	 * @param {object|string} levelObjOrName - Level object from Loaders or existing level's name.
 	 * 
 	 * @param {object} additionalOptions - Options that will set the necessary values for game subsystems when changing levels.
 	 * @param {number[]} additionalOptions.cameraPosition - The start coordinates of camera when changing the level.
@@ -94,6 +121,11 @@ class LevelManager {
 		}
 	}
 
+	/**
+	 * Method for getting active level.
+	 * @async
+	 * @returns {object} Active level.
+	 */
 	async getActiveLevel() {
 		const activeLevel = await this._levelList[this._levelList.findIndex(level => level._isActive)];
 		return activeLevel;

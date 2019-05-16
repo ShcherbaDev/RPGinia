@@ -3,10 +3,10 @@
  * @memberof RPGinia
  * @class
  */
-
 class Loaders {
 	/**
 	 * @constructor
+	 * @param {object} [appClass] - RPGinia app.
 	 */
 	constructor(rpginiaApp) {
 		this._app = rpginiaApp;
@@ -30,6 +30,12 @@ class Loaders {
 		this._app._loaders = this;
 	}
 
+	/**
+	 * Check if level is passing the conditions.
+	 * @private
+	 * @param {object} json - Level's JSON.
+	 * @returns {boolean} If level is passing the conditions.
+	 */
 	_checkLevelCondition(json) {
 		const {settings, elements} = json;
 		const {name} = settings;
@@ -37,10 +43,24 @@ class Loaders {
 		return settings !== undefined && name !== undefined && elements.length >= 0;
 	}
 
+	/**
+	 * Check if sprite sheet is passing the condition.
+	 * @private
+	 * @param {object} json - Sprite sheet's JSON.
+	 * @returns {boolean} If sprite sheet is passing the conditions.
+	 */
 	_checkSpriteSheetCondition(json) {
 		return json.length >= 1;
 	}
 
+	/**
+	 * Check if file is passing the conditions.
+	 * @private
+	 * @param {string} type - File's type.
+	 * @param {string} url - File's URL.
+	 * @param {object} json - File's JSON content.
+	 * @returns {boolean} If level is passing the conditions - returns true, else - returns false.
+	 */
 	_checkFileConditions(type, url, json) {
 		const isUnique = () => this._files.indexOf(url) === -1;
 		
@@ -60,6 +80,12 @@ class Loaders {
 		return false;
 	}
 
+	/**
+	 * Get files by type.
+	 * @private
+	 * @param {string} type - files type.
+	 * @returns {object[]} Result array.
+	 */
 	_getFilesByType(type) {
 		const resultArr = [];
 
@@ -72,6 +98,16 @@ class Loaders {
 		return resultArr;
 	}
 
+	/**
+	 * Load new JSON file.
+	 * @async
+	 * @private
+	 * @param {string} type - File's type.
+	 * @param {string} path - Path to file.
+	 * @param  {...any} args - Additional arguments. The first one is a name.
+	 * @returns {object} Loaded file.
+	 * @throws {Error} If file didn't passed the conditions.
+	 */
 	async _loadJsonFile(type, path, ...args) {
 		const request = await fetch(`${this._appPath}${path}`);
 		const json = await request.json();
@@ -111,16 +147,33 @@ class Loaders {
 		throw new Error(`${type.toUpperCase()} didn't passed the conditions!`);
 	}
 
+	/**
+	 * Load new level.
+	 * @async
+	 * @param {string} path - Path to level. 
+	 */
 	async loadLevel(path) {
 		const loadedLevel = await this._loadJsonFile('level', path);
 		return loadedLevel;
 	}
 
+	/**
+	 * Load new sprite sheet.
+	 * @async
+	 * @param {string} name - Sprite sheet's name. 
+	 * @param {string} path - Path to sprite sheet.
+	 */
 	async loadSpriteSheet(name, path) {
 		const loadedSpriteSheet = await this._loadJsonFile('spriteSheet', path, name);
 		return loadedSpriteSheet;
 	}
 
+	/**
+	 * Load new JSON file.
+	 * @async
+	 * @param {string} name - JSON file's name.
+	 * @param {string} path - Path to JSON file.
+	 */
 	async loadJsonFile(name, path) {
 		const loadedJsonFile = await this._loadJsonFile('json', path, name);
 		return loadedJsonFile;
@@ -129,7 +182,7 @@ class Loaders {
 	/** 
 	 * Get an array of loaded levels.
 	 * @readonly
-	 * @type {Object[]}
+	 * @type {object[]}
 	 */
 	get levels() {
 		return this._getFilesByType('level');
@@ -138,7 +191,7 @@ class Loaders {
 	/** 
 	 * Get an array of loaded sprite sheets.
 	 * @readonly
-	 * @type {Object[]}
+	 * @type {object[]}
 	 */
 	get spriteSheets() {
 		return this._getFilesByType('spriteSheet');
@@ -147,55 +200,16 @@ class Loaders {
 	/**
 	 * Get an array of files that are not processed by the engine.
 	 * @readonly
-	 * @type {Object[]}
+	 * @type {object[]}
 	 */
 	get jsonFiles() {
 		return this._getFilesByType('json');
 	}
-
-	// /** 
-	//  * Get an array of loaded levels.
-	//  * @readonly
-	//  * @type {Object[]}
-	//  */
-	// get levels() {
-	// 	const resultArr = [];
-	// 	for (const i in this._files) {
-	// 		if (this._files[i].type === 'level' && this._files[i].isLoaded) { resultArr.push(this._files[i]); }
-	// 	}
-	// 	return resultArr;
-	// }
-
-	// /** 
-	//  * Get an array of loaded languages.
-	//  * @readonly
-	//  * @type {Object[]}
-	//  */
-	// get languages() {
-	// 	const resultArr = [];
-	// 	for (const i in this._files) {
-	// 		if (this._files[i].type === 'language' && this._files[i].isLoaded) { resultArr.push(this._files[i]); }
-	// 	}
-	// 	return resultArr;
-	// }
-
-	// /** 
-	//  * Get an array of loaded sprite sheets.
-	//  * @readonly
-	//  * @type {Object[]}
-	//  */
-	// get spriteSheets() {
-	// 	const resultArr = [];
-	// 	for (const i in this._files) {
-	// 		if (this._files[i].type === 'spriteSheet' && this._files[i].isLoaded) { resultArr.push(this._files[i]); }
-	// 	}
-	// 	return resultArr;
-	// }
 	
 	/** 
 	 * Get an array of files.
 	 * @readonly
-	 * @type {Object[]}
+	 * @type {object[]}
 	 */
 	get files() { return this._files; }
 }

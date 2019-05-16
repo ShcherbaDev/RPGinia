@@ -2,7 +2,7 @@ import GameObject from '../GameObject.js';
 
 /**
  * Game object type for creating sprites.
- * @memberof RPGinia.App.World.Object
+ * @memberof RPGinia.World.GameObject
  * @class
  * 
  * @example
@@ -12,26 +12,21 @@ import GameObject from '../GameObject.js';
  *  "sprites" {
  *   {
  *     "name": "test_sprite_0",
- *     "rect": [0, 0, 506, 287] 
+ *     "rect": [0, 0, 506, 287]
  *   },
  *   {
  *     "name": "test_sprite_1",
- *     "rect": [506, 0, 504, 287] 
+ *     "rect": [506, 0, 504, 287]
  *   }
  *  }
  * }
  * 
  * // game.js
- * const engine = new RPGinia();
- * const app = new engine.App();
- * const world = new app.World();
- * 
- * world.initialize({
- *  // Your options here...
- * });
+ * const app = new RPGinia();
+ * const world = new RPGinia.World(app);
  * 
  * // createElement method from World class can create an object with indicated object type.
- * world.createElement({
+ * await world.addObjectInCurrentLevel({
  *  name: 'Test sprite',
  *  type: 'sprite',
  *  settings: {
@@ -69,6 +64,9 @@ class Sprite extends GameObject {
 		this._init();
 	}
 
+	/**
+	 * @private
+	 */
 	_init() {
 		this._currentSpriteSheet = this._objectManager._level._spriteSheet.data[this._settings.settings.spriteSheetIndex];
 
@@ -103,6 +101,9 @@ class Sprite extends GameObject {
 		this._setUpSettingsForAnimatedSprite();
 	}
 
+	/**
+	 * @private
+	 */
 	_setUpSettingsForAnimatedSprite() {
 		const currentSprite = this._currentSpriteSheet.sprites[this._settings.settings.spriteIndex];
 
@@ -134,6 +135,9 @@ class Sprite extends GameObject {
 		return false;
 	}
 
+	/**
+	 * @private
+	 */
 	_setUpAnimationInterval() {
 		this._settings.settings.spriteAnimation = setInterval(() => {
 			if (this._settings.settings.isPlaying && this._settings.settings.frameIndex < this._settings.settings.frameTo) {

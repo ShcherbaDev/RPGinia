@@ -1,6 +1,7 @@
 /**
  * Class for move or rotate camera.
- * @memberof RPGinia.App.World
+ * @memberof RPGinia.World
+ * @private
  * @class
  */
 class Camera {

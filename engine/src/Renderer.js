@@ -1,4 +1,15 @@
+/**
+ * Class for render current level.
+ * @memberof RPGinia.World
+ * @private
+ * @class
+ */
 class Renderer {
+	/**
+	 * @constructor
+	 * @param {object} levelManagerClass - LevelManager class.
+	 * @param {object} worldClass  - World class.
+	 */
 	constructor(levelManagerClass, worldClass) {
 		this._levelManager = levelManagerClass;
 		this._world = worldClass;
@@ -10,6 +21,13 @@ class Renderer {
 		this._context = this._app._context;
 	}
 
+	/**
+	 * Checks if the user can see the game object.
+	 * @private
+	 * @param {object} objectSettings - Object settings.
+	 * @param {number} [padding=50] - Render padding.
+	 * @returns {boolean} - True if user can see the object. False if user can't see the object.
+	 */
 	_isObjectVisible(objectSettings, padding = 50) {
 		const {type, coords, isVisible} = objectSettings;
 		
@@ -33,6 +51,12 @@ class Renderer {
 		return false;
 	}
 
+	/**
+	 * Checks if all sprites are loaded.
+	 * @private
+	 * @param {object} currentLevel - Current level.
+	 * @returns {boolean} - If level contains sprites it returns boolean by condition. If level doesn't contains sprites returns true.
+	 */
 	_allSpritesLoaded(currentLevel) {
 		const spritesArr = [];
 		const loadedSpritesArr = [];
@@ -52,6 +76,11 @@ class Renderer {
 		return true;
 	}
 
+	/**
+	 * Render background of the level.
+	 * @private
+	 * @param {string} levelBackground - Background options from level's settings.
+	 */
 	_renderBackground(levelBackground) {
 		this._context.fillStyle = levelBackground;
 		this._context.fillRect(
@@ -60,6 +89,10 @@ class Renderer {
 		);
 	}
 
+	/**
+	 * Render black background if level is not loaded.
+	 * @private
+	 */
 	_renderEmptyBackground() {
 		this._context.fillStyle = '#000000';
 		this._context.fillRect(
@@ -68,6 +101,11 @@ class Renderer {
 		);
 	}
 
+	/**
+	 * Render outlines of game object.
+	 * @private
+	 * @param {object} objectItem - game object.
+	 */
 	_renderBorders(objectItem) {
 		const outlineCoords = [
 			objectItem.settings.coords[0] - this._camera._x,
@@ -96,6 +134,16 @@ class Renderer {
 		this._context.fillStyle = '#000000';
 	}
 
+	/** 
+	 * Render level objects. Must be used in a loop.
+	 * @async
+	 * @example
+	 * function loop() {
+	 *  world.render();
+	 * 	requestAnimationFrame(loop);
+	 * }
+	 * loop();
+	 */
 	async render() {
 		const currentLevel = await this._levelManager.getActiveLevel();
 

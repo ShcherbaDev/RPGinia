@@ -1,11 +1,12 @@
 /**
  * Keyboard event handler class 
- * @memberof RPGinia.App
+ * @memberof RPGinia
  * @class
  */
 class Keyboard {
 	/**
 	 * @constructor
+	 * @param {object} [rpginiaApp] - RPGinia app.
 	 */
 	constructor(rpginiaApp) {
 		this._app = rpginiaApp;
@@ -91,7 +92,7 @@ class Keyboard {
 	}
 
 	/** 
-	 * Get a keys array added via Keyboard.addKey().
+	 * Get a keys array added via addKey() method.
 	 * @readonly
 	 * @type {Array}
 	 */

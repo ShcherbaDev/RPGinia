@@ -2,21 +2,16 @@ import GameObject from '../GameObject.js';
 
 /**
  * Game object type for creating rectangles.
- * @memberof RPGinia.App.World.Object
+ * @memberof RPGinia.World.GameObject
  * @class
  * 
  * @example
  * // Creating a simple rectangle.
- * const engine = new RPGinia();
- * const app = new engine.App();
- * const world = new app.World();
- * 
- * world.initialize({
- *  // Your options here...
- * });
+ * const app = new RPGinia();
+ * const world = new RPGinia.World(app);
  * 
  * // createElement method from World class can create an object with indicated object type.
- * world.createElement({
+ * await world.addObjectInCurrentLevel({
  *  name: 'Test rectangle',
  *  type: 'rectangle',
  *  settings: {

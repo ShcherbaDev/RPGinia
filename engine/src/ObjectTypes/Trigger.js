@@ -2,7 +2,7 @@ import GameObject from '../GameObject.js';
 
 /**
  * Game object type for creating triggers.
- * @memberof RPGinia.App.World.Object
+ * @memberof RPGinia.World.GameObject
  * @class
  * 
  * @example
@@ -16,7 +16,7 @@ import GameObject from '../GameObject.js';
  * });
  * 
  * // createElement method from World class can create an object with indicated object type.
- * world.createElement({
+ * await world.addObjectInCurrentLevel({
  *  name: 'Test rectangle',
  *  type: 'rectangle',
  *  settings: {
@@ -44,11 +44,18 @@ class Trigger extends GameObject {
 	 * Trigger is not drawing on the playground, 
 	 * so for not engine throwing an error about non-existence of 
 	 * draw method I just added a return statement for it.
+	 * 
+	 * @returns {boolean} Returns false.
 	 */
 	draw() {
 		return false;
 	}
 
+	/**
+	 * Check if trigger is touching other game object.
+	 * @param {string} touchedObjectName - Touched object's name.
+	 * @returns {boolean} If trigger is touching other object.
+	 */
 	isTouching(touchedObjectName) {
 		const touchedObject = this._objectManager.getObjectByName(touchedObjectName);
 		const touchedObjectCoords = touchedObject.settings.coords;

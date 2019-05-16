@@ -30,7 +30,7 @@ import RPGinia from '/src/RPGinia.js';
     // Add background music audio with volume 50% and repeat after it ends
     audio.add('backgroundMusic', '/resources/audio/snowdin_town.mp3', 50, true);
 
-    await world.setLevel(await loaders.loadLevel(levelPathsList[1]));
+    await world.setLevel(await loaders.loadLevel(levelPathsList[0]));
 
     // Draw game
     function loop() {
