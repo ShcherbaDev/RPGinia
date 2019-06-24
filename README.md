@@ -19,7 +19,7 @@ To start, in the `engine` directory, enter the command `npm start`. After succes
 Your local server has been started. To view the content, enter in the browser the address from the field `Local`
 
 ## Achievements
-RPGinia is a winner of a fifth season of the All-Ukrainian contenst "iTalent" in the younger age category in "Soft&Mobile" nomination.
+RPGinia is a winner of a fifth season of the All-Ukrainian contenst "[iTalent](https://italent.org.ua/)" in the younger age category in "Soft&Mobile" nomination.
 
 ![iTalent logo](https://italent.org.ua/wp-content/uploads/2019/04/italent_logo_version_black.svg)
 
